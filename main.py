@@ -25,9 +25,20 @@ from PySide2.QtWidgets import QApplication
 from mainwindow import MainWindow
 
 
+ORGANIZATION_NAME       = 'NotNypical'
+ORGANIZATION_DOMAIN     = 'https://notnypical.github.io'
+APPLICATION_NAME        = 'pyTabulator'
+APPLICATION_DESCRIPTION = 'A CSV editor written in Qt for Python.'
+APPLICATION_VERSION     = '0.1.0'
+
+
 if __name__ == "__main__":
 
     app = QApplication([])
+    app.setOrganizationName(ORGANIZATION_NAME)
+    app.setOrganizationDomain(ORGANIZATION_DOMAIN)
+    app.setApplicationName(APPLICATION_NAME)
+    app.setApplicationVersion(APPLICATION_VERSION)
 
     window = MainWindow()
     window.show()
