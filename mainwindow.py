@@ -18,10 +18,17 @@
 # along with pyTabulator.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from PySide2.QtWidgets import QMainWindow
+from PySide2.QtCore import QRect
+from PySide2.QtGui import QIcon
+from PySide2.QtWidgets import QApplication, QMainWindow
 
 
 class MainWindow(QMainWindow):
 
     def __init__(self):
         QMainWindow.__init__(self)
+
+        # Center window
+        availableGeometry = QRect(QApplication.desktop().availableGeometry(self))
+        self.resize(availableGeometry.width() / 2, availableGeometry.height() / 2);
+        self.move((availableGeometry.width() - self.width()) / 2, (availableGeometry.height() - self.height()) / 2);
