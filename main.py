@@ -20,6 +20,7 @@
 
 import sys
 
+from PySide2.QtCore import QCommandLineParser
 from PySide2.QtWidgets import QApplication
 
 from mainwindow import MainWindow
@@ -34,11 +35,17 @@ APPLICATION_VERSION     = '0.1.0'
 
 if __name__ == "__main__":
 
-    app = QApplication([])
+    app = QApplication(sys.argv)
     app.setOrganizationName(ORGANIZATION_NAME)
     app.setOrganizationDomain(ORGANIZATION_DOMAIN)
     app.setApplicationName(APPLICATION_NAME)
     app.setApplicationVersion(APPLICATION_VERSION)
+
+    parser = QCommandLineParser()
+    parser.setApplicationDescription(f'{APPLICATION_NAME} - {APPLICATION_DESCRIPTION}')
+    parser.addHelpOption()
+    parser.addVersionOption()
+    parser.process(app)
 
     window = MainWindow()
     window.show()
