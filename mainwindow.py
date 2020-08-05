@@ -22,6 +22,8 @@ from PySide2.QtCore import QRect
 from PySide2.QtGui import QIcon
 from PySide2.QtWidgets import QApplication, QMainWindow
 
+import resources
+
 
 class MainWindow(QMainWindow):
 
@@ -32,3 +34,5 @@ class MainWindow(QMainWindow):
         availableGeometry = QRect(QApplication.desktop().availableGeometry(self))
         self.resize(availableGeometry.width() / 2, availableGeometry.height() / 2);
         self.move((availableGeometry.width() - self.width()) / 2, (availableGeometry.height() - self.height()) / 2);
+
+        self.setWindowIcon(QIcon(':/logos/tabulator'))
