@@ -45,3 +45,10 @@ class MainWindow(QMainWindow):
         settings = QSettings()
 
         self.restoreGeometry(settings.value('MainWindow/geometry', QByteArray()))
+
+
+    def writeSettings(self):
+
+        settings = QSettings()
+
+        settings.setValue('MainWindow/geometry', self.saveGeometry())
