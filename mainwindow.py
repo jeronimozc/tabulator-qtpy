@@ -58,6 +58,7 @@ class MainWindow(QMainWindow):
 
         # Menu: Application
         menuApplication = self.menuBar().addMenu('Application')
+        menuApplication.addAction(self.actionQuit)
 
 
     def readSettings(self):
