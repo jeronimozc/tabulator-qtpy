@@ -39,6 +39,7 @@ class MainWindow(QMainWindow):
 
         self.createActions()
         self.createMenus()
+        self.createStatusBars()
 
         self.readSettings()
 
@@ -59,6 +60,11 @@ class MainWindow(QMainWindow):
         # Menu: Application
         menuApplication = self.menuBar().addMenu('Application')
         menuApplication.addAction(self.actionQuit)
+
+
+    def createStatusBars(self):
+
+        self.statusBar().showMessage('Ready', 3000)
 
 
     def readSettings(self):
