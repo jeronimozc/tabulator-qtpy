@@ -38,6 +38,7 @@ class MainWindow(QMainWindow):
         self.setWindowIcon(QIcon(':/logos/tabulator'))
 
         self.createActions()
+        self.createMenus()
 
         self.readSettings()
 
@@ -51,6 +52,12 @@ class MainWindow(QMainWindow):
         self.actionQuit.setStatusTip('Quit the application')
         self.actionQuit.setToolTip('Quit the application')
         self.actionQuit.triggered.connect(self.onActionQuitTriggered)
+
+
+    def createMenus(self):
+
+        # Menu: Application
+        menuApplication = self.menuBar().addMenu('Application')
 
 
     def readSettings(self):
