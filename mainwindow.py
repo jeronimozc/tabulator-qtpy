@@ -52,3 +52,12 @@ class MainWindow(QMainWindow):
         settings = QSettings()
 
         settings.setValue('MainWindow/geometry', self.saveGeometry())
+
+
+    def closeEvent(self, event):
+
+        if True:
+            self.writeSettings()
+            event.accept()
+        else:
+            event.ignore()
