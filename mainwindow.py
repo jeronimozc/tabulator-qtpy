@@ -19,8 +19,8 @@
 #
 
 from PySide2.QtCore import QByteArray, QRect, QSettings
-from PySide2.QtGui import QIcon
-from PySide2.QtWidgets import QApplication, QMainWindow
+from PySide2.QtGui import QIcon, QKeySequence
+from PySide2.QtWidgets import QAction, QApplication, QMainWindow
 
 import resources
 
@@ -37,7 +37,20 @@ class MainWindow(QMainWindow):
 
         self.setWindowIcon(QIcon(':/logos/tabulator'))
 
+        self.createActions()
+
         self.readSettings()
+
+
+    def createActions(self):
+
+        # Actions: Application
+        self.actionQuit = QAction('Quit', self)
+        self.actionQuit.setIcon(QIcon.fromTheme('application-exit', QIcon(':/icons/application-exit')))
+        self.actionQuit.setShortcut(QKeySequence.Quit)
+        self.actionQuit.setStatusTip('Quit the application')
+        self.actionQuit.setToolTip('Quit the application')
+        self.actionQuit.triggered.connect(self.onActionQuitTriggered)
 
 
     def readSettings(self):
@@ -61,3 +74,8 @@ class MainWindow(QMainWindow):
             event.accept()
         else:
             event.ignore()
+
+
+    def onActionQuitTriggered(self):
+
+        self.close()

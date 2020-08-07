@@ -2,4 +2,7 @@
     <qresource prefix="/logos">
         <file alias="tabulator">resources/logos/tabulator.svg</file>
     </qresource>
+    <qresource prefix="/icons">
+        <file alias="application-exit">resources/icons/application-exit.svg</file>
+    </qresource>
 </RCC>
