@@ -33,11 +33,6 @@ class MainWindow(QMainWindow):
         """
         QMainWindow.__init__(self)
 
-        # Center window
-        availableGeometry = QRect(QApplication.desktop().availableGeometry(self))
-        self.resize(availableGeometry.width() / 2, availableGeometry.height() / 2);
-        self.move((availableGeometry.width() - self.width()) / 2, (availableGeometry.height() - self.height()) / 2);
-
         self.setWindowIcon(QIcon(':/logos/tabulator'))
 
         self.setupUI()
@@ -93,7 +88,15 @@ class MainWindow(QMainWindow):
         """
         settings = QSettings()
 
-        self.restoreGeometry(settings.value('MainWindow/geometry', QByteArray()))
+        geometry = settings.value('MainWindow/geometry', QByteArray())
+        if geometry:
+            # Restore window geometry
+            self.restoreGeometry(geometry)
+        else:
+            # Center window
+            availableGeometry = QRect(QApplication.desktop().availableGeometry(self))
+            self.resize(availableGeometry.width() / 2, availableGeometry.height() / 2);
+            self.move((availableGeometry.width() - self.width()) / 2, (availableGeometry.height() - self.height()) / 2);
 
 
     def writeSettings(self):
