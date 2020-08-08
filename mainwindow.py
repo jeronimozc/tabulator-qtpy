@@ -40,11 +40,19 @@ class MainWindow(QMainWindow):
 
         self.setWindowIcon(QIcon(':/logos/tabulator'))
 
+        self.setupUI()
+
+        self.readSettings()
+
+
+    def setupUI(self):
+        """
+        Setup user interface.
+        """
+
         self.createActions()
         self.createMenus()
         self.createStatusBars()
-
-        self.readSettings()
 
 
     def createActions(self):
