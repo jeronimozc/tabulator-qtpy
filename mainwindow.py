@@ -28,6 +28,9 @@ import resources
 class MainWindow(QMainWindow):
 
     def __init__(self):
+        """
+        Initializes the MainWindow class.
+        """
         QMainWindow.__init__(self)
 
         # Center window
@@ -45,6 +48,9 @@ class MainWindow(QMainWindow):
 
 
     def createActions(self):
+        """
+        Creates user interface actions.
+        """
 
         # Actions: Application
         self.actionQuit = QAction('Quit', self)
@@ -56,6 +62,9 @@ class MainWindow(QMainWindow):
 
 
     def createMenus(self):
+        """
+        Creates groups of menu items.
+        """
 
         # Menu: Application
         menuApplication = self.menuBar().addMenu('Application')
@@ -63,25 +72,38 @@ class MainWindow(QMainWindow):
 
 
     def createStatusBars(self):
+        """
+        Creates the status bar.
+        """
 
         self.statusBar().showMessage('Ready', 3000)
 
 
     def readSettings(self):
-
+        """
+        Restores user preferences and other application settings.
+        """
         settings = QSettings()
 
         self.restoreGeometry(settings.value('MainWindow/geometry', QByteArray()))
 
 
     def writeSettings(self):
-
+        """
+        Saves user preferences and other application settings.
+        """
         settings = QSettings()
 
         settings.setValue('MainWindow/geometry', self.saveGeometry())
 
 
     def closeEvent(self, event):
+        """
+        Processes the Close event.
+
+        Args:
+            event (QCloseEvent): The Close event.
+        """
 
         if True:
             self.writeSettings()
@@ -91,5 +113,8 @@ class MainWindow(QMainWindow):
 
 
     def onActionQuitTriggered(self):
+        """
+        Fires the Close event to terminate the application.
+        """
 
         self.close()
