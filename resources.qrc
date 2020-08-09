@@ -4,5 +4,6 @@
     </qresource>
     <qresource prefix="/icons">
         <file alias="application-exit">resources/icons/application-exit.svg</file>
+        <file alias="tabulator">resources/icons/tabulator.svg</file>
     </qresource>
 </RCC>

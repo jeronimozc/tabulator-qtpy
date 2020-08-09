@@ -54,8 +54,15 @@ class MainWindow(QMainWindow):
         """
         Creates user interface actions.
         """
+        applicationName = QApplication.applicationName()
 
         # Actions: Application
+        self.actionAbout = QAction(f'About {applicationName}', self)
+        self.actionAbout.setIcon(QIcon(':/icons/tabulator'))
+        self.actionAbout.setStatusTip('Brief description of the application')
+        self.actionAbout.setToolTip('Brief description of the application')
+        self.actionAbout.triggered.connect(self.onActionAboutTriggered)
+
         self.actionQuit = QAction('Quit', self)
         self.actionQuit.setIcon(QIcon.fromTheme('application-exit', QIcon(':/icons/application-exit')))
         self.actionQuit.setShortcut(QKeySequence.Quit)
@@ -121,6 +128,13 @@ class MainWindow(QMainWindow):
             event.accept()
         else:
             event.ignore()
+
+
+    def onActionAboutTriggered(self):
+        """
+        Displays the About dialog.
+        """
+        pass
 
 
     def onActionQuitTriggered(self):
