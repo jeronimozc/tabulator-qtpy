@@ -22,6 +22,8 @@ from PySide2.QtCore import QByteArray, QRect, QSettings
 from PySide2.QtGui import QIcon, QKeySequence
 from PySide2.QtWidgets import QAction, QApplication, QMainWindow
 
+from aboutdialog import AboutDialog
+
 import resources
 
 
@@ -136,7 +138,10 @@ class MainWindow(QMainWindow):
         """
         Displays the About dialog.
         """
-        pass
+
+        aboutDialog = AboutDialog(self);
+        aboutDialog.setModal(True);
+        aboutDialog.show();
 
 
     def onActionQuitTriggered(self):
