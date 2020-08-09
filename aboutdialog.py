@@ -19,7 +19,8 @@
 #
 
 from PySide2.QtCore import QByteArray, QRect, QSettings
-from PySide2.QtWidgets import QApplication, QDialog, QDialogButtonBox, QVBoxLayout
+from PySide2.QtSvg import QSvgWidget
+from PySide2.QtWidgets import QApplication, QDialog, QDialogButtonBox, QHBoxLayout, QLabel, QVBoxLayout, QWidget
 
 
 class AboutDialog(QDialog):
@@ -48,12 +49,36 @@ class AboutDialog(QDialog):
         Setup user interface.
         """
 
+        # Title box
+        name = QLabel(f'<strong style="font-size:large">{self.applicationName}</strong> v{self.applicationVersion}')
+        description = QLabel(self.applicationDescription)
+
+        widgetTmp = QWidget()
+        vboxlayoutTmp = QVBoxLayout(widgetTmp)
+        vboxlayoutHeight = name.sizeHint().height() + vboxlayoutTmp.layout().spacing() + description.sizeHint().height()
+
+        logo = QSvgWidget()
+        logo.load(':/logos/tabulator')
+        logo.setFixedSize(vboxlayoutHeight, vboxlayoutHeight)
+
+        labels = QVBoxLayout()
+        labels.addWidget(name)
+        labels.addWidget(description)
+
+        titleBox = QHBoxLayout()
+        titleBox.addWidget(logo)
+        titleBox.addLayout(labels)
+
+
+
+
         # Button box
         buttonBox = QDialogButtonBox(QDialogButtonBox.Close)
         buttonBox.rejected.connect(self.onButtonCloseClicked)
 
         # Layout
         layout = QVBoxLayout()
+        layout.addLayout(titleBox)
         layout.addWidget(buttonBox)
 
         self.setLayout(layout)
