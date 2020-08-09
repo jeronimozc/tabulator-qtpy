@@ -56,3 +56,12 @@ class AboutDialog(QDialog):
             availableGeometry = QRect(QApplication.desktop().availableGeometry(self))
             self.resize(availableGeometry.width() / 3, availableGeometry.height() / 3);
             self.move((availableGeometry.width() - self.width()) / 2, (availableGeometry.height() - self.height()) / 2);
+
+
+    def writeSettings(self):
+        """
+        Saves user preferences and other application settings.
+        """
+        settings = QSettings()
+
+        settings.setValue('AboutDialog/geometry', self.saveGeometry())
