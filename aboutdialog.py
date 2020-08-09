@@ -19,7 +19,7 @@
 #
 
 from PySide2.QtCore import QByteArray, QRect, QSettings
-from PySide2.QtWidgets import QApplication, QDialog
+from PySide2.QtWidgets import QApplication, QDialog, QDialogButtonBox, QVBoxLayout
 
 
 class AboutDialog(QDialog):
@@ -38,7 +38,25 @@ class AboutDialog(QDialog):
 
         self.setWindowTitle(f'About {self.applicationName}')
 
+        self.setupUI()
+
         self.readSettings()
+
+
+    def setupUI(self):
+        """
+        Setup user interface.
+        """
+
+        # Button box
+        buttonBox = QDialogButtonBox(QDialogButtonBox.Close)
+        buttonBox.rejected.connect(self.onButtonCloseClicked)
+
+        # Layout
+        layout = QVBoxLayout()
+        layout.addWidget(buttonBox)
+
+        self.setLayout(layout)
 
 
     def readSettings(self):
@@ -77,3 +95,11 @@ class AboutDialog(QDialog):
 
         self.writeSettings()
         event.accept()
+
+
+    def onButtonCloseClicked(self):
+        """
+        Fires the Close event to terminate the dialog.
+        """
+
+        self.close()
