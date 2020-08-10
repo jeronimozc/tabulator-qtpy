@@ -65,3 +65,15 @@ class ColophonDialog(QDialog):
         settings = QSettings()
 
         settings.setValue('ColophonDialog/geometry', self.saveGeometry())
+
+
+    def closeEvent(self, event):
+        """
+        Processes the close event.
+
+        Args:
+            event (QCloseEvent): The close event.
+        """
+
+        self.writeSettings()
+        event.accept()
