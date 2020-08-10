@@ -65,6 +65,11 @@ class MainWindow(QMainWindow):
         self.actionAbout.setToolTip('Brief description of the application')
         self.actionAbout.triggered.connect(self.onActionAboutTriggered)
 
+        self.actionColophon = QAction('Colophon', self)
+        self.actionColophon.setStatusTip('Lengthy description of the application')
+        self.actionColophon.setToolTip('Lengthy description of the application')
+        self.actionColophon.triggered.connect(self.onActionColophonTriggered)
+
         self.actionQuit = QAction('Quit', self)
         self.actionQuit.setIcon(QIcon.fromTheme('application-exit', QIcon(':/icons/application-exit')))
         self.actionQuit.setShortcut(QKeySequence.Quit)
@@ -142,6 +147,13 @@ class MainWindow(QMainWindow):
         aboutDialog = AboutDialog(self);
         aboutDialog.setModal(True);
         aboutDialog.show();
+
+
+    def onActionColophonTriggered(self):
+        """
+        Displays the Colophon dialog.
+        """
+        pass
 
 
     def onActionQuitTriggered(self):
