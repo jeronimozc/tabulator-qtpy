@@ -23,6 +23,7 @@ from PySide2.QtGui import QIcon, QKeySequence
 from PySide2.QtWidgets import QAction, QApplication, QMainWindow
 
 from aboutdialog import AboutDialog
+from colophondialog import ColophonDialog
 
 import resources
 
@@ -154,7 +155,10 @@ class MainWindow(QMainWindow):
         """
         Displays the Colophon dialog.
         """
-        pass
+
+        colophonDialog = ColophonDialog(self);
+        colophonDialog.setModal(True);
+        colophonDialog.show();
 
 
     def onActionQuitTriggered(self):
