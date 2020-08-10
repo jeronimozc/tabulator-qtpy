@@ -86,6 +86,7 @@ class MainWindow(QMainWindow):
         # Menu: Application
         menuApplication = self.menuBar().addMenu('Application')
         menuApplication.addAction(self.actionAbout)
+        menuApplication.addAction(self.actionColophon)
         menuApplication.addSeparator()
         menuApplication.addAction(self.actionQuit)
 
