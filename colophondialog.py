@@ -85,6 +85,7 @@ class ColophonDialog(QDialog):
         tabBox.addTab(self.tabAbout(), 'About')
         tabBox.addTab(self.tabEnvironment(), 'Environment')
         tabBox.addTab(self.tabLicense(), 'License')
+        tabBox.addTab(self.tabAuthors(), 'Authors')
 
         # Button box
         buttonBox = QDialogButtonBox(QDialogButtonBox.Close)
@@ -159,6 +160,23 @@ class ColophonDialog(QDialog):
             <p>You should have received a copy of the GNU General Public License along with {self.applicationName}.
                 If not, see <a href="https://www.gnu.org/licenses/">https://www.gnu.org/licenses/</a>.</p>
             </body></html>''')
+
+        return textBox
+
+
+    def tabAuthors(self):
+        """
+        Displays the Authors tab.
+        """
+
+        textBox = QTextBrowser()
+        textBox.setFrameStyle(QFrame.NoFrame)
+        textBox.setStyleSheet('background-color:transparent;')
+        textBox.setOpenExternalLinks(True)
+        textBox.setHtml('''<html><body><dl>
+            <dt><strong>NotNypical</strong></dt>
+                <dd>Created and developed by <a href="https://notnypical.github.io" title="Visit author's homepage">NotNypical</a>.</dd>
+            </dl></body></html>''')
 
         return textBox
 
