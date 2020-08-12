@@ -84,6 +84,7 @@ class ColophonDialog(QDialog):
         tabBox = QTabWidget()
         tabBox.addTab(self.tabAbout(), 'About')
         tabBox.addTab(self.tabEnvironment(), 'Environment')
+        tabBox.addTab(self.tabLicense(), 'License')
 
         # Button box
         buttonBox = QDialogButtonBox(QDialogButtonBox.Close)
@@ -135,6 +136,29 @@ class ColophonDialog(QDialog):
             <dt><strong>Operation System</strong></dt>
                 <dd>{self.osName} (Kernel {self.osKernelVersion} on {self.osCpuArchitecture})</dd>
             </dl></body></html>''')
+
+        return textBox
+
+
+    def tabLicense(self):
+        """
+        Displays the License tab.
+        """
+
+        textBox = QTextBrowser()
+        textBox.setFrameStyle(QFrame.NoFrame)
+        textBox.setStyleSheet('background-color:transparent;')
+        textBox.setOpenExternalLinks(True)
+        textBox.setHtml(f'''<html><body>
+            <p>{self.applicationName} is free software: you can redistribute it and/or modify it under the terms of the
+                GNU General Public License as published by the Free Software Foundation, either version 3 of the License,
+                or (at your option) any later version.</p>
+            <p>{self.applicationName} is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+                without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+                See the GNU General Public License for more details.</p>
+            <p>You should have received a copy of the GNU General Public License along with {self.applicationName}.
+                If not, see <a href="https://www.gnu.org/licenses/">https://www.gnu.org/licenses/</a>.</p>
+            </body></html>''')
 
         return textBox
 
