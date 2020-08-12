@@ -18,7 +18,10 @@
 # along with pyTabulator.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from PySide2.QtCore import QByteArray, QRect, QSettings
+import sys
+import PySide2.QtCore
+
+from PySide2.QtCore import QByteArray, QRect, QSettings, QSysInfo
 from PySide2.QtSvg import QSvgWidget
 from PySide2.QtWidgets import QApplication, QDialog, QDialogButtonBox, QFrame, QHBoxLayout, QLabel, QTabWidget, QTextBrowser, QVBoxLayout, QWidget
 
@@ -36,6 +39,14 @@ class ColophonDialog(QDialog):
         self.applicationName = QApplication.applicationName()
         self.applicationDescription = 'A CSV editor written in Qt for Python.'
         self.applicationVersion = QApplication.applicationVersion()
+
+        self.pythonVersion = sys.version
+        self.pysideVersion = PySide2.__version__
+        self.qtVersion = PySide2.QtCore.qVersion() # Qt version used to run Qt for Python
+        self.qtBuildVersion = PySide2.QtCore.__version__ # Qt version used to compile PySide2
+        self.osName = QSysInfo.prettyProductName()
+        self.osKernelVersion = QSysInfo.kernelVersion()
+        self.osCpuArchitecture = QSysInfo.currentCpuArchitecture()
 
         self.setWindowTitle(f'Colophon') 
 
@@ -72,6 +83,7 @@ class ColophonDialog(QDialog):
         # Tab box
         tabBox = QTabWidget()
         tabBox.addTab(self.tabAbout(), 'About')
+        tabBox.addTab(self.tabEnvironment(), 'Environment')
 
         # Button box
         buttonBox = QDialogButtonBox(QDialogButtonBox.Close)
@@ -100,6 +112,29 @@ class ColophonDialog(QDialog):
             <p>Copyright &copy; 2020 <a href="{self.organizationDomain}">{self.organizationName}</a>.</p>
             <p>This application is licensed under the terms of the <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GNU General Public License, version 3</a>.</p>
             </body></html>''')
+
+        return textBox
+
+
+    def tabEnvironment(self):
+        """
+        Displays the Environment tab.
+        """
+
+        textBox = QTextBrowser()
+        textBox.setFrameStyle(QFrame.NoFrame)
+        textBox.setStyleSheet('background-color:transparent;')
+        textBox.setOpenExternalLinks(True)
+        textBox.setHtml(f'''<html><body><dl>
+            <dt><strong>Application version</strong></dt>
+                <dd>{self.applicationVersion}</dd>
+            <dt><strong>Qt for Python version</strong></dt>
+                <dd>{self.pysideVersion} runs on Qt {self.qtVersion} (Built against {self.qtBuildVersion})</dd>
+            <dt><strong>Python version</strong></dt>
+                <dd>{self.pythonVersion}</dd>
+            <dt><strong>Operation System</strong></dt>
+                <dd>{self.osName} (Kernel {self.osKernelVersion} on {self.osCpuArchitecture})</dd>
+            </dl></body></html>''')
 
         return textBox
 
