@@ -1,3 +1,3 @@
 {
-    "files": ["main.py","mainwindow.py","resources.qrc"]
+    "files": ["aboutdialog.py","colophondialog.py","main.py","mainwindow.py","resources.qrc"]
 }
