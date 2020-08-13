@@ -71,6 +71,12 @@ class MainWindow(QMainWindow):
         self.actionColophon.setToolTip('Lengthy description of the application')
         self.actionColophon.triggered.connect(self.onActionColophonTriggered)
 
+        self.actionPreferences = QAction('Preferences…', self)
+        self.actionPreferences.setIcon(QIcon.fromTheme('document-properties', QIcon(':/icons/document-properties')))
+        self.actionPreferences.setStatusTip('Customize the appearance and behavior of the application')
+        self.actionPreferences.setToolTip('Customize the appearance and behavior of the application')
+        self.actionPreferences.triggered.connect(self.onActionPreferencesTriggered)
+
         self.actionQuit = QAction('Quit', self)
         self.actionQuit.setIcon(QIcon.fromTheme('application-exit', QIcon(':/icons/application-exit')))
         self.actionQuit.setShortcut(QKeySequence.Quit)
@@ -159,6 +165,13 @@ class MainWindow(QMainWindow):
         colophonDialog = ColophonDialog(self);
         colophonDialog.setModal(True);
         colophonDialog.show();
+
+
+    def onActionPreferencesTriggered(self):
+        """
+        Displays the Preferences dialog.
+        """
+        pass
 
 
     def onActionQuitTriggered(self):
