@@ -95,6 +95,8 @@ class MainWindow(QMainWindow):
         menuApplication.addAction(self.actionAbout)
         menuApplication.addAction(self.actionColophon)
         menuApplication.addSeparator()
+        menuApplication.addAction(self.actionPreferences)
+        menuApplication.addSeparator()
         menuApplication.addAction(self.actionQuit)
 
 
