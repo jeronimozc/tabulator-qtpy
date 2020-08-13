@@ -18,6 +18,7 @@
 # along with pyTabulator.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from PySide2.QtCore import QByteArray, QRect, QSettings
 from PySide2.QtWidgets import QApplication, QDialog
 
 
@@ -36,3 +37,22 @@ class PreferencesDialog(QDialog):
         self.applicationVersion = QApplication.applicationVersion()
 
         self.setWindowTitle(f'Preferences')
+
+        self.readSettings()
+
+
+    def readSettings(self):
+        """
+        Restores user preferences and other application settings.
+        """
+        settings = QSettings()
+
+        geometry = settings.value('PreferencesDialog/geometry', QByteArray())
+        if geometry:
+            # Restore dialog geometry
+            self.restoreGeometry(geometry)
+        else:
+            # Center dialog
+            availableGeometry = QRect(QApplication.desktop().availableGeometry(self))
+            self.resize(availableGeometry.width() / 3, availableGeometry.height() / 3);
+            self.move((availableGeometry.width() - self.width()) / 2, (availableGeometry.height() - self.height()) / 2);
