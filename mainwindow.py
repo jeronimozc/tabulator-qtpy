@@ -24,6 +24,7 @@ from PySide2.QtWidgets import QAction, QApplication, QMainWindow
 
 from aboutdialog import AboutDialog
 from colophondialog import ColophonDialog
+from preferencesdialog import PreferencesDialog
 
 import resources
 
@@ -173,7 +174,10 @@ class MainWindow(QMainWindow):
         """
         Displays the Preferences dialog.
         """
-        pass
+
+        preferencesDialog = PreferencesDialog(self);
+        preferencesDialog.setModal(True);
+        preferencesDialog.show();
 
 
     def onActionQuitTriggered(self):
