@@ -19,10 +19,13 @@
 #
 
 from PySide2.QtCore import QByteArray, QRect, QSettings
-from PySide2.QtWidgets import QApplication, QDialog, QDialogButtonBox, QHBoxLayout, QLabel, QListWidget, QStackedWidget, QVBoxLayout, QWidget
+from PySide2.QtWidgets import QApplication, QCheckBox, QDialog, QDialogButtonBox, QGroupBox, QHBoxLayout, QLabel, QListWidget, QStackedWidget, QVBoxLayout, QWidget
 
 
 class PreferencesDialog(QDialog):
+
+    saveSettings = False
+
 
     def __init__(self, parent=None):
         """
@@ -71,7 +74,6 @@ class PreferencesDialog(QDialog):
         self.buttonBox.button(QDialogButtonBox.RestoreDefaults).clicked.connect(self.onButtonDefaultsClicked)
         self.buttonBox.accepted.connect(self.onButtonOkClicked)
         self.buttonBox.button(QDialogButtonBox.Apply).clicked.connect(self.onButtonApplyClicked)
-        self.buttonBox.button(QDialogButtonBox.Apply).setEnabled(False)
         self.buttonBox.rejected.connect(self.onButtonCancelClicked)
 
         # Layout
@@ -88,9 +90,24 @@ class PreferencesDialog(QDialog):
         """
         label = QLabel('<strong>Application</strong>')
 
+        # Geometries
+        self.checkboxGeometryWindowRestore = QCheckBox('Save and restore window geometry', self)
+        self.checkboxGeometryWindowRestore.stateChanged.connect(self.onSettingsChanged)
+
+        self.checkboxGeometryDialogRestore = QCheckBox('Save and restore dialog geometry', self)
+        self.checkboxGeometryDialogRestore.stateChanged.connect(self.onSettingsChanged)
+
+        geometryLayout = QVBoxLayout()
+        geometryLayout.addWidget(self.checkboxGeometryWindowRestore)
+        geometryLayout.addWidget(self.checkboxGeometryDialogRestore)
+
+        geometryGroup = QGroupBox('Geometries')
+        geometryGroup.setLayout(geometryLayout)
+
         # Layout
         layout = QVBoxLayout()
         layout.addWidget(label)
+        layout.addWidget(geometryGroup)
         layout.addStretch()
 
         self.stackApplication.setLayout(layout)
@@ -112,6 +129,13 @@ class PreferencesDialog(QDialog):
             self.resize(availableGeometry.width() / 3, availableGeometry.height() / 3);
             self.move((availableGeometry.width() - self.width()) / 2, (availableGeometry.height() - self.height()) / 2);
 
+        # Update UI: Application
+        self.checkboxGeometryWindowRestore.setChecked(self.valueToBool(settings.value('Settings/geometryWindowRestore', True)))
+        self.checkboxGeometryDialogRestore.setChecked(self.valueToBool(settings.value('Settings/geometryDialogRestore', True)))
+
+        # Update UI: Button
+        self.buttonBox.button(QDialogButtonBox.Apply).setEnabled(False)
+
 
     def writeSettings(self):
         """
@@ -120,6 +144,31 @@ class PreferencesDialog(QDialog):
         settings = QSettings()
 
         settings.setValue('PreferencesDialog/geometry', self.saveGeometry())
+
+        # Store user preferences
+        if self.saveSettings:
+            # Application
+            settings.setValue('Settings/geometryWindowRestore', self.checkboxGeometryWindowRestore.isChecked())
+            settings.setValue('Settings/geometryDialogRestore', self.checkboxGeometryDialogRestore.isChecked())
+
+            # Update UI: Button
+            self.buttonBox.button(QDialogButtonBox.Apply).setEnabled(False)
+            self.saveSettings = False
+
+
+    @staticmethod
+    def valueToBool(value):
+        """
+        Converts a specified value to an equivalent Boolean value.
+
+        Args:
+            value (bool): The specified value.
+
+        Returns:
+            bool: The equivalent Boolean value.
+        """
+
+        return value.lower() == 'true' if isinstance(value, str) else bool(value)
 
 
     def closeEvent(self, event):
@@ -134,11 +183,22 @@ class PreferencesDialog(QDialog):
         event.accept()
 
 
+    def onSettingsChanged(self):
+        """
+        Enables the apply button if the settings have been changed.
+        """
+
+        self.buttonBox.button(QDialogButtonBox.Apply).setEnabled(True)
+
+
     def onButtonDefaultsClicked(self):
         """
         Restores the default values of the user preferences.
         """
-        pass
+
+        # Application
+        self.checkboxGeometryWindowRestore.setChecked(True)
+        self.checkboxGeometryDialogRestore.setChecked(True)
 
 
     def onButtonOkClicked(self):
@@ -146,7 +206,7 @@ class PreferencesDialog(QDialog):
         Fires the Close event to terminate the dialog with saving the user preferences.
         """
 
-        self.writeSettings()
+        self.saveSettings = True
         self.close()
 
 
@@ -155,6 +215,7 @@ class PreferencesDialog(QDialog):
         Saves the user preferences.
         """
 
+        self.saveSettings = True
         self.writeSettings()
 
 
