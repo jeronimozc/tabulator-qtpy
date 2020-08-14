@@ -19,7 +19,7 @@
 #
 
 from PySide2.QtCore import QByteArray, QRect, QSettings
-from PySide2.QtWidgets import QApplication, QDialog, QDialogButtonBox, QVBoxLayout
+from PySide2.QtWidgets import QApplication, QDialog, QDialogButtonBox, QHBoxLayout, QLabel, QListWidget, QStackedWidget, QVBoxLayout, QWidget
 
 
 class PreferencesDialog(QDialog):
@@ -48,6 +48,24 @@ class PreferencesDialog(QDialog):
         Setup user interface.
         """
 
+        # Settings box
+        self.stackApplication = QWidget()
+
+        self.stackApplicationPage()
+
+        stackedBox = QStackedWidget()
+        stackedBox.addWidget(self.stackApplication)
+        stackedBox.setCurrentIndex(0)
+
+        listBox = QListWidget()
+        listBox.addItem('Application')
+        listBox.setCurrentRow(stackedBox.currentIndex())
+        listBox.currentRowChanged.connect(stackedBox.setCurrentIndex)
+
+        settingsBox = QHBoxLayout()
+        settingsBox.addWidget(listBox, 1)
+        settingsBox.addWidget(stackedBox, 3)
+
         # Button box
         self.buttonBox = QDialogButtonBox(QDialogButtonBox.RestoreDefaults | QDialogButtonBox.Ok | QDialogButtonBox.Apply | QDialogButtonBox.Cancel)
         self.buttonBox.button(QDialogButtonBox.RestoreDefaults).clicked.connect(self.onButtonDefaultsClicked)
@@ -58,9 +76,24 @@ class PreferencesDialog(QDialog):
 
         # Layout
         layout = QVBoxLayout()
+        layout.addLayout(settingsBox)
         layout.addWidget(self.buttonBox)
 
         self.setLayout(layout)
+
+
+    def stackApplicationPage(self):
+        """
+        Sets the application settings page.
+        """
+        label = QLabel('<strong>Application</strong>')
+
+        # Layout
+        layout = QVBoxLayout()
+        layout.addWidget(label)
+        layout.addStretch()
+
+        self.stackApplication.setLayout(layout)
 
 
     def readSettings(self):
