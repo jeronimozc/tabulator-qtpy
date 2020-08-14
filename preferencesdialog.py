@@ -19,7 +19,7 @@
 #
 
 from PySide2.QtCore import QByteArray, QRect, QSettings
-from PySide2.QtWidgets import QApplication, QDialog
+from PySide2.QtWidgets import QApplication, QDialog, QDialogButtonBox, QVBoxLayout
 
 
 class PreferencesDialog(QDialog):
@@ -38,7 +38,29 @@ class PreferencesDialog(QDialog):
 
         self.setWindowTitle(f'Preferences')
 
+        self.setupUI()
+
         self.readSettings()
+
+
+    def setupUI(self):
+        """
+        Setup user interface.
+        """
+
+        # Button box
+        self.buttonBox = QDialogButtonBox(QDialogButtonBox.RestoreDefaults | QDialogButtonBox.Ok | QDialogButtonBox.Apply | QDialogButtonBox.Cancel)
+        self.buttonBox.button(QDialogButtonBox.RestoreDefaults).clicked.connect(self.onButtonDefaultsClicked)
+        self.buttonBox.accepted.connect(self.onButtonOkClicked)
+        self.buttonBox.button(QDialogButtonBox.Apply).clicked.connect(self.onButtonApplyClicked)
+        self.buttonBox.button(QDialogButtonBox.Apply).setEnabled(False)
+        self.buttonBox.rejected.connect(self.onButtonCancelClicked)
+
+        # Layout
+        layout = QVBoxLayout()
+        layout.addWidget(self.buttonBox)
+
+        self.setLayout(layout)
 
 
     def readSettings(self):
@@ -77,3 +99,35 @@ class PreferencesDialog(QDialog):
 
         self.writeSettings()
         event.accept()
+
+
+    def onButtonDefaultsClicked(self):
+        """
+        Restores the default values of the user preferences.
+        """
+        pass
+
+
+    def onButtonOkClicked(self):
+        """
+        Fires the Close event to terminate the dialog with saving the user preferences.
+        """
+
+        self.writeSettings()
+        self.close()
+
+
+    def onButtonApplyClicked(self):
+        """
+        Saves the user preferences.
+        """
+
+        self.writeSettings()
+
+
+    def onButtonCancelClicked(self):
+        """
+        Fires the Close event to terminate the dialog without saving the user preferences.
+        """
+
+        self.close()
