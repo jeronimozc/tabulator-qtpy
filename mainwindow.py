@@ -118,7 +118,7 @@ class MainWindow(QMainWindow):
         # Read user preferences
         geometryWindowRestore = self.valueToBool(settings.value('Settings/geometryWindowRestore', True))
 
-        # Set window geometry
+        # Set window properties
         geometry = settings.value('MainWindow/geometry', QByteArray())
         if geometryWindowRestore and geometry:
             self.restoreGeometry(geometry)
@@ -126,6 +126,7 @@ class MainWindow(QMainWindow):
             availableGeometry = QRect(QApplication.desktop().availableGeometry(self))
             self.resize(availableGeometry.width() / 2, availableGeometry.height() / 2);
             self.move((availableGeometry.width() - self.width()) / 2, (availableGeometry.height() - self.height()) / 2);
+        self.restoreState(settings.value('MainWindow/state', QByteArray()))
 
 
     def writeSettings(self):
@@ -137,9 +138,10 @@ class MainWindow(QMainWindow):
         # Read user preferences
         geometryWindowRestore = self.valueToBool(settings.value('Settings/geometryWindowRestore', True))
 
-        # Store window geometry
+        # Store window properties
         if geometryWindowRestore:
             settings.setValue('MainWindow/geometry', self.saveGeometry())
+        settings.setValue('MainWindow/state', self.saveState())
 
 
     @staticmethod
