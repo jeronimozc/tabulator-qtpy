@@ -99,12 +99,14 @@ class AboutDialog(QDialog):
         """
         settings = QSettings()
 
+        # Read user preferences
+        geometryDialogRestore = self.valueToBool(settings.value('Settings/geometryDialogRestore', True))
+
+        # Set dialog geometry
         geometry = settings.value('AboutDialog/geometry', QByteArray())
-        if geometry:
-            # Restore dialog geometry
+        if geometryDialogRestore and geometry:
             self.restoreGeometry(geometry)
         else:
-            # Center dialog
             availableGeometry = QRect(QApplication.desktop().availableGeometry(self))
             self.resize(availableGeometry.width() / 3, availableGeometry.height() / 3);
             self.move((availableGeometry.width() - self.width()) / 2, (availableGeometry.height() - self.height()) / 2);
@@ -116,7 +118,26 @@ class AboutDialog(QDialog):
         """
         settings = QSettings()
 
-        settings.setValue('AboutDialog/geometry', self.saveGeometry())
+        # Read user preferences
+        geometryDialogRestore = self.valueToBool(settings.value('Settings/geometryDialogRestore', True))
+
+        # Store dialog geometry
+        if geometryDialogRestore:
+            settings.setValue('AboutDialog/geometry', self.saveGeometry())
+
+
+    @staticmethod
+    def valueToBool(value):
+        """
+        Converts a specified value to an equivalent Boolean value.
+
+        Args:
+            value (bool): The specified value.
+
+        Returns:
+            bool: The equivalent Boolean value.
+        """
+        return value.lower() == 'true' if isinstance(value, str) else bool(value)
 
 
     def closeEvent(self, event):

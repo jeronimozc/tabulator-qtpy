@@ -119,12 +119,14 @@ class PreferencesDialog(QDialog):
         """
         settings = QSettings()
 
+        # Read user preferences
+        geometryDialogRestore = self.valueToBool(settings.value('Settings/geometryDialogRestore', True))
+
+        # Set dialog geometry
         geometry = settings.value('PreferencesDialog/geometry', QByteArray())
-        if geometry:
-            # Restore dialog geometry
+        if geometryDialogRestore and geometry:
             self.restoreGeometry(geometry)
         else:
-            # Center dialog
             availableGeometry = QRect(QApplication.desktop().availableGeometry(self))
             self.resize(availableGeometry.width() / 3, availableGeometry.height() / 3);
             self.move((availableGeometry.width() - self.width()) / 2, (availableGeometry.height() - self.height()) / 2);
@@ -143,7 +145,12 @@ class PreferencesDialog(QDialog):
         """
         settings = QSettings()
 
-        settings.setValue('PreferencesDialog/geometry', self.saveGeometry())
+        # Read user preferences
+        geometryDialogRestore = self.valueToBool(settings.value('Settings/geometryDialogRestore', True))
+
+        # Store dialog geometry
+        if geometryDialogRestore:
+            settings.setValue('PreferencesDialog/geometry', self.saveGeometry())
 
         # Store user preferences
         if self.saveSettings:

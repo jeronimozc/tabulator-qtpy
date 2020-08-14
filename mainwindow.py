@@ -115,12 +115,14 @@ class MainWindow(QMainWindow):
         """
         settings = QSettings()
 
+        # Read user preferences
+        geometryWindowRestore = self.valueToBool(settings.value('Settings/geometryWindowRestore', True))
+
+        # Set window geometry
         geometry = settings.value('MainWindow/geometry', QByteArray())
-        if geometry:
-            # Restore window geometry
+        if geometryWindowRestore and geometry:
             self.restoreGeometry(geometry)
         else:
-            # Center window
             availableGeometry = QRect(QApplication.desktop().availableGeometry(self))
             self.resize(availableGeometry.width() / 2, availableGeometry.height() / 2);
             self.move((availableGeometry.width() - self.width()) / 2, (availableGeometry.height() - self.height()) / 2);
@@ -132,7 +134,26 @@ class MainWindow(QMainWindow):
         """
         settings = QSettings()
 
-        settings.setValue('MainWindow/geometry', self.saveGeometry())
+        # Read user preferences
+        geometryWindowRestore = self.valueToBool(settings.value('Settings/geometryWindowRestore', True))
+
+        # Store window geometry
+        if geometryWindowRestore:
+            settings.setValue('MainWindow/geometry', self.saveGeometry())
+
+
+    @staticmethod
+    def valueToBool(value):
+        """
+        Converts a specified value to an equivalent Boolean value.
+
+        Args:
+            value (bool): The specified value.
+
+        Returns:
+            bool: The equivalent Boolean value.
+        """
+        return value.lower() == 'true' if isinstance(value, str) else bool(value)
 
 
     def closeEvent(self, event):
