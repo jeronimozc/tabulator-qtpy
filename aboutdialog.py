@@ -37,8 +37,6 @@ class AboutDialog(QDialog):
         self.applicationDescription = 'A CSV editor written in Qt for Python.'
         self.applicationVersion = QApplication.applicationVersion()
 
-        self.setWindowTitle(f'About {self.applicationName}')
-
         self.setupUI()
 
         self.readSettings()
@@ -48,6 +46,7 @@ class AboutDialog(QDialog):
         """
         Setup user interface.
         """
+        self.setWindowTitle(f'About {self.applicationName}')
 
         # Title box
         name = QLabel(f'<strong style="font-size:large">{self.applicationName}</strong> v{self.applicationVersion}')

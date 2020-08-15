@@ -48,8 +48,6 @@ class ColophonDialog(QDialog):
         self.osKernelVersion = QSysInfo.kernelVersion()
         self.osCpuArchitecture = QSysInfo.currentCpuArchitecture()
 
-        self.setWindowTitle(f'Colophon') 
-
         self.setupUI()
 
         self.readSettings()
@@ -59,6 +57,7 @@ class ColophonDialog(QDialog):
         """
         Setup user interface.
         """
+        self.setWindowTitle(f'Colophon | {self.applicationName}') 
 
         # Title box
         name = QLabel(f'<strong style="font-size:large">{self.applicationName}</strong> v{self.applicationVersion}')

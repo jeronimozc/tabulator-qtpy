@@ -39,8 +39,6 @@ class PreferencesDialog(QDialog):
         self.applicationDescription = 'A CSV editor written in Qt for Python.'
         self.applicationVersion = QApplication.applicationVersion()
 
-        self.setWindowTitle(f'Preferences')
-
         self.setupUI()
 
         self.readSettings()
@@ -50,6 +48,7 @@ class PreferencesDialog(QDialog):
         """
         Setup user interface.
         """
+        self.setWindowTitle(f'Preferences | {self.applicationName}')
 
         # Settings box
         self.stackApplication = QWidget()
