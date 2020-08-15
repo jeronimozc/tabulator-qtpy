@@ -127,7 +127,7 @@ class PreferencesDialog(QDialog):
             self.restoreGeometry(geometry)
         else:
             availableGeometry = QRect(QApplication.desktop().availableGeometry(self))
-            self.resize(availableGeometry.width() / 3, availableGeometry.height() / 3);
+            self.resize(availableGeometry.width() / 2, availableGeometry.height() / 2);
             self.move((availableGeometry.width() - self.width()) / 2, (availableGeometry.height() - self.height()) / 2);
 
         # Update UI: Application
