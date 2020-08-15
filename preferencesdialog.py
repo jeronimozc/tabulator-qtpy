@@ -19,7 +19,8 @@
 #
 
 from PySide2.QtCore import QByteArray, QRect, QSettings
-from PySide2.QtWidgets import QApplication, QCheckBox, QDialog, QDialogButtonBox, QGroupBox, QHBoxLayout, QLabel, QListWidget, QStackedWidget, QVBoxLayout, QWidget
+from PySide2.QtWidgets import (QApplication, QCheckBox, QDialog, QDialogButtonBox, QGroupBox, QHBoxLayout, QLabel,
+                               QListWidget, QStackedWidget, QVBoxLayout, QWidget)
 
 
 class PreferencesDialog(QDialog):
@@ -33,11 +34,7 @@ class PreferencesDialog(QDialog):
         """
         super(PreferencesDialog, self).__init__(parent)
 
-        self.organizationName = QApplication.organizationName()
-        self.organizationDomain = QApplication.organizationDomain()
         self.applicationName = QApplication.applicationName()
-        self.applicationDescription = 'A CSV editor written in Qt for Python.'
-        self.applicationVersion = QApplication.applicationVersion()
 
         self.setupUI()
 

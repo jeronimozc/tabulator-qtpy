@@ -37,6 +37,8 @@ class MainWindow(QMainWindow):
         """
         QMainWindow.__init__(self)
 
+        self.applicationName = QApplication.applicationName()
+
         self.setupUI()
 
         self.readSettings()
@@ -57,10 +59,9 @@ class MainWindow(QMainWindow):
         """
         Creates user interface actions.
         """
-        applicationName = QApplication.applicationName()
 
         # Actions: Application
-        self.actionAbout = QAction(f'About {applicationName}', self)
+        self.actionAbout = QAction(f'About {self.applicationName}', self)
         self.actionAbout.setIcon(QIcon(':/icons/tabulator.svg'))
         self.actionAbout.setStatusTip('Brief description of the application')
         self.actionAbout.setToolTip('Brief description of the application')
