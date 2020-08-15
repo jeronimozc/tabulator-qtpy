@@ -87,7 +87,7 @@ class PreferencesDialog(QDialog):
         """
         Displays the application settings page.
         """
-        label = QLabel('<strong>Application</strong>')
+        label = QLabel('<strong style="font-size:large">Application</strong>')
 
         # Geometries
         self.checkboxGeometryWindowRestore = QCheckBox('Save and restore window geometry', self)
