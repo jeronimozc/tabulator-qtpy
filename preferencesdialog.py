@@ -46,7 +46,7 @@ class PreferencesDialog(QDialog):
 
     def setupUI(self):
         """
-        Setup user interface.
+        Sets up the user interface.
         """
         self.setWindowTitle(f'Preferences | {self.applicationName}')
 
@@ -85,7 +85,7 @@ class PreferencesDialog(QDialog):
 
     def stackApplicationPage(self):
         """
-        Sets the application settings page.
+        Displays the application settings page.
         """
         label = QLabel('<strong>Application</strong>')
 
@@ -114,14 +114,14 @@ class PreferencesDialog(QDialog):
 
     def readSettings(self):
         """
-        Restores user preferences and other application settings.
+        Restores user preferences and other dialog properties.
         """
         settings = QSettings()
 
         # Read user preferences
         geometryDialogRestore = self.valueToBool(settings.value('Settings/geometryDialogRestore', True))
 
-        # Set dialog geometry
+        # Set dialog properties
         geometry = settings.value('PreferencesDialog/geometry', QByteArray())
         if geometryDialogRestore and geometry:
             self.restoreGeometry(geometry)
@@ -140,19 +140,20 @@ class PreferencesDialog(QDialog):
 
     def writeSettings(self):
         """
-        Saves user preferences and other application settings.
+        Saves user preferences and other dialog properties.
         """
         settings = QSettings()
 
         # Read user preferences
         geometryDialogRestore = self.valueToBool(settings.value('Settings/geometryDialogRestore', True))
 
-        # Store dialog geometry
+        # Store dialog properties
         if geometryDialogRestore:
             settings.setValue('PreferencesDialog/geometry', self.saveGeometry())
 
         # Store user preferences
         if self.saveSettings:
+
             # Application
             settings.setValue('Settings/geometryWindowRestore', self.checkboxGeometryWindowRestore.isChecked())
             settings.setValue('Settings/geometryDialogRestore', self.checkboxGeometryDialogRestore.isChecked())
@@ -173,7 +174,6 @@ class PreferencesDialog(QDialog):
         Returns:
             bool: The equivalent Boolean value.
         """
-
         return value.lower() == 'true' if isinstance(value, str) else bool(value)
 
 
@@ -184,22 +184,20 @@ class PreferencesDialog(QDialog):
         Args:
             event (QCloseEvent): The close event.
         """
-
         self.writeSettings()
         event.accept()
 
 
     def onSettingsChanged(self):
         """
-        Enables the apply button if the settings have been changed.
+        Enables the apply button if settings have been changed.
         """
-
         self.buttonBox.button(QDialogButtonBox.Apply).setEnabled(True)
 
 
     def onButtonDefaultsClicked(self):
         """
-        Restores the default values of the user preferences.
+        Restores default values of user preferences.
         """
 
         # Application
@@ -209,25 +207,22 @@ class PreferencesDialog(QDialog):
 
     def onButtonOkClicked(self):
         """
-        Fires the Close event to terminate the dialog with saving the user preferences.
+        Fires the Close event to terminate the dialog with saving user preferences.
         """
-
         self.saveSettings = True
         self.close()
 
 
     def onButtonApplyClicked(self):
         """
-        Saves the user preferences.
+        Saves user preferences.
         """
-
         self.saveSettings = True
         self.writeSettings()
 
 
     def onButtonCancelClicked(self):
         """
-        Fires the Close event to terminate the dialog without saving the user preferences.
+        Fires the Close event to terminate the dialog without saving user preferences.
         """
-
         self.close()

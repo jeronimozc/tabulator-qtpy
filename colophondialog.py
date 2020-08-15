@@ -55,7 +55,7 @@ class ColophonDialog(QDialog):
 
     def setupUI(self):
         """
-        Setup user interface.
+        Sets up the user interface.
         """
         self.setWindowTitle(f'Colophon | {self.applicationName}') 
 
@@ -104,7 +104,6 @@ class ColophonDialog(QDialog):
         """
         Displays the About tab.
         """
-
         textBox = QTextBrowser()
         textBox.setFrameStyle(QFrame.NoFrame)
         textBox.setStyleSheet('background-color:transparent;')
@@ -122,7 +121,6 @@ class ColophonDialog(QDialog):
         """
         Displays the Environment tab.
         """
-
         textBox = QTextBrowser()
         textBox.setFrameStyle(QFrame.NoFrame)
         textBox.setStyleSheet('background-color:transparent;')
@@ -145,7 +143,6 @@ class ColophonDialog(QDialog):
         """
         Displays the License tab.
         """
-
         textBox = QTextBrowser()
         textBox.setFrameStyle(QFrame.NoFrame)
         textBox.setStyleSheet('background-color:transparent;')
@@ -168,7 +165,6 @@ class ColophonDialog(QDialog):
         """
         Displays the Authors tab.
         """
-
         textBox = QTextBrowser()
         textBox.setFrameStyle(QFrame.NoFrame)
         textBox.setStyleSheet('background-color:transparent;')
@@ -185,7 +181,6 @@ class ColophonDialog(QDialog):
         """
         Displays the Credits tab.
         """
-
         textBox = QTextBrowser()
         textBox.setFrameStyle(QFrame.NoFrame)
         textBox.setStyleSheet('background-color:transparent;')
@@ -202,14 +197,14 @@ class ColophonDialog(QDialog):
 
     def readSettings(self):
         """
-        Restores user preferences and other application settings.
+        Restores user preferences and other dialog properties.
         """
         settings = QSettings()
 
         # Read user preferences
         geometryDialogRestore = self.valueToBool(settings.value('Settings/geometryDialogRestore', True))
 
-        # Set dialog geometry
+        # Set dialog properties
         geometry = settings.value('ColophonDialog/geometry', QByteArray())
         if geometryDialogRestore and geometry:
             self.restoreGeometry(geometry)
@@ -221,14 +216,14 @@ class ColophonDialog(QDialog):
 
     def writeSettings(self):
         """
-        Saves user preferences and other application settings.
+        Saves user preferences and other dialog properties.
         """
         settings = QSettings()
 
         # Read user preferences
         geometryDialogRestore = self.valueToBool(settings.value('Settings/geometryDialogRestore', True))
 
-        # Store dialog geometry
+        # Store dialog properties
         if geometryDialogRestore:
             settings.setValue('ColophonDialog/geometry', self.saveGeometry())
 
@@ -254,7 +249,6 @@ class ColophonDialog(QDialog):
         Args:
             event (QCloseEvent): The close event.
         """
-
         self.writeSettings()
         event.accept()
 
@@ -263,5 +257,4 @@ class ColophonDialog(QDialog):
         """
         Fires the Close event to terminate the dialog.
         """
-
         self.close()

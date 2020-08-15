@@ -44,7 +44,7 @@ class AboutDialog(QDialog):
 
     def setupUI(self):
         """
-        Setup user interface.
+        Sets up the user interface.
         """
         self.setWindowTitle(f'About {self.applicationName}')
 
@@ -94,14 +94,14 @@ class AboutDialog(QDialog):
 
     def readSettings(self):
         """
-        Restores user preferences and other application settings.
+        Restores user preferences and other dialog properties.
         """
         settings = QSettings()
 
         # Read user preferences
         geometryDialogRestore = self.valueToBool(settings.value('Settings/geometryDialogRestore', True))
 
-        # Set dialog geometry
+        # Set dialog properties
         geometry = settings.value('AboutDialog/geometry', QByteArray())
         if geometryDialogRestore and geometry:
             self.restoreGeometry(geometry)
@@ -113,14 +113,14 @@ class AboutDialog(QDialog):
 
     def writeSettings(self):
         """
-        Saves user preferences and other application settings.
+        Saves user preferences and other dialog properties.
         """
         settings = QSettings()
 
         # Read user preferences
         geometryDialogRestore = self.valueToBool(settings.value('Settings/geometryDialogRestore', True))
 
-        # Store dialog geometry
+        # Store dialog properties
         if geometryDialogRestore:
             settings.setValue('AboutDialog/geometry', self.saveGeometry())
 
@@ -146,7 +146,6 @@ class AboutDialog(QDialog):
         Args:
             event (QCloseEvent): The close event.
         """
-
         self.writeSettings()
         event.accept()
 
@@ -155,5 +154,4 @@ class AboutDialog(QDialog):
         """
         Fires the Close event to terminate the dialog.
         """
-
         self.close()

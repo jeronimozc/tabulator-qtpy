@@ -44,7 +44,7 @@ class MainWindow(QMainWindow):
 
     def setupUI(self):
         """
-        Setup user interface.
+        Sets up the user interface.
         """
         self.setWindowIcon(QIcon(':/logos/tabulator.svg'))
 
@@ -110,7 +110,7 @@ class MainWindow(QMainWindow):
 
     def readSettings(self):
         """
-        Restores user preferences and other application settings.
+        Restores user preferences and other application properties.
         """
         settings = QSettings()
 
@@ -130,7 +130,7 @@ class MainWindow(QMainWindow):
 
     def writeSettings(self):
         """
-        Saves user preferences and other application settings.
+        Saves user preferences and other application properties.
         """
         settings = QSettings()
 
@@ -176,7 +176,6 @@ class MainWindow(QMainWindow):
         """
         Displays the About dialog.
         """
-
         aboutDialog = AboutDialog(self);
         aboutDialog.setModal(True);
         aboutDialog.show();
@@ -186,7 +185,6 @@ class MainWindow(QMainWindow):
         """
         Displays the Colophon dialog.
         """
-
         colophonDialog = ColophonDialog(self);
         colophonDialog.setModal(True);
         colophonDialog.show();
@@ -196,7 +194,6 @@ class MainWindow(QMainWindow):
         """
         Displays the Preferences dialog.
         """
-
         preferencesDialog = PreferencesDialog(self);
         preferencesDialog.setModal(True);
         preferencesDialog.show();
@@ -206,5 +203,4 @@ class MainWindow(QMainWindow):
         """
         Fires the Close event to terminate the application.
         """
-
         self.close()
