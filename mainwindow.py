@@ -37,8 +37,6 @@ class MainWindow(QMainWindow):
         """
         QMainWindow.__init__(self)
 
-        self.setWindowIcon(QIcon(':/logos/tabulator'))
-
         self.setupUI()
 
         self.readSettings()
@@ -48,6 +46,7 @@ class MainWindow(QMainWindow):
         """
         Setup user interface.
         """
+        self.setWindowIcon(QIcon(':/logos/tabulator.svg'))
 
         self.createActions()
         self.createMenus()
@@ -62,7 +61,7 @@ class MainWindow(QMainWindow):
 
         # Actions: Application
         self.actionAbout = QAction(f'About {applicationName}', self)
-        self.actionAbout.setIcon(QIcon(':/icons/tabulator'))
+        self.actionAbout.setIcon(QIcon(':/icons/tabulator.svg'))
         self.actionAbout.setStatusTip('Brief description of the application')
         self.actionAbout.setToolTip('Brief description of the application')
         self.actionAbout.triggered.connect(self.onActionAboutTriggered)
@@ -73,13 +72,13 @@ class MainWindow(QMainWindow):
         self.actionColophon.triggered.connect(self.onActionColophonTriggered)
 
         self.actionPreferences = QAction('Preferences…', self)
-        self.actionPreferences.setIcon(QIcon.fromTheme('document-properties', QIcon(':/icons/document-properties')))
+        self.actionPreferences.setIcon(QIcon.fromTheme('document-properties', QIcon(':/icons/document-properties.svg')))
         self.actionPreferences.setStatusTip('Customize the appearance and behavior of the application')
         self.actionPreferences.setToolTip('Customize the appearance and behavior of the application')
         self.actionPreferences.triggered.connect(self.onActionPreferencesTriggered)
 
         self.actionQuit = QAction('Quit', self)
-        self.actionQuit.setIcon(QIcon.fromTheme('application-exit', QIcon(':/icons/application-exit')))
+        self.actionQuit.setIcon(QIcon.fromTheme('application-exit', QIcon(':/icons/application-exit.svg')))
         self.actionQuit.setShortcut(QKeySequence.Quit)
         self.actionQuit.setStatusTip('Quit the application')
         self.actionQuit.setToolTip('Quit the application')
