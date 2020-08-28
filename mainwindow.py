@@ -100,6 +100,9 @@ class MainWindow(QMainWindow):
         menuApplication.addSeparator()
         menuApplication.addAction(self.actionQuit)
 
+        # Menu: Document
+        menuDocument = self.menuBar().addMenu('Document')
+
 
     def createStatusBars(self):
         """
@@ -178,8 +181,7 @@ class MainWindow(QMainWindow):
         Displays the About dialog.
         """
         aboutDialog = AboutDialog(self);
-        aboutDialog.setModal(True);
-        aboutDialog.show();
+        aboutDialog.exec_();
 
 
     def onActionColophonTriggered(self):
@@ -187,8 +189,7 @@ class MainWindow(QMainWindow):
         Displays the Colophon dialog.
         """
         colophonDialog = ColophonDialog(self);
-        colophonDialog.setModal(True);
-        colophonDialog.show();
+        colophonDialog.exec_();
 
 
     def onActionPreferencesTriggered(self):
@@ -196,8 +197,7 @@ class MainWindow(QMainWindow):
         Displays the Preferences dialog.
         """
         preferencesDialog = PreferencesDialog(self);
-        preferencesDialog.setModal(True);
-        preferencesDialog.show();
+        preferencesDialog.exec_();
 
 
     def onActionQuitTriggered(self):
