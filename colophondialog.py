@@ -35,20 +35,6 @@ class ColophonDialog(QDialog):
         """
         super(ColophonDialog, self).__init__(parent)
 
-        self.organizationName = QApplication.organizationName()
-        self.organizationDomain = QApplication.organizationDomain()
-        self.applicationName = QApplication.applicationName()
-        self.applicationDescription = 'A CSV editor written in Qt for Python.'
-        self.applicationVersion = QApplication.applicationVersion()
-
-        self.pythonVersion = sys.version
-        self.pysideVersion = PySide2.__version__
-        self.qtVersion = PySide2.QtCore.qVersion() # Qt version used to run Qt for Python
-        self.qtBuildVersion = PySide2.QtCore.__version__ # Qt version used to compile PySide2
-        self.osName = QSysInfo.prettyProductName()
-        self.osKernelVersion = QSysInfo.kernelVersion()
-        self.osCpuArchitecture = QSysInfo.currentCpuArchitecture()
-
         self.setupUI()
 
         self.readSettings()
@@ -58,11 +44,11 @@ class ColophonDialog(QDialog):
         """
         Sets up the user interface.
         """
-        self.setWindowTitle(f'Colophon | {self.applicationName}') 
+        self.setWindowTitle(f'Colophon | {QApplication.applicationName()}')
 
         # Title box
-        name = QLabel(f'<strong style="font-size:large">{self.applicationName}</strong> v{self.applicationVersion}')
-        description = QLabel(self.applicationDescription)
+        name = QLabel(f'<strong style="font-size:large">{QApplication.applicationName()}</strong> v{QApplication.applicationVersion()}')
+        description = QLabel('A CSV editor written in Qt for Python.')
 
         widgetTmp = QWidget()
         vboxlayoutTmp = QVBoxLayout(widgetTmp)
@@ -110,8 +96,8 @@ class ColophonDialog(QDialog):
         textBox.setStyleSheet('background-color:transparent;')
         textBox.setOpenExternalLinks(True)
         textBox.setHtml(f'''<html><body>
-            <p>{self.applicationName} is an open source tool written in Qt for Python and intended for easy creation and editing of documents with character-separated values.</p>
-            <p>Copyright &copy; 2020 <a href="{self.organizationDomain}">{self.organizationName}</a>.</p>
+            <p>{QApplication.applicationName()} is an open source tool written in Qt for Python and intended for easy creation and editing of documents with character-separated values.</p>
+            <p>Copyright &copy; 2020 <a href="{QApplication.organizationDomain()}">{QApplication.organizationName()}</a>.</p>
             <p>This application is licensed under the terms of the <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GNU General Public License, version 3</a>.</p>
             </body></html>''')
 
@@ -122,19 +108,27 @@ class ColophonDialog(QDialog):
         """
         Displays the Environment tab.
         """
+        pythonVersion = sys.version
+        pysideVersion = PySide2.__version__
+        qtVersion = PySide2.QtCore.qVersion() # Qt version used to run Qt for Python
+        qtBuildVersion = PySide2.QtCore.__version__ # Qt version used to compile PySide2
+        osName = QSysInfo.prettyProductName()
+        osKernelVersion = QSysInfo.kernelVersion()
+        osCpuArchitecture = QSysInfo.currentCpuArchitecture()
+
         textBox = QTextBrowser()
         textBox.setFrameStyle(QFrame.NoFrame)
         textBox.setStyleSheet('background-color:transparent;')
         textBox.setOpenExternalLinks(True)
         textBox.setHtml(f'''<html><body><dl>
             <dt><strong>Application version</strong></dt>
-                <dd>{self.applicationVersion}</dd>
+                <dd>{QApplication.applicationVersion()}</dd>
             <dt><strong>Qt for Python version</strong></dt>
-                <dd>{self.pysideVersion} runs on Qt {self.qtVersion} (Built against {self.qtBuildVersion})</dd>
+                <dd>{pysideVersion} runs on Qt {qtVersion} (Built against {qtBuildVersion})</dd>
             <dt><strong>Python version</strong></dt>
-                <dd>{self.pythonVersion}</dd>
+                <dd>{pythonVersion}</dd>
             <dt><strong>Operation System</strong></dt>
-                <dd>{self.osName} (Kernel {self.osKernelVersion} on {self.osCpuArchitecture})</dd>
+                <dd>{osName} (Kernel {osKernelVersion} on {osCpuArchitecture})</dd>
             </dl></body></html>''')
 
         return textBox
@@ -149,13 +143,13 @@ class ColophonDialog(QDialog):
         textBox.setStyleSheet('background-color:transparent;')
         textBox.setOpenExternalLinks(True)
         textBox.setHtml(f'''<html><body>
-            <p>{self.applicationName} is free software: you can redistribute it and/or modify it under the terms of the
+            <p>{QApplication.applicationName()} is free software: you can redistribute it and/or modify it under the terms of the
                 GNU General Public License as published by the Free Software Foundation, either version 3 of the License,
                 or (at your option) any later version.</p>
-            <p>{self.applicationName} is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+            <p>{QApplication.applicationName()} is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
                 without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
                 See the GNU General Public License for more details.</p>
-            <p>You should have received a copy of the GNU General Public License along with {self.applicationName}.
+            <p>You should have received a copy of the GNU General Public License along with {QApplication.applicationName()}.
                 If not, see <a href="https://www.gnu.org/licenses/">https://www.gnu.org/licenses/</a>.</p>
             </body></html>''')
 

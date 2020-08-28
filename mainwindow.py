@@ -37,8 +37,6 @@ class MainWindow(QMainWindow):
         """
         QMainWindow.__init__(self)
 
-        self.applicationName = QApplication.applicationName()
-
         self.setupUI()
 
         self.readSettings()
@@ -61,7 +59,7 @@ class MainWindow(QMainWindow):
         """
 
         # Actions: Application
-        self.actionAbout = QAction(f'About {self.applicationName}', self)
+        self.actionAbout = QAction(f'About {QApplication.applicationName()}', self)
         self.actionAbout.setIcon(QIcon(':/icons/tabulator.svg'))
         self.actionAbout.setStatusTip('Brief description of the application')
         self.actionAbout.setToolTip('Brief description of the application')

@@ -32,12 +32,6 @@ class AboutDialog(QDialog):
         """
         super(AboutDialog, self).__init__(parent)
 
-        self.organizationName = QApplication.organizationName()
-        self.organizationDomain = QApplication.organizationDomain()
-        self.applicationName = QApplication.applicationName()
-        self.applicationDescription = 'A CSV editor written in Qt for Python.'
-        self.applicationVersion = QApplication.applicationVersion()
-
         self.setupUI()
 
         self.readSettings()
@@ -47,11 +41,11 @@ class AboutDialog(QDialog):
         """
         Sets up the user interface.
         """
-        self.setWindowTitle(f'About {self.applicationName}')
+        self.setWindowTitle(f'About {QApplication.applicationName()}')
 
         # Title box
-        name = QLabel(f'<strong style="font-size:large">{self.applicationName}</strong> v{self.applicationVersion}')
-        description = QLabel(self.applicationDescription)
+        name = QLabel(f'<strong style="font-size:large">{QApplication.applicationName()}</strong> v{QApplication.applicationVersion()}')
+        description = QLabel('A CSV editor written in Qt for Python.')
 
         widgetTmp = QWidget()
         vboxlayoutTmp = QVBoxLayout(widgetTmp)
@@ -75,8 +69,8 @@ class AboutDialog(QDialog):
         textBox.setStyleSheet('background-color:transparent;')
         textBox.setOpenExternalLinks(True)
         textBox.setHtml(f'''<html><body>
-            <p>{self.applicationName} is an open source tool written in Qt for Python and intended for easy creation and editing of documents with character-separated values.</p>
-            <p>Copyright &copy; 2020 <a href="{self.organizationDomain}">{self.organizationName}</a>.</p>
+            <p>{QApplication.applicationName()} is an open source tool written in Qt for Python and intended for easy creation and editing of documents with character-separated values.</p>
+            <p>Copyright &copy; 2020 <a href="{QApplication.organizationDomain()}">{QApplication.organizationName()}</a>.</p>
             <p>This application is licensed under the terms of the <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GNU General Public License, version 3</a>.</p>
             </body></html>''')
 

@@ -26,11 +26,11 @@ from PySide2.QtWidgets import QApplication
 from mainwindow import MainWindow
 
 
-ORGANIZATION_NAME       = 'NotNypical'
-ORGANIZATION_DOMAIN     = 'https://notnypical.github.io'
-APPLICATION_NAME        = 'pyTabulator'
-APPLICATION_DESCRIPTION = 'A CSV editor written in Qt for Python.'
-APPLICATION_VERSION     = '0.1.0'
+ORGANIZATION_NAME             = 'NotNypical'
+ORGANIZATION_DOMAIN           = 'https://notnypical.github.io'
+APPLICATION_NAME              = 'pyTabulator'
+APPLICATION_BRIEF_DESCRIPTION = 'A CSV editor written in Qt for Python.'
+APPLICATION_VERSION           = '0.1.0'
 
 
 if __name__ == "__main__":
@@ -42,7 +42,7 @@ if __name__ == "__main__":
     app.setApplicationVersion(APPLICATION_VERSION)
 
     parser = QCommandLineParser()
-    parser.setApplicationDescription(f'{APPLICATION_NAME} - {APPLICATION_DESCRIPTION}')
+    parser.setApplicationDescription(f'{APPLICATION_NAME} - {APPLICATION_BRIEF_DESCRIPTION}')
     parser.addHelpOption()
     parser.addVersionOption()
     parser.process(app)
