@@ -106,8 +106,7 @@ class MainWindow(QMainWindow):
         """
         Creates the status bar.
         """
-
-        self.statusBar().showMessage('Ready', 3000)
+        self.statusBar().showMessage(f'Welcome to {QApplication.applicationName()}', 3000)
 
 
     def readSettings(self):
