@@ -64,16 +64,17 @@ class PreferencesDialog(QDialog):
         settingsBox.addWidget(stackedBox, 3)
 
         # Button box
-        self.buttonBox = QDialogButtonBox(QDialogButtonBox.RestoreDefaults | QDialogButtonBox.Ok | QDialogButtonBox.Apply | QDialogButtonBox.Cancel)
-        self.buttonBox.button(QDialogButtonBox.RestoreDefaults).clicked.connect(self.onButtonDefaultsClicked)
-        self.buttonBox.accepted.connect(self.onButtonOkClicked)
-        self.buttonBox.button(QDialogButtonBox.Apply).clicked.connect(self.onButtonApplyClicked)
-        self.buttonBox.rejected.connect(self.onButtonCancelClicked)
+        buttonBox = QDialogButtonBox(QDialogButtonBox.RestoreDefaults | QDialogButtonBox.Ok | QDialogButtonBox.Apply | QDialogButtonBox.Cancel)
+        self.buttonApply = buttonBox.button(QDialogButtonBox.Apply)
+        buttonBox.button(QDialogButtonBox.RestoreDefaults).clicked.connect(self.onButtonDefaultsClicked)
+        buttonBox.accepted.connect(self.onButtonOkClicked)
+        buttonBox.button(QDialogButtonBox.Apply).clicked.connect(self.onButtonApplyClicked)
+        buttonBox.rejected.connect(self.onButtonCancelClicked)
 
         # Layout
         layout = QVBoxLayout()
         layout.addLayout(settingsBox)
-        layout.addWidget(self.buttonBox)
+        layout.addWidget(buttonBox)
 
         self.setLayout(layout)
 
@@ -130,7 +131,7 @@ class PreferencesDialog(QDialog):
         self.checkboxGeometryDialogRestore.setChecked(self.valueToBool(settings.value('Settings/geometryDialogRestore', True)))
 
         # Update UI: Button
-        self.buttonBox.button(QDialogButtonBox.Apply).setEnabled(False)
+        self.buttonApply.setEnabled(False)
 
 
     def writeSettings(self):
@@ -154,7 +155,7 @@ class PreferencesDialog(QDialog):
             settings.setValue('Settings/geometryDialogRestore', self.checkboxGeometryDialogRestore.isChecked())
 
             # Update UI: Button
-            self.buttonBox.button(QDialogButtonBox.Apply).setEnabled(False)
+            self.buttonApply.setEnabled(False)
             self.saveSettings = False
 
 
@@ -187,7 +188,7 @@ class PreferencesDialog(QDialog):
         """
         Enables the apply button if settings have been changed.
         """
-        self.buttonBox.button(QDialogButtonBox.Apply).setEnabled(True)
+        self.buttonApply.setEnabled(True)
 
 
     def onButtonDefaultsClicked(self):
