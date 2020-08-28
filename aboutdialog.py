@@ -53,7 +53,7 @@ class AboutDialog(QDialog):
         vboxlayoutHeight = name.sizeHint().height() + vboxlayoutTmp.layout().spacing() + description.sizeHint().height()
 
         logo = QSvgWidget()
-        logo.load(':/logos/tabulator.svg')
+        logo.load(':/icons/apps/22/tabulator.svg')
         logo.setFixedSize(vboxlayoutHeight, vboxlayoutHeight)
 
         labels = QVBoxLayout()

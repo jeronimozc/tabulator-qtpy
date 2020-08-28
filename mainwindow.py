@@ -46,7 +46,7 @@ class MainWindow(QMainWindow):
         """
         Sets up the user interface.
         """
-        self.setWindowIcon(QIcon(':/logos/tabulator.svg'))
+        self.setWindowIcon(QIcon(':/icons/apps/22/tabulator.svg'))
 
         self.createActions()
         self.createMenus()
@@ -60,7 +60,7 @@ class MainWindow(QMainWindow):
 
         # Actions: Application
         self.actionAbout = QAction(f'About {QApplication.applicationName()}', self)
-        self.actionAbout.setIcon(QIcon(':/icons/tabulator.svg'))
+        self.actionAbout.setIcon(QIcon(':/icons/apps/16/tabulator.svg'))
         self.actionAbout.setStatusTip('Brief description of the application')
         self.actionAbout.setToolTip('Brief description of the application')
         self.actionAbout.triggered.connect(self.onActionAboutTriggered)
@@ -71,13 +71,13 @@ class MainWindow(QMainWindow):
         self.actionColophon.triggered.connect(self.onActionColophonTriggered)
 
         self.actionPreferences = QAction('Preferences…', self)
-        self.actionPreferences.setIcon(QIcon.fromTheme('document-properties', QIcon(':/icons/document-properties.svg')))
+        self.actionPreferences.setIcon(QIcon.fromTheme('configure', QIcon(':/icons/actions/16/configure.svg')))
         self.actionPreferences.setStatusTip('Customize the appearance and behavior of the application')
         self.actionPreferences.setToolTip('Customize the appearance and behavior of the application')
         self.actionPreferences.triggered.connect(self.onActionPreferencesTriggered)
 
         self.actionQuit = QAction('Quit', self)
-        self.actionQuit.setIcon(QIcon.fromTheme('application-exit', QIcon(':/icons/application-exit.svg')))
+        self.actionQuit.setIcon(QIcon.fromTheme('application-exit', QIcon(':/icons/actions/16/application-exit.svg')))
         self.actionQuit.setShortcut(QKeySequence.Quit)
         self.actionQuit.setStatusTip('Quit the application')
         self.actionQuit.setToolTip('Quit the application')
