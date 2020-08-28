@@ -21,7 +21,7 @@
 import sys
 import PySide2.QtCore
 
-from PySide2.QtCore import QByteArray, QRect, QSettings, QSysInfo
+from PySide2.QtCore import QByteArray, QRect, QSettings, QSysInfo, Qt
 from PySide2.QtSvg import QSvgWidget
 from PySide2.QtWidgets import (QApplication, QDialog, QDialogButtonBox, QFrame, QHBoxLayout, QLabel, QTabWidget,
                                QTextBrowser, QVBoxLayout, QWidget)
@@ -45,6 +45,7 @@ class ColophonDialog(QDialog):
         Sets up the user interface.
         """
         self.setWindowTitle(f'Colophon | {QApplication.applicationName()}')
+        self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
 
         # Title box
         name = QLabel(f'<strong style="font-size:large">{QApplication.applicationName()}</strong> v{QApplication.applicationVersion()}')
