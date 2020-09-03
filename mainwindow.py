@@ -50,7 +50,7 @@ class MainWindow(QMainWindow):
 
         self.createActions()
         self.createMenus()
-        self.createStatusBars()
+        self.createStatusBar()
 
 
     def createActions(self):
@@ -102,7 +102,7 @@ class MainWindow(QMainWindow):
         menuDocument = self.menuBar().addMenu('Document')
 
 
-    def createStatusBars(self):
+    def createStatusBar(self):
         """
         Creates the status bar.
         """
