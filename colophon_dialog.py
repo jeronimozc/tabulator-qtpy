@@ -21,12 +21,13 @@
 import sys
 import PySide2.QtCore
 
-from PySide2.QtCore import QByteArray, QRect, QSettings, QSysInfo, Qt
+from PySide2.QtCore import QByteArray, QRect, QSettings, Qt
 from PySide2.QtSvg import QSvgWidget
 from PySide2.QtWidgets import (QApplication, QDialog, QDialogButtonBox, QFrame, QHBoxLayout, QLabel, QTabWidget,
                                QTextBrowser, QVBoxLayout, QWidget)
 
 from about_page import AboutPage
+from environment_page import EnvironmentPage
 
 
 class ColophonDialog(QDialog):
@@ -72,7 +73,7 @@ class ColophonDialog(QDialog):
         # Tab box
         tabBox = QTabWidget()
         tabBox.addTab(AboutPage(), 'About')
-        tabBox.addTab(self.tabEnvironment(), 'Environment')
+        tabBox.addTab(EnvironmentPage(), 'Environment')
         tabBox.addTab(self.tabLicense(), 'License')
         tabBox.addTab(self.tabAuthors(), 'Authors')
         tabBox.addTab(self.tabCredits(), 'Credits')
@@ -88,36 +89,6 @@ class ColophonDialog(QDialog):
         layout.addWidget(buttonBox)
 
         self.setLayout(layout)
-
-
-    def tabEnvironment(self):
-        """
-        Displays the Environment tab.
-        """
-        pythonVersion = sys.version
-        pysideVersion = PySide2.__version__
-        qtVersion = PySide2.QtCore.qVersion() # Qt version used to run Qt for Python
-        qtBuildVersion = PySide2.QtCore.__version__ # Qt version used to compile PySide2
-        osName = QSysInfo.prettyProductName()
-        osKernelVersion = QSysInfo.kernelVersion()
-        osCpuArchitecture = QSysInfo.currentCpuArchitecture()
-
-        textBox = QTextBrowser()
-        textBox.setFrameStyle(QFrame.NoFrame)
-        textBox.setStyleSheet('background-color:transparent;')
-        textBox.setOpenExternalLinks(True)
-        textBox.setHtml(f'''<html><body><dl>
-            <dt><strong>Application version</strong></dt>
-                <dd>{QApplication.applicationVersion()}</dd>
-            <dt><strong>Qt for Python version</strong></dt>
-                <dd>{pysideVersion} runs on Qt {qtVersion} (Built against {qtBuildVersion})</dd>
-            <dt><strong>Python version</strong></dt>
-                <dd>{pythonVersion}</dd>
-            <dt><strong>Operation System</strong></dt>
-                <dd>{osName} (Kernel {osKernelVersion} on {osCpuArchitecture})</dd>
-            </dl></body></html>''')
-
-        return textBox
 
 
     def tabLicense(self):
