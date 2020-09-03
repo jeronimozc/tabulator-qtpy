@@ -18,7 +18,6 @@
 # along with pyTabulator.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from PySide2.QtCore import Qt
 from PySide2.QtWidgets import QApplication, QFrame, QTextBrowser
 
 

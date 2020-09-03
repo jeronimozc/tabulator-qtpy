@@ -21,7 +21,7 @@
 import sys
 import PySide2.QtCore
 
-from PySide2.QtCore import QSysInfo, Qt
+from PySide2.QtCore import QSysInfo
 from PySide2.QtWidgets import QApplication, QFrame, QTextBrowser
 
 

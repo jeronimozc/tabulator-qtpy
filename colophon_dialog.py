@@ -23,8 +23,7 @@ import PySide2.QtCore
 
 from PySide2.QtCore import QByteArray, QRect, QSettings, Qt
 from PySide2.QtSvg import QSvgWidget
-from PySide2.QtWidgets import (QApplication, QDialog, QDialogButtonBox, QFrame, QHBoxLayout, QLabel, QTabWidget,
-                               QTextBrowser, QVBoxLayout, QWidget)
+from PySide2.QtWidgets import QApplication, QDialog, QDialogButtonBox, QHBoxLayout, QLabel, QTabWidget, QVBoxLayout, QWidget
 
 from about_page import AboutPage
 from environment_page import EnvironmentPage
