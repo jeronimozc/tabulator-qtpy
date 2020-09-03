@@ -22,9 +22,9 @@ from PySide2.QtCore import QByteArray, QRect, QSettings
 from PySide2.QtGui import QIcon, QKeySequence
 from PySide2.QtWidgets import QAction, QApplication, QMainWindow
 
-from aboutdialog import AboutDialog
-from colophondialog import ColophonDialog
-from preferencesdialog import PreferencesDialog
+from about_dialog import AboutDialog
+from colophon_dialog import ColophonDialog
+from preferences_dialog import PreferencesDialog
 
 import resources
 

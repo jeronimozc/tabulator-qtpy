@@ -23,7 +23,7 @@ import sys
 from PySide2.QtCore import QCommandLineParser
 from PySide2.QtWidgets import QApplication
 
-from mainwindow import MainWindow
+from main_window import MainWindow
 
 
 ORGANIZATION_NAME             = 'NotNypical'
