@@ -30,6 +30,7 @@ from about_page import AboutPage
 from environment_page import EnvironmentPage
 from license_page import LicensePage
 from authors_page import AuthorsPage
+from credits_page import CreditsPage
 
 
 class ColophonDialog(QDialog):
@@ -78,7 +79,7 @@ class ColophonDialog(QDialog):
         tabBox.addTab(EnvironmentPage(), 'Environment')
         tabBox.addTab(LicensePage(), 'License')
         tabBox.addTab(AuthorsPage(), 'Authors')
-        tabBox.addTab(self.tabCredits(), 'Credits')
+        tabBox.addTab(CreditsPage(), 'Credits')
 
         # Button box
         buttonBox = QDialogButtonBox(QDialogButtonBox.Close)
@@ -91,24 +92,6 @@ class ColophonDialog(QDialog):
         layout.addWidget(buttonBox)
 
         self.setLayout(layout)
-
-
-    def tabCredits(self):
-        """
-        Displays the Credits tab.
-        """
-        textBox = QTextBrowser()
-        textBox.setFrameStyle(QFrame.NoFrame)
-        textBox.setStyleSheet('background-color:transparent;')
-        textBox.setOpenExternalLinks(True)
-        textBox.setHtml('''<html><body><dl>
-            <dt><strong>BreezeIcons project</strong></dt>
-            <dd>Application logo and icons made by <a href="https://api.kde.org/frameworks/breeze-icons/html/" title="Visit project's homepage">BreezeIcons project</a>
-                from <a href="https://kde.org" title="Visit organization's homepage">KDE</a>
-                are licensed under <a href="https://www.gnu.org/licenses/lgpl-3.0.en.html" title="GNU Lesser General Public License Version 3">LGPLv3</a>.</dd>
-            </dl></body></html>''')
-
-        return textBox
 
 
     def readSettings(self):
