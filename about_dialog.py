@@ -23,6 +23,8 @@ from PySide2.QtSvg import QSvgWidget
 from PySide2.QtWidgets import (QApplication, QDialog, QDialogButtonBox, QFrame, QHBoxLayout, QLabel, QTextBrowser,
                                QVBoxLayout, QWidget)
 
+from about_page import AboutPage
+
 
 class AboutDialog(QDialog):
 
@@ -64,17 +66,6 @@ class AboutDialog(QDialog):
         titleBox.addWidget(logo)
         titleBox.addLayout(labels)
 
-        # Text box
-        textBox = QTextBrowser()
-        textBox.setFrameStyle(QFrame.NoFrame)
-        textBox.setStyleSheet('background-color:transparent;')
-        textBox.setOpenExternalLinks(True)
-        textBox.setHtml(f'''<html><body>
-            <p>{QApplication.applicationName()} is an open source tool written in Qt for Python and intended for easy creation and editing of documents with character-separated values.</p>
-            <p>Copyright &copy; 2020 <a href="{QApplication.organizationDomain()}">{QApplication.organizationName()}</a>.</p>
-            <p>This application is licensed under the terms of the <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GNU General Public License, version 3</a>.</p>
-            </body></html>''')
-
         # Button box
         buttonBox = QDialogButtonBox(QDialogButtonBox.Close)
         buttonBox.rejected.connect(self.onButtonCloseClicked)
@@ -82,7 +73,7 @@ class AboutDialog(QDialog):
         # Layout
         layout = QVBoxLayout()
         layout.addLayout(titleBox)
-        layout.addWidget(textBox)
+        layout.addWidget(AboutPage())
         layout.addWidget(buttonBox)
 
         self.setLayout(layout)

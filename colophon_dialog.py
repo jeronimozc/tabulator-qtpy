@@ -26,6 +26,8 @@ from PySide2.QtSvg import QSvgWidget
 from PySide2.QtWidgets import (QApplication, QDialog, QDialogButtonBox, QFrame, QHBoxLayout, QLabel, QTabWidget,
                                QTextBrowser, QVBoxLayout, QWidget)
 
+from about_page import AboutPage
+
 
 class ColophonDialog(QDialog):
 
@@ -69,7 +71,7 @@ class ColophonDialog(QDialog):
 
         # Tab box
         tabBox = QTabWidget()
-        tabBox.addTab(self.tabAbout(), 'About')
+        tabBox.addTab(AboutPage(), 'About')
         tabBox.addTab(self.tabEnvironment(), 'Environment')
         tabBox.addTab(self.tabLicense(), 'License')
         tabBox.addTab(self.tabAuthors(), 'Authors')
@@ -86,23 +88,6 @@ class ColophonDialog(QDialog):
         layout.addWidget(buttonBox)
 
         self.setLayout(layout)
-
-
-    def tabAbout(self):
-        """
-        Displays the About tab.
-        """
-        textBox = QTextBrowser()
-        textBox.setFrameStyle(QFrame.NoFrame)
-        textBox.setStyleSheet('background-color:transparent;')
-        textBox.setOpenExternalLinks(True)
-        textBox.setHtml(f'''<html><body>
-            <p>{QApplication.applicationName()} is an open source tool written in Qt for Python and intended for easy creation and editing of documents with character-separated values.</p>
-            <p>Copyright &copy; 2020 <a href="{QApplication.organizationDomain()}">{QApplication.organizationName()}</a>.</p>
-            <p>This application is licensed under the terms of the <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GNU General Public License, version 3</a>.</p>
-            </body></html>''')
-
-        return textBox
 
 
     def tabEnvironment(self):
