@@ -29,6 +29,7 @@ from PySide2.QtWidgets import (QApplication, QDialog, QDialogButtonBox, QFrame, 
 from about_page import AboutPage
 from environment_page import EnvironmentPage
 from license_page import LicensePage
+from authors_page import AuthorsPage
 
 
 class ColophonDialog(QDialog):
@@ -76,7 +77,7 @@ class ColophonDialog(QDialog):
         tabBox.addTab(AboutPage(), 'About')
         tabBox.addTab(EnvironmentPage(), 'Environment')
         tabBox.addTab(LicensePage(), 'License')
-        tabBox.addTab(self.tabAuthors(), 'Authors')
+        tabBox.addTab(AuthorsPage(), 'Authors')
         tabBox.addTab(self.tabCredits(), 'Credits')
 
         # Button box
@@ -90,22 +91,6 @@ class ColophonDialog(QDialog):
         layout.addWidget(buttonBox)
 
         self.setLayout(layout)
-
-
-    def tabAuthors(self):
-        """
-        Displays the Authors tab.
-        """
-        textBox = QTextBrowser()
-        textBox.setFrameStyle(QFrame.NoFrame)
-        textBox.setStyleSheet('background-color:transparent;')
-        textBox.setOpenExternalLinks(True)
-        textBox.setHtml('''<html><body><dl>
-            <dt><strong>NotNypical</strong></dt>
-                <dd>Created and developed by <a href="https://notnypical.github.io" title="Visit author's homepage">NotNypical</a>.</dd>
-            </dl></body></html>''')
-
-        return textBox
 
 
     def tabCredits(self):
