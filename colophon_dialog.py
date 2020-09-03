@@ -28,6 +28,7 @@ from PySide2.QtWidgets import (QApplication, QDialog, QDialogButtonBox, QFrame, 
 
 from about_page import AboutPage
 from environment_page import EnvironmentPage
+from license_page import LicensePage
 
 
 class ColophonDialog(QDialog):
@@ -74,7 +75,7 @@ class ColophonDialog(QDialog):
         tabBox = QTabWidget()
         tabBox.addTab(AboutPage(), 'About')
         tabBox.addTab(EnvironmentPage(), 'Environment')
-        tabBox.addTab(self.tabLicense(), 'License')
+        tabBox.addTab(LicensePage(), 'License')
         tabBox.addTab(self.tabAuthors(), 'Authors')
         tabBox.addTab(self.tabCredits(), 'Credits')
 
@@ -89,28 +90,6 @@ class ColophonDialog(QDialog):
         layout.addWidget(buttonBox)
 
         self.setLayout(layout)
-
-
-    def tabLicense(self):
-        """
-        Displays the License tab.
-        """
-        textBox = QTextBrowser()
-        textBox.setFrameStyle(QFrame.NoFrame)
-        textBox.setStyleSheet('background-color:transparent;')
-        textBox.setOpenExternalLinks(True)
-        textBox.setHtml(f'''<html><body>
-            <p>{QApplication.applicationName()} is free software: you can redistribute it and/or modify it under the terms of the
-                GNU General Public License as published by the Free Software Foundation, either version 3 of the License,
-                or (at your option) any later version.</p>
-            <p>{QApplication.applicationName()} is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-                without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-                See the GNU General Public License for more details.</p>
-            <p>You should have received a copy of the GNU General Public License along with {QApplication.applicationName()}.
-                If not, see <a href="https://www.gnu.org/licenses/">https://www.gnu.org/licenses/</a>.</p>
-            </body></html>''')
-
-        return textBox
 
 
     def tabAuthors(self):
