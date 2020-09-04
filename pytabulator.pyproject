@@ -1,3 +1,16 @@
 {
-    "files": ["main.py","main_window.py","resources.qrc","about_dialog.py","colophon_dialog.py","preferences_dialog.py","about_page.py","environment_page","license_page","authors_page","credits_page"]
+    "files": [
+        "about_dialog.py",
+        "about_page.py",
+        "authors_page.py",
+        "colophon_dialog.py",
+        "credits_page.py",
+        "dialog_title_box.py",
+        "environment_page.py",
+        "license_page.py",
+        "main.py",
+        "main_window.py",
+        "preferences_dialog.py",
+        "resources.qrc"
+    ]
 }

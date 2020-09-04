@@ -19,10 +19,9 @@
 #
 
 from PySide2.QtCore import QByteArray, QRect, QSettings, Qt
-from PySide2.QtSvg import QSvgWidget
-from PySide2.QtWidgets import (QApplication, QDialog, QDialogButtonBox, QFrame, QHBoxLayout, QLabel, QTextBrowser,
-                               QVBoxLayout, QWidget)
+from PySide2.QtWidgets import QApplication, QDialog, QDialogButtonBox, QVBoxLayout
 
+from dialog_title_box import DialogTitleBox
 from about_page import AboutPage
 
 
@@ -46,33 +45,13 @@ class AboutDialog(QDialog):
         self.setWindowTitle(f'About {QApplication.applicationName()}')
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
 
-        # Title box
-        name = QLabel(f'<strong style="font-size:large">{QApplication.applicationName()}</strong> v{QApplication.applicationVersion()}')
-        description = QLabel('A CSV editor written in Qt for Python.')
-
-        widgetTmp = QWidget()
-        vboxlayoutTmp = QVBoxLayout(widgetTmp)
-        vboxlayoutHeight = name.sizeHint().height() + vboxlayoutTmp.layout().spacing() + description.sizeHint().height()
-
-        logo = QSvgWidget()
-        logo.load(':/icons/apps/22/tabulator.svg')
-        logo.setFixedSize(vboxlayoutHeight, vboxlayoutHeight)
-
-        labels = QVBoxLayout()
-        labels.addWidget(name)
-        labels.addWidget(description)
-
-        titleBox = QHBoxLayout()
-        titleBox.addWidget(logo)
-        titleBox.addLayout(labels)
-
         # Button box
         buttonBox = QDialogButtonBox(QDialogButtonBox.Close)
         buttonBox.rejected.connect(self.onButtonCloseClicked)
 
         # Layout
         layout = QVBoxLayout()
-        layout.addLayout(titleBox)
+        layout.addWidget(DialogTitleBox())
         layout.addWidget(AboutPage())
         layout.addWidget(buttonBox)
 
