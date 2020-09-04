@@ -52,7 +52,7 @@ class AboutDialog(QDialog):
         # Layout
         layout = QVBoxLayout()
         layout.addWidget(DialogTitleBox())
-        layout.addWidget(AboutPage())
+        layout.addWidget(AboutPage(), 1)
         layout.addWidget(buttonBox)
 
         self.setLayout(layout)

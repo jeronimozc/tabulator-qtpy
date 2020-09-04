@@ -18,10 +18,10 @@
 # along with pyTabulator.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from PySide2.QtWidgets import QApplication, QFrame, QTextBrowser
+from PySide2.QtWidgets import QApplication, QFrame, QTextBrowser, QVBoxLayout, QWidget
 
 
-class AboutPage(QTextBrowser):
+class AboutPage(QWidget):
 
     def __init__(self, parent=None):
         """
@@ -29,11 +29,19 @@ class AboutPage(QTextBrowser):
         """
         super(AboutPage, self).__init__(parent)
 
-        self.setFrameStyle(QFrame.NoFrame)
-        self.setStyleSheet('background-color:transparent;')
-        self.setOpenExternalLinks(True)
-        self.setHtml(f'''<html><body>
+        textBox = QTextBrowser()
+        textBox.setFrameStyle(QFrame.NoFrame)
+        textBox.setStyleSheet('background-color:transparent;')
+        textBox.setOpenExternalLinks(True)
+        textBox.setHtml(f'''<html><body>
             <p>{QApplication.applicationName()} is an open source tool written in Qt for Python and intended for easy creation and editing of documents with character-separated values.</p>
             <p>Copyright &copy; 2020 <a href="{QApplication.organizationDomain()}">{QApplication.organizationName()}</a>.</p>
             <p>This application is licensed under the terms of the <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GNU General Public License, version 3</a>.</p>
             </body></html>''')
+
+        # Main layout
+        layout = QVBoxLayout()
+        layout.addWidget(textBox)
+        layout.addStretch(1)
+
+        self.setLayout(layout)

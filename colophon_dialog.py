@@ -64,7 +64,7 @@ class ColophonDialog(QDialog):
         # Layout
         layout = QVBoxLayout()
         layout.addWidget(DialogTitleBox())
-        layout.addWidget(tabBox)
+        layout.addWidget(tabBox, 1)
         layout.addWidget(buttonBox)
 
         self.setLayout(layout)
