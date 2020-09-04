@@ -18,10 +18,10 @@
 # along with pyTabulator.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from PySide2.QtWidgets import QApplication, QFrame, QTextBrowser
+from PySide2.QtWidgets import QApplication, QFrame, QTextBrowser, QVBoxLayout, QWidget
 
 
-class LicensePage(QTextBrowser):
+class LicensePage(QWidget):
 
     def __init__(self, parent=None):
         """
@@ -29,10 +29,11 @@ class LicensePage(QTextBrowser):
         """
         super(LicensePage, self).__init__(parent)
 
-        self.setFrameStyle(QFrame.NoFrame)
-        self.setStyleSheet('background-color:transparent;')
-        self.setOpenExternalLinks(True)
-        self.setHtml(f'''<html><body>
+        textBox = QTextBrowser()
+        textBox.setFrameStyle(QFrame.NoFrame)
+        textBox.setStyleSheet('background-color:transparent;')
+        textBox.setOpenExternalLinks(True)
+        textBox.setHtml(f'''<html><body>
             <p>{QApplication.applicationName()} is free software: you can redistribute it and/or modify it under the terms of the
                 GNU General Public License as published by the Free Software Foundation, either version 3 of the License,
                 or (at your option) any later version.</p>
@@ -42,3 +43,10 @@ class LicensePage(QTextBrowser):
             <p>You should have received a copy of the GNU General Public License along with {QApplication.applicationName()}.
                 If not, see <a href="https://www.gnu.org/licenses/">https://www.gnu.org/licenses/</a>.</p>
             </body></html>''')
+
+        # Main layout
+        layout = QVBoxLayout()
+        layout.addWidget(textBox)
+        layout.addStretch(1)
+
+        self.setLayout(layout)
