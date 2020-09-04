@@ -43,7 +43,6 @@ class PreferencesDialog(QDialog):
         """
         Sets up the user interface.
         """
-        self.setWindowTitle(f'Preferences | {QApplication.applicationName()}')
 
         # Settings box
         self.stackApplication = QWidget()

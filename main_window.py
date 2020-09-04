@@ -177,24 +177,27 @@ class MainWindow(QMainWindow):
         """
         Displays the About dialog.
         """
-        aboutDialog = AboutDialog(self);
-        aboutDialog.exec_();
+        aboutDialog = AboutDialog(self)
+        aboutDialog.setWindowTitle(f'About {QApplication.applicationName()}')
+        aboutDialog.exec_()
 
 
     def onActionColophonTriggered(self):
         """
         Displays the Colophon dialog.
         """
-        colophonDialog = ColophonDialog(self);
-        colophonDialog.exec_();
+        colophonDialog = ColophonDialog(self)
+        colophonDialog.setWindowTitle('Colophon')
+        colophonDialog.exec_()
 
 
     def onActionPreferencesTriggered(self):
         """
         Displays the Preferences dialog.
         """
-        preferencesDialog = PreferencesDialog(self);
-        preferencesDialog.exec_();
+        preferencesDialog = PreferencesDialog(self)
+        preferencesDialog.setWindowTitle('Preferences')
+        preferencesDialog.exec_()
 
 
     def onActionQuitTriggered(self):

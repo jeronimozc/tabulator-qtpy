@@ -46,7 +46,6 @@ class ColophonDialog(QDialog):
         """
         Sets up the user interface.
         """
-        self.setWindowTitle(f'Colophon | {QApplication.applicationName()}')
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
 
         # Tab box

@@ -39,6 +39,7 @@ if __name__ == "__main__":
     app.setOrganizationName(ORGANIZATION_NAME)
     app.setOrganizationDomain(ORGANIZATION_DOMAIN)
     app.setApplicationName(APPLICATION_NAME)
+    app.setApplicationDisplayName(APPLICATION_NAME)
     app.setApplicationVersion(APPLICATION_VERSION)
 
     parser = QCommandLineParser()

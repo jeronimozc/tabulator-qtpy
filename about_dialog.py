@@ -42,7 +42,6 @@ class AboutDialog(QDialog):
         """
         Sets up the user interface.
         """
-        self.setWindowTitle(f'About {QApplication.applicationName()}')
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
 
         # Button box
