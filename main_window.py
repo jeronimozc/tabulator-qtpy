@@ -18,7 +18,7 @@
 # along with pyTabulator.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from PySide2.QtCore import QByteArray, QRect, QSettings
+from PySide2.QtCore import QByteArray, QRect, QSettings, Qt
 from PySide2.QtGui import QIcon, QKeySequence
 from PySide2.QtWidgets import QAction, QApplication, QMainWindow
 
@@ -179,6 +179,7 @@ class MainWindow(QMainWindow):
         """
         aboutDialog = AboutDialog(self)
         aboutDialog.setWindowTitle(f'About {QApplication.applicationName()}')
+        aboutDialog.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         aboutDialog.exec_()
 
 
@@ -188,6 +189,7 @@ class MainWindow(QMainWindow):
         """
         colophonDialog = ColophonDialog(self)
         colophonDialog.setWindowTitle('Colophon')
+        colophonDialog.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         colophonDialog.exec_()
 
 
