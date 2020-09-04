@@ -22,10 +22,10 @@ import sys
 import PySide2.QtCore
 
 from PySide2.QtCore import QSysInfo
-from PySide2.QtWidgets import QApplication, QFrame, QTextBrowser
+from PySide2.QtWidgets import QApplication, QFrame, QTextBrowser, QVBoxLayout, QWidget
 
 
-class EnvironmentPage(QTextBrowser):
+class EnvironmentPage(QWidget):
 
     def __init__(self, parent=None):
         """
@@ -41,10 +41,11 @@ class EnvironmentPage(QTextBrowser):
         osKernelVersion = QSysInfo.kernelVersion()
         osCpuArchitecture = QSysInfo.currentCpuArchitecture()
 
-        self.setFrameStyle(QFrame.NoFrame)
-        self.setStyleSheet('background-color:transparent;')
-        self.setOpenExternalLinks(True)
-        self.setHtml(f'''<html><body><dl>
+        textBox = QTextBrowser()
+        textBox.setFrameStyle(QFrame.NoFrame)
+        textBox.setStyleSheet('background-color:transparent;')
+        textBox.setOpenExternalLinks(True)
+        textBox.setHtml(f'''<html><body><dl>
             <dt><strong>Application version</strong></dt>
                 <dd>{QApplication.applicationVersion()}</dd>
             <dt><strong>Qt for Python version</strong></dt>
@@ -54,3 +55,10 @@ class EnvironmentPage(QTextBrowser):
             <dt><strong>Operation System</strong></dt>
                 <dd>{osName} (Kernel {osKernelVersion} on {osCpuArchitecture})</dd>
             </dl></body></html>''')
+
+        # Main layout
+        layout = QVBoxLayout()
+        layout.addWidget(textBox)
+        layout.addStretch(1)
+
+        self.setLayout(layout)
