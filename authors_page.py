@@ -18,10 +18,10 @@
 # along with pyTabulator.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from PySide2.QtWidgets import QFrame, QTextBrowser
+from PySide2.QtWidgets import QFrame, QTextBrowser, QVBoxLayout, QWidget
 
 
-class AuthorsPage(QTextBrowser):
+class AuthorsPage(QWidget):
 
     def __init__(self, parent=None):
         """
@@ -29,10 +29,18 @@ class AuthorsPage(QTextBrowser):
         """
         super(AuthorsPage, self).__init__(parent)
 
-        self.setFrameStyle(QFrame.NoFrame)
-        self.setStyleSheet('background-color:transparent;')
-        self.setOpenExternalLinks(True)
-        self.setHtml('''<html><body><dl>
+        textBox = QTextBrowser()
+        textBox.setFrameStyle(QFrame.NoFrame)
+        textBox.setStyleSheet('background-color:transparent;')
+        textBox.setOpenExternalLinks(True)
+        textBox.setHtml('''<html><body><dl>
             <dt><strong>NotNypical</strong></dt>
                 <dd>Created and developed by <a href="https://notnypical.github.io" title="Visit author's homepage">NotNypical</a>.</dd>
             </dl></body></html>''')
+
+        # Main layout
+        layout = QVBoxLayout()
+        layout.addWidget(textBox)
+        layout.addStretch(1)
+
+        self.setLayout(layout)
