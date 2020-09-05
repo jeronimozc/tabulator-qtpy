@@ -45,7 +45,7 @@ class AboutDialog(QDialog):
 
         # Button box
         buttonBox = QDialogButtonBox(QDialogButtonBox.Close)
-        buttonBox.rejected.connect(self.onButtonCloseClicked)
+        buttonBox.rejected.connect(self.close)
 
         # Layout
         layout = QVBoxLayout()
@@ -112,10 +112,3 @@ class AboutDialog(QDialog):
         """
         self.writeSettings()
         event.accept()
-
-
-    def onButtonCloseClicked(self):
-        """
-        Fires the Close event to terminate the dialog.
-        """
-        self.close()
