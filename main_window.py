@@ -129,6 +129,10 @@ class MainWindow(QMainWindow):
         toolbarTools = self.addToolBar('Tools')
         toolbarTools.setObjectName('toolbarTools')
 
+        # Toolbar: View
+        toolbarView = self.addToolBar('View')
+        toolbarView.setObjectName('toolbarView')
+
 
     def createStatusBar(self):
         """
