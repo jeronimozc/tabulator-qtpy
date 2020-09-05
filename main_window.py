@@ -84,6 +84,32 @@ class MainWindow(QMainWindow):
         self.actionQuit.setToolTip('Quit the application')
         self.actionQuit.triggered.connect(self.onActionQuitTriggered)
 
+        # Actions: View
+        self.actionFullScreen = QAction(self)
+        self.actionFullScreen.setCheckable(True)
+        self.actionFullScreen.setShortcuts([QKeySequence(Qt.Key_F11), QKeySequence.FullScreen])
+        self.actionFullScreen.triggered.connect(self.onActionFullScreenTriggered)
+
+        self.updateActionFullScreen()
+
+
+    def updateActionFullScreen(self):
+        """
+        Updates the full screen action, depending on the current screen-occupation state.
+        """
+        if not self.isFullScreen():
+            self.actionFullScreen.setText('Full Screen Mode')
+            self.actionFullScreen.setIcon(QIcon.fromTheme('view-fullscreen', QIcon(':/icons/actions/16/view-fullscreen.svg')))
+            self.actionFullScreen.setChecked(False)
+            self.actionFullScreen.setStatusTip('Display the window in full screen')
+            self.actionFullScreen.setToolTip('Display the window in full screen')
+        else:
+            self.actionFullScreen.setText('Exit Full Screen Mode')
+            self.actionFullScreen.setIcon(QIcon.fromTheme('view-restore', QIcon(':/icons/actions/16/view-restore.svg')))
+            self.actionFullScreen.setChecked(True)
+            self.actionFullScreen.setStatusTip('Exit the full screen mode')
+            self.actionFullScreen.setToolTip('Exit the full screen mode')
+
 
     def createMenus(self):
         """
@@ -110,6 +136,7 @@ class MainWindow(QMainWindow):
 
         # Menu: View
         menuView = self.menuBar().addMenu('View')
+        menuView.addAction(self.actionFullScreen)
 
 
     def createToolBars(self):
@@ -132,6 +159,7 @@ class MainWindow(QMainWindow):
         # Toolbar: View
         toolbarView = self.addToolBar('View')
         toolbarView.setObjectName('toolbarView')
+        toolbarView.addAction(self.actionFullScreen)
 
 
     def createStatusBar(self):
@@ -239,3 +267,15 @@ class MainWindow(QMainWindow):
         Fires the Close event to terminate the application.
         """
         self.close()
+
+
+    def onActionFullScreenTriggered(self):
+        """
+        Sets the screen-occupation state of the window.
+        """
+        if not self.isFullScreen():
+            self.setWindowState(self.windowState() | Qt.WindowFullScreen)
+        else:
+            self.setWindowState(self.windowState() & ~Qt.WindowFullScreen)
+
+        self.updateActionFullScreen()
