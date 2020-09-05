@@ -50,6 +50,7 @@ class MainWindow(QMainWindow):
 
         self.createActions()
         self.createMenus()
+        self.createToolBars()
         self.createStatusBar()
 
 
@@ -100,6 +101,16 @@ class MainWindow(QMainWindow):
 
         # Menu: Document
         menuDocument = self.menuBar().addMenu('Document')
+
+
+    def createToolBars(self):
+        """
+        Creates groups of toolbar buttons.
+        """
+
+        # Toolbar: Document
+        toolbarDocument = self.addToolBar('Document')
+        toolbarDocument.setObjectName('toolbarDocument')
 
 
     def createStatusBar(self):
