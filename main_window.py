@@ -108,6 +108,9 @@ class MainWindow(QMainWindow):
         # Menu: Tools
         menuTools = self.menuBar().addMenu('Tools')
 
+        # Menu: View
+        menuView = self.menuBar().addMenu('View')
+
 
     def createToolBars(self):
         """
