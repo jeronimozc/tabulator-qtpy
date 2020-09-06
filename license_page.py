@@ -46,7 +46,6 @@ class LicensePage(QWidget):
 
         # Main layout
         layout = QVBoxLayout()
-        layout.addWidget(textBox)
-        layout.addStretch(1)
+        layout.addWidget(textBox, 1)
 
         self.setLayout(layout)

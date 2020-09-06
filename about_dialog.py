@@ -43,11 +43,10 @@ class AboutDialog(QDialog):
         Sets up the user interface.
         """
 
-        # Button box
         buttonBox = QDialogButtonBox(QDialogButtonBox.Close)
         buttonBox.rejected.connect(self.close)
 
-        # Layout
+        # Main layout
         layout = QVBoxLayout()
         layout.addWidget(DialogTitleBox())
         layout.addWidget(AboutPage(), 1)

@@ -47,7 +47,6 @@ class ColophonDialog(QDialog):
         Sets up the user interface.
         """
 
-        # Tab box
         tabBox = QTabWidget()
         tabBox.addTab(AboutPage(), 'About')
         tabBox.addTab(EnvironmentPage(), 'Environment')
@@ -55,11 +54,10 @@ class ColophonDialog(QDialog):
         tabBox.addTab(AuthorsPage(), 'Authors')
         tabBox.addTab(CreditsPage(), 'Credits')
 
-        # Button box
         buttonBox = QDialogButtonBox(QDialogButtonBox.Close)
         buttonBox.rejected.connect(self.close)
 
-        # Layout
+        # Main layout
         layout = QVBoxLayout()
         layout.addWidget(DialogTitleBox())
         layout.addWidget(tabBox, 1)
