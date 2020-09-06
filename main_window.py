@@ -138,6 +138,9 @@ class MainWindow(QMainWindow):
         menuView = self.menuBar().addMenu('View')
         menuView.addAction(self.actionFullScreen)
 
+        # Menu: Help
+        menuHelp = self.menuBar().addMenu('Help')
+
 
     def createToolBars(self):
         """
