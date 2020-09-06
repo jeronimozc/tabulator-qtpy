@@ -20,7 +20,7 @@
 
 from PySide2.QtCore import Qt
 from PySide2.QtGui import QKeySequence
-from PySide2.QtWidgets import QAction, QApplication, QMainWindow, QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget
+from PySide2.QtWidgets import QAbstractItemView, QAction, QApplication, QMainWindow, QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget
 
 
 class KeyboardShortcutsPage(QWidget):
@@ -40,10 +40,13 @@ class KeyboardShortcutsPage(QWidget):
                 listShortcutActionItems.append(actionItem)
 
         tableBox = QTableWidget(len(listShortcutActionItems), len(listHHeaderLabels), self)
-        tableBox.setHorizontalHeaderLabels(listHHeaderLabels);
+        tableBox.setHorizontalHeaderLabels(listHHeaderLabels)
         tableBox.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
         tableBox.horizontalHeader().setStretchLastSection(True)
         tableBox.verticalHeader().setVisible(False)
+        tableBox.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        tableBox.setSelectionMode(QAbstractItemView.NoSelection)
+        tableBox.setFocusPolicy(Qt.NoFocus)
 
         for index in range(len(listShortcutActionItems)):
             tableBox.setItem(index, 0, QTableWidgetItem(listShortcutActionItems[index].icon(), listShortcutActionItems[index].text()))
