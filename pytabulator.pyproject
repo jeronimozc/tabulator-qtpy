@@ -8,6 +8,7 @@
         "dialog_title_box.py",
         "environment_page.py",
         "keyboard_shortcuts_dialog.py",
+        "keyboard_shortcuts_page.py",
         "license_page.py",
         "main.py",
         "main_window.py",
