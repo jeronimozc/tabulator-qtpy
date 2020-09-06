@@ -24,6 +24,7 @@ from PySide2.QtWidgets import QAction, QApplication, QMainWindow
 
 from about_dialog import AboutDialog
 from colophon_dialog import ColophonDialog
+from keyboard_shortcuts_dialog import KeyboardShortcutsDialog
 from preferences_dialog import PreferencesDialog
 
 import resources
@@ -296,4 +297,7 @@ class MainWindow(QMainWindow):
         '''
         Displays the Keyboard Shortcuts dialog.
         '''
-        pass
+        keyboardShortcutsDialog = KeyboardShortcutsDialog(self)
+        keyboardShortcutsDialog.setWindowTitle('Keyboard Shortcuts')
+        keyboardShortcutsDialog.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
+        keyboardShortcutsDialog.show()
