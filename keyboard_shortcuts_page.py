@@ -25,7 +25,7 @@ from PySide2.QtWidgets import QAction, QApplication, QMainWindow, QTableWidget, 
 
 class KeyboardShortcutsPage(QWidget):
 
-    def __init__(self, parent=None):
+    def __init__(self, mainWindow, parent=None):
         """
         Initializes the KeyboardShortcutsPage class.
         """
@@ -34,8 +34,7 @@ class KeyboardShortcutsPage(QWidget):
         listHHeaderLabels = ['Name', 'Shortcut', 'Description']
 
         listShortcutActionItems = []
-
-        listActionItems = self.parentWidget().parentWidget().findChildren(QAction)
+        listActionItems = mainWindow.findChildren(QAction)
         for actionItem in listActionItems:
             if not actionItem.shortcut().isEmpty():
                 listShortcutActionItems.append(actionItem)

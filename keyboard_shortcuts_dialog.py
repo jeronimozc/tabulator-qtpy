@@ -47,7 +47,7 @@ class KeyboardShortcutsDialog(QDialog):
 
         # Main layout
         layout = QVBoxLayout()
-        layout.addWidget(KeyboardShortcutsPage(self), 1)
+        layout.addWidget(KeyboardShortcutsPage(self.parentWidget()), 1)
         layout.addWidget(buttonBox)
 
         self.setLayout(layout)
