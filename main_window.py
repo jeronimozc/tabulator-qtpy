@@ -92,6 +92,13 @@ class MainWindow(QMainWindow):
 
         self.updateActionFullScreen()
 
+        # Actions: Help
+        self.actionKeyboardShortcuts = QAction('Keyboard Shortcuts', self)
+        self.actionKeyboardShortcuts.setIcon(QIcon.fromTheme('help-keyboard-shortcuts', QIcon(':/icons/actions/16/help-keyboard-shortcuts.svg')))
+        self.actionKeyboardShortcuts.setStatusTip('List of all keyboard shortcuts')
+        self.actionKeyboardShortcuts.setToolTip('List of all keyboard shortcuts')
+        self.actionKeyboardShortcuts.triggered.connect(self.onActionKeyboardShortcutsTriggered)
+
 
     def updateActionFullScreen(self):
         """
@@ -140,6 +147,7 @@ class MainWindow(QMainWindow):
 
         # Menu: Help
         menuHelp = self.menuBar().addMenu('Help')
+        menuHelp.addAction(self.actionKeyboardShortcuts)
 
 
     def createToolBars(self):
@@ -282,3 +290,10 @@ class MainWindow(QMainWindow):
             self.setWindowState(self.windowState() & ~Qt.WindowFullScreen)
 
         self.updateActionFullScreen()
+
+
+    def onActionKeyboardShortcutsTriggered(self):
+        '''
+        Displays the Keyboard Shortcuts dialog.
+        '''
+        pass
