@@ -26,11 +26,15 @@ from about_dialog import AboutDialog
 from colophon_dialog import ColophonDialog
 from keyboard_shortcuts_dialog import KeyboardShortcutsDialog
 from preferences_dialog import PreferencesDialog
+from settings import Settings
 
 import resources
 
 
 class MainWindow(QMainWindow):
+
+    settings = Settings()
+
 
     def __init__(self):
         """
