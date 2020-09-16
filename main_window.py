@@ -191,18 +191,21 @@ class MainWindow(QMainWindow):
         """
         settings = QSettings()
 
-        # Read user preferences
-        geometryWindowRestore = self.valueToBool(settings.value('Settings/geometryWindowRestore', True))
+        # Application: Appearance
+        self.settings.restoreWindowGeometry = self.valueToBool(settings.value('Settings/restoreWindowGeometry', True))
+
+        # Window properties
+        mainWindowGeometry = settings.value('MainWindow/geometry', QByteArray())
+        mainWindowState = settings.value('MainWindow/state', QByteArray())
 
         # Set window properties
-        geometry = settings.value('MainWindow/geometry', QByteArray())
-        if geometryWindowRestore and geometry:
-            self.restoreGeometry(geometry)
+        if self.settings.restoreWindowGeometry and mainWindowGeometry:
+            self.restoreGeometry(mainWindowGeometry)
         else:
             availableGeometry = QRect(QApplication.desktop().availableGeometry(self))
             self.resize(availableGeometry.width() / 2, availableGeometry.height() / 2);
             self.move((availableGeometry.width() - self.width()) / 2, (availableGeometry.height() - self.height()) / 2);
-        self.restoreState(settings.value('MainWindow/state', QByteArray()))
+        self.restoreState(mainWindowState)
 
 
     def writeSettings(self):
@@ -211,12 +214,11 @@ class MainWindow(QMainWindow):
         """
         settings = QSettings()
 
-        # Read user preferences
-        geometryWindowRestore = self.valueToBool(settings.value('Settings/geometryWindowRestore', True))
+        # Application: Appearance
+        settings.setValue('Settings/restoreWindowGeometry', self.settings.restoreWindowGeometry)
 
-        # Store window properties
-        if geometryWindowRestore:
-            settings.setValue('MainWindow/geometry', self.saveGeometry())
+        # Window properties
+        settings.setValue('MainWindow/geometry', self.saveGeometry())
         settings.setValue('MainWindow/state', self.saveState())
 
 

@@ -20,6 +20,10 @@
 
 class Settings():
 
+    # Application: Appearance
+    restoreWindowGeometry = True
+
+
     def __init__(self):
         """
         Initializes the Settings class.
