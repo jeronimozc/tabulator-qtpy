@@ -22,6 +22,7 @@ class Settings():
 
     # Application: Appearance
     restoreWindowGeometry = True
+    restoreDialogGeometry = True
 
 
     def __init__(self):

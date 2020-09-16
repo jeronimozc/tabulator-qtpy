@@ -193,18 +193,20 @@ class MainWindow(QMainWindow):
 
         # Application: Appearance
         self.settings.restoreWindowGeometry = self.valueToBool(settings.value('Settings/restoreWindowGeometry', True))
+        self.settings.restoreDialogGeometry = self.valueToBool(settings.value('Settings/restoreDialogGeometry', True))
 
-        # Window properties
+        # Window and dialog properties
         mainWindowGeometry = settings.value('MainWindow/geometry', QByteArray())
         mainWindowState = settings.value('MainWindow/state', QByteArray())
+        self.aboutDialogGeometry = settings.value('AboutDialog/geometry', QByteArray())
 
         # Set window properties
         if self.settings.restoreWindowGeometry and mainWindowGeometry:
             self.restoreGeometry(mainWindowGeometry)
         else:
             availableGeometry = QRect(QApplication.desktop().availableGeometry(self))
-            self.resize(availableGeometry.width() / 2, availableGeometry.height() / 2);
-            self.move((availableGeometry.width() - self.width()) / 2, (availableGeometry.height() - self.height()) / 2);
+            self.resize(availableGeometry.width() / 2, availableGeometry.height() / 2)
+            self.move((availableGeometry.width() - self.width()) / 2, (availableGeometry.height() - self.height()) / 2)
         self.restoreState(mainWindowState)
 
 
@@ -216,10 +218,12 @@ class MainWindow(QMainWindow):
 
         # Application: Appearance
         settings.setValue('Settings/restoreWindowGeometry', self.settings.restoreWindowGeometry)
+        settings.setValue('Settings/restoreDialogGeometry', self.settings.restoreDialogGeometry)
 
-        # Window properties
+        # Window and dialog properties
         settings.setValue('MainWindow/geometry', self.saveGeometry())
         settings.setValue('MainWindow/state', self.saveState())
+        settings.setValue('AboutDialog/geometry', self.aboutDialogGeometry)
 
 
     @staticmethod
@@ -255,10 +259,15 @@ class MainWindow(QMainWindow):
         """
         Displays the About dialog.
         """
+        geometry = self.aboutDialogGeometry if self.settings.restoreDialogGeometry else QByteArray()
+
         aboutDialog = AboutDialog(self)
         aboutDialog.setWindowTitle(f'About {QApplication.applicationName()}')
         aboutDialog.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
+        aboutDialog.setWindowGeometry(geometry)
         aboutDialog.exec_()
+
+        self.aboutDialogGeometry = aboutDialog.windowGeometry()
 
 
     def onActionColophonTriggered(self):
