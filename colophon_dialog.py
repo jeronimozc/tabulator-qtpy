@@ -18,11 +18,11 @@
 # along with pyTabulator.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from PySide2.QtCore import QByteArray, QRect, QSettings
+from PySide2.QtCore import QByteArray, QRect
 from PySide2.QtWidgets import QApplication, QDialog, QDialogButtonBox, QTabWidget, QVBoxLayout
 
-from dialog_title_box import DialogTitleBox
 from about_page import AboutPage
+from dialog_title_box import DialogTitleBox
 from environment_page import EnvironmentPage
 from license_page import LicensePage
 from authors_page import AuthorsPage
@@ -36,16 +36,6 @@ class ColophonDialog(QDialog):
         Initializes the ColophonDialog class.
         """
         super(ColophonDialog, self).__init__(parent)
-
-        self.setupUI()
-
-        self.readSettings()
-
-
-    def setupUI(self):
-        """
-        Sets up the user interface.
-        """
 
         tabBox = QTabWidget()
         tabBox.addTab(AboutPage(), 'About')
@@ -66,59 +56,20 @@ class ColophonDialog(QDialog):
         self.setLayout(layout)
 
 
-    def readSettings(self):
+    def windowGeometry(self):
         """
-        Restores user preferences and other dialog properties.
+        Returns the geometry of the widget.
         """
-        settings = QSettings()
+        return self.saveGeometry()
 
-        # Read user preferences
-        geometryDialogRestore = self.valueToBool(settings.value('Settings/geometryDialogRestore', True))
 
-        # Set dialog properties
-        geometry = settings.value('ColophonDialog/geometry', QByteArray())
-        if geometryDialogRestore and geometry:
+    def setWindowGeometry(self, geometry):
+        """
+        Sets the geometry of the widget.
+        """
+        if geometry:
             self.restoreGeometry(geometry)
         else:
             availableGeometry = QRect(QApplication.desktop().availableGeometry(self))
-            self.resize(availableGeometry.width() / 3, availableGeometry.height() / 3);
-            self.move((availableGeometry.width() - self.width()) / 2, (availableGeometry.height() - self.height()) / 2);
-
-
-    def writeSettings(self):
-        """
-        Saves user preferences and other dialog properties.
-        """
-        settings = QSettings()
-
-        # Read user preferences
-        geometryDialogRestore = self.valueToBool(settings.value('Settings/geometryDialogRestore', True))
-
-        # Store dialog properties
-        if geometryDialogRestore:
-            settings.setValue('ColophonDialog/geometry', self.saveGeometry())
-
-
-    @staticmethod
-    def valueToBool(value):
-        """
-        Converts a specified value to an equivalent Boolean value.
-
-        Args:
-            value (bool): The specified value.
-
-        Returns:
-            bool: The equivalent Boolean value.
-        """
-        return value.lower() == 'true' if isinstance(value, str) else bool(value)
-
-
-    def closeEvent(self, event):
-        """
-        Processes the close event.
-
-        Args:
-            event (QCloseEvent): The close event.
-        """
-        self.writeSettings()
-        event.accept()
+            self.resize(availableGeometry.width() / 3, availableGeometry.height() / 3)
+            self.move((availableGeometry.width() - self.width()) / 2, (availableGeometry.height() - self.height()) / 2)
