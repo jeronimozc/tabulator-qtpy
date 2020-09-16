@@ -200,6 +200,7 @@ class MainWindow(QMainWindow):
         mainWindowState = settings.value('MainWindow/state', QByteArray())
         self.aboutDialogGeometry = settings.value('AboutDialog/geometry', QByteArray())
         self.colophonDialogGeometry = settings.value('ColophonDialog/geometry', QByteArray())
+        self.keyboardShortcutsDialogGeometry = settings.value('KeyboardShortcutsDialog/geometry', QByteArray())
 
         # Set window properties
         if self.settings.restoreWindowGeometry and mainWindowGeometry:
@@ -226,6 +227,7 @@ class MainWindow(QMainWindow):
         settings.setValue('MainWindow/state', self.saveState())
         settings.setValue('AboutDialog/geometry', self.aboutDialogGeometry)
         settings.setValue('ColophonDialog/geometry', self.colophonDialogGeometry)
+        settings.setValue('KeyboardShortcutsDialog/geometry', self.keyboardShortcutsDialogGeometry)
 
 
     @staticmethod
@@ -316,10 +318,21 @@ class MainWindow(QMainWindow):
 
 
     def onActionKeyboardShortcutsTriggered(self):
-        '''
+        """
         Displays the Keyboard Shortcuts dialog.
-        '''
-        keyboardShortcutsDialog = KeyboardShortcutsDialog(self)
-        keyboardShortcutsDialog.setWindowTitle('Keyboard Shortcuts')
-        keyboardShortcutsDialog.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
-        keyboardShortcutsDialog.show()
+        """
+        geometry = self.keyboardShortcutsDialogGeometry if self.settings.restoreDialogGeometry else QByteArray()
+
+        self.keyboardShortcutsDialog = KeyboardShortcutsDialog(self)
+        self.keyboardShortcutsDialog.setWindowTitle('Keyboard Shortcuts')
+        self.keyboardShortcutsDialog.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
+        self.keyboardShortcutsDialog.setWindowGeometry(geometry)
+        self.keyboardShortcutsDialog.finished.connect(self.onDialogKeyboardShortcutsFinished)
+        self.keyboardShortcutsDialog.show()
+
+
+    def onDialogKeyboardShortcutsFinished(self):
+        """
+        Keyboard Shortcuts dialog was closed.
+        """
+        self.keyboardShortcutsDialogGeometry = self.keyboardShortcutsDialog.windowGeometry()
