@@ -19,9 +19,10 @@
 #
 
 from PySide2.QtCore import QByteArray, QRect
-from PySide2.QtWidgets import (QApplication, QCheckBox, QDialog, QDialogButtonBox, QGroupBox, QHBoxLayout, QLabel,
+from PySide2.QtWidgets import (QApplication, QDialog, QDialogButtonBox, QHBoxLayout,
                                QListWidget, QStackedWidget, QVBoxLayout, QWidget)
 
+from application_settings import ApplicationSettings
 from settings import Settings
 
 
@@ -37,16 +38,15 @@ class PreferencesDialog(QDialog):
         super(PreferencesDialog, self).__init__(parent)
 
         # Settings box
-        self.stackApplication = QWidget()
-
-        self.stackApplicationPage()
+        self.applicationSettings = ApplicationSettings(self)
+        self.applicationSettings.settingChanged.connect(self.onSettingsChanged)
 
         stackedBox = QStackedWidget()
-        stackedBox.addWidget(self.stackApplication)
+        stackedBox.addWidget(self.applicationSettings)
         stackedBox.setCurrentIndex(0)
 
         listBox = QListWidget()
-        listBox.addItem('Application')
+        listBox.addItem(self.applicationSettings.title())
         listBox.setCurrentRow(stackedBox.currentIndex())
         listBox.currentRowChanged.connect(stackedBox.setCurrentIndex)
 
@@ -70,35 +70,6 @@ class PreferencesDialog(QDialog):
         self.setLayout(layout)
 
         self.updateSettings(self.m_settings)
-
-
-    def stackApplicationPage(self):
-        """
-        Displays the application settings page.
-        """
-        label = QLabel('<strong style="font-size:large">Application</strong>')
-
-        # Geometries
-        self.checkboxGeometryWindowRestore = QCheckBox('Save and restore window geometry', self)
-        self.checkboxGeometryWindowRestore.stateChanged.connect(self.onSettingsChanged)
-
-        self.checkboxGeometryDialogRestore = QCheckBox('Save and restore dialog geometry', self)
-        self.checkboxGeometryDialogRestore.stateChanged.connect(self.onSettingsChanged)
-
-        geometryLayout = QVBoxLayout()
-        geometryLayout.addWidget(self.checkboxGeometryWindowRestore)
-        geometryLayout.addWidget(self.checkboxGeometryDialogRestore)
-
-        geometryGroup = QGroupBox('Geometries')
-        geometryGroup.setLayout(geometryLayout)
-
-        # Layout
-        layout = QVBoxLayout()
-        layout.addWidget(label)
-        layout.addWidget(geometryGroup)
-        layout.addStretch()
-
-        self.stackApplication.setLayout(layout)
 
 
     def onSettingsChanged(self):
@@ -148,8 +119,8 @@ class PreferencesDialog(QDialog):
         """
 
         # Application: Appearance
-        self.checkboxGeometryWindowRestore.setChecked(settings.restoreWindowGeometry)
-        self.checkboxGeometryDialogRestore.setChecked(settings.restoreDialogGeometry)
+        self.applicationSettings.setRestoreWindowGeometry(settings.restoreWindowGeometry)
+        self.applicationSettings.setRestoreDialogGeometry(settings.restoreDialogGeometry)
 
 
     def saveSettings(self):
@@ -158,8 +129,8 @@ class PreferencesDialog(QDialog):
         """
 
         # Application: Appearance
-        self.m_settings.restoreWindowGeometry = self.checkboxGeometryWindowRestore.isChecked()
-        self.m_settings.restoreDialogGeometry = self.checkboxGeometryDialogRestore.isChecked()
+        self.m_settings.restoreWindowGeometry = self.applicationSettings.restoreWindowGeometry()
+        self.m_settings.restoreDialogGeometry = self.applicationSettings.restoreDialogGeometry()
 
         self.buttonApply.setEnabled(False)
 
