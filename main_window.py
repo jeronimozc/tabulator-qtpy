@@ -33,7 +33,7 @@ import resources
 
 class MainWindow(QMainWindow):
 
-    settings = Settings()
+    m_settings = Settings()
 
 
     def __init__(self):
@@ -192,8 +192,8 @@ class MainWindow(QMainWindow):
         settings = QSettings()
 
         # Application: Appearance
-        self.settings.restoreWindowGeometry = self.valueToBool(settings.value('Settings/restoreWindowGeometry', True))
-        self.settings.restoreDialogGeometry = self.valueToBool(settings.value('Settings/restoreDialogGeometry', True))
+        self.m_settings.restoreWindowGeometry = self.valueToBool(settings.value('Settings/restoreWindowGeometry', True))
+        self.m_settings.restoreDialogGeometry = self.valueToBool(settings.value('Settings/restoreDialogGeometry', True))
 
         # Window and dialog properties
         mainWindowGeometry = settings.value('MainWindow/geometry', QByteArray())
@@ -204,7 +204,7 @@ class MainWindow(QMainWindow):
         self.preferencesDialogGeometry = settings.value('PreferencesDialog/geometry', QByteArray())
 
         # Set window properties
-        if self.settings.restoreWindowGeometry and mainWindowGeometry:
+        if self.m_settings.restoreWindowGeometry and mainWindowGeometry:
             self.restoreGeometry(mainWindowGeometry)
         else:
             availableGeometry = QRect(QApplication.desktop().availableGeometry(self))
@@ -220,8 +220,8 @@ class MainWindow(QMainWindow):
         settings = QSettings()
 
         # Application: Appearance
-        settings.setValue('Settings/restoreWindowGeometry', self.settings.restoreWindowGeometry)
-        settings.setValue('Settings/restoreDialogGeometry', self.settings.restoreDialogGeometry)
+        settings.setValue('Settings/restoreWindowGeometry', self.m_settings.restoreWindowGeometry)
+        settings.setValue('Settings/restoreDialogGeometry', self.m_settings.restoreDialogGeometry)
 
         # Window and dialog properties
         settings.setValue('MainWindow/geometry', self.saveGeometry())
@@ -265,7 +265,7 @@ class MainWindow(QMainWindow):
         """
         Displays the About dialog.
         """
-        geometry = self.aboutDialogGeometry if self.settings.restoreDialogGeometry else QByteArray()
+        geometry = self.aboutDialogGeometry if self.m_settings.restoreDialogGeometry else QByteArray()
 
         aboutDialog = AboutDialog(self)
         aboutDialog.setWindowTitle(f'About {QApplication.applicationName()}')
@@ -280,7 +280,7 @@ class MainWindow(QMainWindow):
         """
         Displays the Colophon dialog.
         """
-        geometry = self.colophonDialogGeometry if self.settings.restoreDialogGeometry else QByteArray()
+        geometry = self.colophonDialogGeometry if self.m_settings.restoreDialogGeometry else QByteArray()
 
         colophonDialog = ColophonDialog(self)
         colophonDialog.setWindowTitle('Colophon')
@@ -295,14 +295,16 @@ class MainWindow(QMainWindow):
         """
         Displays the Preferences dialog.
         """
-        geometry = self.preferencesDialogGeometry if self.settings.restoreDialogGeometry else QByteArray()
+        geometry = self.preferencesDialogGeometry if self.m_settings.restoreDialogGeometry else QByteArray()
 
         preferencesDialog = PreferencesDialog(self)
         preferencesDialog.setWindowTitle('Preferences')
         preferencesDialog.setWindowGeometry(geometry)
+        preferencesDialog.setSettings(self.m_settings)
         preferencesDialog.exec_()
 
         self.preferencesDialogGeometry = preferencesDialog.windowGeometry()
+        self.m_settings = preferencesDialog.settings()
 
 
     def onActionQuitTriggered(self):
@@ -328,7 +330,7 @@ class MainWindow(QMainWindow):
         """
         Displays the Keyboard Shortcuts dialog.
         """
-        geometry = self.keyboardShortcutsDialogGeometry if self.settings.restoreDialogGeometry else QByteArray()
+        geometry = self.keyboardShortcutsDialogGeometry if self.m_settings.restoreDialogGeometry else QByteArray()
 
         self.keyboardShortcutsDialog = KeyboardShortcutsDialog(self)
         self.keyboardShortcutsDialog.setWindowTitle('Keyboard Shortcuts')
