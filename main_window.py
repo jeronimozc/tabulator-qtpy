@@ -201,6 +201,7 @@ class MainWindow(QMainWindow):
         self.aboutDialogGeometry = settings.value('AboutDialog/geometry', QByteArray())
         self.colophonDialogGeometry = settings.value('ColophonDialog/geometry', QByteArray())
         self.keyboardShortcutsDialogGeometry = settings.value('KeyboardShortcutsDialog/geometry', QByteArray())
+        self.preferencesDialogGeometry = settings.value('PreferencesDialog/geometry', QByteArray())
 
         # Set window properties
         if self.settings.restoreWindowGeometry and mainWindowGeometry:
@@ -228,6 +229,7 @@ class MainWindow(QMainWindow):
         settings.setValue('AboutDialog/geometry', self.aboutDialogGeometry)
         settings.setValue('ColophonDialog/geometry', self.colophonDialogGeometry)
         settings.setValue('KeyboardShortcutsDialog/geometry', self.keyboardShortcutsDialogGeometry)
+        settings.setValue('PreferencesDialog/geometry', self.preferencesDialogGeometry)
 
 
     @staticmethod
@@ -293,9 +295,14 @@ class MainWindow(QMainWindow):
         """
         Displays the Preferences dialog.
         """
+        geometry = self.preferencesDialogGeometry if self.settings.restoreDialogGeometry else QByteArray()
+
         preferencesDialog = PreferencesDialog(self)
         preferencesDialog.setWindowTitle('Preferences')
+        preferencesDialog.setWindowGeometry(geometry)
         preferencesDialog.exec_()
+
+        self.preferencesDialogGeometry = preferencesDialog.windowGeometry()
 
 
     def onActionQuitTriggered(self):
