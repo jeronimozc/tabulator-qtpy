@@ -21,13 +21,13 @@
 from PySide2.QtWidgets import QFrame, QTextBrowser, QVBoxLayout, QWidget
 
 
-class AuthorsPage(QWidget):
+class ColophonAuthorsWidget(QWidget):
 
     def __init__(self, parent=None):
         """
-        Initializes the AuthorsPage class.
+        Initializes the ColophonAuthorsWidget class.
         """
-        super(AuthorsPage, self).__init__(parent)
+        super(ColophonAuthorsWidget, self).__init__(parent)
 
         textBox = QTextBrowser()
         textBox.setFrameStyle(QFrame.NoFrame)
@@ -43,3 +43,10 @@ class AuthorsPage(QWidget):
         layout.addWidget(textBox, 1)
 
         self.setLayout(layout)
+
+
+    def title(self):
+        """
+        Returns title of the widget.
+        """
+        return 'Authors'
