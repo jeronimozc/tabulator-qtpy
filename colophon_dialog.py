@@ -21,7 +21,7 @@
 from PySide2.QtCore import QByteArray, QRect
 from PySide2.QtWidgets import QApplication, QDialog, QDialogButtonBox, QTabWidget, QVBoxLayout
 
-from about_page import AboutPage
+from colophon_about_widget import ColophonAboutWidget
 from dialog_title_box import DialogTitleBox
 from environment_page import EnvironmentPage
 from license_page import LicensePage
@@ -37,13 +37,17 @@ class ColophonDialog(QDialog):
         """
         super(ColophonDialog, self).__init__(parent)
 
+        # Tab box
+        about = ColophonAboutWidget()
+
         tabBox = QTabWidget()
-        tabBox.addTab(AboutPage(), 'About')
+        tabBox.addTab(about, about.title())
         tabBox.addTab(EnvironmentPage(), 'Environment')
         tabBox.addTab(LicensePage(), 'License')
         tabBox.addTab(AuthorsPage(), 'Authors')
         tabBox.addTab(CreditsPage(), 'Credits')
 
+        # Button box
         buttonBox = QDialogButtonBox(QDialogButtonBox.Close)
         buttonBox.rejected.connect(self.close)
 

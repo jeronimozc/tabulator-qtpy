@@ -21,7 +21,7 @@
 from PySide2.QtCore import QByteArray, QRect
 from PySide2.QtWidgets import QApplication, QDialog, QDialogButtonBox, QVBoxLayout
 
-from about_page import AboutPage
+from colophon_about_widget import ColophonAboutWidget
 from dialog_title_box import DialogTitleBox
 
 
@@ -33,13 +33,14 @@ class AboutDialog(QDialog):
         """
         super(AboutDialog, self).__init__(parent)
 
+        # Button box
         buttonBox = QDialogButtonBox(QDialogButtonBox.Close)
         buttonBox.rejected.connect(self.close)
 
         # Main layout
         layout = QVBoxLayout()
         layout.addWidget(DialogTitleBox())
-        layout.addWidget(AboutPage(), 1)
+        layout.addWidget(ColophonAboutWidget(), 1)
         layout.addWidget(buttonBox)
 
         self.setLayout(layout)
