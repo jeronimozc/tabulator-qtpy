@@ -22,7 +22,7 @@ from PySide2.QtCore import QByteArray, QRect
 from PySide2.QtWidgets import (QApplication, QDialog, QDialogButtonBox, QHBoxLayout,
                                QListWidget, QStackedWidget, QVBoxLayout, QWidget)
 
-from application_settings import ApplicationSettings
+from preferences_application_widget import PreferencesApplicationWidget
 from settings import Settings
 
 
@@ -38,8 +38,8 @@ class PreferencesDialog(QDialog):
         super(PreferencesDialog, self).__init__(parent)
 
         # Settings box
-        self.applicationSettings = ApplicationSettings(self)
-        self.applicationSettings.settingChanged.connect(self.onSettingsChanged)
+        self.applicationSettings = PreferencesApplicationWidget(self)
+        self.applicationSettings.settingChanged.connect(self.onSettingChanged)
 
         stackedBox = QStackedWidget()
         stackedBox.addWidget(self.applicationSettings)
@@ -72,9 +72,9 @@ class PreferencesDialog(QDialog):
         self.updateSettings(self.m_settings)
 
 
-    def onSettingsChanged(self):
+    def onSettingChanged(self):
         """
-        Enables the apply button if the settings have been changed.
+        Enables the apply button if a setting has been changed.
         """
         self.buttonApply.setEnabled(True)
 

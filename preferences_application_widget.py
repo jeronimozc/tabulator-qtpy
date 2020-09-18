@@ -22,16 +22,16 @@ from PySide2.QtCore import Signal
 from PySide2.QtWidgets import QCheckBox, QGroupBox, QLabel, QVBoxLayout, QWidget
 
 
-class ApplicationSettings(QWidget):
+class PreferencesApplicationWidget(QWidget):
 
     settingChanged = Signal()
 
 
     def __init__(self, parent=None):
         """
-        Initializes the ApplicationSettings class.
+        Initializes the PreferencesApplicationWidget class.
         """
-        super(ApplicationSettings, self).__init__(parent)
+        super(PreferencesApplicationWidget, self).__init__(parent)
 
         label = QLabel('<strong style="font-size:large;">Application</strong>')
 
