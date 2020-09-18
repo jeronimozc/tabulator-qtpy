@@ -25,8 +25,8 @@ from colophon_about_widget import ColophonAboutWidget
 from colophon_authors_widget import ColophonAuthorsWidget
 from colophon_credits_widget import ColophonCreditsWidget
 from colophon_environment_widget import ColophonEnvironmentWidget
+from colophon_license_widget import ColophonLicenseWidget
 from dialog_title_box import DialogTitleBox
-from license_page import LicensePage
 
 
 class ColophonDialog(QDialog):
@@ -42,11 +42,12 @@ class ColophonDialog(QDialog):
         authors = ColophonAuthorsWidget()
         credits = ColophonCreditsWidget()
         environment = ColophonEnvironmentWidget()
+        license = ColophonLicenseWidget()
 
         tabBox = QTabWidget()
         tabBox.addTab(about, about.title())
         tabBox.addTab(environment, environment.title())
-        tabBox.addTab(LicensePage(), 'License')
+        tabBox.addTab(license, license.title())
         tabBox.addTab(authors, authors.title())
         tabBox.addTab(credits, credits.title())
 

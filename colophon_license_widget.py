@@ -21,13 +21,13 @@
 from PySide2.QtWidgets import QApplication, QFrame, QTextBrowser, QVBoxLayout, QWidget
 
 
-class LicensePage(QWidget):
+class ColophonLicenseWidget(QWidget):
 
     def __init__(self, parent=None):
         """
-        Initializes the LicensePage class.
+        Initializes the ColophonLicenseWidget class.
         """
-        super(LicensePage, self).__init__(parent)
+        super(ColophonLicenseWidget, self).__init__(parent)
 
         textBox = QTextBrowser()
         textBox.setFrameStyle(QFrame.NoFrame)
@@ -49,3 +49,10 @@ class LicensePage(QWidget):
         layout.addWidget(textBox, 1)
 
         self.setLayout(layout)
+
+
+    def title(self):
+        """
+        Returns title of the widget.
+        """
+        return 'License'
