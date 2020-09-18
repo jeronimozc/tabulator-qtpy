@@ -21,7 +21,7 @@
 from PySide2.QtCore import QByteArray, QRect
 from PySide2.QtWidgets import QApplication, QDialog, QDialogButtonBox, QVBoxLayout
 
-from keyboard_shortcuts_page import KeyboardShortcutsPage
+from keyboard_shortcuts_widget import KeyboardShortcutsWidget
 
 
 class KeyboardShortcutsDialog(QDialog):
@@ -32,12 +32,13 @@ class KeyboardShortcutsDialog(QDialog):
         """
         super(KeyboardShortcutsDialog, self).__init__(parent)
 
+        # Button box
         buttonBox = QDialogButtonBox(QDialogButtonBox.Close)
         buttonBox.rejected.connect(self.close)
 
         # Main layout
         layout = QVBoxLayout()
-        layout.addWidget(KeyboardShortcutsPage(self.parentWidget()), 1)
+        layout.addWidget(KeyboardShortcutsWidget(self.parentWidget()), 1)
         layout.addWidget(buttonBox)
 
         self.setLayout(layout)

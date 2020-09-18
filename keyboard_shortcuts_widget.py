@@ -23,13 +23,13 @@ from PySide2.QtGui import QKeySequence
 from PySide2.QtWidgets import QAbstractItemView, QAction, QApplication, QMainWindow, QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget
 
 
-class KeyboardShortcutsPage(QWidget):
+class KeyboardShortcutsWidget(QWidget):
 
     def __init__(self, mainWindow, parent=None):
         """
-        Initializes the KeyboardShortcutsPage class.
+        Initializes the KeyboardShortcutsWidget class.
         """
-        super(KeyboardShortcutsPage, self).__init__(parent)
+        super(KeyboardShortcutsWidget, self).__init__(parent)
 
         listHHeaderLabels = ['Name', 'Shortcut', 'Description']
 
