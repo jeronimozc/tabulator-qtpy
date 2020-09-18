@@ -21,13 +21,13 @@
 from PySide2.QtWidgets import QFrame, QTextBrowser, QVBoxLayout, QWidget
 
 
-class CreditsPage(QWidget):
+class ColophonCreditsWidget(QWidget):
 
     def __init__(self, parent=None):
         """
-        Initializes the CreditsPage class.
+        Initializes the ColophonCreditsWidget class.
         """
-        super(CreditsPage, self).__init__(parent)
+        super(ColophonCreditsWidget, self).__init__(parent)
 
         textBox = QTextBrowser()
         textBox.setFrameStyle(QFrame.NoFrame)
@@ -45,3 +45,10 @@ class CreditsPage(QWidget):
         layout.addWidget(textBox, 1)
 
         self.setLayout(layout)
+
+
+    def title(self):
+        """
+        Returns title of the widget.
+        """
+        return 'Credits'

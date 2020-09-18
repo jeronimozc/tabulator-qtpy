@@ -23,10 +23,10 @@ from PySide2.QtWidgets import QApplication, QDialog, QDialogButtonBox, QTabWidge
 
 from colophon_about_widget import ColophonAboutWidget
 from colophon_authors_widget import ColophonAuthorsWidget
+from colophon_credits_widget import ColophonCreditsWidget
 from dialog_title_box import DialogTitleBox
 from environment_page import EnvironmentPage
 from license_page import LicensePage
-from credits_page import CreditsPage
 
 
 class ColophonDialog(QDialog):
@@ -40,13 +40,14 @@ class ColophonDialog(QDialog):
         # Tab box
         about = ColophonAboutWidget()
         authors = ColophonAuthorsWidget()
+        credits = ColophonCreditsWidget()
 
         tabBox = QTabWidget()
         tabBox.addTab(about, about.title())
         tabBox.addTab(EnvironmentPage(), 'Environment')
         tabBox.addTab(LicensePage(), 'License')
         tabBox.addTab(authors, authors.title())
-        tabBox.addTab(CreditsPage(), 'Credits')
+        tabBox.addTab(credits, credits.title())
 
         # Button box
         buttonBox = QDialogButtonBox(QDialogButtonBox.Close)
