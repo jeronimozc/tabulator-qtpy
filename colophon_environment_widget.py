@@ -25,13 +25,13 @@ from PySide2.QtCore import QSysInfo
 from PySide2.QtWidgets import QApplication, QFrame, QTextBrowser, QVBoxLayout, QWidget
 
 
-class EnvironmentPage(QWidget):
+class ColophonEnvironmentWidget(QWidget):
 
     def __init__(self, parent=None):
         """
-        Initializes the EnvironmentPage class.
+        Initializes the ColophonEnvironmentWidget class.
         """
-        super(EnvironmentPage, self).__init__(parent)
+        super(ColophonEnvironmentWidget, self).__init__(parent)
 
         pythonVersion = sys.version
         pysideVersion = PySide2.__version__
@@ -61,3 +61,10 @@ class EnvironmentPage(QWidget):
         layout.addWidget(textBox, 1)
 
         self.setLayout(layout)
+
+
+    def title(self):
+        """
+        Returns title of the widget.
+        """
+        return 'Environment'
