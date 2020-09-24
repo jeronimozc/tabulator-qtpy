@@ -21,10 +21,22 @@
 from PySide2.QtCore import Qt
 from PySide2.QtWidgets import QTableWidget
 
+from settings import Settings
+
 
 class DocumentWindow(QTableWidget):
+
+    m_settings = Settings()
+
 
     def __init__(self, parent=None):
         super(DocumentWindow, self).__init__(40, 20, parent)
 
         self.setAttribute(Qt.WA_DeleteOnClose)
+
+
+    def setSettings(self, settings):
+        """
+        Sets the user preferences.
+        """
+        m_settings = settings

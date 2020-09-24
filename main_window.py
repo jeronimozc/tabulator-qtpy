@@ -284,6 +284,7 @@ class MainWindow(QMainWindow):
         Creates a document widget.
         """
         document = DocumentWindow(self)
+        document.setSettings(self.m_settings)
         self.documentArea.addSubWindow(document)
 
         return document
