@@ -89,6 +89,14 @@ class MainWindow(QMainWindow):
         self.actionQuit.setToolTip('Quit the application')
         self.actionQuit.triggered.connect(self.onActionQuitTriggered)
 
+        # Actions: Document
+        self.actionNew = QAction('New', self)
+        self.actionNew.setIcon(QIcon.fromTheme('document-new', QIcon(':/icons/actions/16/document-new.svg')))
+        self.actionNew.setShortcut(QKeySequence.New)
+        self.actionNew.setStatusTip('Create new document')
+        self.actionNew.setToolTip('Create new document')
+        self.actionNew.triggered.connect(self.onActionNewTriggered)
+
         # Actions: View
         self.actionFullScreen = QAction(self)
         self.actionFullScreen.setCheckable(True)
@@ -139,6 +147,7 @@ class MainWindow(QMainWindow):
 
         # Menu: Document
         menuDocument = self.menuBar().addMenu('Document')
+        menuDocument.addAction(self.actionNew)
 
         # Menu: Edit
         menuEdit = self.menuBar().addMenu('Edit')
@@ -163,6 +172,7 @@ class MainWindow(QMainWindow):
         # Toolbar: Document
         toolbarDocument = self.addToolBar('Document')
         toolbarDocument.setObjectName('toolbarDocument')
+        toolbarDocument.addAction(self.actionNew)
 
         # Toolbar: Edit
         toolbarEdit = self.addToolBar('Edit')
@@ -312,6 +322,13 @@ class MainWindow(QMainWindow):
         Fires the Close event to terminate the application.
         """
         self.close()
+
+
+    def onActionNewTriggered(self):
+        """
+        Creates a new document.
+        """
+        pass
 
 
     def onActionFullScreenTriggered(self):
