@@ -20,7 +20,7 @@
 
 from PySide2.QtCore import QByteArray, QRect, QSettings, Qt
 from PySide2.QtGui import QIcon, QKeySequence
-from PySide2.QtWidgets import QAction, QApplication, QMainWindow
+from PySide2.QtWidgets import QAction, QApplication, QMainWindow, QMdiArea
 
 from about_dialog import AboutDialog
 from colophon_dialog import ColophonDialog
@@ -41,6 +41,13 @@ class MainWindow(QMainWindow):
         Initializes the MainWindow class.
         """
         QMainWindow.__init__(self)
+
+        # Central widget
+        self.documentArea = QMdiArea()
+        self.documentArea.setViewMode(QMdiArea.TabbedView)
+        self.documentArea.setTabsMovable(True)
+        self.documentArea.setTabsClosable(True)
+        self.setCentralWidget(self.documentArea)
 
         self.setupUI()
 
