@@ -24,6 +24,7 @@ from PySide2.QtWidgets import QAction, QApplication, QMainWindow, QMdiArea
 
 from about_dialog import AboutDialog
 from colophon_dialog import ColophonDialog
+from document_window import DocumentWindow
 from keyboard_shortcuts_dialog import KeyboardShortcutsDialog
 from preferences_dialog import PreferencesDialog
 from settings import Settings
@@ -278,6 +279,16 @@ class MainWindow(QMainWindow):
             event.ignore()
 
 
+    def createDocument(self):
+        """
+        Creates a document widget.
+        """
+        document = DocumentWindow(self)
+        self.documentArea.addSubWindow(document)
+
+        return document
+
+
     def onActionAboutTriggered(self):
         """
         Displays the About dialog.
@@ -335,7 +346,8 @@ class MainWindow(QMainWindow):
         """
         Creates a new document.
         """
-        pass
+        document = self.createDocument()
+        document.show()
 
 
     def onActionFullScreenTriggered(self):
