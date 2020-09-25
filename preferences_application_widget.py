@@ -67,7 +67,7 @@ class PreferencesApplicationWidget(QWidget):
 
     def title(self):
         """
-        Returns title of the application settings.
+        Returns title of the widget.
         """
         return 'Application'
 
