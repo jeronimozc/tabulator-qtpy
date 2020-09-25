@@ -128,6 +128,10 @@ class PreferencesDialog(QDialog):
         self.applicationSettings.setRestoreWindowGeometry(settings.restoreWindowGeometry)
         self.applicationSettings.setRestoreDialogGeometry(settings.restoreDialogGeometry)
 
+        # Document: Defaults
+        self.documentSettings.setHorizontalHeaderLabels(settings.horizontalHeaderLabels)
+        self.documentSettings.setVerticalHeaderLabels(settings.verticalHeaderLabels)
+
 
     def saveSettings(self):
         """
@@ -137,6 +141,10 @@ class PreferencesDialog(QDialog):
         # Application: Appearance
         self.m_settings.restoreWindowGeometry = self.applicationSettings.restoreWindowGeometry()
         self.m_settings.restoreDialogGeometry = self.applicationSettings.restoreDialogGeometry()
+
+        # Document: Defaults
+        self.m_settings.horizontalHeaderLabels = self.documentSettings.horizontalHeaderLabels()
+        self.m_settings.verticalHeaderLabels = self.documentSettings.verticalHeaderLabels()
 
         self.buttonApply.setEnabled(False)
 

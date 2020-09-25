@@ -210,8 +210,12 @@ class MainWindow(QMainWindow):
         settings = QSettings()
 
         # Application: Appearance
-        self.m_settings.restoreWindowGeometry = self.valueToBool(settings.value('Settings/restoreWindowGeometry', True))
-        self.m_settings.restoreDialogGeometry = self.valueToBool(settings.value('Settings/restoreDialogGeometry', True))
+        self.m_settings.restoreWindowGeometry = self.valueToBool(settings.value('Settings/restoreWindowGeometry', self.m_settings.restoreWindowGeometry))
+        self.m_settings.restoreDialogGeometry = self.valueToBool(settings.value('Settings/restoreDialogGeometry', self.m_settings.restoreDialogGeometry))
+
+        # Document: Defaults
+        self.m_settings.horizontalHeaderLabels = int(settings.value('Settings/horizontalHeaderLabels', self.m_settings.horizontalHeaderLabels))
+        self.m_settings.verticalHeaderLabels = int(settings.value('Settings/verticalHeaderLabels', self.m_settings.verticalHeaderLabels))
 
         # Window and dialog properties
         mainWindowGeometry = settings.value('MainWindow/geometry', QByteArray())
@@ -240,6 +244,10 @@ class MainWindow(QMainWindow):
         # Application: Appearance
         settings.setValue('Settings/restoreWindowGeometry', self.m_settings.restoreWindowGeometry)
         settings.setValue('Settings/restoreDialogGeometry', self.m_settings.restoreDialogGeometry)
+
+        # Document: Defaults
+        settings.setValue('Settings/horizontalHeaderLabels', self.m_settings.horizontalHeaderLabels)
+        settings.setValue('Settings/verticalHeaderLabels', self.m_settings.verticalHeaderLabels)
 
         # Window and dialog properties
         settings.setValue('MainWindow/geometry', self.saveGeometry())

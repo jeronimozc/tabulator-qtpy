@@ -24,6 +24,10 @@ class Settings():
     restoreWindowGeometry = True
     restoreDialogGeometry = True
 
+    # Document: Defaults
+    horizontalHeaderLabels = 0
+    verticalHeaderLabels = 1
+
 
     def __init__(self):
         """

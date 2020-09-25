@@ -19,7 +19,7 @@
 #
 
 from PySide2.QtCore import Signal
-from PySide2.QtWidgets import QLabel, QVBoxLayout, QWidget
+from PySide2.QtWidgets import QButtonGroup, QFormLayout, QGroupBox, QHBoxLayout, QLabel, QRadioButton, QVBoxLayout, QWidget
 
 
 class PreferencesDocumentWidget(QWidget):
@@ -35,9 +35,48 @@ class PreferencesDocumentWidget(QWidget):
 
         label = QLabel('<strong style="font-size:large;">Document</strong>')
 
+        # Header Labels
+        rdbHorizontalHeaderLabelsLetters = QRadioButton('Letters')
+        rdbHorizontalHeaderLabelsLetters.setToolTip('Horizontal header labels as capital letters')
+
+        rdbHorizontalHeaderLabelsNumbers = QRadioButton('Numbers')
+        rdbHorizontalHeaderLabelsNumbers.setToolTip('Horizontal header labels as numbers')
+
+        self.horizontalHeaderLabelsGroup = QButtonGroup(self)
+        self.horizontalHeaderLabelsGroup.addButton(rdbHorizontalHeaderLabelsLetters, 0)
+        self.horizontalHeaderLabelsGroup.addButton(rdbHorizontalHeaderLabelsNumbers, 1)
+        self.horizontalHeaderLabelsGroup.buttonClicked.connect(self.onSettingChanged)
+
+        horizontalHeaderLabelsBox = QHBoxLayout()
+        horizontalHeaderLabelsBox.addWidget(rdbHorizontalHeaderLabelsLetters)
+        horizontalHeaderLabelsBox.addWidget(rdbHorizontalHeaderLabelsNumbers)
+
+        rdbVerticalHeaderLabelsLetters = QRadioButton('Letters')
+        rdbVerticalHeaderLabelsLetters.setToolTip('Vertical header labels as capital letters')
+
+        rdbVerticalHeaderLabelsNumbers = QRadioButton('Numbers')
+        rdbVerticalHeaderLabelsNumbers.setToolTip('Vertical header labels as numbers')
+
+        self.verticalHeaderLabelsGroup = QButtonGroup(self)
+        self.verticalHeaderLabelsGroup.addButton(rdbVerticalHeaderLabelsLetters, 0)
+        self.verticalHeaderLabelsGroup.addButton(rdbVerticalHeaderLabelsNumbers, 1)
+        self.verticalHeaderLabelsGroup.buttonClicked.connect(self.onSettingChanged)
+
+        verticalHeaderLabelsBox = QHBoxLayout()
+        verticalHeaderLabelsBox.addWidget(rdbVerticalHeaderLabelsLetters)
+        verticalHeaderLabelsBox.addWidget(rdbVerticalHeaderLabelsNumbers)
+
+        headerLabelsLayout = QFormLayout()
+        headerLabelsLayout.addRow('Horizontal header', horizontalHeaderLabelsBox)
+        headerLabelsLayout.addRow('Vertical header', verticalHeaderLabelsBox)
+
+        headerLabelsGroup = QGroupBox('Header Labels')
+        headerLabelsGroup.setLayout(headerLabelsLayout)
+
         # Main layout
         layout = QVBoxLayout()
         layout.addWidget(label)
+        layout.addWidget(headerLabelsGroup)
         layout.addStretch()
 
         self.setLayout(layout)
@@ -55,3 +94,41 @@ class PreferencesDocumentWidget(QWidget):
         Returns title of the widget.
         """
         return 'Document'
+
+
+    def horizontalHeaderLabels(self):
+        """
+        Returns type of the horizontal header labels.
+        """
+        return self.horizontalHeaderLabelsGroup.checkedId()
+
+
+    def setHorizontalHeaderLabels(self, id):
+        """
+        Sets type of the horizontal header labels.
+        """
+        if id != self.horizontalHeaderLabelsGroup.checkedId():
+            self.onSettingChanged()
+
+        for button in self.horizontalHeaderLabelsGroup.buttons():
+            if self.horizontalHeaderLabelsGroup.id(button) == id:
+                button.setChecked(True)
+
+
+    def verticalHeaderLabels(self):
+        """
+        Returns type of the vertical header labels.
+        """
+        return self.verticalHeaderLabelsGroup.checkedId()
+
+
+    def setVerticalHeaderLabels(self, id):
+        """
+        Sets type of the vertical header labels.
+        """
+        if id != self.verticalHeaderLabelsGroup.checkedId():
+            self.onSettingChanged()
+
+        for button in self.verticalHeaderLabelsGroup.buttons():
+            if self.verticalHeaderLabelsGroup.id(button) == id:
+                button.setChecked(True)
