@@ -19,7 +19,8 @@
 #
 
 from PySide2.QtCore import Signal
-from PySide2.QtWidgets import QButtonGroup, QFormLayout, QGroupBox, QHBoxLayout, QLabel, QRadioButton, QVBoxLayout, QWidget
+from PySide2.QtWidgets import (QButtonGroup, QFormLayout, QGroupBox, QHBoxLayout,
+                               QLabel, QRadioButton, QSpinBox, QVBoxLayout, QWidget)
 
 
 class PreferencesDocumentWidget(QWidget):
@@ -73,10 +74,29 @@ class PreferencesDocumentWidget(QWidget):
         headerLabelsGroup = QGroupBox('Header Labels')
         headerLabelsGroup.setLayout(headerLabelsLayout)
 
+        # New Document
+        self.spbNewDocumentColumns = QSpinBox(self)
+        self.spbNewDocumentColumns.setRange(1, 100)
+        self.spbNewDocumentColumns.setToolTip('Number of columns of new documents')
+        self.spbNewDocumentColumns.valueChanged.connect(self.onSettingChanged)
+
+        self.spbNewDocumentRows = QSpinBox(self)
+        self.spbNewDocumentRows.setRange(1, 100)
+        self.spbNewDocumentRows.setToolTip('Number of rows of new documents')
+        self.spbNewDocumentRows.valueChanged.connect(self.onSettingChanged)
+
+        newDocumentLayout = QFormLayout()
+        newDocumentLayout.addRow('Number of columns', self.spbNewDocumentColumns)
+        newDocumentLayout.addRow('Number of rows', self.spbNewDocumentRows)
+
+        newDocumentGroup = QGroupBox('New Document')
+        newDocumentGroup.setLayout(newDocumentLayout)
+
         # Main layout
         layout = QVBoxLayout()
         layout.addWidget(label)
         layout.addWidget(headerLabelsGroup)
+        layout.addWidget(newDocumentGroup)
         layout.addStretch()
 
         self.setLayout(layout)
@@ -132,3 +152,31 @@ class PreferencesDocumentWidget(QWidget):
         for button in self.verticalHeaderLabelsGroup.buttons():
             if self.verticalHeaderLabelsGroup.id(button) == id:
                 button.setChecked(True)
+
+
+    def newDocumentColumns(self):
+        """
+        Returns number of columns of new document.
+        """
+        return self.spbNewDocumentColumns.value()
+
+
+    def setNewDocumentColumns(self, number):
+        """
+        Sets number of columns of new document.
+        """
+        self.spbNewDocumentColumns.setValue(number)
+
+
+    def newDocumentRows(self):
+        """
+        Returns number of rows of new document.
+        """
+        return self.spbNewDocumentRows.value()
+
+
+    def setNewDocumentRows(self, number):
+        """
+        Sets number of rows of new document.
+        """
+        self.spbNewDocumentRows.setValue(number)

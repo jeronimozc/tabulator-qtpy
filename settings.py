@@ -27,10 +27,9 @@ class Settings():
     # Document: Defaults
     horizontalHeaderLabels = 0
     verticalHeaderLabels = 1
+    newDocumentColumns = 25
+    newDocumentRows = 50
 
 
     def __init__(self):
-        """
-        Initializes the Settings class.
-        """
         pass

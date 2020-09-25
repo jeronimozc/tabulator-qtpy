@@ -131,6 +131,8 @@ class PreferencesDialog(QDialog):
         # Document: Defaults
         self.documentSettings.setHorizontalHeaderLabels(settings.horizontalHeaderLabels)
         self.documentSettings.setVerticalHeaderLabels(settings.verticalHeaderLabels)
+        self.documentSettings.setNewDocumentColumns(settings.newDocumentColumns)
+        self.documentSettings.setNewDocumentRows(settings.newDocumentRows)
 
 
     def saveSettings(self):
@@ -145,6 +147,8 @@ class PreferencesDialog(QDialog):
         # Document: Defaults
         self.m_settings.horizontalHeaderLabels = self.documentSettings.horizontalHeaderLabels()
         self.m_settings.verticalHeaderLabels = self.documentSettings.verticalHeaderLabels()
+        self.m_settings.newDocumentColumns = self.documentSettings.newDocumentColumns()
+        self.m_settings.newDocumentRows = self.documentSettings.newDocumentRows()
 
         self.buttonApply.setEnabled(False)
 

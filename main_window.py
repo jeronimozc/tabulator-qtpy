@@ -216,6 +216,8 @@ class MainWindow(QMainWindow):
         # Document: Defaults
         self.m_settings.horizontalHeaderLabels = int(settings.value('Settings/horizontalHeaderLabels', self.m_settings.horizontalHeaderLabels))
         self.m_settings.verticalHeaderLabels = int(settings.value('Settings/verticalHeaderLabels', self.m_settings.verticalHeaderLabels))
+        self.m_settings.newDocumentColumns = int(settings.value('Settings/newDocumentColumns', self.m_settings.newDocumentColumns))
+        self.m_settings.newDocumentRows = int(settings.value('Settings/newDocumentRows', self.m_settings.newDocumentRows))
 
         # Window and dialog properties
         mainWindowGeometry = settings.value('MainWindow/geometry', QByteArray())
@@ -248,6 +250,8 @@ class MainWindow(QMainWindow):
         # Document: Defaults
         settings.setValue('Settings/horizontalHeaderLabels', self.m_settings.horizontalHeaderLabels)
         settings.setValue('Settings/verticalHeaderLabels', self.m_settings.verticalHeaderLabels)
+        settings.setValue('Settings/newDocumentColumns', self.m_settings.newDocumentColumns)
+        settings.setValue('Settings/newDocumentRows', self.m_settings.newDocumentRows)
 
         # Window and dialog properties
         settings.setValue('MainWindow/geometry', self.saveGeometry())
