@@ -140,6 +140,7 @@ class DocumentTable(QTableWidget):
         """
         index = self.indexAt(pos)
 
+        # Label
         actionLabelDecimal = QAction('Decimal Number', self)
         actionLabelDecimal.setStatusTip('Change label to decimal number')
         actionLabelDecimal.setToolTip('Change label to decimal number')
@@ -150,12 +151,21 @@ class DocumentTable(QTableWidget):
         actionLabelLetter.setToolTip('Change label to letter')
         actionLabelLetter.triggered.connect( lambda: self.onActionLabelHorizontalTriggered(index.column(), 0) )
 
+        # All labels
+        actionLabelAllDecimal = QAction('Decimal Numbers', self)
+        actionLabelAllDecimal.setStatusTip('Change all labels to decimal numbers')
+        actionLabelAllDecimal.setToolTip('Change all labels to decimal numbers')
+        actionLabelAllDecimal.triggered.connect( lambda: self.onActionLabelAllHorizontalTriggered(1) )
+
+        # Menus
         menuLabel = QMenu('Label', self)
         menuLabel.setIcon(QIcon.fromTheme('tag', QIcon(':/icons/actions/16/tag.svg')))
         menuLabel.setStatusTip('Change label')
         menuLabel.setToolTip('Change label')
         menuLabel.addAction(actionLabelDecimal)
         menuLabel.addAction(actionLabelLetter)
+        menuLabel.addSeparator()
+        menuLabel.addAction(actionLabelAllDecimal)
 
         contextMenu = QMenu(self)
         contextMenu.addMenu(menuLabel)
@@ -167,6 +177,14 @@ class DocumentTable(QTableWidget):
         Updates a specific horizontal header item.
         """
         self.updateHorizontalHeaderItem(column, type)
+
+
+    def onActionLabelAllHorizontalTriggered(self, type):
+        """
+        Updates all horizontal header items.
+        """
+        for column in range(0, self.columnCount()):
+            self.updateHorizontalHeaderItem(column, type)
 
 
     def updateHorizontalHeaderItem(self, column, type):
@@ -185,6 +203,7 @@ class DocumentTable(QTableWidget):
         """
         index = self.indexAt(pos)
 
+        # Label
         actionLabelDecimal = QAction('Decimal Number', self)
         actionLabelDecimal.setStatusTip('Change label to decimal number')
         actionLabelDecimal.setToolTip('Change label to decimal number')
@@ -195,12 +214,21 @@ class DocumentTable(QTableWidget):
         actionLabelLetter.setToolTip('Change label to letter')
         actionLabelLetter.triggered.connect( lambda: self.onActionLabelVerticalTriggered(index.row(), 0) )
 
+        # All labels
+        actionLabelAllDecimal = QAction('Decimal Numbers', self)
+        actionLabelAllDecimal.setStatusTip('Change all labels to decimal numbers')
+        actionLabelAllDecimal.setToolTip('Change all labels to decimal numbers')
+        actionLabelAllDecimal.triggered.connect( lambda: self.onActionLabelAllVerticalTriggered(1) )
+
+        # Menus
         menuLabel = QMenu('Label', self)
         menuLabel.setIcon(QIcon.fromTheme('tag', QIcon(':/icons/actions/16/tag.svg')))
         menuLabel.setStatusTip('Change label')
         menuLabel.setToolTip('Change label')
         menuLabel.addAction(actionLabelDecimal)
         menuLabel.addAction(actionLabelLetter)
+        menuLabel.addSeparator()
+        menuLabel.addAction(actionLabelAllDecimal)
 
         contextMenu = QMenu(self)
         contextMenu.addMenu(menuLabel)
@@ -212,6 +240,14 @@ class DocumentTable(QTableWidget):
         Updates a specific vertical header item.
         """
         self.updateVerticalHeaderItem(row, type)
+
+
+    def onActionLabelAllVerticalTriggered(self, type):
+        """
+        Updates all vertical header items.
+        """
+        for row in range(0, self.rowCount()):
+            self.updateVerticalHeaderItem(row, type)
 
 
     def updateVerticalHeaderItem(self, row, type):
