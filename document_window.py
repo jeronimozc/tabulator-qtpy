@@ -30,13 +30,17 @@ class DocumentWindow(QTableWidget):
 
 
     def __init__(self, parent=None):
-        super(DocumentWindow, self).__init__(40, 20, parent)
+        super(DocumentWindow, self).__init__(parent)
 
         self.setAttribute(Qt.WA_DeleteOnClose)
+
+        # Creates a default document
+        self.setColumnCount(self.m_settings.newDocumentColumns)
+        self.setRowCount(self.m_settings.newDocumentRows)
 
 
     def setSettings(self, settings):
         """
         Sets the user preferences.
         """
-        m_settings = settings
+        self.m_settings = settings
