@@ -19,6 +19,7 @@
 #
 
 from PySide2.QtCore import Qt
+from PySide2.QtGui import QIcon
 from PySide2.QtWidgets import QHeaderView, QMenu, QTableWidget, QTableWidgetItem
 
 from settings import Settings
@@ -137,7 +138,13 @@ class DocumentTable(QTableWidget):
         """
         Creates a context menu for the horizonzal header.
         """
+        menuLabel = QMenu('Label', self)
+        menuLabel.setIcon(QIcon.fromTheme('tag', QIcon(':/icons/actions/16/tag.svg')))
+        menuLabel.setStatusTip('Change label')
+        menuLabel.setToolTip('Change label')
+
         contextMenu = QMenu(self)
+        contextMenu.addMenu(menuLabel)
         contextMenu.exec_(self.mapToGlobal(pos))
 
 
@@ -145,5 +152,11 @@ class DocumentTable(QTableWidget):
         """
         Creates a context menu for the vertical header.
         """
+        menuLabel = QMenu('Label', self)
+        menuLabel.setIcon(QIcon.fromTheme('tag', QIcon(':/icons/actions/16/tag.svg')))
+        menuLabel.setStatusTip('Change label')
+        menuLabel.setToolTip('Change label')
+
         contextMenu = QMenu(self)
+        contextMenu.addMenu(menuLabel)
         contextMenu.exec_(self.mapToGlobal(pos))
