@@ -145,11 +145,17 @@ class DocumentTable(QTableWidget):
         actionLabelDecimal.setToolTip('Change label to decimal number')
         actionLabelDecimal.triggered.connect( lambda: self.onActionLabelHorizontalTriggered(index.column(), 1) )
 
+        actionLabelLetter = QAction('Letter', self)
+        actionLabelLetter.setStatusTip('Change label to letter')
+        actionLabelLetter.setToolTip('Change label to letter')
+        actionLabelLetter.triggered.connect( lambda: self.onActionLabelHorizontalTriggered(index.column(), 0) )
+
         menuLabel = QMenu('Label', self)
         menuLabel.setIcon(QIcon.fromTheme('tag', QIcon(':/icons/actions/16/tag.svg')))
         menuLabel.setStatusTip('Change label')
         menuLabel.setToolTip('Change label')
         menuLabel.addAction(actionLabelDecimal)
+        menuLabel.addAction(actionLabelLetter)
 
         contextMenu = QMenu(self)
         contextMenu.addMenu(menuLabel)
@@ -184,11 +190,17 @@ class DocumentTable(QTableWidget):
         actionLabelDecimal.setToolTip('Change label to decimal number')
         actionLabelDecimal.triggered.connect( lambda: self.onActionLabelVerticalTriggered(index.row(), 1) )
 
+        actionLabelLetter = QAction('Letter', self)
+        actionLabelLetter.setStatusTip('Change label to letter')
+        actionLabelLetter.setToolTip('Change label to letter')
+        actionLabelLetter.triggered.connect( lambda: self.onActionLabelVerticalTriggered(index.row(), 0) )
+
         menuLabel = QMenu('Label', self)
         menuLabel.setIcon(QIcon.fromTheme('tag', QIcon(':/icons/actions/16/tag.svg')))
         menuLabel.setStatusTip('Change label')
         menuLabel.setToolTip('Change label')
         menuLabel.addAction(actionLabelDecimal)
+        menuLabel.addAction(actionLabelLetter)
 
         contextMenu = QMenu(self)
         contextMenu.addMenu(menuLabel)
