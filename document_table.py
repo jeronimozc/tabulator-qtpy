@@ -24,13 +24,13 @@ from PySide2.QtWidgets import QTableWidget
 from settings import Settings
 
 
-class DocumentWindow(QTableWidget):
+class DocumentTable(QTableWidget):
 
     m_settings = Settings()
 
 
     def __init__(self, parent=None):
-        super(DocumentWindow, self).__init__(parent)
+        super(DocumentTable, self).__init__(parent)
 
         self.setAttribute(Qt.WA_DeleteOnClose)
 

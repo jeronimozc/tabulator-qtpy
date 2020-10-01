@@ -8,7 +8,7 @@
         "colophon_environment_widget.py",
         "colophon_license_widget.py",
         "dialog_title_box.py",
-        "document_window.py",
+        "document_table.py",
         "keyboard_shortcuts_dialog.py",
         "keyboard_shortcuts_widget.py",
         "main.py",

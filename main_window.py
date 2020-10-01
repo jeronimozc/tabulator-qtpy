@@ -24,7 +24,7 @@ from PySide2.QtWidgets import QAction, QApplication, QMainWindow, QMdiArea
 
 from about_dialog import AboutDialog
 from colophon_dialog import ColophonDialog
-from document_window import DocumentWindow
+from document_table import DocumentTable
 from keyboard_shortcuts_dialog import KeyboardShortcutsDialog
 from preferences_dialog import PreferencesDialog
 from settings import Settings
@@ -295,7 +295,7 @@ class MainWindow(QMainWindow):
         """
         Creates a document widget.
         """
-        document = DocumentWindow(self)
+        document = DocumentTable(self)
         document.setSettings(self.m_settings)
         self.documentArea.addSubWindow(document)
 
