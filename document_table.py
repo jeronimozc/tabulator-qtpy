@@ -20,7 +20,7 @@
 
 from PySide2.QtCore import Qt
 from PySide2.QtGui import QIcon
-from PySide2.QtWidgets import QHeaderView, QMenu, QTableWidget, QTableWidgetItem
+from PySide2.QtWidgets import QAction, QHeaderView, QMenu, QTableWidget, QTableWidgetItem
 
 from settings import Settings
 
@@ -138,25 +138,75 @@ class DocumentTable(QTableWidget):
         """
         Creates a context menu for the horizonzal header.
         """
+        index = self.indexAt(pos)
+
+        actionLabelDecimal = QAction('Decimal Number', self)
+        actionLabelDecimal.setStatusTip('Change label to decimal number')
+        actionLabelDecimal.setToolTip('Change label to decimal number')
+        actionLabelDecimal.triggered.connect( lambda: self.onActionLabelHorizontalTriggered(index.column(), 1) )
+
         menuLabel = QMenu('Label', self)
         menuLabel.setIcon(QIcon.fromTheme('tag', QIcon(':/icons/actions/16/tag.svg')))
         menuLabel.setStatusTip('Change label')
         menuLabel.setToolTip('Change label')
+        menuLabel.addAction(actionLabelDecimal)
 
         contextMenu = QMenu(self)
         contextMenu.addMenu(menuLabel)
         contextMenu.exec_(self.mapToGlobal(pos))
+
+
+    def onActionLabelHorizontalTriggered(self, column, type):
+        """
+        Updates a specific horizontal header item.
+        """
+        self.updateHorizontalHeaderItem(column, type)
+
+
+    def updateHorizontalHeaderItem(self, column, type):
+        """
+        Updates a horizontal header item.
+        """
+        number = column
+
+        item = self.horizontalHeaderItem(column)
+        item.setText(self.headerItemText(number, type))
 
 
     def contextMenuVerticalHeader(self, pos):
         """
         Creates a context menu for the vertical header.
         """
+        index = self.indexAt(pos)
+
+        actionLabelDecimal = QAction('Decimal Number', self)
+        actionLabelDecimal.setStatusTip('Change label to decimal number')
+        actionLabelDecimal.setToolTip('Change label to decimal number')
+        actionLabelDecimal.triggered.connect( lambda: self.onActionLabelVerticalTriggered(index.row(), 1) )
+
         menuLabel = QMenu('Label', self)
         menuLabel.setIcon(QIcon.fromTheme('tag', QIcon(':/icons/actions/16/tag.svg')))
         menuLabel.setStatusTip('Change label')
         menuLabel.setToolTip('Change label')
+        menuLabel.addAction(actionLabelDecimal)
 
         contextMenu = QMenu(self)
         contextMenu.addMenu(menuLabel)
         contextMenu.exec_(self.mapToGlobal(pos))
+
+
+    def onActionLabelVerticalTriggered(self, row, type):
+        """
+        Updates a specific vertical header item.
+        """
+        self.updateVerticalHeaderItem(row, type)
+
+
+    def updateVerticalHeaderItem(self, row, type):
+        """
+        Updates a vertical header item.
+        """
+        number = row
+
+        item = self.verticalHeaderItem(row)
+        item.setText(self.headerItemText(number, type))
