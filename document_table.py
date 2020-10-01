@@ -43,6 +43,10 @@ class DocumentTable(QTableWidget):
         hHeaderView.setContextMenuPolicy(Qt.CustomContextMenu)
         hHeaderView.customContextMenuRequested.connect(self.contextMenuHorizontalHeader)
 
+        vHeaderView = self.verticalHeader()
+        vHeaderView.setContextMenuPolicy(Qt.CustomContextMenu)
+        vHeaderView.customContextMenuRequested.connect(self.contextMenuVerticalHeader)
+
 
     def setSettings(self, settings):
         """
@@ -54,6 +58,14 @@ class DocumentTable(QTableWidget):
     def contextMenuHorizontalHeader(self, pos):
         """
         Creates a context menu for the horizonzal header.
+        """
+        contextMenu = QMenu(self)
+        contextMenu.exec_(self.mapToGlobal(pos))
+
+
+    def contextMenuVerticalHeader(self, pos):
+        """
+        Creates a context menu for the vertical header.
         """
         contextMenu = QMenu(self)
         contextMenu.exec_(self.mapToGlobal(pos))
