@@ -19,7 +19,7 @@
 #
 
 from PySide2.QtCore import Qt
-from PySide2.QtWidgets import QHeaderView, QMenu, QTableWidget
+from PySide2.QtWidgets import QHeaderView, QMenu, QTableWidget, QTableWidgetItem
 
 from settings import Settings
 
@@ -53,6 +53,84 @@ class DocumentTable(QTableWidget):
         Sets the user preferences.
         """
         self.m_settings = settings
+
+
+    def createDocument(self):
+        """
+        Creates a document.
+        """
+
+        # Creates a new document
+        self.setColumnCount(self.m_settings.newDocumentColumns)
+        self.setRowCount(self.m_settings.newDocumentRows)
+
+        # Set header items
+        self.setHorizontalHeaderItems(self.m_settings.horizontalHeaderLabels)
+        self.setVerticalHeaderItems(self.m_settings.verticalHeaderLabels)
+
+
+    def setHorizontalHeaderItems(self, type):
+        """
+        Sets the horizontal header items.
+        """
+        for column in range(0, self.columnCount()):
+
+            number = column
+
+            item = QTableWidgetItem()
+            item.setTextAlignment(Qt.AlignCenter)
+            item.setText(self.headerItemText(number, type))
+
+            self.setHorizontalHeaderItem(column, item)
+
+
+    def setVerticalHeaderItems(self, type):
+        """
+        Sets the vertical header items.
+        """
+        for row in range(0, self.rowCount()):
+
+            number = row
+
+            item = QTableWidgetItem()
+            item.setTextAlignment(Qt.AlignCenter)
+            item.setText(self.headerItemText(number, type))
+
+            self.setVerticalHeaderItem(row, item)
+
+
+    def headerItemText(self, number, type):
+        """
+        Returns the header item text.
+        """
+        if type == 1:
+            return self.numberToDecimal(number)
+        elif type == 0:
+            return self.numberToLetter(number)
+        else:
+            return ''
+
+
+    def numberToDecimal(self, number):
+        """
+        Returns a string equivalent of the number according to the base 10.
+        """
+        return f'{number + 1}'
+
+
+    def numberToLetter(self, number):
+        """
+        Returns a string equivalent of the number according to the base 26.
+        """
+        chars = ''
+        number += 1
+
+        while number > 0:
+            number -= 1
+            chars = chr(number % 26 + 65) + chars
+            number //= 26
+
+        return chars
 
 
     def contextMenuHorizontalHeader(self, pos):

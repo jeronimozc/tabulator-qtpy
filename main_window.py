@@ -360,6 +360,7 @@ class MainWindow(QMainWindow):
         Creates a new document.
         """
         document = self.createDocument()
+        document.createDocument()
         document.show()
 
 
