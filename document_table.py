@@ -19,7 +19,7 @@
 #
 
 from PySide2.QtCore import Qt
-from PySide2.QtWidgets import QTableWidget
+from PySide2.QtWidgets import QHeaderView, QMenu, QTableWidget
 
 from settings import Settings
 
@@ -38,9 +38,22 @@ class DocumentTable(QTableWidget):
         self.setColumnCount(self.m_settings.newDocumentColumns)
         self.setRowCount(self.m_settings.newDocumentRows)
 
+        # Enable context menus
+        hHeaderView = self.horizontalHeader()
+        hHeaderView.setContextMenuPolicy(Qt.CustomContextMenu)
+        hHeaderView.customContextMenuRequested.connect(self.contextMenuHorizontalHeader)
+
 
     def setSettings(self, settings):
         """
         Sets the user preferences.
         """
         self.m_settings = settings
+
+
+    def contextMenuHorizontalHeader(self, pos):
+        """
+        Creates a context menu for the horizonzal header.
+        """
+        contextMenu = QMenu(self)
+        contextMenu.exec_(self.mapToGlobal(pos))
