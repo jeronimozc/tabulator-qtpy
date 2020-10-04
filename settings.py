@@ -18,18 +18,24 @@
 # along with pyTabulator.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from enum import Enum
+
+
 class Settings():
+
+    class HeaderLabel(Enum):
+        Decimal = 10
+        Letter = 26
 
     # Application: Appearance
     restoreWindowGeometry = True
     restoreDialogGeometry = True
 
     # Document: Defaults
-    horizontalHeaderLabels = 0
-    verticalHeaderLabels = 1
+    horizontalHeaderLabels = HeaderLabel.Letter
+    verticalHeaderLabels = HeaderLabel.Decimal
     newDocumentColumns = 25
     newDocumentRows = 50
-
 
     def __init__(self):
         pass

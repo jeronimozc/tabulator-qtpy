@@ -214,8 +214,8 @@ class MainWindow(QMainWindow):
         self.m_settings.restoreDialogGeometry = self.valueToBool(settings.value('Settings/restoreDialogGeometry', self.m_settings.restoreDialogGeometry))
 
         # Document: Defaults
-        self.m_settings.horizontalHeaderLabels = int(settings.value('Settings/horizontalHeaderLabels', self.m_settings.horizontalHeaderLabels))
-        self.m_settings.verticalHeaderLabels = int(settings.value('Settings/verticalHeaderLabels', self.m_settings.verticalHeaderLabels))
+        self.m_settings.horizontalHeaderLabels = Settings.HeaderLabel(int(settings.value('Settings/horizontalHeaderLabels', self.m_settings.horizontalHeaderLabels.value)))
+        self.m_settings.verticalHeaderLabels = Settings.HeaderLabel(int(settings.value('Settings/verticalHeaderLabels', self.m_settings.verticalHeaderLabels.value)))
         self.m_settings.newDocumentColumns = int(settings.value('Settings/newDocumentColumns', self.m_settings.newDocumentColumns))
         self.m_settings.newDocumentRows = int(settings.value('Settings/newDocumentRows', self.m_settings.newDocumentRows))
 
@@ -248,8 +248,8 @@ class MainWindow(QMainWindow):
         settings.setValue('Settings/restoreDialogGeometry', self.m_settings.restoreDialogGeometry)
 
         # Document: Defaults
-        settings.setValue('Settings/horizontalHeaderLabels', self.m_settings.horizontalHeaderLabels)
-        settings.setValue('Settings/verticalHeaderLabels', self.m_settings.verticalHeaderLabels)
+        settings.setValue('Settings/horizontalHeaderLabels', self.m_settings.horizontalHeaderLabels.value)
+        settings.setValue('Settings/verticalHeaderLabels', self.m_settings.verticalHeaderLabels.value)
         settings.setValue('Settings/newDocumentColumns', self.m_settings.newDocumentColumns)
         settings.setValue('Settings/newDocumentRows', self.m_settings.newDocumentRows)
 

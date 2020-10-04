@@ -104,9 +104,9 @@ class DocumentTable(QTableWidget):
         """
         Returns the header item text.
         """
-        if type == 1:
+        if type == Settings.HeaderLabel.Decimal:
             return self.numberToDecimal(number)
-        elif type == 0:
+        elif type == Settings.HeaderLabel.Letter:
             return self.numberToLetter(number)
         else:
             return ''
@@ -144,23 +144,23 @@ class DocumentTable(QTableWidget):
         actionLabelDecimal = QAction('Decimal Number', self)
         actionLabelDecimal.setStatusTip('Change label to decimal number')
         actionLabelDecimal.setToolTip('Change label to decimal number')
-        actionLabelDecimal.triggered.connect( lambda: self.onActionLabelHorizontalTriggered(index.column(), 1) )
+        actionLabelDecimal.triggered.connect( lambda: self.onActionLabelHorizontalTriggered(index.column(), Settings.HeaderLabel.Decimal) )
 
         actionLabelLetter = QAction('Letter', self)
         actionLabelLetter.setStatusTip('Change label to letter')
         actionLabelLetter.setToolTip('Change label to letter')
-        actionLabelLetter.triggered.connect( lambda: self.onActionLabelHorizontalTriggered(index.column(), 0) )
+        actionLabelLetter.triggered.connect( lambda: self.onActionLabelHorizontalTriggered(index.column(), Settings.HeaderLabel.Letter) )
 
         # All labels
         actionLabelAllDecimal = QAction('Decimal Numbers', self)
         actionLabelAllDecimal.setStatusTip('Change all labels to decimal numbers')
         actionLabelAllDecimal.setToolTip('Change all labels to decimal numbers')
-        actionLabelAllDecimal.triggered.connect( lambda: self.onActionLabelAllHorizontalTriggered(1) )
+        actionLabelAllDecimal.triggered.connect( lambda: self.onActionLabelAllHorizontalTriggered(Settings.HeaderLabel.Decimal) )
 
         actionLabelAllLetter = QAction('Letters', self)
         actionLabelAllLetter.setStatusTip('Change all labels to letters')
         actionLabelAllLetter.setToolTip('Change all labels to letters')
-        actionLabelAllLetter.triggered.connect( lambda: self.onActionLabelAllHorizontalTriggered(0) )
+        actionLabelAllLetter.triggered.connect( lambda: self.onActionLabelAllHorizontalTriggered(Settings.HeaderLabel.Letter) )
 
         # Menus
         menuLabel = QMenu('Label', self)
@@ -213,23 +213,23 @@ class DocumentTable(QTableWidget):
         actionLabelDecimal = QAction('Decimal Number', self)
         actionLabelDecimal.setStatusTip('Change label to decimal number')
         actionLabelDecimal.setToolTip('Change label to decimal number')
-        actionLabelDecimal.triggered.connect( lambda: self.onActionLabelVerticalTriggered(index.row(), 1) )
+        actionLabelDecimal.triggered.connect( lambda: self.onActionLabelVerticalTriggered(index.row(), Settings.HeaderLabel.Decimal) )
 
         actionLabelLetter = QAction('Letter', self)
         actionLabelLetter.setStatusTip('Change label to letter')
         actionLabelLetter.setToolTip('Change label to letter')
-        actionLabelLetter.triggered.connect( lambda: self.onActionLabelVerticalTriggered(index.row(), 0) )
+        actionLabelLetter.triggered.connect( lambda: self.onActionLabelVerticalTriggered(index.row(), Settings.HeaderLabel.Letter) )
 
         # All labels
         actionLabelAllDecimal = QAction('Decimal Numbers', self)
         actionLabelAllDecimal.setStatusTip('Change all labels to decimal numbers')
         actionLabelAllDecimal.setToolTip('Change all labels to decimal numbers')
-        actionLabelAllDecimal.triggered.connect( lambda: self.onActionLabelAllVerticalTriggered(1) )
+        actionLabelAllDecimal.triggered.connect( lambda: self.onActionLabelAllVerticalTriggered(Settings.HeaderLabel.Decimal) )
 
         actionLabelAllLetter = QAction('Letters', self)
         actionLabelAllLetter.setStatusTip('Change all labels to letters')
         actionLabelAllLetter.setToolTip('Change all labels to letters')
-        actionLabelAllLetter.triggered.connect( lambda: self.onActionLabelAllVerticalTriggered(0) )
+        actionLabelAllLetter.triggered.connect( lambda: self.onActionLabelAllVerticalTriggered(Settings.HeaderLabel.Letter) )
 
         # Menus
         menuLabel = QMenu('Label', self)

@@ -22,6 +22,8 @@ from PySide2.QtCore import Signal
 from PySide2.QtWidgets import (QButtonGroup, QFormLayout, QGroupBox, QHBoxLayout,
                                QLabel, QRadioButton, QSpinBox, QVBoxLayout, QWidget)
 
+from settings import Settings
+
 
 class PreferencesDocumentWidget(QWidget):
 
@@ -44,8 +46,8 @@ class PreferencesDocumentWidget(QWidget):
         rdbHorizontalHeaderLabelsNumbers.setToolTip('Horizontal header labels as numbers')
 
         self.horizontalHeaderLabelsGroup = QButtonGroup(self)
-        self.horizontalHeaderLabelsGroup.addButton(rdbHorizontalHeaderLabelsLetters, 0)
-        self.horizontalHeaderLabelsGroup.addButton(rdbHorizontalHeaderLabelsNumbers, 1)
+        self.horizontalHeaderLabelsGroup.addButton(rdbHorizontalHeaderLabelsLetters, Settings.HeaderLabel.Letter.value)
+        self.horizontalHeaderLabelsGroup.addButton(rdbHorizontalHeaderLabelsNumbers, Settings.HeaderLabel.Decimal.value)
         self.horizontalHeaderLabelsGroup.buttonClicked.connect(self.onSettingChanged)
 
         horizontalHeaderLabelsBox = QHBoxLayout()
@@ -59,8 +61,8 @@ class PreferencesDocumentWidget(QWidget):
         rdbVerticalHeaderLabelsNumbers.setToolTip('Vertical header labels as numbers')
 
         self.verticalHeaderLabelsGroup = QButtonGroup(self)
-        self.verticalHeaderLabelsGroup.addButton(rdbVerticalHeaderLabelsLetters, 0)
-        self.verticalHeaderLabelsGroup.addButton(rdbVerticalHeaderLabelsNumbers, 1)
+        self.verticalHeaderLabelsGroup.addButton(rdbVerticalHeaderLabelsLetters, Settings.HeaderLabel.Letter.value)
+        self.verticalHeaderLabelsGroup.addButton(rdbVerticalHeaderLabelsNumbers, Settings.HeaderLabel.Decimal.value)
         self.verticalHeaderLabelsGroup.buttonClicked.connect(self.onSettingChanged)
 
         verticalHeaderLabelsBox = QHBoxLayout()
@@ -120,18 +122,18 @@ class PreferencesDocumentWidget(QWidget):
         """
         Returns type of the horizontal header labels.
         """
-        return self.horizontalHeaderLabelsGroup.checkedId()
+        return Settings.HeaderLabel(self.horizontalHeaderLabelsGroup.checkedId())
 
 
-    def setHorizontalHeaderLabels(self, id):
+    def setHorizontalHeaderLabels(self, type):
         """
         Sets type of the horizontal header labels.
         """
-        if id != self.horizontalHeaderLabelsGroup.checkedId():
+        if type.value != self.horizontalHeaderLabelsGroup.checkedId():
             self.onSettingChanged()
 
         for button in self.horizontalHeaderLabelsGroup.buttons():
-            if self.horizontalHeaderLabelsGroup.id(button) == id:
+            if self.horizontalHeaderLabelsGroup.id(button) == type.value:
                 button.setChecked(True)
 
 
@@ -139,18 +141,18 @@ class PreferencesDocumentWidget(QWidget):
         """
         Returns type of the vertical header labels.
         """
-        return self.verticalHeaderLabelsGroup.checkedId()
+        return Settings.HeaderLabel(self.verticalHeaderLabelsGroup.checkedId())
 
 
-    def setVerticalHeaderLabels(self, id):
+    def setVerticalHeaderLabels(self, type):
         """
         Sets type of the vertical header labels.
         """
-        if id != self.verticalHeaderLabelsGroup.checkedId():
+        if type.value != self.verticalHeaderLabelsGroup.checkedId():
             self.onSettingChanged()
 
         for button in self.verticalHeaderLabelsGroup.buttons():
-            if self.verticalHeaderLabelsGroup.id(button) == id:
+            if self.verticalHeaderLabelsGroup.id(button) == type.value:
                 button.setChecked(True)
 
 
