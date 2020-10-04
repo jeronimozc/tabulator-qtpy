@@ -106,6 +106,8 @@ class DocumentTable(QTableWidget):
         """
         if type == Settings.HeaderLabel.Binary:
             return self.numberToBinary(number)
+        elif type == Settings.HeaderLabel.Octal:
+            return self.numberToOctal(number)
         elif type == Settings.HeaderLabel.Decimal:
             return self.numberToDecimal(number)
         elif type == Settings.HeaderLabel.Letter:
@@ -119,6 +121,13 @@ class DocumentTable(QTableWidget):
         Returns a string equivalent of the number according to the base 2.
         """
         return f'0x{number:b}'
+
+
+    def numberToOctal(self, number):
+        """
+        Returns a string equivalent of the number according to the base 8.
+        """
+        return f'0x{number:o}'
 
 
     def numberToDecimal(self, number):
@@ -155,6 +164,11 @@ class DocumentTable(QTableWidget):
         actionLabelBinary.setToolTip('Change label to binary number')
         actionLabelBinary.triggered.connect( lambda: self.onActionLabelHorizontalTriggered(index.column(), Settings.HeaderLabel.Binary) )
 
+        actionLabelOctal = QAction('Octal Number', self)
+        actionLabelOctal.setStatusTip('Change label to octal number')
+        actionLabelOctal.setToolTip('Change label to octal number')
+        actionLabelOctal.triggered.connect( lambda: self.onActionLabelHorizontalTriggered(index.column(), Settings.HeaderLabel.Octal) )
+
         actionLabelDecimal = QAction('Decimal Number', self)
         actionLabelDecimal.setStatusTip('Change label to decimal number')
         actionLabelDecimal.setToolTip('Change label to decimal number')
@@ -170,6 +184,11 @@ class DocumentTable(QTableWidget):
         actionLabelAllBinary.setStatusTip('Change all labels to binary numbers')
         actionLabelAllBinary.setToolTip('Change all labels to binary numbers')
         actionLabelAllBinary.triggered.connect( lambda: self.onActionLabelAllHorizontalTriggered(Settings.HeaderLabel.Binary) )
+
+        actionLabelAllOctal = QAction('Octal Numbers', self)
+        actionLabelAllOctal.setStatusTip('Change all labels to octal numbers')
+        actionLabelAllOctal.setToolTip('Change all labels to octal numbers')
+        actionLabelAllOctal.triggered.connect( lambda: self.onActionLabelAllHorizontalTriggered(Settings.HeaderLabel.Octal) )
 
         actionLabelAllDecimal = QAction('Decimal Numbers', self)
         actionLabelAllDecimal.setStatusTip('Change all labels to decimal numbers')
@@ -187,10 +206,12 @@ class DocumentTable(QTableWidget):
         menuLabel.setStatusTip('Change label')
         menuLabel.setToolTip('Change label')
         menuLabel.addAction(actionLabelBinary)
+        menuLabel.addAction(actionLabelOctal)
         menuLabel.addAction(actionLabelDecimal)
         menuLabel.addAction(actionLabelLetter)
         menuLabel.addSeparator()
         menuLabel.addAction(actionLabelAllBinary)
+        menuLabel.addAction(actionLabelAllOctal)
         menuLabel.addAction(actionLabelAllDecimal)
         menuLabel.addAction(actionLabelAllLetter)
 
@@ -236,6 +257,11 @@ class DocumentTable(QTableWidget):
         actionLabelBinary.setToolTip('Change label to binary number')
         actionLabelBinary.triggered.connect( lambda: self.onActionLabelVerticalTriggered(index.row(), Settings.HeaderLabel.Binary) )
 
+        actionLabelOctal = QAction('Octal Number', self)
+        actionLabelOctal.setStatusTip('Change label to octal number')
+        actionLabelOctal.setToolTip('Change label to octal number')
+        actionLabelOctal.triggered.connect( lambda: self.onActionLabelVerticalTriggered(index.row(), Settings.HeaderLabel.Octal) )
+
         actionLabelDecimal = QAction('Decimal Number', self)
         actionLabelDecimal.setStatusTip('Change label to decimal number')
         actionLabelDecimal.setToolTip('Change label to decimal number')
@@ -251,6 +277,11 @@ class DocumentTable(QTableWidget):
         actionLabelAllBinary.setStatusTip('Change all labels to binary numbers')
         actionLabelAllBinary.setToolTip('Change all labels to binary numbers')
         actionLabelAllBinary.triggered.connect( lambda: self.onActionLabelAllVerticalTriggered(Settings.HeaderLabel.Binary) )
+
+        actionLabelAllOctal = QAction('Octal Numbers', self)
+        actionLabelAllOctal.setStatusTip('Change all labels to octal numbers')
+        actionLabelAllOctal.setToolTip('Change all labels to octal numbers')
+        actionLabelAllOctal.triggered.connect( lambda: self.onActionLabelAllVerticalTriggered(Settings.HeaderLabel.Octal) )
 
         actionLabelAllDecimal = QAction('Decimal Numbers', self)
         actionLabelAllDecimal.setStatusTip('Change all labels to decimal numbers')
@@ -268,10 +299,12 @@ class DocumentTable(QTableWidget):
         menuLabel.setStatusTip('Change label')
         menuLabel.setToolTip('Change label')
         menuLabel.addAction(actionLabelBinary)
+        menuLabel.addAction(actionLabelOctal)
         menuLabel.addAction(actionLabelDecimal)
         menuLabel.addAction(actionLabelLetter)
         menuLabel.addSeparator()
         menuLabel.addAction(actionLabelAllBinary)
+        menuLabel.addAction(actionLabelAllOctal)
         menuLabel.addAction(actionLabelAllDecimal)
         menuLabel.addAction(actionLabelAllLetter)
 

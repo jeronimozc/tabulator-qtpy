@@ -25,6 +25,7 @@ class Settings():
 
     class HeaderLabel(Enum):
         Binary = 2
+        Octal = 8
         Decimal = 10
         Letter = 26
 
