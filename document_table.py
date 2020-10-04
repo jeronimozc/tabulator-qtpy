@@ -20,7 +20,7 @@
 
 from PySide2.QtCore import Qt
 from PySide2.QtGui import QIcon
-from PySide2.QtWidgets import QAction, QHeaderView, QMenu, QTableWidget, QTableWidgetItem
+from PySide2.QtWidgets import QAction, QHeaderView, QInputDialog, QLineEdit, QMenu, QTableWidget, QTableWidgetItem
 
 from settings import Settings
 
@@ -193,6 +193,11 @@ class DocumentTable(QTableWidget):
         actionLabelLetter.setToolTip('Change label to letter')
         actionLabelLetter.triggered.connect( lambda: self.onActionLabelHorizontalTriggered(index.column(), Settings.HeaderLabel.Letter) )
 
+        actionLabelCustom = QAction('Custom…', self)
+        actionLabelCustom.setStatusTip('Customize label')
+        actionLabelCustom.setToolTip('Customize label')
+        actionLabelCustom.triggered.connect( lambda: self.onActionLabelHorizontalTriggered(index.column(), Settings.HeaderLabel.Custom) )
+
         # All labels
         actionLabelAllBinary = QAction('Binary Numbers', self)
         actionLabelAllBinary.setStatusTip('Change all labels to binary numbers')
@@ -229,6 +234,7 @@ class DocumentTable(QTableWidget):
         menuLabel.addAction(actionLabelDecimal)
         menuLabel.addAction(actionLabelHexadecimal)
         menuLabel.addAction(actionLabelLetter)
+        menuLabel.addAction(actionLabelCustom)
         menuLabel.addSeparator()
         menuLabel.addAction(actionLabelAllBinary)
         menuLabel.addAction(actionLabelAllOctal)
@@ -263,7 +269,17 @@ class DocumentTable(QTableWidget):
         number = column
 
         item = self.horizontalHeaderItem(column)
-        item.setText(self.headerItemText(number, type))
+
+        if type == Settings.HeaderLabel.Custom:
+
+            text, ok = QInputDialog().getText(self, "Horizontal Header Item",
+                                              "Label:", QLineEdit.Normal, item.text(),
+                                              self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
+
+            if ok and text:
+                item.setText(text)
+        else:
+            item.setText(self.headerItemText(number, type))
 
 
     def contextMenuVerticalHeader(self, pos):
@@ -297,6 +313,11 @@ class DocumentTable(QTableWidget):
         actionLabelLetter.setStatusTip('Change label to letter')
         actionLabelLetter.setToolTip('Change label to letter')
         actionLabelLetter.triggered.connect( lambda: self.onActionLabelVerticalTriggered(index.row(), Settings.HeaderLabel.Letter) )
+
+        actionLabelCustom = QAction('Custom…', self)
+        actionLabelCustom.setStatusTip('Customize label')
+        actionLabelCustom.setToolTip('Customize label')
+        actionLabelCustom.triggered.connect( lambda: self.onActionLabelVerticalTriggered(index.row(), Settings.HeaderLabel.Custom) )
 
         # All labels
         actionLabelAllBinary = QAction('Binary Numbers', self)
@@ -334,6 +355,7 @@ class DocumentTable(QTableWidget):
         menuLabel.addAction(actionLabelDecimal)
         menuLabel.addAction(actionLabelHexadecimal)
         menuLabel.addAction(actionLabelLetter)
+        menuLabel.addAction(actionLabelCustom)
         menuLabel.addSeparator()
         menuLabel.addAction(actionLabelAllBinary)
         menuLabel.addAction(actionLabelAllOctal)
@@ -368,4 +390,14 @@ class DocumentTable(QTableWidget):
         number = row
 
         item = self.verticalHeaderItem(row)
-        item.setText(self.headerItemText(number, type))
+
+        if type == Settings.HeaderLabel.Custom:
+
+            text, ok = QInputDialog().getText(self, "Vertical Header Item",
+                                              "Label:", QLineEdit.Normal, item.text(),
+                                              self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
+
+            if ok and text:
+                item.setText(text)
+        else:
+            item.setText(self.headerItemText(number, type))
