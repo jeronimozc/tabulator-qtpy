@@ -104,12 +104,21 @@ class DocumentTable(QTableWidget):
         """
         Returns the header item text.
         """
-        if type == Settings.HeaderLabel.Decimal:
+        if type == Settings.HeaderLabel.Binary:
+            return self.numberToBinary(number)
+        elif type == Settings.HeaderLabel.Decimal:
             return self.numberToDecimal(number)
         elif type == Settings.HeaderLabel.Letter:
             return self.numberToLetter(number)
         else:
             return ''
+
+
+    def numberToBinary(self, number):
+        """
+        Returns a string equivalent of the number according to the base 2.
+        """
+        return f'0x{number:b}'
 
 
     def numberToDecimal(self, number):
@@ -141,6 +150,11 @@ class DocumentTable(QTableWidget):
         index = self.indexAt(pos)
 
         # Label
+        actionLabelBinary = QAction('Binary Number', self)
+        actionLabelBinary.setStatusTip('Change label to binary number')
+        actionLabelBinary.setToolTip('Change label to binary number')
+        actionLabelBinary.triggered.connect( lambda: self.onActionLabelHorizontalTriggered(index.column(), Settings.HeaderLabel.Binary) )
+
         actionLabelDecimal = QAction('Decimal Number', self)
         actionLabelDecimal.setStatusTip('Change label to decimal number')
         actionLabelDecimal.setToolTip('Change label to decimal number')
@@ -152,6 +166,11 @@ class DocumentTable(QTableWidget):
         actionLabelLetter.triggered.connect( lambda: self.onActionLabelHorizontalTriggered(index.column(), Settings.HeaderLabel.Letter) )
 
         # All labels
+        actionLabelAllBinary = QAction('Binary Numbers', self)
+        actionLabelAllBinary.setStatusTip('Change all labels to binary numbers')
+        actionLabelAllBinary.setToolTip('Change all labels to binary numbers')
+        actionLabelAllBinary.triggered.connect( lambda: self.onActionLabelAllHorizontalTriggered(Settings.HeaderLabel.Binary) )
+
         actionLabelAllDecimal = QAction('Decimal Numbers', self)
         actionLabelAllDecimal.setStatusTip('Change all labels to decimal numbers')
         actionLabelAllDecimal.setToolTip('Change all labels to decimal numbers')
@@ -167,9 +186,11 @@ class DocumentTable(QTableWidget):
         menuLabel.setIcon(QIcon.fromTheme('tag', QIcon(':/icons/actions/16/tag.svg')))
         menuLabel.setStatusTip('Change label')
         menuLabel.setToolTip('Change label')
+        menuLabel.addAction(actionLabelBinary)
         menuLabel.addAction(actionLabelDecimal)
         menuLabel.addAction(actionLabelLetter)
         menuLabel.addSeparator()
+        menuLabel.addAction(actionLabelAllBinary)
         menuLabel.addAction(actionLabelAllDecimal)
         menuLabel.addAction(actionLabelAllLetter)
 
@@ -210,6 +231,11 @@ class DocumentTable(QTableWidget):
         index = self.indexAt(pos)
 
         # Label
+        actionLabelBinary = QAction('Binary Number', self)
+        actionLabelBinary.setStatusTip('Change label to binary number')
+        actionLabelBinary.setToolTip('Change label to binary number')
+        actionLabelBinary.triggered.connect( lambda: self.onActionLabelVerticalTriggered(index.row(), Settings.HeaderLabel.Binary) )
+
         actionLabelDecimal = QAction('Decimal Number', self)
         actionLabelDecimal.setStatusTip('Change label to decimal number')
         actionLabelDecimal.setToolTip('Change label to decimal number')
@@ -221,6 +247,11 @@ class DocumentTable(QTableWidget):
         actionLabelLetter.triggered.connect( lambda: self.onActionLabelVerticalTriggered(index.row(), Settings.HeaderLabel.Letter) )
 
         # All labels
+        actionLabelAllBinary = QAction('Binary Numbers', self)
+        actionLabelAllBinary.setStatusTip('Change all labels to binary numbers')
+        actionLabelAllBinary.setToolTip('Change all labels to binary numbers')
+        actionLabelAllBinary.triggered.connect( lambda: self.onActionLabelAllVerticalTriggered(Settings.HeaderLabel.Binary) )
+
         actionLabelAllDecimal = QAction('Decimal Numbers', self)
         actionLabelAllDecimal.setStatusTip('Change all labels to decimal numbers')
         actionLabelAllDecimal.setToolTip('Change all labels to decimal numbers')
@@ -236,9 +267,11 @@ class DocumentTable(QTableWidget):
         menuLabel.setIcon(QIcon.fromTheme('tag', QIcon(':/icons/actions/16/tag.svg')))
         menuLabel.setStatusTip('Change label')
         menuLabel.setToolTip('Change label')
+        menuLabel.addAction(actionLabelBinary)
         menuLabel.addAction(actionLabelDecimal)
         menuLabel.addAction(actionLabelLetter)
         menuLabel.addSeparator()
+        menuLabel.addAction(actionLabelAllBinary)
         menuLabel.addAction(actionLabelAllDecimal)
         menuLabel.addAction(actionLabelAllLetter)
 

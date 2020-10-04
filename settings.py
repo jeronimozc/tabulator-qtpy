@@ -24,6 +24,7 @@ from enum import Enum
 class Settings():
 
     class HeaderLabel(Enum):
+        Binary = 2
         Decimal = 10
         Letter = 26
 
