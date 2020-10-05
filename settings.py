@@ -38,7 +38,7 @@ class Settings():
     # Document: Defaults
     horizontalHeaderLabels = HeaderLabel.Letter
     verticalHeaderLabels = HeaderLabel.Decimal
-    newDocumentColumns = 25
+    defaultCellColumns = 25
     defaultCellRows = 50
 
     def __init__(self):

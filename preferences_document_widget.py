@@ -156,14 +156,14 @@ class PreferencesDocumentWidget(QWidget):
                 button.setChecked(True)
 
 
-    def newDocumentColumns(self):
+    def defaultCellColumns(self):
         """
         Returns number of columns of new document.
         """
         return self.spbNewDocumentColumns.value()
 
 
-    def setNewDocumentColumns(self, number):
+    def setDefaultCellColumns(self, number):
         """
         Sets number of columns of new document.
         """

@@ -36,7 +36,7 @@ class DocumentTable(QTableWidget):
         self.setAttribute(Qt.WA_DeleteOnClose)
 
         # Creates a default document
-        self.setColumnCount(self.m_settings.newDocumentColumns)
+        self.setColumnCount(self.m_settings.defaultCellColumns)
         self.setRowCount(self.m_settings.defaultCellRows)
 
         # Enable context menus
@@ -62,7 +62,7 @@ class DocumentTable(QTableWidget):
         """
 
         # Creates a new document
-        self.setColumnCount(self.m_settings.newDocumentColumns)
+        self.setColumnCount(self.m_settings.defaultCellColumns)
         self.setRowCount(self.m_settings.defaultCellRows)
 
         # Set header items
