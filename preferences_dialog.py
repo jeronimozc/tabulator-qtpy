@@ -129,7 +129,7 @@ class PreferencesDialog(QDialog):
         self.applicationSettings.setRestoreDialogGeometry(settings.restoreDialogGeometry)
 
         # Document: Defaults
-        self.documentSettings.setHorizontalHeaderLabels(settings.horizontalHeaderLabels)
+        self.documentSettings.setDefaultHeaderLabelHorizontal(settings.defaultHeaderLabelHorizontal)
         self.documentSettings.setDefaultHeaderLabelVertical(settings.defaultHeaderLabelVertical)
         self.documentSettings.setDefaultCellColumns(settings.defaultCellColumns)
         self.documentSettings.setDefaultCellRows(settings.defaultCellRows)
@@ -145,7 +145,7 @@ class PreferencesDialog(QDialog):
         self.m_settings.restoreDialogGeometry = self.applicationSettings.restoreDialogGeometry()
 
         # Document: Defaults
-        self.m_settings.horizontalHeaderLabels = self.documentSettings.horizontalHeaderLabels()
+        self.m_settings.defaultHeaderLabelHorizontal = self.documentSettings.defaultHeaderLabelHorizontal()
         self.m_settings.defaultHeaderLabelVertical = self.documentSettings.defaultHeaderLabelVertical()
         self.m_settings.defaultCellColumns = self.documentSettings.defaultCellColumns()
         self.m_settings.defaultCellRows = self.documentSettings.defaultCellRows()

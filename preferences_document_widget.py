@@ -118,14 +118,14 @@ class PreferencesDocumentWidget(QWidget):
         return 'Document'
 
 
-    def horizontalHeaderLabels(self):
+    def defaultHeaderLabelHorizontal(self):
         """
         Returns type of the horizontal header labels.
         """
         return Settings.HeaderLabel(self.horizontalHeaderLabelsGroup.checkedId())
 
 
-    def setHorizontalHeaderLabels(self, type):
+    def setDefaultHeaderLabelHorizontal(self, type):
         """
         Sets type of the horizontal header labels.
         """

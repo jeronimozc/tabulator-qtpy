@@ -66,7 +66,7 @@ class DocumentTable(QTableWidget):
         self.setRowCount(self.m_settings.defaultCellRows)
 
         # Set header items
-        self.setHorizontalHeaderItems(self.m_settings.horizontalHeaderLabels)
+        self.setHorizontalHeaderItems(self.m_settings.defaultHeaderLabelHorizontal)
         self.setVerticalHeaderItems(self.m_settings.defaultHeaderLabelVertical)
 
 

@@ -36,7 +36,7 @@ class Settings():
     restoreDialogGeometry = True
 
     # Document: Defaults
-    horizontalHeaderLabels = HeaderLabel.Letter
+    defaultHeaderLabelHorizontal = HeaderLabel.Letter
     defaultHeaderLabelVertical = HeaderLabel.Decimal
     defaultCellColumns = 25
     defaultCellRows = 50

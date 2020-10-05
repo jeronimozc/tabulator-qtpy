@@ -214,7 +214,7 @@ class MainWindow(QMainWindow):
         self.m_settings.restoreDialogGeometry = self.valueToBool(settings.value('Settings/restoreDialogGeometry', self.m_settings.restoreDialogGeometry))
 
         # Document: Defaults
-        self.m_settings.horizontalHeaderLabels = Settings.HeaderLabel(int(settings.value('Settings/horizontalHeaderLabels', self.m_settings.horizontalHeaderLabels.value)))
+        self.m_settings.defaultHeaderLabelHorizontal = Settings.HeaderLabel(int(settings.value('Settings/defaultHeaderLabelHorizontal', self.m_settings.defaultHeaderLabelHorizontal.value)))
         self.m_settings.defaultHeaderLabelVertical = Settings.HeaderLabel(int(settings.value('Settings/defaultHeaderLabelVertical', self.m_settings.defaultHeaderLabelVertical.value)))
         self.m_settings.defaultCellColumns = int(settings.value('Settings/defaultCellColumns', self.m_settings.defaultCellColumns))
         self.m_settings.defaultCellRows = int(settings.value('Settings/defaultCellRows', self.m_settings.defaultCellRows))
@@ -248,7 +248,7 @@ class MainWindow(QMainWindow):
         settings.setValue('Settings/restoreDialogGeometry', self.m_settings.restoreDialogGeometry)
 
         # Document: Defaults
-        settings.setValue('Settings/horizontalHeaderLabels', self.m_settings.horizontalHeaderLabels.value)
+        settings.setValue('Settings/defaultHeaderLabelHorizontal', self.m_settings.defaultHeaderLabelHorizontal.value)
         settings.setValue('Settings/defaultHeaderLabelVertical', self.m_settings.defaultHeaderLabelVertical.value)
         settings.setValue('Settings/defaultCellColumns', self.m_settings.defaultCellColumns)
         settings.setValue('Settings/defaultCellRows', self.m_settings.defaultCellRows)
