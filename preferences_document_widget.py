@@ -19,8 +19,8 @@
 #
 
 from PySide2.QtCore import Signal
-from PySide2.QtWidgets import (QButtonGroup, QFormLayout, QGroupBox, QHBoxLayout,
-                               QLabel, QRadioButton, QSpinBox, QVBoxLayout, QWidget)
+from PySide2.QtWidgets import (QButtonGroup, QFormLayout, QGroupBox, QHBoxLayout, QLabel,
+                               QRadioButton, QSpinBox, QTabWidget, QVBoxLayout, QWidget)
 
 from settings import Settings
 
@@ -37,6 +37,23 @@ class PreferencesDocumentWidget(QWidget):
         super(PreferencesDocumentWidget, self).__init__(parent)
 
         label = QLabel('<strong style="font-size:large;">Document</strong>')
+
+        # Tab box
+        tabBox = QTabWidget()
+        tabBox.addTab(self.tabDefaultSettings(), 'Default')
+
+        # Main layout
+        layout = QVBoxLayout()
+        layout.addWidget(label)
+        layout.addWidget(tabBox)
+
+        self.setLayout(layout)
+
+
+    def tabDefaultSettings(self):
+        """
+        Creates the default settings tab page.
+        """
 
         # Header Labels
         rdbHorizontalHeaderLabelsLetters = QRadioButton('Letters')
@@ -94,14 +111,16 @@ class PreferencesDocumentWidget(QWidget):
         newDocumentGroup = QGroupBox('New Document')
         newDocumentGroup.setLayout(newDocumentLayout)
 
-        # Main layout
+        # Layout
         layout = QVBoxLayout()
-        layout.addWidget(label)
         layout.addWidget(headerLabelsGroup)
         layout.addWidget(newDocumentGroup)
         layout.addStretch()
 
-        self.setLayout(layout)
+        widget = QWidget()
+        widget.setLayout(layout)
+
+        return widget
 
 
     def onSettingChanged(self):
