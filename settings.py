@@ -39,7 +39,7 @@ class Settings():
     horizontalHeaderLabels = HeaderLabel.Letter
     verticalHeaderLabels = HeaderLabel.Decimal
     newDocumentColumns = 25
-    newDocumentRows = 50
+    defaultCellRows = 50
 
     def __init__(self):
         pass

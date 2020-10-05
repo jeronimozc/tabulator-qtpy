@@ -170,14 +170,14 @@ class PreferencesDocumentWidget(QWidget):
         self.spbNewDocumentColumns.setValue(number)
 
 
-    def newDocumentRows(self):
+    def defaultCellRows(self):
         """
         Returns number of rows of new document.
         """
         return self.spbNewDocumentRows.value()
 
 
-    def setNewDocumentRows(self, number):
+    def setDefaultCellRows(self, number):
         """
         Sets number of rows of new document.
         """
