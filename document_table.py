@@ -122,14 +122,14 @@ class DocumentTable(QTableWidget):
         """
         Returns a string equivalent of the number according to the base 2.
         """
-        return f'0x{number:b}'
+        return f'0b{number:b}'
 
 
     def numberToOctal(self, number):
         """
         Returns a string equivalent of the number according to the base 8.
         """
-        return f'0x{number:o}'
+        return f'0o{number:o}'
 
 
     def numberToDecimal(self, number):
@@ -163,7 +163,7 @@ class DocumentTable(QTableWidget):
 
     def contextMenuHorizontalHeader(self, pos):
         """
-        Creates a context menu for the horizonzal header.
+        Creates a context menu for the horizontal header.
         """
         index = self.indexAt(pos)
 
