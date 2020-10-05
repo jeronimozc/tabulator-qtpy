@@ -55,43 +55,43 @@ class PreferencesDocumentWidget(QWidget):
         Creates the default settings tab page.
         """
 
-        # Header Labels
-        rdbHorizontalHeaderLabelsLetters = QRadioButton('Letters')
-        rdbHorizontalHeaderLabelsLetters.setToolTip('Horizontal header labels as capital letters')
+        # Default: Headers
+        rdbDefaultHeaderLabelHorizontalLetters = QRadioButton('Letters')
+        rdbDefaultHeaderLabelHorizontalLetters.setToolTip('Capital letters as default horizontal header labels')
 
-        rdbHorizontalHeaderLabelsNumbers = QRadioButton('Numbers')
-        rdbHorizontalHeaderLabelsNumbers.setToolTip('Horizontal header labels as numbers')
+        rdbDefaultHeaderLabelHorizontalNumbers = QRadioButton('Numbers')
+        rdbDefaultHeaderLabelHorizontalNumbers.setToolTip('Decimal numbers as default horizontal header labels')
 
-        self.horizontalHeaderLabelsGroup = QButtonGroup(self)
-        self.horizontalHeaderLabelsGroup.addButton(rdbHorizontalHeaderLabelsLetters, Settings.HeaderLabel.Letter.value)
-        self.horizontalHeaderLabelsGroup.addButton(rdbHorizontalHeaderLabelsNumbers, Settings.HeaderLabel.Decimal.value)
-        self.horizontalHeaderLabelsGroup.buttonClicked.connect(self.onSettingChanged)
+        self.grpDefaultHeaderLabelHorizontal = QButtonGroup(self)
+        self.grpDefaultHeaderLabelHorizontal.addButton(rdbDefaultHeaderLabelHorizontalLetters, Settings.HeaderLabel.Letter.value)
+        self.grpDefaultHeaderLabelHorizontal.addButton(rdbDefaultHeaderLabelHorizontalNumbers, Settings.HeaderLabel.Decimal.value)
+        self.grpDefaultHeaderLabelHorizontal.buttonClicked.connect(self.onSettingChanged)
 
-        horizontalHeaderLabelsBox = QHBoxLayout()
-        horizontalHeaderLabelsBox.addWidget(rdbHorizontalHeaderLabelsLetters)
-        horizontalHeaderLabelsBox.addWidget(rdbHorizontalHeaderLabelsNumbers)
+        defaultHeaderLabelHorizontalBox = QHBoxLayout()
+        defaultHeaderLabelHorizontalBox.addWidget(rdbDefaultHeaderLabelHorizontalLetters)
+        defaultHeaderLabelHorizontalBox.addWidget(rdbDefaultHeaderLabelHorizontalNumbers)
 
-        rdbVerticalHeaderLabelsLetters = QRadioButton('Letters')
-        rdbVerticalHeaderLabelsLetters.setToolTip('Vertical header labels as capital letters')
+        rdbDefaultHeaderLabelVerticalLetters = QRadioButton('Letters')
+        rdbDefaultHeaderLabelVerticalLetters.setToolTip('Capital letters as default vertical header labels')
 
-        rdbVerticalHeaderLabelsNumbers = QRadioButton('Numbers')
-        rdbVerticalHeaderLabelsNumbers.setToolTip('Vertical header labels as numbers')
+        rdbDefaultHeaderLabelVerticalNumbers = QRadioButton('Numbers')
+        rdbDefaultHeaderLabelVerticalNumbers.setToolTip('Decimal numbers as default vertical header labels')
 
-        self.verticalHeaderLabelsGroup = QButtonGroup(self)
-        self.verticalHeaderLabelsGroup.addButton(rdbVerticalHeaderLabelsLetters, Settings.HeaderLabel.Letter.value)
-        self.verticalHeaderLabelsGroup.addButton(rdbVerticalHeaderLabelsNumbers, Settings.HeaderLabel.Decimal.value)
-        self.verticalHeaderLabelsGroup.buttonClicked.connect(self.onSettingChanged)
+        self.grpDefaultHeaderLabelVertical = QButtonGroup(self)
+        self.grpDefaultHeaderLabelVertical.addButton(rdbDefaultHeaderLabelVerticalLetters, Settings.HeaderLabel.Letter.value)
+        self.grpDefaultHeaderLabelVertical.addButton(rdbDefaultHeaderLabelVerticalNumbers, Settings.HeaderLabel.Decimal.value)
+        self.grpDefaultHeaderLabelVertical.buttonClicked.connect(self.onSettingChanged)
 
-        verticalHeaderLabelsBox = QHBoxLayout()
-        verticalHeaderLabelsBox.addWidget(rdbVerticalHeaderLabelsLetters)
-        verticalHeaderLabelsBox.addWidget(rdbVerticalHeaderLabelsNumbers)
+        defaultHeaderLabelVerticalBox = QHBoxLayout()
+        defaultHeaderLabelVerticalBox.addWidget(rdbDefaultHeaderLabelVerticalLetters)
+        defaultHeaderLabelVerticalBox.addWidget(rdbDefaultHeaderLabelVerticalNumbers)
 
-        headerLabelsLayout = QFormLayout()
-        headerLabelsLayout.addRow('Horizontal header', horizontalHeaderLabelsBox)
-        headerLabelsLayout.addRow('Vertical header', verticalHeaderLabelsBox)
+        defaultHeadersLayout = QFormLayout()
+        defaultHeadersLayout.addRow('Labels of horizontal header', defaultHeaderLabelHorizontalBox)
+        defaultHeadersLayout.addRow('Labels of vertical header', defaultHeaderLabelVerticalBox)
 
-        headerLabelsGroup = QGroupBox('Header Labels')
-        headerLabelsGroup.setLayout(headerLabelsLayout)
+        defaultHeadersGroup = QGroupBox('Headers')
+        defaultHeadersGroup.setLayout(defaultHeadersLayout)
 
         # Default: Cells
         self.spbDefaultCellColumns = QSpinBox(self)
@@ -113,7 +113,7 @@ class PreferencesDocumentWidget(QWidget):
 
         # Layout
         layout = QVBoxLayout()
-        layout.addWidget(headerLabelsGroup)
+        layout.addWidget(defaultHeadersGroup)
         layout.addWidget(defaultCellsGroup)
         layout.addStretch()
 
@@ -139,39 +139,39 @@ class PreferencesDocumentWidget(QWidget):
 
     def defaultHeaderLabelHorizontal(self):
         """
-        Returns type of the horizontal header labels.
+        Returns the default type of the horizontal header labels of documents.
         """
-        return Settings.HeaderLabel(self.horizontalHeaderLabelsGroup.checkedId())
+        return Settings.HeaderLabel(self.grpDefaultHeaderLabelHorizontal.checkedId())
 
 
     def setDefaultHeaderLabelHorizontal(self, type):
         """
-        Sets type of the horizontal header labels.
+        Sets the default type of the horizontal header labels of documents.
         """
-        if type.value != self.horizontalHeaderLabelsGroup.checkedId():
+        if type.value != self.grpDefaultHeaderLabelHorizontal.checkedId():
             self.onSettingChanged()
 
-        for button in self.horizontalHeaderLabelsGroup.buttons():
-            if self.horizontalHeaderLabelsGroup.id(button) == type.value:
+        for button in self.grpDefaultHeaderLabelHorizontal.buttons():
+            if self.grpDefaultHeaderLabelHorizontal.id(button) == type.value:
                 button.setChecked(True)
 
 
     def defaultHeaderLabelVertical(self):
         """
-        Returns type of the vertical header labels.
+        Returns the default type of the vertical header labels of documents.
         """
-        return Settings.HeaderLabel(self.verticalHeaderLabelsGroup.checkedId())
+        return Settings.HeaderLabel(self.grpDefaultHeaderLabelVertical.checkedId())
 
 
     def setDefaultHeaderLabelVertical(self, type):
         """
-        Sets type of the vertical header labels.
+        Sets the default type of the vertical header labels of documents.
         """
-        if type.value != self.verticalHeaderLabelsGroup.checkedId():
+        if type.value != self.grpDefaultHeaderLabelVertical.checkedId():
             self.onSettingChanged()
 
-        for button in self.verticalHeaderLabelsGroup.buttons():
-            if self.verticalHeaderLabelsGroup.id(button) == type.value:
+        for button in self.grpDefaultHeaderLabelVertical.buttons():
+            if self.grpDefaultHeaderLabelVertical.id(button) == type.value:
                 button.setChecked(True)
 
 
