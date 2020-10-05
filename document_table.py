@@ -67,7 +67,7 @@ class DocumentTable(QTableWidget):
 
         # Set header items
         self.setHorizontalHeaderItems(self.m_settings.horizontalHeaderLabels)
-        self.setVerticalHeaderItems(self.m_settings.verticalHeaderLabels)
+        self.setVerticalHeaderItems(self.m_settings.defaultHeaderLabelVertical)
 
 
     def setHorizontalHeaderItems(self, type):

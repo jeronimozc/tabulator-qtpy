@@ -130,7 +130,7 @@ class PreferencesDialog(QDialog):
 
         # Document: Defaults
         self.documentSettings.setHorizontalHeaderLabels(settings.horizontalHeaderLabels)
-        self.documentSettings.setVerticalHeaderLabels(settings.verticalHeaderLabels)
+        self.documentSettings.setDefaultHeaderLabelVertical(settings.defaultHeaderLabelVertical)
         self.documentSettings.setDefaultCellColumns(settings.defaultCellColumns)
         self.documentSettings.setDefaultCellRows(settings.defaultCellRows)
 
@@ -146,7 +146,7 @@ class PreferencesDialog(QDialog):
 
         # Document: Defaults
         self.m_settings.horizontalHeaderLabels = self.documentSettings.horizontalHeaderLabels()
-        self.m_settings.verticalHeaderLabels = self.documentSettings.verticalHeaderLabels()
+        self.m_settings.defaultHeaderLabelVertical = self.documentSettings.defaultHeaderLabelVertical()
         self.m_settings.defaultCellColumns = self.documentSettings.defaultCellColumns()
         self.m_settings.defaultCellRows = self.documentSettings.defaultCellRows()
 

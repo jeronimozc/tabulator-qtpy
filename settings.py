@@ -37,7 +37,7 @@ class Settings():
 
     # Document: Defaults
     horizontalHeaderLabels = HeaderLabel.Letter
-    verticalHeaderLabels = HeaderLabel.Decimal
+    defaultHeaderLabelVertical = HeaderLabel.Decimal
     defaultCellColumns = 25
     defaultCellRows = 50
 

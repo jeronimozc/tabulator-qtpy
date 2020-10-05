@@ -137,14 +137,14 @@ class PreferencesDocumentWidget(QWidget):
                 button.setChecked(True)
 
 
-    def verticalHeaderLabels(self):
+    def defaultHeaderLabelVertical(self):
         """
         Returns type of the vertical header labels.
         """
         return Settings.HeaderLabel(self.verticalHeaderLabelsGroup.checkedId())
 
 
-    def setVerticalHeaderLabels(self, type):
+    def setDefaultHeaderLabelVertical(self, type):
         """
         Sets type of the vertical header labels.
         """
