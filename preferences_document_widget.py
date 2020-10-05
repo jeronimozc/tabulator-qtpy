@@ -93,28 +93,28 @@ class PreferencesDocumentWidget(QWidget):
         headerLabelsGroup = QGroupBox('Header Labels')
         headerLabelsGroup.setLayout(headerLabelsLayout)
 
-        # New Document
-        self.spbNewDocumentColumns = QSpinBox(self)
-        self.spbNewDocumentColumns.setRange(1, 100)
-        self.spbNewDocumentColumns.setToolTip('Number of columns of new documents')
-        self.spbNewDocumentColumns.valueChanged.connect(self.onSettingChanged)
+        # Default: Cells
+        self.spbDefaultCellColumns = QSpinBox(self)
+        self.spbDefaultCellColumns.setRange(1, 1000)
+        self.spbDefaultCellColumns.setToolTip('Default number of columns of new documents')
+        self.spbDefaultCellColumns.valueChanged.connect(self.onSettingChanged)
 
-        self.spbNewDocumentRows = QSpinBox(self)
-        self.spbNewDocumentRows.setRange(1, 100)
-        self.spbNewDocumentRows.setToolTip('Number of rows of new documents')
-        self.spbNewDocumentRows.valueChanged.connect(self.onSettingChanged)
+        self.spbDefaultCellRows = QSpinBox(self)
+        self.spbDefaultCellRows.setRange(1, 1000)
+        self.spbDefaultCellRows.setToolTip('Default number of rows of new documents')
+        self.spbDefaultCellRows.valueChanged.connect(self.onSettingChanged)
 
-        newDocumentLayout = QFormLayout()
-        newDocumentLayout.addRow('Number of columns', self.spbNewDocumentColumns)
-        newDocumentLayout.addRow('Number of rows', self.spbNewDocumentRows)
+        defaultCellsLayout = QFormLayout()
+        defaultCellsLayout.addRow('Number of columns', self.spbDefaultCellColumns)
+        defaultCellsLayout.addRow('Number of rows', self.spbDefaultCellRows)
 
-        newDocumentGroup = QGroupBox('New Document')
-        newDocumentGroup.setLayout(newDocumentLayout)
+        defaultCellsGroup = QGroupBox('Cells')
+        defaultCellsGroup.setLayout(defaultCellsLayout)
 
         # Layout
         layout = QVBoxLayout()
         layout.addWidget(headerLabelsGroup)
-        layout.addWidget(newDocumentGroup)
+        layout.addWidget(defaultCellsGroup)
         layout.addStretch()
 
         widget = QWidget()
@@ -177,27 +177,27 @@ class PreferencesDocumentWidget(QWidget):
 
     def defaultCellColumns(self):
         """
-        Returns number of columns of new document.
+        Returns the default number of columns of new documents.
         """
-        return self.spbNewDocumentColumns.value()
+        return self.spbDefaultCellColumns.value()
 
 
     def setDefaultCellColumns(self, number):
         """
-        Sets number of columns of new document.
+        Sets the default number of columns of new documents.
         """
-        self.spbNewDocumentColumns.setValue(number)
+        self.spbDefaultCellColumns.setValue(number)
 
 
     def defaultCellRows(self):
         """
-        Returns number of rows of new document.
+        Returns the default number of rows of new documents.
         """
-        return self.spbNewDocumentRows.value()
+        return self.spbDefaultCellRows.value()
 
 
     def setDefaultCellRows(self, number):
         """
-        Sets number of rows of new document.
+        Sets the default number of rows of new documents.
         """
-        self.spbNewDocumentRows.setValue(number)
+        self.spbDefaultCellRows.setValue(number)
