@@ -169,8 +169,8 @@ class DocumentTable(QTableWidget):
 
         # Label
         actionLabelLetter = QAction('Letter', self)
-        actionLabelLetter.setStatusTip('Change label to letter')
-        actionLabelLetter.setToolTip('Change label to letter')
+        actionLabelLetter.setStatusTip('Change label to a capital letter')
+        actionLabelLetter.setToolTip('Change label to a capital letter')
         actionLabelLetter.triggered.connect( lambda: self.onActionLabelHorizontalTriggered(index.column(), Settings.HeaderLabel.Letter) )
 
         actionLabelNumber = QAction('Number', self)
@@ -184,10 +184,10 @@ class DocumentTable(QTableWidget):
         actionLabelCustom.triggered.connect( lambda: self.onActionLabelHorizontalTriggered(index.column(), Settings.HeaderLabel.Custom) )
 
         # All labels
-        actionLabelAllLetter = QAction('Letters', self)
-        actionLabelAllLetter.setStatusTip('Change all labels to letters')
-        actionLabelAllLetter.setToolTip('Change all labels to letters')
-        actionLabelAllLetter.triggered.connect( lambda: self.onActionLabelAllHorizontalTriggered(Settings.HeaderLabel.Letter) )
+        actionLabelLetters = QAction('Letters', self)
+        actionLabelLetters.setStatusTip('Change all labels to capital letters')
+        actionLabelLetters.setToolTip('Change all labels to capital letters')
+        actionLabelLetters.triggered.connect( lambda: self.onActionLabelAllHorizontalTriggered(Settings.HeaderLabel.Letter) )
 
         actionLabelNumbers = QAction('Numbers', self)
         actionLabelNumbers.setStatusTip('Change all labels to decimal numbers')
@@ -203,7 +203,7 @@ class DocumentTable(QTableWidget):
         menuLabel.addAction(actionLabelNumber)
         menuLabel.addAction(actionLabelCustom)
         menuLabel.addSeparator()
-        menuLabel.addAction(actionLabelAllLetter)
+        menuLabel.addAction(actionLabelLetters)
         menuLabel.addAction(actionLabelNumbers)
 
         contextMenu = QMenu(self)
@@ -254,8 +254,8 @@ class DocumentTable(QTableWidget):
 
         # Label
         actionLabelLetter = QAction('Letter', self)
-        actionLabelLetter.setStatusTip('Change label to letter')
-        actionLabelLetter.setToolTip('Change label to letter')
+        actionLabelLetter.setStatusTip('Change label to a capital letter')
+        actionLabelLetter.setToolTip('Change label to a capital letter')
         actionLabelLetter.triggered.connect( lambda: self.onActionLabelVerticalTriggered(index.row(), Settings.HeaderLabel.Letter) )
 
         actionLabelNumber = QAction('Number', self)
@@ -269,10 +269,10 @@ class DocumentTable(QTableWidget):
         actionLabelCustom.triggered.connect( lambda: self.onActionLabelVerticalTriggered(index.row(), Settings.HeaderLabel.Custom) )
 
         # All labels
-        actionLabelAllLetter = QAction('Letters', self)
-        actionLabelAllLetter.setStatusTip('Change all labels to letters')
-        actionLabelAllLetter.setToolTip('Change all labels to letters')
-        actionLabelAllLetter.triggered.connect( lambda: self.onActionLabelAllVerticalTriggered(Settings.HeaderLabel.Letter) )
+        actionLabelLetters = QAction('Letters', self)
+        actionLabelLetters.setStatusTip('Change all labels to capital letters')
+        actionLabelLetters.setToolTip('Change all labels to capital letters')
+        actionLabelLetters.triggered.connect( lambda: self.onActionLabelAllVerticalTriggered(Settings.HeaderLabel.Letter) )
 
         actionLabelNumbers = QAction('Numbers', self)
         actionLabelNumbers.setStatusTip('Change all labels to decimal numbers')
@@ -288,7 +288,7 @@ class DocumentTable(QTableWidget):
         menuLabel.addAction(actionLabelNumber)
         menuLabel.addAction(actionLabelCustom)
         menuLabel.addSeparator()
-        menuLabel.addAction(actionLabelAllLetter)
+        menuLabel.addAction(actionLabelLetters)
         menuLabel.addAction(actionLabelNumbers)
 
         contextMenu = QMenu(self)
