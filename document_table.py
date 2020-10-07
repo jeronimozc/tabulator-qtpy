@@ -179,11 +179,10 @@ class DocumentTable(QTableWidget):
         actionLabelNumber.triggered.connect( lambda: self.onActionLabelHorizontalTriggered(index.column(), Settings.HeaderLabel.Decimal) )
 
         actionLabelCustom = QAction('Custom…', self)
-        actionLabelCustom.setStatusTip('Customize label')
-        actionLabelCustom.setToolTip('Customize label')
+        actionLabelCustom.setStatusTip('Change label to a user-defined text')
+        actionLabelCustom.setToolTip('Change label to a user-defined text')
         actionLabelCustom.triggered.connect( lambda: self.onActionLabelHorizontalTriggered(index.column(), Settings.HeaderLabel.Custom) )
 
-        # All labels
         actionLabelLetters = QAction('Letters', self)
         actionLabelLetters.setStatusTip('Change all labels to capital letters')
         actionLabelLetters.setToolTip('Change all labels to capital letters')
@@ -194,7 +193,12 @@ class DocumentTable(QTableWidget):
         actionLabelNumbers.setToolTip('Change all labels to decimal numbers')
         actionLabelNumbers.triggered.connect( lambda: self.onActionLabelAllHorizontalTriggered(Settings.HeaderLabel.Decimal) )
 
-        # Menus
+        actionLabelCustoms = QAction('Custom…', self)
+        actionLabelCustoms.setStatusTip('Change all labels to user-defined texts')
+        actionLabelCustoms.setToolTip('Change all labels to user-defined texts')
+        actionLabelCustoms.triggered.connect( lambda: self.onActionLabelAllHorizontalTriggered(Settings.HeaderLabel.Custom) )
+
+        # Context menu
         menuLabel = QMenu('Label', self)
         menuLabel.setIcon(QIcon.fromTheme('tag', QIcon(':/icons/actions/16/tag.svg')))
         menuLabel.setStatusTip('Change label')
@@ -205,6 +209,7 @@ class DocumentTable(QTableWidget):
         menuLabel.addSeparator()
         menuLabel.addAction(actionLabelLetters)
         menuLabel.addAction(actionLabelNumbers)
+        menuLabel.addAction(actionLabelCustoms)
 
         contextMenu = QMenu(self)
         contextMenu.addMenu(menuLabel)
@@ -264,11 +269,10 @@ class DocumentTable(QTableWidget):
         actionLabelNumber.triggered.connect( lambda: self.onActionLabelVerticalTriggered(index.row(), Settings.HeaderLabel.Decimal) )
 
         actionLabelCustom = QAction('Custom…', self)
-        actionLabelCustom.setStatusTip('Customize label')
-        actionLabelCustom.setToolTip('Customize label')
+        actionLabelCustom.setStatusTip('Change label to a user-defined text')
+        actionLabelCustom.setToolTip('Change label to a user-defined text')
         actionLabelCustom.triggered.connect( lambda: self.onActionLabelVerticalTriggered(index.row(), Settings.HeaderLabel.Custom) )
 
-        # All labels
         actionLabelLetters = QAction('Letters', self)
         actionLabelLetters.setStatusTip('Change all labels to capital letters')
         actionLabelLetters.setToolTip('Change all labels to capital letters')
@@ -279,7 +283,12 @@ class DocumentTable(QTableWidget):
         actionLabelNumbers.setToolTip('Change all labels to decimal numbers')
         actionLabelNumbers.triggered.connect( lambda: self.onActionLabelAllVerticalTriggered(Settings.HeaderLabel.Decimal) )
 
-        # Menus
+        actionLabelCustoms = QAction('Custom…', self)
+        actionLabelCustoms.setStatusTip('Change all labels to user-defined texts')
+        actionLabelCustoms.setToolTip('Change all labels to user-defined texts')
+        actionLabelCustoms.triggered.connect( lambda: self.onActionLabelAllVerticalTriggered(Settings.HeaderLabel.Custom) )
+
+        # Context menu
         menuLabel = QMenu('Label', self)
         menuLabel.setIcon(QIcon.fromTheme('tag', QIcon(':/icons/actions/16/tag.svg')))
         menuLabel.setStatusTip('Change label')
@@ -290,6 +299,7 @@ class DocumentTable(QTableWidget):
         menuLabel.addSeparator()
         menuLabel.addAction(actionLabelLetters)
         menuLabel.addAction(actionLabelNumbers)
+        menuLabel.addAction(actionLabelCustoms)
 
         contextMenu = QMenu(self)
         contextMenu.addMenu(menuLabel)
