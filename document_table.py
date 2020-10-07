@@ -168,15 +168,15 @@ class DocumentTable(QTableWidget):
         index = self.indexAt(pos)
 
         # Label
-        actionLabelDecimal = QAction('Decimal Number', self)
-        actionLabelDecimal.setStatusTip('Change label to decimal number')
-        actionLabelDecimal.setToolTip('Change label to decimal number')
-        actionLabelDecimal.triggered.connect( lambda: self.onActionLabelHorizontalTriggered(index.column(), Settings.HeaderLabel.Decimal) )
-
         actionLabelLetter = QAction('Letter', self)
         actionLabelLetter.setStatusTip('Change label to letter')
         actionLabelLetter.setToolTip('Change label to letter')
         actionLabelLetter.triggered.connect( lambda: self.onActionLabelHorizontalTriggered(index.column(), Settings.HeaderLabel.Letter) )
+
+        actionLabelNumber = QAction('Number', self)
+        actionLabelNumber.setStatusTip('Change label to a decimal number')
+        actionLabelNumber.setToolTip('Change label to a decimal number')
+        actionLabelNumber.triggered.connect( lambda: self.onActionLabelHorizontalTriggered(index.column(), Settings.HeaderLabel.Decimal) )
 
         actionLabelCustom = QAction('Custom…', self)
         actionLabelCustom.setStatusTip('Customize label')
@@ -184,27 +184,27 @@ class DocumentTable(QTableWidget):
         actionLabelCustom.triggered.connect( lambda: self.onActionLabelHorizontalTriggered(index.column(), Settings.HeaderLabel.Custom) )
 
         # All labels
-        actionLabelAllDecimal = QAction('Decimal Numbers', self)
-        actionLabelAllDecimal.setStatusTip('Change all labels to decimal numbers')
-        actionLabelAllDecimal.setToolTip('Change all labels to decimal numbers')
-        actionLabelAllDecimal.triggered.connect( lambda: self.onActionLabelAllHorizontalTriggered(Settings.HeaderLabel.Decimal) )
-
         actionLabelAllLetter = QAction('Letters', self)
         actionLabelAllLetter.setStatusTip('Change all labels to letters')
         actionLabelAllLetter.setToolTip('Change all labels to letters')
         actionLabelAllLetter.triggered.connect( lambda: self.onActionLabelAllHorizontalTriggered(Settings.HeaderLabel.Letter) )
+
+        actionLabelNumbers = QAction('Numbers', self)
+        actionLabelNumbers.setStatusTip('Change all labels to decimal numbers')
+        actionLabelNumbers.setToolTip('Change all labels to decimal numbers')
+        actionLabelNumbers.triggered.connect( lambda: self.onActionLabelAllHorizontalTriggered(Settings.HeaderLabel.Decimal) )
 
         # Menus
         menuLabel = QMenu('Label', self)
         menuLabel.setIcon(QIcon.fromTheme('tag', QIcon(':/icons/actions/16/tag.svg')))
         menuLabel.setStatusTip('Change label')
         menuLabel.setToolTip('Change label')
-        menuLabel.addAction(actionLabelDecimal)
         menuLabel.addAction(actionLabelLetter)
+        menuLabel.addAction(actionLabelNumber)
         menuLabel.addAction(actionLabelCustom)
         menuLabel.addSeparator()
-        menuLabel.addAction(actionLabelAllDecimal)
         menuLabel.addAction(actionLabelAllLetter)
+        menuLabel.addAction(actionLabelNumbers)
 
         contextMenu = QMenu(self)
         contextMenu.addMenu(menuLabel)
@@ -253,15 +253,15 @@ class DocumentTable(QTableWidget):
         index = self.indexAt(pos)
 
         # Label
-        actionLabelDecimal = QAction('Decimal Number', self)
-        actionLabelDecimal.setStatusTip('Change label to decimal number')
-        actionLabelDecimal.setToolTip('Change label to decimal number')
-        actionLabelDecimal.triggered.connect( lambda: self.onActionLabelVerticalTriggered(index.row(), Settings.HeaderLabel.Decimal) )
-
         actionLabelLetter = QAction('Letter', self)
         actionLabelLetter.setStatusTip('Change label to letter')
         actionLabelLetter.setToolTip('Change label to letter')
         actionLabelLetter.triggered.connect( lambda: self.onActionLabelVerticalTriggered(index.row(), Settings.HeaderLabel.Letter) )
+
+        actionLabelNumber = QAction('Number', self)
+        actionLabelNumber.setStatusTip('Change label to a decimal number')
+        actionLabelNumber.setToolTip('Change label to a decimal number')
+        actionLabelNumber.triggered.connect( lambda: self.onActionLabelVerticalTriggered(index.row(), Settings.HeaderLabel.Decimal) )
 
         actionLabelCustom = QAction('Custom…', self)
         actionLabelCustom.setStatusTip('Customize label')
@@ -269,27 +269,27 @@ class DocumentTable(QTableWidget):
         actionLabelCustom.triggered.connect( lambda: self.onActionLabelVerticalTriggered(index.row(), Settings.HeaderLabel.Custom) )
 
         # All labels
-        actionLabelAllDecimal = QAction('Decimal Numbers', self)
-        actionLabelAllDecimal.setStatusTip('Change all labels to decimal numbers')
-        actionLabelAllDecimal.setToolTip('Change all labels to decimal numbers')
-        actionLabelAllDecimal.triggered.connect( lambda: self.onActionLabelAllVerticalTriggered(Settings.HeaderLabel.Decimal) )
-
         actionLabelAllLetter = QAction('Letters', self)
         actionLabelAllLetter.setStatusTip('Change all labels to letters')
         actionLabelAllLetter.setToolTip('Change all labels to letters')
         actionLabelAllLetter.triggered.connect( lambda: self.onActionLabelAllVerticalTriggered(Settings.HeaderLabel.Letter) )
+
+        actionLabelNumbers = QAction('Numbers', self)
+        actionLabelNumbers.setStatusTip('Change all labels to decimal numbers')
+        actionLabelNumbers.setToolTip('Change all labels to decimal numbers')
+        actionLabelNumbers.triggered.connect( lambda: self.onActionLabelAllVerticalTriggered(Settings.HeaderLabel.Decimal) )
 
         # Menus
         menuLabel = QMenu('Label', self)
         menuLabel.setIcon(QIcon.fromTheme('tag', QIcon(':/icons/actions/16/tag.svg')))
         menuLabel.setStatusTip('Change label')
         menuLabel.setToolTip('Change label')
-        menuLabel.addAction(actionLabelDecimal)
         menuLabel.addAction(actionLabelLetter)
+        menuLabel.addAction(actionLabelNumber)
         menuLabel.addAction(actionLabelCustom)
         menuLabel.addSeparator()
-        menuLabel.addAction(actionLabelAllDecimal)
         menuLabel.addAction(actionLabelAllLetter)
+        menuLabel.addAction(actionLabelNumbers)
 
         contextMenu = QMenu(self)
         contextMenu.addMenu(menuLabel)
