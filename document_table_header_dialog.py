@@ -18,10 +18,21 @@
 # along with pyTabulator.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from PySide2.QtWidgets import QDialog
+from PySide2.QtWidgets import QDialog, QDialogButtonBox, QVBoxLayout
 
 
 class DocumentTableHeaderDialog(QDialog):
 
     def __init__(self, parent=None):
         super(DocumentTableHeaderDialog, self).__init__(parent)
+
+        # Button box
+        buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+        buttonBox.button(QDialogButtonBox.Ok).setEnabled(False)
+        buttonBox.rejected.connect(self.close)
+
+        # Main layout
+        layout = QVBoxLayout()
+        layout.addWidget(buttonBox)
+
+        self.setLayout(layout)

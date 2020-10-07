@@ -20,8 +20,9 @@
 
 from PySide2.QtCore import Qt
 from PySide2.QtGui import QIcon
-from PySide2.QtWidgets import QAction, QHeaderView, QInputDialog, QLineEdit, QMenu, QTableWidget, QTableWidgetItem
+from PySide2.QtWidgets import QAction, QDialog, QHeaderView, QInputDialog, QLineEdit, QMenu, QTableWidget, QTableWidgetItem
 
+from document_table_header_dialog import DocumentTableHeaderDialog
 from settings import Settings
 
 
@@ -220,6 +221,17 @@ class DocumentTable(QTableWidget):
         """
         Updates a specific horizontal header item.
         """
+        if type == Settings.HeaderLabel.Custom:
+
+            documentTableHeaderDialog = DocumentTableHeaderDialog(self)
+            documentTableHeaderDialog.setWindowTitle(f'Horizontal Header Item')
+
+            if documentTableHeaderDialog.exec_() == QDialog.Accepted:
+                pass
+
+            else:
+                return
+
         self.updateHorizontalHeaderItem(column, type)
 
 
@@ -227,6 +239,17 @@ class DocumentTable(QTableWidget):
         """
         Updates all horizontal header items.
         """
+        if type == Settings.HeaderLabel.Custom:
+
+            documentTableHeaderDialog = DocumentTableHeaderDialog(self)
+            documentTableHeaderDialog.setWindowTitle(f'Horizontal Header Items')
+
+            if documentTableHeaderDialog.exec_() == QDialog.Accepted:
+                pass
+
+            else:
+                return
+
         for column in range(0, self.columnCount()):
             self.updateHorizontalHeaderItem(column, type)
 
@@ -238,17 +261,7 @@ class DocumentTable(QTableWidget):
         number = column
 
         item = self.horizontalHeaderItem(column)
-
-        if type == Settings.HeaderLabel.Custom:
-
-            text, ok = QInputDialog().getText(self, "Horizontal Header Item",
-                                              "Label:", QLineEdit.Normal, item.text(),
-                                              self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
-
-            if ok and text:
-                item.setText(text)
-        else:
-            item.setText(self.headerItemText(number, type))
+        item.setText(self.headerItemText(number, type))
 
 
     def contextMenuVerticalHeader(self, pos):
@@ -310,6 +323,17 @@ class DocumentTable(QTableWidget):
         """
         Updates a specific vertical header item.
         """
+        if type == Settings.HeaderLabel.Custom:
+
+            documentTableHeaderDialog = DocumentTableHeaderDialog(self)
+            documentTableHeaderDialog.setWindowTitle(f'Vertical Header Item')
+
+            if documentTableHeaderDialog.exec_() == QDialog.Accepted:
+                pass
+
+            else:
+                return
+
         self.updateVerticalHeaderItem(row, type)
 
 
@@ -317,6 +341,17 @@ class DocumentTable(QTableWidget):
         """
         Updates all vertical header items.
         """
+        if type == Settings.HeaderLabel.Custom:
+
+            documentTableHeaderDialog = DocumentTableHeaderDialog(self)
+            documentTableHeaderDialog.setWindowTitle(f'Vertical Header Items')
+
+            if documentTableHeaderDialog.exec_() == QDialog.Accepted:
+                pass
+
+            else:
+                return
+
         for row in range(0, self.rowCount()):
             self.updateVerticalHeaderItem(row, type)
 
@@ -328,14 +363,4 @@ class DocumentTable(QTableWidget):
         number = row
 
         item = self.verticalHeaderItem(row)
-
-        if type == Settings.HeaderLabel.Custom:
-
-            text, ok = QInputDialog().getText(self, "Vertical Header Item",
-                                              "Label:", QLineEdit.Normal, item.text(),
-                                              self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
-
-            if ok and text:
-                item.setText(text)
-        else:
-            item.setText(self.headerItemText(number, type))
+        item.setText(self.headerItemText(number, type))
