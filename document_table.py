@@ -168,11 +168,6 @@ class DocumentTable(QTableWidget):
         index = self.indexAt(pos)
 
         # Label
-        actionLabelOctal = QAction('Octal Number', self)
-        actionLabelOctal.setStatusTip('Change label to octal number')
-        actionLabelOctal.setToolTip('Change label to octal number')
-        actionLabelOctal.triggered.connect( lambda: self.onActionLabelHorizontalTriggered(index.column(), Settings.HeaderLabel.Octal) )
-
         actionLabelDecimal = QAction('Decimal Number', self)
         actionLabelDecimal.setStatusTip('Change label to decimal number')
         actionLabelDecimal.setToolTip('Change label to decimal number')
@@ -194,11 +189,6 @@ class DocumentTable(QTableWidget):
         actionLabelCustom.triggered.connect( lambda: self.onActionLabelHorizontalTriggered(index.column(), Settings.HeaderLabel.Custom) )
 
         # All labels
-        actionLabelAllOctal = QAction('Octal Numbers', self)
-        actionLabelAllOctal.setStatusTip('Change all labels to octal numbers')
-        actionLabelAllOctal.setToolTip('Change all labels to octal numbers')
-        actionLabelAllOctal.triggered.connect( lambda: self.onActionLabelAllHorizontalTriggered(Settings.HeaderLabel.Octal) )
-
         actionLabelAllDecimal = QAction('Decimal Numbers', self)
         actionLabelAllDecimal.setStatusTip('Change all labels to decimal numbers')
         actionLabelAllDecimal.setToolTip('Change all labels to decimal numbers')
@@ -219,13 +209,11 @@ class DocumentTable(QTableWidget):
         menuLabel.setIcon(QIcon.fromTheme('tag', QIcon(':/icons/actions/16/tag.svg')))
         menuLabel.setStatusTip('Change label')
         menuLabel.setToolTip('Change label')
-        menuLabel.addAction(actionLabelOctal)
         menuLabel.addAction(actionLabelDecimal)
         menuLabel.addAction(actionLabelHexadecimal)
         menuLabel.addAction(actionLabelLetter)
         menuLabel.addAction(actionLabelCustom)
         menuLabel.addSeparator()
-        menuLabel.addAction(actionLabelAllOctal)
         menuLabel.addAction(actionLabelAllDecimal)
         menuLabel.addAction(actionLabelAllHexadecimal)
         menuLabel.addAction(actionLabelAllLetter)
@@ -277,11 +265,6 @@ class DocumentTable(QTableWidget):
         index = self.indexAt(pos)
 
         # Label
-        actionLabelOctal = QAction('Octal Number', self)
-        actionLabelOctal.setStatusTip('Change label to octal number')
-        actionLabelOctal.setToolTip('Change label to octal number')
-        actionLabelOctal.triggered.connect( lambda: self.onActionLabelVerticalTriggered(index.row(), Settings.HeaderLabel.Octal) )
-
         actionLabelDecimal = QAction('Decimal Number', self)
         actionLabelDecimal.setStatusTip('Change label to decimal number')
         actionLabelDecimal.setToolTip('Change label to decimal number')
@@ -303,11 +286,6 @@ class DocumentTable(QTableWidget):
         actionLabelCustom.triggered.connect( lambda: self.onActionLabelVerticalTriggered(index.row(), Settings.HeaderLabel.Custom) )
 
         # All labels
-        actionLabelAllOctal = QAction('Octal Numbers', self)
-        actionLabelAllOctal.setStatusTip('Change all labels to octal numbers')
-        actionLabelAllOctal.setToolTip('Change all labels to octal numbers')
-        actionLabelAllOctal.triggered.connect( lambda: self.onActionLabelAllVerticalTriggered(Settings.HeaderLabel.Octal) )
-
         actionLabelAllDecimal = QAction('Decimal Numbers', self)
         actionLabelAllDecimal.setStatusTip('Change all labels to decimal numbers')
         actionLabelAllDecimal.setToolTip('Change all labels to decimal numbers')
@@ -328,13 +306,11 @@ class DocumentTable(QTableWidget):
         menuLabel.setIcon(QIcon.fromTheme('tag', QIcon(':/icons/actions/16/tag.svg')))
         menuLabel.setStatusTip('Change label')
         menuLabel.setToolTip('Change label')
-        menuLabel.addAction(actionLabelOctal)
         menuLabel.addAction(actionLabelDecimal)
         menuLabel.addAction(actionLabelHexadecimal)
         menuLabel.addAction(actionLabelLetter)
         menuLabel.addAction(actionLabelCustom)
         menuLabel.addSeparator()
-        menuLabel.addAction(actionLabelAllOctal)
         menuLabel.addAction(actionLabelAllDecimal)
         menuLabel.addAction(actionLabelAllHexadecimal)
         menuLabel.addAction(actionLabelAllLetter)
