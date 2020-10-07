@@ -173,11 +173,6 @@ class DocumentTable(QTableWidget):
         actionLabelDecimal.setToolTip('Change label to decimal number')
         actionLabelDecimal.triggered.connect( lambda: self.onActionLabelHorizontalTriggered(index.column(), Settings.HeaderLabel.Decimal) )
 
-        actionLabelHexadecimal = QAction('Hexadecimal Number', self)
-        actionLabelHexadecimal.setStatusTip('Change label to hexadecimal number')
-        actionLabelHexadecimal.setToolTip('Change label to hexadecimal number')
-        actionLabelHexadecimal.triggered.connect( lambda: self.onActionLabelHorizontalTriggered(index.column(), Settings.HeaderLabel.Hexadecimal) )
-
         actionLabelLetter = QAction('Letter', self)
         actionLabelLetter.setStatusTip('Change label to letter')
         actionLabelLetter.setToolTip('Change label to letter')
@@ -194,11 +189,6 @@ class DocumentTable(QTableWidget):
         actionLabelAllDecimal.setToolTip('Change all labels to decimal numbers')
         actionLabelAllDecimal.triggered.connect( lambda: self.onActionLabelAllHorizontalTriggered(Settings.HeaderLabel.Decimal) )
 
-        actionLabelAllHexadecimal = QAction('Hexadecimal Numbers', self)
-        actionLabelAllHexadecimal.setStatusTip('Change all labels to hexadecimal numbers')
-        actionLabelAllHexadecimal.setToolTip('Change all labels to hexadecimal numbers')
-        actionLabelAllHexadecimal.triggered.connect( lambda: self.onActionLabelAllHorizontalTriggered(Settings.HeaderLabel.Hexadecimal) )
-
         actionLabelAllLetter = QAction('Letters', self)
         actionLabelAllLetter.setStatusTip('Change all labels to letters')
         actionLabelAllLetter.setToolTip('Change all labels to letters')
@@ -210,12 +200,10 @@ class DocumentTable(QTableWidget):
         menuLabel.setStatusTip('Change label')
         menuLabel.setToolTip('Change label')
         menuLabel.addAction(actionLabelDecimal)
-        menuLabel.addAction(actionLabelHexadecimal)
         menuLabel.addAction(actionLabelLetter)
         menuLabel.addAction(actionLabelCustom)
         menuLabel.addSeparator()
         menuLabel.addAction(actionLabelAllDecimal)
-        menuLabel.addAction(actionLabelAllHexadecimal)
         menuLabel.addAction(actionLabelAllLetter)
 
         contextMenu = QMenu(self)
@@ -270,11 +258,6 @@ class DocumentTable(QTableWidget):
         actionLabelDecimal.setToolTip('Change label to decimal number')
         actionLabelDecimal.triggered.connect( lambda: self.onActionLabelVerticalTriggered(index.row(), Settings.HeaderLabel.Decimal) )
 
-        actionLabelHexadecimal = QAction('Hexadecimal Number', self)
-        actionLabelHexadecimal.setStatusTip('Change label to hexadecimal number')
-        actionLabelHexadecimal.setToolTip('Change label to hexadecimal number')
-        actionLabelHexadecimal.triggered.connect( lambda: self.onActionLabelVerticalTriggered(index.row(), Settings.HeaderLabel.Hexadecimal) )
-
         actionLabelLetter = QAction('Letter', self)
         actionLabelLetter.setStatusTip('Change label to letter')
         actionLabelLetter.setToolTip('Change label to letter')
@@ -291,11 +274,6 @@ class DocumentTable(QTableWidget):
         actionLabelAllDecimal.setToolTip('Change all labels to decimal numbers')
         actionLabelAllDecimal.triggered.connect( lambda: self.onActionLabelAllVerticalTriggered(Settings.HeaderLabel.Decimal) )
 
-        actionLabelAllHexadecimal = QAction('Hexadecimal Numbers', self)
-        actionLabelAllHexadecimal.setStatusTip('Change all labels to hexadecimal numbers')
-        actionLabelAllHexadecimal.setToolTip('Change all labels to hexadecimal numbers')
-        actionLabelAllHexadecimal.triggered.connect( lambda: self.onActionLabelAllVerticalTriggered(Settings.HeaderLabel.Hexadecimal) )
-
         actionLabelAllLetter = QAction('Letters', self)
         actionLabelAllLetter.setStatusTip('Change all labels to letters')
         actionLabelAllLetter.setToolTip('Change all labels to letters')
@@ -307,12 +285,10 @@ class DocumentTable(QTableWidget):
         menuLabel.setStatusTip('Change label')
         menuLabel.setToolTip('Change label')
         menuLabel.addAction(actionLabelDecimal)
-        menuLabel.addAction(actionLabelHexadecimal)
         menuLabel.addAction(actionLabelLetter)
         menuLabel.addAction(actionLabelCustom)
         menuLabel.addSeparator()
         menuLabel.addAction(actionLabelAllDecimal)
-        menuLabel.addAction(actionLabelAllHexadecimal)
         menuLabel.addAction(actionLabelAllLetter)
 
         contextMenu = QMenu(self)
