@@ -18,13 +18,21 @@
 # along with pyTabulator.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from PySide2.QtWidgets import QDialog, QDialogButtonBox, QVBoxLayout
+from PySide2.QtWidgets import QDialog, QDialogButtonBox, QGroupBox, QVBoxLayout
 
 
 class DocumentTableHeaderDialog(QDialog):
 
-    def __init__(self, parent=None):
+    def __init__(self, allLabels, parent=None):
         super(DocumentTableHeaderDialog, self).__init__(parent)
+
+        # Group box
+        groupLayout = QVBoxLayout()
+        groupLayout.addStretch(1)
+
+        text = 'Change label to a …' if not allLabels else 'Change all labels to …'
+        groupBox = QGroupBox(text)
+        groupBox.setLayout(groupLayout)
 
         # Button box
         buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
@@ -33,6 +41,7 @@ class DocumentTableHeaderDialog(QDialog):
 
         # Main layout
         layout = QVBoxLayout()
+        layout.addWidget(groupBox)
         layout.addWidget(buttonBox)
 
         self.setLayout(layout)
