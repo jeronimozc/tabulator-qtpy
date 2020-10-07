@@ -9,6 +9,7 @@
         "colophon_license_widget.py",
         "dialog_title_box.py",
         "document_table.py",
+        "document_table_header_dialog.py",
         "keyboard_shortcuts_dialog.py",
         "keyboard_shortcuts_widget.py",
         "main.py",
