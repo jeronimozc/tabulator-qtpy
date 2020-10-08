@@ -47,16 +47,23 @@ class DocumentTableHeaderDialog(QDialog):
         rdbDecimal = QRadioButton(text)
         rdbDecimal.setToolTip(toolTip)
 
+        text = 'Hexadecimal Number' if isinstance(number, int) else 'Hexadecimal Numbers'
+        toolTip = 'Change label to a hexadecimal number' if isinstance(number, int) else 'Change all labels to hexadecimal numbers'
+        rdbHexadecimal = QRadioButton(text)
+        rdbHexadecimal.setToolTip(toolTip)
+
         self.grpHeaderLabel = QButtonGroup(self)
         self.grpHeaderLabel.addButton(rdbBinary, Settings.HeaderLabel.Binary.value)
         self.grpHeaderLabel.addButton(rdbOctal, Settings.HeaderLabel.Octal.value)
         self.grpHeaderLabel.addButton(rdbDecimal, Settings.HeaderLabel.Decimal.value)
+        self.grpHeaderLabel.addButton(rdbHexadecimal, Settings.HeaderLabel.Hexadecimal.value)
         self.grpHeaderLabel.buttonClicked.connect(self.onSettingChanged)
 
         groupLayout = QVBoxLayout()
         groupLayout.addWidget(rdbBinary)
         groupLayout.addWidget(rdbOctal)
         groupLayout.addWidget(rdbDecimal)
+        groupLayout.addWidget(rdbHexadecimal)
         groupLayout.addStretch(1)
 
         text = 'Change label to a …' if isinstance(number, int) else 'Change all labels to …'
