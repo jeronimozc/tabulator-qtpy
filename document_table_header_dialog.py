@@ -18,6 +18,7 @@
 # along with pyTabulator.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from PySide2.QtCore import Qt
 from PySide2.QtWidgets import QDialog, QDialogButtonBox, QGroupBox, QVBoxLayout
 
 
@@ -25,6 +26,8 @@ class DocumentTableHeaderDialog(QDialog):
 
     def __init__(self, allLabels, parent=None):
         super(DocumentTableHeaderDialog, self).__init__(parent)
+
+        self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
 
         # Group box
         groupLayout = QVBoxLayout()
