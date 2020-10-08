@@ -39,8 +39,10 @@ class DocumentTableHeaderDialog(QDialog):
 
         # Button box
         buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
-        buttonBox.button(QDialogButtonBox.Ok).setEnabled(False)
-        buttonBox.rejected.connect(self.close)
+        self.buttonOk = buttonBox.button(QDialogButtonBox.Ok)
+        self.buttonOk.setEnabled(False)
+        buttonBox.accepted.connect(self.accept)
+        buttonBox.rejected.connect(self.reject)
 
         # Main layout
         layout = QVBoxLayout()
@@ -48,3 +50,10 @@ class DocumentTableHeaderDialog(QDialog):
         layout.addWidget(buttonBox)
 
         self.setLayout(layout)
+
+
+    def onSettingChanged(self):
+        """
+        Enables the ok button if a setting has been changed.
+        """
+        self.buttonOk.setEnabled(True)
