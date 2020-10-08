@@ -227,8 +227,7 @@ class DocumentTable(QTableWidget):
             documentTableHeaderDialog.setWindowTitle(f'Horizontal Header Item')
 
             if documentTableHeaderDialog.exec_() == QDialog.Accepted:
-                pass
-
+                type = documentTableHeaderDialog.headerLabelType()
             else:
                 return
 
@@ -245,8 +244,7 @@ class DocumentTable(QTableWidget):
             documentTableHeaderDialog.setWindowTitle(f'Horizontal Header Items')
 
             if documentTableHeaderDialog.exec_() == QDialog.Accepted:
-                pass
-
+                type = documentTableHeaderDialog.headerLabelType()
             else:
                 return
 
@@ -329,8 +327,7 @@ class DocumentTable(QTableWidget):
             documentTableHeaderDialog.setWindowTitle(f'Vertical Header Item')
 
             if documentTableHeaderDialog.exec_() == QDialog.Accepted:
-                pass
-
+                type = documentTableHeaderDialog.headerLabelType()
             else:
                 return
 
@@ -347,8 +344,7 @@ class DocumentTable(QTableWidget):
             documentTableHeaderDialog.setWindowTitle(f'Vertical Header Items')
 
             if documentTableHeaderDialog.exec_() == QDialog.Accepted:
-                pass
-
+                type = documentTableHeaderDialog.headerLabelType()
             else:
                 return
 
