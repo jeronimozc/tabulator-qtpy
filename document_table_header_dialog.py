@@ -42,14 +42,21 @@ class DocumentTableHeaderDialog(QDialog):
         rdbOctal = QRadioButton(text)
         rdbOctal.setToolTip(toolTip)
 
+        text = 'Decimal Number' if isinstance(number, int) else 'Decimal Numbers'
+        toolTip = 'Change label to a decimal number' if isinstance(number, int) else 'Change all labels to decimal numbers'
+        rdbDecimal = QRadioButton(text)
+        rdbDecimal.setToolTip(toolTip)
+
         self.grpHeaderLabel = QButtonGroup(self)
         self.grpHeaderLabel.addButton(rdbBinary, Settings.HeaderLabel.Binary.value)
         self.grpHeaderLabel.addButton(rdbOctal, Settings.HeaderLabel.Octal.value)
+        self.grpHeaderLabel.addButton(rdbDecimal, Settings.HeaderLabel.Decimal.value)
         self.grpHeaderLabel.buttonClicked.connect(self.onSettingChanged)
 
         groupLayout = QVBoxLayout()
         groupLayout.addWidget(rdbBinary)
         groupLayout.addWidget(rdbOctal)
+        groupLayout.addWidget(rdbDecimal)
         groupLayout.addStretch(1)
 
         text = 'Change label to a …' if isinstance(number, int) else 'Change all labels to …'
