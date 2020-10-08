@@ -24,7 +24,7 @@ from PySide2.QtWidgets import QDialog, QDialogButtonBox, QGroupBox, QVBoxLayout
 
 class DocumentTableHeaderDialog(QDialog):
 
-    def __init__(self, allLabels, parent=None):
+    def __init__(self, number, parent=None):
         super(DocumentTableHeaderDialog, self).__init__(parent)
 
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
@@ -33,7 +33,7 @@ class DocumentTableHeaderDialog(QDialog):
         groupLayout = QVBoxLayout()
         groupLayout.addStretch(1)
 
-        text = 'Change label to a …' if not allLabels else 'Change all labels to …'
+        text = 'Change label to a …' if isinstance(number, int) else 'Change all labels to …'
         groupBox = QGroupBox(text)
         groupBox.setLayout(groupLayout)
 
