@@ -52,11 +52,17 @@ class DocumentTableHeaderDialog(QDialog):
         rdbHexadecimal = QRadioButton(text)
         rdbHexadecimal.setToolTip(toolTip)
 
+        text = 'Capital Letter' if isinstance(number, int) else 'Capital Letters'
+        toolTip = 'Change label to a capital letter' if isinstance(number, int) else 'Change all labels to capital letters'
+        rdbLetter = QRadioButton(text)
+        rdbLetter.setToolTip(toolTip)
+
         self.grpHeaderLabel = QButtonGroup(self)
         self.grpHeaderLabel.addButton(rdbBinary, Settings.HeaderLabel.Binary.value)
         self.grpHeaderLabel.addButton(rdbOctal, Settings.HeaderLabel.Octal.value)
         self.grpHeaderLabel.addButton(rdbDecimal, Settings.HeaderLabel.Decimal.value)
         self.grpHeaderLabel.addButton(rdbHexadecimal, Settings.HeaderLabel.Hexadecimal.value)
+        self.grpHeaderLabel.addButton(rdbLetter, Settings.HeaderLabel.Letter.value)
         self.grpHeaderLabel.buttonClicked.connect(self.onSettingChanged)
 
         groupLayout = QVBoxLayout()
@@ -64,6 +70,7 @@ class DocumentTableHeaderDialog(QDialog):
         groupLayout.addWidget(rdbOctal)
         groupLayout.addWidget(rdbDecimal)
         groupLayout.addWidget(rdbHexadecimal)
+        groupLayout.addWidget(rdbLetter)
         groupLayout.addStretch(1)
 
         text = 'Change label to a …' if isinstance(number, int) else 'Change all labels to …'
