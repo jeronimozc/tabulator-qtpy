@@ -32,27 +32,27 @@ class DocumentTableHeaderDialog(QDialog):
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
 
         # Group box
-        text = 'Binary Number' if isinstance(number, int) else 'Binary Numbers'
+        text = 'Binary Number' if number >= 0 else 'Binary Numbers'
         toolTip = 'Change label to a binary number' if isinstance(number, int) else 'Change all labels to binary numbers'
         rdbBinary = QRadioButton(text)
         rdbBinary.setToolTip(toolTip)
 
-        text = 'Octal Number' if isinstance(number, int) else 'Octal Numbers'
+        text = 'Octal Number' if number >= 0 else 'Octal Numbers'
         toolTip = 'Change label to a octal number' if isinstance(number, int) else 'Change all labels to octal numbers'
         rdbOctal = QRadioButton(text)
         rdbOctal.setToolTip(toolTip)
 
-        text = 'Decimal Number' if isinstance(number, int) else 'Decimal Numbers'
+        text = 'Decimal Number' if number >= 0 else 'Decimal Numbers'
         toolTip = 'Change label to a decimal number' if isinstance(number, int) else 'Change all labels to decimal numbers'
         rdbDecimal = QRadioButton(text)
         rdbDecimal.setToolTip(toolTip)
 
-        text = 'Hexadecimal Number' if isinstance(number, int) else 'Hexadecimal Numbers'
+        text = 'Hexadecimal Number' if number >= 0 else 'Hexadecimal Numbers'
         toolTip = 'Change label to a hexadecimal number' if isinstance(number, int) else 'Change all labels to hexadecimal numbers'
         rdbHexadecimal = QRadioButton(text)
         rdbHexadecimal.setToolTip(toolTip)
 
-        text = 'Capital Letter' if isinstance(number, int) else 'Capital Letters'
+        text = 'Capital Letter' if number >= 0 else 'Capital Letters'
         toolTip = 'Change label to a capital letter' if isinstance(number, int) else 'Change all labels to capital letters'
         rdbLetter = QRadioButton(text)
         rdbLetter.setToolTip(toolTip)
@@ -73,7 +73,7 @@ class DocumentTableHeaderDialog(QDialog):
         groupLayout.addWidget(rdbLetter)
         groupLayout.addStretch(1)
 
-        text = 'Change label to a …' if isinstance(number, int) else 'Change all labels to …'
+        text = 'Change label to a …' if number >= 0 else 'Change all labels to …'
         groupBox = QGroupBox(text)
         groupBox.setLayout(groupLayout)
 

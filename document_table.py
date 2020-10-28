@@ -240,7 +240,7 @@ class DocumentTable(QTableWidget):
         """
         if type == Settings.HeaderLabel.Custom:
 
-            documentTableHeaderDialog = DocumentTableHeaderDialog(None, self)
+            documentTableHeaderDialog = DocumentTableHeaderDialog(-1, self)
             documentTableHeaderDialog.setWindowTitle(f'Horizontal Header Items')
 
             if documentTableHeaderDialog.exec_() == QDialog.Accepted:
@@ -340,7 +340,7 @@ class DocumentTable(QTableWidget):
         """
         if type == Settings.HeaderLabel.Custom:
 
-            documentTableHeaderDialog = DocumentTableHeaderDialog(None, self)
+            documentTableHeaderDialog = DocumentTableHeaderDialog(-1, self)
             documentTableHeaderDialog.setWindowTitle(f'Vertical Header Items')
 
             if documentTableHeaderDialog.exec_() == QDialog.Accepted:
