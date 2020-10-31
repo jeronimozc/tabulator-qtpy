@@ -68,6 +68,14 @@ class DocumentTableHeaderDialog(QDialog):
         rdbHexadecimal = QRadioButton(text)
         rdbHexadecimal.setToolTip(toolTip)
 
+        text = 'With prefix 0x'
+        toolTip = 'Change label to a hexadecimal number with prefix 0x otherwise without prefix' if number >= 0 else 'Change all labels to hexadecimal numbers with prefix 0x otherwise without prefix'
+        self.chkHexadecimal = QCheckBox(text)
+        self.chkHexadecimal.setChecked(True)
+        self.chkHexadecimal.setEnabled(False)
+        self.chkHexadecimal.setToolTip(toolTip)
+        rdbHexadecimal.toggled.connect(lambda checked: self.chkHexadecimal.setEnabled(checked))
+
         text = 'Capital Letter' if number >= 0 else 'Capital Letters'
         toolTip = 'Change label to a capital letter' if number >= 0 else 'Change all labels to capital letters'
         rdbLetter = QRadioButton(text)
@@ -88,6 +96,7 @@ class DocumentTableHeaderDialog(QDialog):
         groupLayout.addWidget(self.chkOctal, 1, 1)
         groupLayout.addWidget(rdbDecimal, 2, 0)
         groupLayout.addWidget(rdbHexadecimal, 3, 0)
+        groupLayout.addWidget(self.chkHexadecimal, 3, 1)
         groupLayout.addWidget(rdbLetter, 4, 0)
 
         text = 'Change label to a …' if number >= 0 else 'Change all labels to …'
@@ -133,5 +142,7 @@ class DocumentTableHeaderDialog(QDialog):
             return '0b' if self.chkBinary.isChecked() else ''
         elif type == Settings.HeaderLabel.Octal:
             return '0o' if self.chkOctal.isChecked() else ''
+        elif type == Settings.HeaderLabel.Hexadecimal:
+            return '0x' if self.chkHexadecimal.isChecked() else ''
         else:
             return ''

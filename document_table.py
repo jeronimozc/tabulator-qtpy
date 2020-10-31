@@ -116,7 +116,7 @@ class DocumentTable(QTableWidget):
         elif type == Settings.HeaderLabel.Decimal:
             return self.numberToDecimal(number)
         elif type == Settings.HeaderLabel.Hexadecimal:
-            return self.numberToHexadecimal(number)
+            return self.numberToHexadecimal(number, parameter)
         elif type == Settings.HeaderLabel.Letter:
             return self.numberToLetter(number)
         else:
@@ -131,6 +131,8 @@ class DocumentTable(QTableWidget):
             return '0b'
         elif type == Settings.HeaderLabel.Octal:
             return '0o'
+        elif type == Settings.HeaderLabel.Hexadecimal:
+            return '0x'
         else:
             return ''
 
@@ -156,11 +158,11 @@ class DocumentTable(QTableWidget):
         return f'{number + 1}'
 
 
-    def numberToHexadecimal(self, number):
+    def numberToHexadecimal(self, number, parameter):
         """
         Returns a string equivalent of the number according to the base 16.
         """
-        return f'0x{number:X}'
+        return f'{parameter}{number:X}'
 
 
     def numberToLetter(self, number):
