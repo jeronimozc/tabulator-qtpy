@@ -19,7 +19,7 @@
 #
 
 from PySide2.QtCore import Qt
-from PySide2.QtWidgets import QButtonGroup, QDialog, QDialogButtonBox, QGroupBox, QRadioButton, QVBoxLayout
+from PySide2.QtWidgets import QButtonGroup, QCheckBox, QDialog, QDialogButtonBox, QGridLayout, QGroupBox, QRadioButton, QVBoxLayout
 
 from settings import Settings
 
@@ -33,27 +33,35 @@ class DocumentTableHeaderDialog(QDialog):
 
         # Group box
         text = 'Binary Number' if number >= 0 else 'Binary Numbers'
-        toolTip = 'Change label to a binary number' if isinstance(number, int) else 'Change all labels to binary numbers'
+        toolTip = 'Change label to a binary number' if number >= 0 else 'Change all labels to binary numbers'
         rdbBinary = QRadioButton(text)
         rdbBinary.setToolTip(toolTip)
 
+        text = 'With prefix 0b'
+        toolTip = 'Change label to a binary number with prefix 0b otherwise without prefix' if number >= 0 else 'Change all labels to binary numbers with prefix 0b otherwise without prefix'
+        self.chkBinary = QCheckBox(text)
+        self.chkBinary.setChecked(True)
+        self.chkBinary.setEnabled(False)
+        self.chkBinary.setToolTip(toolTip)
+        rdbBinary.toggled.connect(lambda checked: self.chkBinary.setEnabled(checked))
+
         text = 'Octal Number' if number >= 0 else 'Octal Numbers'
-        toolTip = 'Change label to a octal number' if isinstance(number, int) else 'Change all labels to octal numbers'
+        toolTip = 'Change label to a octal number' if number >= 0 else 'Change all labels to octal numbers'
         rdbOctal = QRadioButton(text)
         rdbOctal.setToolTip(toolTip)
 
         text = 'Decimal Number' if number >= 0 else 'Decimal Numbers'
-        toolTip = 'Change label to a decimal number' if isinstance(number, int) else 'Change all labels to decimal numbers'
+        toolTip = 'Change label to a decimal number' if number >= 0 else 'Change all labels to decimal numbers'
         rdbDecimal = QRadioButton(text)
         rdbDecimal.setToolTip(toolTip)
 
         text = 'Hexadecimal Number' if number >= 0 else 'Hexadecimal Numbers'
-        toolTip = 'Change label to a hexadecimal number' if isinstance(number, int) else 'Change all labels to hexadecimal numbers'
+        toolTip = 'Change label to a hexadecimal number' if number >= 0 else 'Change all labels to hexadecimal numbers'
         rdbHexadecimal = QRadioButton(text)
         rdbHexadecimal.setToolTip(toolTip)
 
         text = 'Capital Letter' if number >= 0 else 'Capital Letters'
-        toolTip = 'Change label to a capital letter' if isinstance(number, int) else 'Change all labels to capital letters'
+        toolTip = 'Change label to a capital letter' if number >= 0 else 'Change all labels to capital letters'
         rdbLetter = QRadioButton(text)
         rdbLetter.setToolTip(toolTip)
 
@@ -65,13 +73,13 @@ class DocumentTableHeaderDialog(QDialog):
         self.grpHeaderLabel.addButton(rdbLetter, Settings.HeaderLabel.Letter.value)
         self.grpHeaderLabel.buttonClicked.connect(self.onSettingChanged)
 
-        groupLayout = QVBoxLayout()
-        groupLayout.addWidget(rdbBinary)
-        groupLayout.addWidget(rdbOctal)
-        groupLayout.addWidget(rdbDecimal)
-        groupLayout.addWidget(rdbHexadecimal)
-        groupLayout.addWidget(rdbLetter)
-        groupLayout.addStretch(1)
+        groupLayout = QGridLayout()
+        groupLayout.addWidget(rdbBinary, 0, 0)
+        groupLayout.addWidget(self.chkBinary, 0, 1)
+        groupLayout.addWidget(rdbOctal, 1, 0)
+        groupLayout.addWidget(rdbDecimal, 2, 0)
+        groupLayout.addWidget(rdbHexadecimal, 3, 0)
+        groupLayout.addWidget(rdbLetter, 4, 0)
 
         text = 'Change label to a …' if number >= 0 else 'Change all labels to …'
         groupBox = QGroupBox(text)
@@ -100,7 +108,19 @@ class DocumentTableHeaderDialog(QDialog):
 
 
     def headerLabelType(self):
-         """
-         Returns the type of the header label.
-         """
-         return Settings.HeaderLabel(self.grpHeaderLabel.checkedId())
+        """
+        Returns the type of the header label.
+        """
+        return Settings.HeaderLabel(self.grpHeaderLabel.checkedId())
+
+
+    def headerLabelParameter(self):
+        """
+        Returns the parameter of the header label.
+        """
+        type = self.headerLabelType()
+
+        if type == Settings.HeaderLabel.Binary:
+            return '0b' if self.chkBinary.isChecked() else ''
+        else:
+            return ''

@@ -75,13 +75,15 @@ class DocumentTable(QTableWidget):
         """
         Sets the horizontal header items.
         """
+        parameter = self.headerItemDefaultParameter(type)
+
         for column in range(0, self.columnCount()):
 
             number = column
 
             item = QTableWidgetItem()
             item.setTextAlignment(Qt.AlignCenter)
-            item.setText(self.headerItemText(number, type))
+            item.setText(self.headerItemText(number, type, parameter))
 
             self.setHorizontalHeaderItem(column, item)
 
@@ -90,23 +92,25 @@ class DocumentTable(QTableWidget):
         """
         Sets the vertical header items.
         """
+        parameter = self.headerItemDefaultParameter(type)
+
         for row in range(0, self.rowCount()):
 
             number = row
 
             item = QTableWidgetItem()
             item.setTextAlignment(Qt.AlignCenter)
-            item.setText(self.headerItemText(number, type))
+            item.setText(self.headerItemText(number, type, parameter))
 
             self.setVerticalHeaderItem(row, item)
 
 
-    def headerItemText(self, number, type):
+    def headerItemText(self, number, type, parameter):
         """
         Returns the header item text.
         """
         if type == Settings.HeaderLabel.Binary:
-            return self.numberToBinary(number)
+            return self.numberToBinary(number, parameter)
         elif type == Settings.HeaderLabel.Octal:
             return self.numberToOctal(number)
         elif type == Settings.HeaderLabel.Decimal:
@@ -119,11 +123,21 @@ class DocumentTable(QTableWidget):
             return ''
 
 
-    def numberToBinary(self, number):
+    def headerItemDefaultParameter(self, type):
+        """
+        Returns a default parameter that matches the type of the header label.
+        """
+        if type == Settings.HeaderLabel.Binary:
+            return '0b'
+        else:
+            return ''
+
+
+    def numberToBinary(self, number, parameter):
         """
         Returns a string equivalent of the number according to the base 2.
         """
-        return f'0b{number:b}'
+        return f'{parameter}{number:b}'
 
 
     def numberToOctal(self, number):
@@ -221,6 +235,8 @@ class DocumentTable(QTableWidget):
         """
         Updates a specific horizontal header item.
         """
+        parameter = self.headerItemDefaultParameter(type)
+
         if type == Settings.HeaderLabel.Custom:
 
             documentTableHeaderDialog = DocumentTableHeaderDialog(column, self)
@@ -228,16 +244,19 @@ class DocumentTable(QTableWidget):
 
             if documentTableHeaderDialog.exec_() == QDialog.Accepted:
                 type = documentTableHeaderDialog.headerLabelType()
+                parameter = documentTableHeaderDialog.headerLabelParameter()
             else:
                 return
 
-        self.updateHorizontalHeaderItem(column, type)
+        self.updateHorizontalHeaderItem(column, type, parameter)
 
 
     def onActionLabelAllHorizontalTriggered(self, type):
         """
         Updates all horizontal header items.
         """
+        parameter = self.headerItemDefaultParameter(type)
+
         if type == Settings.HeaderLabel.Custom:
 
             documentTableHeaderDialog = DocumentTableHeaderDialog(-1, self)
@@ -245,21 +264,22 @@ class DocumentTable(QTableWidget):
 
             if documentTableHeaderDialog.exec_() == QDialog.Accepted:
                 type = documentTableHeaderDialog.headerLabelType()
+                parameter = documentTableHeaderDialog.headerLabelParameter()
             else:
                 return
 
         for column in range(0, self.columnCount()):
-            self.updateHorizontalHeaderItem(column, type)
+            self.updateHorizontalHeaderItem(column, type, parameter)
 
 
-    def updateHorizontalHeaderItem(self, column, type):
+    def updateHorizontalHeaderItem(self, column, type, parameter):
         """
         Updates a horizontal header item.
         """
         number = column
 
         item = self.horizontalHeaderItem(column)
-        item.setText(self.headerItemText(number, type))
+        item.setText(self.headerItemText(number, type, parameter))
 
 
     def contextMenuVerticalHeader(self, pos):
@@ -321,6 +341,8 @@ class DocumentTable(QTableWidget):
         """
         Updates a specific vertical header item.
         """
+        parameter = self.headerItemDefaultParameter(type)
+
         if type == Settings.HeaderLabel.Custom:
 
             documentTableHeaderDialog = DocumentTableHeaderDialog(row, self)
@@ -328,16 +350,19 @@ class DocumentTable(QTableWidget):
 
             if documentTableHeaderDialog.exec_() == QDialog.Accepted:
                 type = documentTableHeaderDialog.headerLabelType()
+                parameter = documentTableHeaderDialog.headerLabelParameter()
             else:
                 return
 
-        self.updateVerticalHeaderItem(row, type)
+        self.updateVerticalHeaderItem(row, type, parameter)
 
 
     def onActionLabelAllVerticalTriggered(self, type):
         """
         Updates all vertical header items.
         """
+        parameter = self.headerItemDefaultParameter(type)
+
         if type == Settings.HeaderLabel.Custom:
 
             documentTableHeaderDialog = DocumentTableHeaderDialog(-1, self)
@@ -345,18 +370,19 @@ class DocumentTable(QTableWidget):
 
             if documentTableHeaderDialog.exec_() == QDialog.Accepted:
                 type = documentTableHeaderDialog.headerLabelType()
+                parameter = documentTableHeaderDialog.headerLabelParameter()
             else:
                 return
 
         for row in range(0, self.rowCount()):
-            self.updateVerticalHeaderItem(row, type)
+            self.updateVerticalHeaderItem(row, type, parameter)
 
 
-    def updateVerticalHeaderItem(self, row, type):
+    def updateVerticalHeaderItem(self, row, type, parameter):
         """
         Updates a vertical header item.
         """
         number = row
 
         item = self.verticalHeaderItem(row)
-        item.setText(self.headerItemText(number, type))
+        item.setText(self.headerItemText(number, type, parameter))
