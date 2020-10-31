@@ -118,7 +118,7 @@ class DocumentTable(QTableWidget):
         elif type == Settings.HeaderLabel.Hexadecimal:
             return self.numberToHexadecimal(number, parameter)
         elif type == Settings.HeaderLabel.Letter:
-            return self.numberToLetter(number)
+            return self.numberToLetter(number, parameter)
         else:
             return ''
 
@@ -135,6 +135,8 @@ class DocumentTable(QTableWidget):
             return '1'
         elif type == Settings.HeaderLabel.Hexadecimal:
             return '0x'
+        elif type == Settings.HeaderLabel.Letter:
+            return 'upper'
         else:
             return ''
 
@@ -167,7 +169,7 @@ class DocumentTable(QTableWidget):
         return f'{parameter}{number:X}'
 
 
-    def numberToLetter(self, number):
+    def numberToLetter(self, number, parameter):
         """
         Returns a string equivalent of the number according to the base 26.
         """
@@ -179,7 +181,7 @@ class DocumentTable(QTableWidget):
             chars = chr(number % 26 + 65) + chars
             number //= 26
 
-        return chars
+        return chars.upper() if parameter == 'upper' else chars.lower()
 
 
     def contextMenuHorizontalHeader(self, pos):

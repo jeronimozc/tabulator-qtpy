@@ -89,6 +89,14 @@ class DocumentTableHeaderDialog(QDialog):
         rdbLetter = QRadioButton(text)
         rdbLetter.setToolTip(toolTip)
 
+        text = 'Letter as uppercase letter' if number >= 0 else 'Letters as uppercase letters'
+        toolTip = 'Change label to a letter as uppercase letter otherwise lowercase letter' if number >= 0 else 'Change all labels to letters as uppercase letters otherwise lowercase letters'
+        self.chkLetter = QCheckBox(text)
+        self.chkLetter.setChecked(True)
+        self.chkLetter.setEnabled(False)
+        self.chkLetter.setToolTip(toolTip)
+        rdbLetter.toggled.connect(lambda checked: self.chkLetter.setEnabled(checked))
+
         self.grpHeaderLabel = QButtonGroup(self)
         self.grpHeaderLabel.addButton(rdbBinary, Settings.HeaderLabel.Binary.value)
         self.grpHeaderLabel.addButton(rdbOctal, Settings.HeaderLabel.Octal.value)
@@ -107,6 +115,7 @@ class DocumentTableHeaderDialog(QDialog):
         groupLayout.addWidget(rdbHexadecimal, 3, 0)
         groupLayout.addWidget(self.chkHexadecimal, 3, 1)
         groupLayout.addWidget(rdbLetter, 4, 0)
+        groupLayout.addWidget(self.chkLetter, 4, 1)
 
         text = 'Change label to a …' if number >= 0 else 'Change all labels to …'
         groupBox = QGroupBox(text)
@@ -155,5 +164,7 @@ class DocumentTableHeaderDialog(QDialog):
             return '1' if self.chkDecimal.isChecked() else '0'
         elif type == Settings.HeaderLabel.Hexadecimal:
             return '0x' if self.chkHexadecimal.isChecked() else ''
+        elif type == Settings.HeaderLabel.Letter:
+            return 'upper' if self.chkLetter.isChecked() else 'lower'
         else:
             return ''
