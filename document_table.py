@@ -114,7 +114,7 @@ class DocumentTable(QTableWidget):
         elif type == Settings.HeaderLabel.Octal:
             return self.numberToOctal(number, parameter)
         elif type == Settings.HeaderLabel.Decimal:
-            return self.numberToDecimal(number)
+            return self.numberToDecimal(number, parameter)
         elif type == Settings.HeaderLabel.Hexadecimal:
             return self.numberToHexadecimal(number, parameter)
         elif type == Settings.HeaderLabel.Letter:
@@ -131,6 +131,8 @@ class DocumentTable(QTableWidget):
             return '0b'
         elif type == Settings.HeaderLabel.Octal:
             return '0o'
+        elif type == Settings.HeaderLabel.Decimal:
+            return '1'
         elif type == Settings.HeaderLabel.Hexadecimal:
             return '0x'
         else:
@@ -151,11 +153,11 @@ class DocumentTable(QTableWidget):
         return f'{parameter}{number:o}'
 
 
-    def numberToDecimal(self, number):
+    def numberToDecimal(self, number, parameter):
         """
         Returns a string equivalent of the number according to the base 10.
         """
-        return f'{number + 1}'
+        return f'{number + int(parameter)}'
 
 
     def numberToHexadecimal(self, number, parameter):

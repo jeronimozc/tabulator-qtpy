@@ -63,6 +63,14 @@ class DocumentTableHeaderDialog(QDialog):
         rdbDecimal = QRadioButton(text)
         rdbDecimal.setToolTip(toolTip)
 
+        text = 'Enumeration starting with 1'
+        toolTip = 'Change label to a decimal number with the enumeration starting with 1 otherwise with 0' if number >= 0 else 'Change all labels to decimal numbers with the enumeration starting with 1 otherwise with 0'
+        self.chkDecimal = QCheckBox(text)
+        self.chkDecimal.setChecked(True)
+        self.chkDecimal.setEnabled(False)
+        self.chkDecimal.setToolTip(toolTip)
+        rdbDecimal.toggled.connect(lambda checked: self.chkDecimal.setEnabled(checked))
+
         text = 'Hexadecimal Number' if number >= 0 else 'Hexadecimal Numbers'
         toolTip = 'Change label to a hexadecimal number' if number >= 0 else 'Change all labels to hexadecimal numbers'
         rdbHexadecimal = QRadioButton(text)
@@ -95,6 +103,7 @@ class DocumentTableHeaderDialog(QDialog):
         groupLayout.addWidget(rdbOctal, 1, 0)
         groupLayout.addWidget(self.chkOctal, 1, 1)
         groupLayout.addWidget(rdbDecimal, 2, 0)
+        groupLayout.addWidget(self.chkDecimal, 2, 1)
         groupLayout.addWidget(rdbHexadecimal, 3, 0)
         groupLayout.addWidget(self.chkHexadecimal, 3, 1)
         groupLayout.addWidget(rdbLetter, 4, 0)
@@ -142,6 +151,8 @@ class DocumentTableHeaderDialog(QDialog):
             return '0b' if self.chkBinary.isChecked() else ''
         elif type == Settings.HeaderLabel.Octal:
             return '0o' if self.chkOctal.isChecked() else ''
+        elif type == Settings.HeaderLabel.Decimal:
+            return '1' if self.chkDecimal.isChecked() else '0'
         elif type == Settings.HeaderLabel.Hexadecimal:
             return '0x' if self.chkHexadecimal.isChecked() else ''
         else:
