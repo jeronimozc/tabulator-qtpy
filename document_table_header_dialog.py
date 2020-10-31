@@ -50,6 +50,14 @@ class DocumentTableHeaderDialog(QDialog):
         rdbOctal = QRadioButton(text)
         rdbOctal.setToolTip(toolTip)
 
+        text = 'With prefix 0o'
+        toolTip = 'Change label to a octal number with prefix 0o otherwise without prefix' if number >= 0 else 'Change all labels to octal numbers with prefix 0o otherwise without prefix'
+        self.chkOctal = QCheckBox(text)
+        self.chkOctal.setChecked(True)
+        self.chkOctal.setEnabled(False)
+        self.chkOctal.setToolTip(toolTip)
+        rdbOctal.toggled.connect(lambda checked: self.chkOctal.setEnabled(checked))
+
         text = 'Decimal Number' if number >= 0 else 'Decimal Numbers'
         toolTip = 'Change label to a decimal number' if number >= 0 else 'Change all labels to decimal numbers'
         rdbDecimal = QRadioButton(text)
@@ -77,6 +85,7 @@ class DocumentTableHeaderDialog(QDialog):
         groupLayout.addWidget(rdbBinary, 0, 0)
         groupLayout.addWidget(self.chkBinary, 0, 1)
         groupLayout.addWidget(rdbOctal, 1, 0)
+        groupLayout.addWidget(self.chkOctal, 1, 1)
         groupLayout.addWidget(rdbDecimal, 2, 0)
         groupLayout.addWidget(rdbHexadecimal, 3, 0)
         groupLayout.addWidget(rdbLetter, 4, 0)
@@ -122,5 +131,7 @@ class DocumentTableHeaderDialog(QDialog):
 
         if type == Settings.HeaderLabel.Binary:
             return '0b' if self.chkBinary.isChecked() else ''
+        elif type == Settings.HeaderLabel.Octal:
+            return '0o' if self.chkOctal.isChecked() else ''
         else:
             return ''

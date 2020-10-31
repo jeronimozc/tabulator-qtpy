@@ -112,7 +112,7 @@ class DocumentTable(QTableWidget):
         if type == Settings.HeaderLabel.Binary:
             return self.numberToBinary(number, parameter)
         elif type == Settings.HeaderLabel.Octal:
-            return self.numberToOctal(number)
+            return self.numberToOctal(number, parameter)
         elif type == Settings.HeaderLabel.Decimal:
             return self.numberToDecimal(number)
         elif type == Settings.HeaderLabel.Hexadecimal:
@@ -129,6 +129,8 @@ class DocumentTable(QTableWidget):
         """
         if type == Settings.HeaderLabel.Binary:
             return '0b'
+        elif type == Settings.HeaderLabel.Octal:
+            return '0o'
         else:
             return ''
 
@@ -140,11 +142,11 @@ class DocumentTable(QTableWidget):
         return f'{parameter}{number:b}'
 
 
-    def numberToOctal(self, number):
+    def numberToOctal(self, number, parameter):
         """
         Returns a string equivalent of the number according to the base 8.
         """
-        return f'0o{number:o}'
+        return f'{parameter}{number:o}'
 
 
     def numberToDecimal(self, number):
