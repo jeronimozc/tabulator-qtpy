@@ -26,71 +26,71 @@ from settings import Settings
 
 class DocumentTableHeaderDialog(QDialog):
 
-    def __init__(self, number, parent=None):
+    def __init__(self, type, index, parent=None):
         super(DocumentTableHeaderDialog, self).__init__(parent)
 
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
 
         # Group box
-        text = 'Binary Number' if number >= 0 else 'Binary Numbers'
-        toolTip = 'Change label to a binary number' if number >= 0 else 'Change all labels to binary numbers'
+        text = 'Binary Number' if index >= 0 else 'Binary Numbers'
+        toolTip = 'Change label to a binary number' if index >= 0 else 'Change all labels to binary numbers'
         rdbBinary = QRadioButton(text)
         rdbBinary.setToolTip(toolTip)
 
         text = 'With prefix 0b'
-        toolTip = 'Change label to a binary number with prefix 0b otherwise without prefix' if number >= 0 else 'Change all labels to binary numbers with prefix 0b otherwise without prefix'
+        toolTip = 'Change label to a binary number with prefix 0b otherwise without prefix' if index >= 0 else 'Change all labels to binary numbers with prefix 0b otherwise without prefix'
         self.chkBinary = QCheckBox(text)
         self.chkBinary.setChecked(True)
         self.chkBinary.setEnabled(False)
         self.chkBinary.setToolTip(toolTip)
         rdbBinary.toggled.connect(lambda checked: self.chkBinary.setEnabled(checked))
 
-        text = 'Octal Number' if number >= 0 else 'Octal Numbers'
-        toolTip = 'Change label to a octal number' if number >= 0 else 'Change all labels to octal numbers'
+        text = 'Octal Number' if index >= 0 else 'Octal Numbers'
+        toolTip = 'Change label to a octal number' if index >= 0 else 'Change all labels to octal numbers'
         rdbOctal = QRadioButton(text)
         rdbOctal.setToolTip(toolTip)
 
         text = 'With prefix 0o'
-        toolTip = 'Change label to a octal number with prefix 0o otherwise without prefix' if number >= 0 else 'Change all labels to octal numbers with prefix 0o otherwise without prefix'
+        toolTip = 'Change label to a octal number with prefix 0o otherwise without prefix' if index >= 0 else 'Change all labels to octal numbers with prefix 0o otherwise without prefix'
         self.chkOctal = QCheckBox(text)
         self.chkOctal.setChecked(True)
         self.chkOctal.setEnabled(False)
         self.chkOctal.setToolTip(toolTip)
         rdbOctal.toggled.connect(lambda checked: self.chkOctal.setEnabled(checked))
 
-        text = 'Decimal Number' if number >= 0 else 'Decimal Numbers'
-        toolTip = 'Change label to a decimal number' if number >= 0 else 'Change all labels to decimal numbers'
+        text = 'Decimal Number' if index >= 0 else 'Decimal Numbers'
+        toolTip = 'Change label to a decimal number' if index >= 0 else 'Change all labels to decimal numbers'
         rdbDecimal = QRadioButton(text)
         rdbDecimal.setToolTip(toolTip)
 
         text = 'Enumeration starting with 1'
-        toolTip = 'Change label to a decimal number with the enumeration starting with 1 otherwise with 0' if number >= 0 else 'Change all labels to decimal numbers with the enumeration starting with 1 otherwise with 0'
+        toolTip = 'Change label to a decimal number with the enumeration starting with 1 otherwise with 0' if index >= 0 else 'Change all labels to decimal numbers with the enumeration starting with 1 otherwise with 0'
         self.chkDecimal = QCheckBox(text)
         self.chkDecimal.setChecked(True)
         self.chkDecimal.setEnabled(False)
         self.chkDecimal.setToolTip(toolTip)
         rdbDecimal.toggled.connect(lambda checked: self.chkDecimal.setEnabled(checked))
 
-        text = 'Hexadecimal Number' if number >= 0 else 'Hexadecimal Numbers'
-        toolTip = 'Change label to a hexadecimal number' if number >= 0 else 'Change all labels to hexadecimal numbers'
+        text = 'Hexadecimal Number' if index >= 0 else 'Hexadecimal Numbers'
+        toolTip = 'Change label to a hexadecimal number' if index >= 0 else 'Change all labels to hexadecimal numbers'
         rdbHexadecimal = QRadioButton(text)
         rdbHexadecimal.setToolTip(toolTip)
 
         text = 'With prefix 0x'
-        toolTip = 'Change label to a hexadecimal number with prefix 0x otherwise without prefix' if number >= 0 else 'Change all labels to hexadecimal numbers with prefix 0x otherwise without prefix'
+        toolTip = 'Change label to a hexadecimal number with prefix 0x otherwise without prefix' if index >= 0 else 'Change all labels to hexadecimal numbers with prefix 0x otherwise without prefix'
         self.chkHexadecimal = QCheckBox(text)
         self.chkHexadecimal.setChecked(True)
         self.chkHexadecimal.setEnabled(False)
         self.chkHexadecimal.setToolTip(toolTip)
         rdbHexadecimal.toggled.connect(lambda checked: self.chkHexadecimal.setEnabled(checked))
 
-        text = 'Capital Letter' if number >= 0 else 'Capital Letters'
-        toolTip = 'Change label to a capital letter' if number >= 0 else 'Change all labels to capital letters'
+        text = 'Capital Letter' if index >= 0 else 'Capital Letters'
+        toolTip = 'Change label to a capital letter' if index >= 0 else 'Change all labels to capital letters'
         rdbLetter = QRadioButton(text)
         rdbLetter.setToolTip(toolTip)
 
-        text = 'Letter as uppercase letter' if number >= 0 else 'Letters as uppercase letters'
-        toolTip = 'Change label to a letter as uppercase letter otherwise lowercase letter' if number >= 0 else 'Change all labels to letters as uppercase letters otherwise lowercase letters'
+        text = 'Letter as uppercase letter' if index >= 0 else 'Letters as uppercase letters'
+        toolTip = 'Change label to a letter as uppercase letter otherwise lowercase letter' if index >= 0 else 'Change all labels to letters as uppercase letters otherwise lowercase letters'
         self.chkLetter = QCheckBox(text)
         self.chkLetter.setChecked(True)
         self.chkLetter.setEnabled(False)
@@ -116,8 +116,9 @@ class DocumentTableHeaderDialog(QDialog):
         groupLayout.addWidget(self.chkHexadecimal, 3, 1)
         groupLayout.addWidget(rdbLetter, 4, 0)
         groupLayout.addWidget(self.chkLetter, 4, 1)
+        groupLayout.setRowStretch(5, 1)
 
-        text = 'Change label to a …' if number >= 0 else 'Change all labels to …'
+        text = 'Change label to a …' if index >= 0 else 'Change all labels to …'
         groupBox = QGroupBox(text)
         groupBox.setLayout(groupLayout)
 

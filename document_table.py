@@ -20,7 +20,7 @@
 
 from PySide2.QtCore import Qt
 from PySide2.QtGui import QIcon
-from PySide2.QtWidgets import QAction, QDialog, QHeaderView, QInputDialog, QLineEdit, QMenu, QTableWidget, QTableWidgetItem
+from PySide2.QtWidgets import QAction, QDialog, QMenu, QTableWidget, QTableWidgetItem
 
 from document_table_header_dialog import DocumentTableHeaderDialog
 from settings import Settings
@@ -247,7 +247,7 @@ class DocumentTable(QTableWidget):
 
         if type == Settings.HeaderLabel.Custom:
 
-            documentTableHeaderDialog = DocumentTableHeaderDialog(column, self)
+            documentTableHeaderDialog = DocumentTableHeaderDialog('horizontal', column, self)
             documentTableHeaderDialog.setWindowTitle(f'Horizontal Header Item')
 
             if documentTableHeaderDialog.exec_() == QDialog.Accepted:
@@ -267,7 +267,7 @@ class DocumentTable(QTableWidget):
 
         if type == Settings.HeaderLabel.Custom:
 
-            documentTableHeaderDialog = DocumentTableHeaderDialog(-1, self)
+            documentTableHeaderDialog = DocumentTableHeaderDialog('horizontal', -1, self)
             documentTableHeaderDialog.setWindowTitle(f'Horizontal Header Items')
 
             if documentTableHeaderDialog.exec_() == QDialog.Accepted:
@@ -353,7 +353,7 @@ class DocumentTable(QTableWidget):
 
         if type == Settings.HeaderLabel.Custom:
 
-            documentTableHeaderDialog = DocumentTableHeaderDialog(row, self)
+            documentTableHeaderDialog = DocumentTableHeaderDialog('vertical', row, self)
             documentTableHeaderDialog.setWindowTitle(f'Vertical Header Item')
 
             if documentTableHeaderDialog.exec_() == QDialog.Accepted:
@@ -373,7 +373,7 @@ class DocumentTable(QTableWidget):
 
         if type == Settings.HeaderLabel.Custom:
 
-            documentTableHeaderDialog = DocumentTableHeaderDialog(-1, self)
+            documentTableHeaderDialog = DocumentTableHeaderDialog('vertical', -1, self)
             documentTableHeaderDialog.setWindowTitle(f'Vertical Header Items')
 
             if documentTableHeaderDialog.exec_() == QDialog.Accepted:
