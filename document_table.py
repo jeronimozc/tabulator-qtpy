@@ -109,7 +109,9 @@ class DocumentTable(QTableWidget):
         """
         Returns the header item text.
         """
-        if type == Settings.HeaderLabel.Binary:
+        if type == Settings.HeaderLabel.Custom:
+            return self.numberToCustom(number, parameter)
+        elif type == Settings.HeaderLabel.Binary:
             return self.numberToBinary(number, parameter)
         elif type == Settings.HeaderLabel.Octal:
             return self.numberToOctal(number, parameter)
@@ -139,6 +141,13 @@ class DocumentTable(QTableWidget):
             return 'upper'
         else:
             return ''
+
+
+    def numberToCustom(self, number, parameter):
+        """
+        Returns a string equivalent of the user-defined text.
+        """
+        return parameter.replace('#', str(number + 1))
 
 
     def numberToBinary(self, number, parameter):

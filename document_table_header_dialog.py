@@ -19,7 +19,8 @@
 #
 
 from PySide2.QtCore import Qt
-from PySide2.QtWidgets import QButtonGroup, QCheckBox, QDialog, QDialogButtonBox, QGridLayout, QGroupBox, QRadioButton, QVBoxLayout
+from PySide2.QtWidgets import (QButtonGroup, QCheckBox, QDialog, QDialogButtonBox, QGridLayout,
+                               QGroupBox, QLabel, QLineEdit, QRadioButton, QVBoxLayout)
 
 from settings import Settings
 
@@ -97,12 +98,29 @@ class DocumentTableHeaderDialog(QDialog):
         self.chkLetter.setToolTip(toolTip)
         rdbLetter.toggled.connect(lambda checked: self.chkLetter.setEnabled(checked))
 
+        text = 'User-defined Text' if index >= 0 else 'User-defined Texts'
+        toolTip = 'Change label to a user-defined text' if index >= 0 else 'Change all labels to user-defined texts'
+        rdbCustom = QRadioButton(text)
+        rdbCustom.setToolTip(toolTip)
+
+        toolTip = 'Change label to a user-defined text' if index >= 0 else 'Change all labels to user-defined texts'
+        self.ledCustom = QLineEdit()
+        self.ledCustom.setEnabled(False)
+        self.ledCustom.setToolTip(toolTip)
+        rdbCustom.toggled.connect(lambda checked: self.ledCustom.setEnabled(checked))
+
+        text = '# will be replaced with column index' if type == 'horizontal' else '# will be replaced with row index'
+        lblCustom = QLabel(text)
+        lblCustom.setEnabled(False)
+        rdbCustom.toggled.connect(lambda checked: lblCustom.setEnabled(checked))
+
         self.grpHeaderLabel = QButtonGroup(self)
         self.grpHeaderLabel.addButton(rdbBinary, Settings.HeaderLabel.Binary.value)
         self.grpHeaderLabel.addButton(rdbOctal, Settings.HeaderLabel.Octal.value)
         self.grpHeaderLabel.addButton(rdbDecimal, Settings.HeaderLabel.Decimal.value)
         self.grpHeaderLabel.addButton(rdbHexadecimal, Settings.HeaderLabel.Hexadecimal.value)
         self.grpHeaderLabel.addButton(rdbLetter, Settings.HeaderLabel.Letter.value)
+        self.grpHeaderLabel.addButton(rdbCustom, Settings.HeaderLabel.Custom.value)
         self.grpHeaderLabel.buttonClicked.connect(self.onSettingChanged)
 
         groupLayout = QGridLayout()
@@ -116,7 +134,10 @@ class DocumentTableHeaderDialog(QDialog):
         groupLayout.addWidget(self.chkHexadecimal, 3, 1)
         groupLayout.addWidget(rdbLetter, 4, 0)
         groupLayout.addWidget(self.chkLetter, 4, 1)
-        groupLayout.setRowStretch(5, 1)
+        groupLayout.addWidget(rdbCustom, 5, 0)
+        groupLayout.addWidget(self.ledCustom, 5, 1)
+        groupLayout.addWidget(lblCustom, 6, 1)
+        groupLayout.setRowStretch(7, 1)
 
         text = 'Change label to a …' if index >= 0 else 'Change all labels to …'
         groupBox = QGroupBox(text)
@@ -167,5 +188,7 @@ class DocumentTableHeaderDialog(QDialog):
             return '0x' if self.chkHexadecimal.isChecked() else ''
         elif type == Settings.HeaderLabel.Letter:
             return 'upper' if self.chkLetter.isChecked() else 'lower'
+        elif type == Settings.HeaderLabel.Custom:
+            return self.ledCustom.text()
         else:
             return ''
