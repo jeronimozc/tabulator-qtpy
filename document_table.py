@@ -57,12 +57,10 @@ class DocumentTable(QTableWidget):
         self.m_settings = settings
 
 
-    def createDocument(self):
+    def newDocument(self):
         """
-        Creates a document.
+        Creates a new document.
         """
-
-        # Creates a new document
         self.setColumnCount(self.m_settings.defaultCellColumns)
         self.setRowCount(self.m_settings.defaultCellRows)
 
