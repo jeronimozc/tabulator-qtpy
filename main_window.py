@@ -291,9 +291,9 @@ class MainWindow(QMainWindow):
             event.ignore()
 
 
-    def createDocument(self):
+    def createDocumentChild(self):
         """
-        Creates a document widget.
+        Creates a child document for the document area.
         """
         document = DocumentTable(self)
         document.setSettings(self.m_settings)
@@ -359,7 +359,7 @@ class MainWindow(QMainWindow):
         """
         Creates a new document.
         """
-        document = self.createDocument()
+        document = self.createDocumentChild()
         document.newDocument()
         document.show()
 
