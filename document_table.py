@@ -18,7 +18,7 @@
 # along with pyTabulator.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from PySide2.QtCore import Qt
+from PySide2.QtCore import QFileInfo, Qt
 from PySide2.QtGui import QIcon
 from PySide2.QtWidgets import QAction, QDialog, QMenu, QTableWidget, QTableWidgetItem
 
@@ -35,6 +35,8 @@ class DocumentTable(QTableWidget):
         super(DocumentTable, self).__init__(parent)
 
         self.setAttribute(Qt.WA_DeleteOnClose)
+
+        self.m_url = ""
 
         # Creates a default document
         self.setColumnCount(self.m_settings.defaultCellColumns)
@@ -67,6 +69,13 @@ class DocumentTable(QTableWidget):
         # Set header items
         self.setHorizontalHeaderItems(self.m_settings.defaultHeaderLabelHorizontal)
         self.setVerticalHeaderItems(self.m_settings.defaultHeaderLabelVertical)
+
+
+    def documentPath(self):
+        """
+        Returns the canonical path of the document.
+        """
+        return QFileInfo(self.m_url).canonicalFilePyth()
 
 
     def setHorizontalHeaderItems(self, type):

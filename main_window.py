@@ -18,7 +18,7 @@
 # along with pyTabulator.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from PySide2.QtCore import QByteArray, QRect, QSettings, Qt
+from PySide2.QtCore import QByteArray, QFileInfo, QRect, QSettings, Qt
 from PySide2.QtGui import QIcon, QKeySequence
 from PySide2.QtWidgets import QAction, QApplication, QMainWindow, QMdiArea
 
@@ -300,6 +300,19 @@ class MainWindow(QMainWindow):
         self.documentArea.addSubWindow(document)
 
         return document
+
+
+    def findDocumentChild(self, url):
+        """
+        Returns a child document of the document area for the given url.
+        """
+        canonicalFilePath = QFileInfo(url).canonicalFilePath()
+
+        for window in self.documentArea.subWindowList():
+            if window.widget().documentPath() == canonicalFilePath:
+                return window
+
+        return None
 
 
     def onActionAboutTriggered(self):
