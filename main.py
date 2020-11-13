@@ -46,9 +46,13 @@ if __name__ == "__main__":
     parser.setApplicationDescription(f'{APPLICATION_NAME} - {APPLICATION_BRIEF_DESCRIPTION}')
     parser.addHelpOption()
     parser.addVersionOption()
+    parser.addPositionalArgument('urls', 'Documents to open.', '[urls...]')
     parser.process(app)
 
     window = MainWindow()
+    urls = parser.positionalArguments()
+    for url in urls:
+        window.openDocument(url)
     window.show()
 
     sys.exit(app.exec_())
