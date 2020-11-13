@@ -315,6 +315,15 @@ class MainWindow(QMainWindow):
         return None
 
 
+    def activeDocumentChild(self):
+        """
+        Returns the active child document in the document area.
+        """
+        window = self.documentArea.activeSubWindow()
+
+        return window if window else None
+
+
     def onActionAboutTriggered(self):
         """
         Displays the About dialog.
