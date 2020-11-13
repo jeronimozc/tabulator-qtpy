@@ -71,11 +71,24 @@ class DocumentTable(QTableWidget):
         self.setVerticalHeaderItems(self.m_settings.defaultHeaderLabelVertical)
 
 
+    def loadDocument(self, url):
+        """
+        Loads an existing document.
+        """
+        self.m_url = url
+
+        # Set header items
+        self.setHorizontalHeaderItems(self.m_settings.defaultHeaderLabelHorizontal)
+        self.setVerticalHeaderItems(self.m_settings.defaultHeaderLabelVertical)
+
+        return True
+
+
     def documentPath(self):
         """
         Returns the canonical path of the document.
         """
-        return QFileInfo(self.m_url).canonicalFilePyth()
+        return QFileInfo(self.m_url).canonicalFilePath()
 
 
     def setHorizontalHeaderItems(self, type):

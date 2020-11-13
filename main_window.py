@@ -340,7 +340,31 @@ class MainWindow(QMainWindow):
         """
         Opens the document for the given url.
         """
-        succeeded = True
+
+        # Checks whether the given document is already open.
+        existing = self.findDocumentChild(url)
+        if existing:
+            self.documentArea.setActiveSubWindow(existing)
+            return True
+
+        succeeded = self.loadDocument(url)
+        if succeeded:
+            self.statusBar().showMessage('Document loaded', 3000)
+
+        return succeeded
+
+
+    def loadDocument(self, url):
+        """
+        Loads the document for the given url.
+        """
+        document = self.createDocumentChild()
+
+        succeeded = document.loadDocument(url)
+        if succeeded:
+            document.show()
+        else:
+            document.close()
 
         return succeeded
 
