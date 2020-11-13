@@ -105,6 +105,13 @@ class MainWindow(QMainWindow):
         self.actionNew.setToolTip('Create new document')
         self.actionNew.triggered.connect(self.onActionNewTriggered)
 
+        self.actionOpen = QAction('Open…', self)
+        self.actionOpen.setIcon(QIcon.fromTheme('document-open', QIcon(':/icons/actions/16/document-open.svg')))
+        self.actionOpen.setShortcut(QKeySequence.Open)
+        self.actionOpen.setStatusTip('Open an existing document')
+        self.actionOpen.setToolTip('Open an existing document')
+        self.actionOpen.triggered.connect(self.onActionOpenTriggered)
+
         # Actions: View
         self.actionFullScreen = QAction(self)
         self.actionFullScreen.setCheckable(True)
@@ -156,6 +163,8 @@ class MainWindow(QMainWindow):
         # Menu: Document
         menuDocument = self.menuBar().addMenu('Document')
         menuDocument.addAction(self.actionNew)
+        menuDocument.addSeparator()
+        menuDocument.addAction(self.actionOpen)
 
         # Menu: Edit
         menuEdit = self.menuBar().addMenu('Edit')
@@ -181,6 +190,7 @@ class MainWindow(QMainWindow):
         toolbarDocument = self.addToolBar('Document')
         toolbarDocument.setObjectName('toolbarDocument')
         toolbarDocument.addAction(self.actionNew)
+        toolbarDocument.addAction(self.actionOpen)
 
         # Toolbar: Edit
         toolbarEdit = self.addToolBar('Edit')
@@ -384,6 +394,13 @@ class MainWindow(QMainWindow):
         document = self.createDocumentChild()
         document.newDocument()
         document.show()
+
+
+    def onActionOpenTriggered(self):
+        """
+        Opens an existing document.
+        """
+        pass
 
 
     def onActionFullScreenTriggered(self):
