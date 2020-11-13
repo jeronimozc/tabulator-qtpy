@@ -18,9 +18,11 @@
 # along with pyTabulator.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from PySide2.QtCore import QByteArray, QFileInfo, QRect, QSettings, Qt
+from PySide2.QtCore import qDebug
+
+from PySide2.QtCore import QByteArray, QFileInfo, QRect, QSettings, QStandardPaths, Qt
 from PySide2.QtGui import QIcon, QKeySequence
-from PySide2.QtWidgets import QAction, QApplication, QMainWindow, QMdiArea
+from PySide2.QtWidgets import QAction, QApplication, QFileDialog, QMainWindow, QMdiArea
 
 from about_dialog import AboutDialog
 from colophon_dialog import ColophonDialog
@@ -334,6 +336,15 @@ class MainWindow(QMainWindow):
         return window if window else None
 
 
+    def openDocument(self, url):
+        """
+        Opens the document for the given url.
+        """
+        succeeded = True
+
+        return succeeded
+
+
     def onActionAboutTriggered(self):
         """
         Displays the About dialog.
@@ -400,7 +411,13 @@ class MainWindow(QMainWindow):
         """
         Opens an existing document.
         """
-        pass
+        urls = QFileDialog.getOpenFileNames(self,
+                   'Open Document',
+                   QStandardPaths.writableLocation(QStandardPaths.HomeLocation),
+                   'CSV Files (*.csv);; All Files (*.*)')[0]
+
+        for url in urls:
+            self.openDocument(url)
 
 
     def onActionFullScreenTriggered(self):
