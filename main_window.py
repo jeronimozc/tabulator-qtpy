@@ -22,7 +22,7 @@ from PySide2.QtCore import qDebug
 
 from PySide2.QtCore import QByteArray, QFileInfo, QRect, QSettings, QStandardPaths, Qt
 from PySide2.QtGui import QIcon, QKeySequence
-from PySide2.QtWidgets import QAction, QApplication, QFileDialog, QMainWindow, QMdiArea
+from PySide2.QtWidgets import QAction, QApplication, QFileDialog, QMainWindow, QMdiArea, QMenu
 
 from about_dialog import AboutDialog
 from colophon_dialog import ColophonDialog
@@ -55,6 +55,8 @@ class MainWindow(QMainWindow):
         self.setupUI()
 
         self.readSettings()
+
+        self.updateMenuOpenRecent()
 
 
     def setupUI(self):
@@ -163,10 +165,17 @@ class MainWindow(QMainWindow):
         menuApplication.addAction(self.actionQuit)
 
         # Menu: Document
+        self.menuOpenRecent = QMenu('Open Recent', self)
+        self.menuOpenRecent.setObjectName('menuOpenRecent')
+        self.menuOpenRecent.setIcon(QIcon.fromTheme('document-open-recent', QIcon(':/icons/actions/16/document-open-recent.svg')))
+        self.menuOpenRecent.setStatusTip('Open a document which was recently opened')
+        self.menuOpenRecent.setToolTip('Open a document which was recently opened')
+
         menuDocument = self.menuBar().addMenu('Document')
         menuDocument.addAction(self.actionNew)
         menuDocument.addSeparator()
         menuDocument.addAction(self.actionOpen)
+        menuDocument.addMenu(self.menuOpenRecent)
 
         # Menu: Edit
         menuEdit = self.menuBar().addMenu('Edit')
@@ -181,6 +190,18 @@ class MainWindow(QMainWindow):
         # Menu: Help
         menuHelp = self.menuBar().addMenu('Help')
         menuHelp.addAction(self.actionKeyboardShortcuts)
+
+
+    def updateMenuOpenRecent(self):
+        """
+        Updates the OpenRecent menu, depending on the recent document list.
+        """
+        if len(self.m_settings.recentDocumentList) > 0:
+            pass
+
+        else:
+            # Document list is empty; disable the menu item.
+            self.menuOpenRecent.setDisabled(True)
 
 
     def createToolBars(self):
