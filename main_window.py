@@ -231,6 +231,13 @@ class MainWindow(QMainWindow):
         self.m_settings.defaultCellColumns = int(settings.value('Settings/defaultCellColumns', self.m_settings.defaultCellColumns))
         self.m_settings.defaultCellRows = int(settings.value('Settings/defaultCellRows', self.m_settings.defaultCellRows))
 
+        # Recent documents
+        size = settings.beginReadArray('recentDocumentList')
+        for i in range(size):
+            settings.setArrayIndex(i)
+            self.m_settings.recentDocumentList.append(settings.value('document'))
+        settings.endArray()
+
         # Window and dialog properties
         mainWindowGeometry = settings.value('MainWindow/geometry', QByteArray())
         mainWindowState = settings.value('MainWindow/state', QByteArray())
@@ -264,6 +271,13 @@ class MainWindow(QMainWindow):
         settings.setValue('Settings/defaultHeaderLabelVertical', self.m_settings.defaultHeaderLabelVertical.value)
         settings.setValue('Settings/defaultCellColumns', self.m_settings.defaultCellColumns)
         settings.setValue('Settings/defaultCellRows', self.m_settings.defaultCellRows)
+
+        # Recent documents
+        settings.beginWriteArray('recentDocumentList')
+        for i in range(len(self.m_settings.recentDocumentList)):
+            settings.setArrayIndex(i)
+            settings.setValue('document', self.m_settings.recentDocumentList[i])
+        settings.endArray()
 
         # Window and dialog properties
         settings.setValue('MainWindow/geometry', self.saveGeometry())

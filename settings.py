@@ -41,5 +41,7 @@ class Settings():
     defaultCellColumns = 25
     defaultCellRows = 50
 
+    recentDocumentList = []
+
     def __init__(self):
         pass
