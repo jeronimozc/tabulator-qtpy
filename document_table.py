@@ -29,6 +29,7 @@ from settings import Settings
 class DocumentTable(QTableWidget):
 
     m_settings = Settings()
+    sequenceNumber = 0
 
 
     def __init__(self, parent=None):
@@ -37,6 +38,7 @@ class DocumentTable(QTableWidget):
         self.setAttribute(Qt.WA_DeleteOnClose)
 
         self.m_url = ""
+        self.isUntitled = True
 
         # Creates a default document
         self.setColumnCount(self.m_settings.defaultCellColumns)
@@ -63,6 +65,13 @@ class DocumentTable(QTableWidget):
         """
         Creates a new document.
         """
+        DocumentTable.sequenceNumber += 1
+
+        self.m_url = 'Untitled'
+        if DocumentTable.sequenceNumber > 1:
+            self.m_url += f' ({DocumentTable.sequenceNumber})'
+        self.isUntitled = True
+
         self.setColumnCount(self.m_settings.defaultCellColumns)
         self.setRowCount(self.m_settings.defaultCellRows)
 
@@ -70,16 +79,21 @@ class DocumentTable(QTableWidget):
         self.setHorizontalHeaderItems(self.m_settings.defaultHeaderLabelHorizontal)
         self.setVerticalHeaderItems(self.m_settings.defaultHeaderLabelVertical)
 
+        self.setWindowTitle(self.documentName())
+
 
     def loadDocument(self, url):
         """
         Loads an existing document.
         """
         self.m_url = url
+        self.isUntitled = False
 
         # Set header items
         self.setHorizontalHeaderItems(self.m_settings.defaultHeaderLabelHorizontal)
         self.setVerticalHeaderItems(self.m_settings.defaultHeaderLabelVertical)
+
+        self.setWindowTitle(self.documentName())
 
         return True
 
@@ -89,6 +103,13 @@ class DocumentTable(QTableWidget):
         Returns the canonical path of the document.
         """
         return QFileInfo(self.m_url).canonicalFilePath()
+
+
+    def documentName(self):
+        """
+        Returns the name of the document.
+        """
+        return QFileInfo(self.m_url).fileName()
 
 
     def setHorizontalHeaderItems(self, type):
