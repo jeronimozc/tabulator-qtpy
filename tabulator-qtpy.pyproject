@@ -2,7 +2,7 @@
     "files": [
         "about_dialog.py",
         "colophon_about_page.py",
-        "colophon_authors_widget.py",
+        "colophon_authors_page.py",
         "colophon_credits_widget.py",
         "colophon_dialog.py",
         "colophon_environment_page.py",

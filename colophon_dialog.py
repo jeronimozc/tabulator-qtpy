@@ -22,7 +22,7 @@ from PySide2.QtCore import QByteArray, QRect
 from PySide2.QtWidgets import QApplication, QDialog, QDialogButtonBox, QTabWidget, QVBoxLayout
 
 from colophon_about_page import ColophonAboutPage
-from colophon_authors_widget import ColophonAuthorsWidget
+from colophon_authors_page import ColophonAuthorsWidget
 from colophon_credits_widget import ColophonCreditsWidget
 from colophon_environment_page import ColophonEnvironmentPage
 from colophon_license_page import ColophonLicensePage
