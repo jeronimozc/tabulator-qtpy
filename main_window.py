@@ -410,13 +410,11 @@ class MainWindow(QMainWindow):
         """
         geometry = self.aboutDialogGeometry if self.m_settings.restoreDialogGeometry else QByteArray()
 
-        aboutDialog = AboutDialog(self)
-        aboutDialog.setWindowTitle(f'About {QApplication.applicationName()}')
-        aboutDialog.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
-        aboutDialog.setWindowGeometry(geometry)
-        aboutDialog.exec_()
+        dialog = AboutDialog(self)
+        dialog.setDialogGeometry(geometry)
+        dialog.exec_()
 
-        self.aboutDialogGeometry = aboutDialog.windowGeometry()
+        self.aboutDialogGeometry = dialog.dialogGeometry()
 
 
     def onActionColophonTriggered(self):
