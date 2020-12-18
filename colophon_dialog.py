@@ -24,7 +24,7 @@ from PySide2.QtWidgets import QApplication, QDialog, QDialogButtonBox, QTabWidge
 from colophon_about_page import ColophonAboutPage
 from colophon_authors_widget import ColophonAuthorsWidget
 from colophon_credits_widget import ColophonCreditsWidget
-from colophon_environment_widget import ColophonEnvironmentWidget
+from colophon_environment_page import ColophonEnvironmentWidget
 from colophon_license_widget import ColophonLicenseWidget
 from dialog_title_box import DialogTitleBox
 

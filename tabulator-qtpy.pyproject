@@ -5,7 +5,7 @@
         "colophon_authors_widget.py",
         "colophon_credits_widget.py",
         "colophon_dialog.py",
-        "colophon_environment_widget.py",
+        "colophon_environment_page.py",
         "colophon_license_widget.py",
         "dialog_title_box.py",
         "document_table.py",
