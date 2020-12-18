@@ -25,7 +25,7 @@ from colophon_about_page import ColophonAboutPage
 from colophon_authors_widget import ColophonAuthorsWidget
 from colophon_credits_widget import ColophonCreditsWidget
 from colophon_environment_page import ColophonEnvironmentPage
-from colophon_license_widget import ColophonLicenseWidget
+from colophon_license_page import ColophonLicenseWidget
 from dialog_title_box import DialogTitleBox
 
 
