@@ -2,51 +2,49 @@
 #
 # Copyright 2020 NotNypical, <https://notnypical.github.io>.
 #
-# This file is part of pyTabulator.
+# This file is part of Tabulator-QtPy.
 #
-# pyTabulator is free software: you can redistribute it and/or modify
+# Tabulator-QtPy is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
-# pyTabulator is distributed in the hope that it will be useful,
+# Tabulator-QtPy is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with pyTabulator.  If not, see <https://www.gnu.org/licenses/>.
+# along with Tabulator-QtPy.  If not, see <https://www.gnu.org/licenses/>.
 #
 
 from PySide2.QtWidgets import QFrame, QTextBrowser, QVBoxLayout, QWidget
 
 
-class ColophonAuthorsWidget(QWidget):
+class ColophonAuthorsPage(QWidget):
 
     def __init__(self, parent=None):
-        """
-        Initializes the ColophonAuthorsWidget class.
-        """
-        super(ColophonAuthorsWidget, self).__init__(parent)
+        super().__init__(parent)
 
         textBox = QTextBrowser()
         textBox.setFrameStyle(QFrame.NoFrame)
         textBox.setStyleSheet('background-color:transparent;')
         textBox.setOpenExternalLinks(True)
-        textBox.setHtml('''<html><body><dl>
+        textBox.setHtml(self.tr('''<html><body><dl>
             <dt><strong>NotNypical</strong></dt>
                 <dd>Created and developed by <a href="https://notnypical.github.io" title="Visit author's homepage">NotNypical</a>.</dd>
-            </dl></body></html>''')
+            </dl></body></html>'''))
 
         # Main layout
-        layout = QVBoxLayout()
-        layout.addWidget(textBox, 1)
-
-        self.setLayout(layout)
+        self.layout = QVBoxLayout(self)
+        self.layout.addWidget(textBox)
 
 
     def title(self):
-        """
-        Returns title of the widget.
-        """
-        return 'Authors'
+
+        return self.tr('Authors')
+
+
+    def setZeroMargins(self):
+
+        self.layout.setContentsMargins(0, 0, 0, 0)
