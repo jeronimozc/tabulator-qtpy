@@ -21,7 +21,7 @@
 from PySide2.QtCore import QByteArray, QRect
 from PySide2.QtWidgets import QApplication, QDialog, QDialogButtonBox, QVBoxLayout
 
-from colophon_about_widget import ColophonAboutWidget
+from colophon_about_page import ColophonAboutWidget
 from dialog_title_box import DialogTitleBox
 
 
