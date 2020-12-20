@@ -22,7 +22,7 @@ from PySide2.QtCore import QByteArray, QRect
 from PySide2.QtWidgets import (QApplication, QDialog, QDialogButtonBox, QHBoxLayout,
                                QListWidget, QStackedWidget, QVBoxLayout, QWidget)
 
-from preferences_document_settings import PreferencesDocumentWidget
+from preferences_document_settings import PreferencesDocumentSettings
 from preferences_general_settings import PreferencesGeneralSettings
 from settings import Settings
 
@@ -42,8 +42,8 @@ class PreferencesDialog(QDialog):
         self.generalSettings = PreferencesGeneralSettings(self)
         self.generalSettings.settingsChanged.connect(self.onSettingChanged)
 
-        self.documentSettings = PreferencesDocumentWidget(self)
-        self.documentSettings.settingChanged.connect(self.onSettingChanged)
+        self.documentSettings = PreferencesDocumentSettings(self)
+        self.documentSettings.settingsChanged.connect(self.onSettingChanged)
 
         stackedBox = QStackedWidget()
         stackedBox.addWidget(self.generalSettings)
