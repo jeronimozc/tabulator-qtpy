@@ -23,7 +23,7 @@ from PySide2.QtWidgets import (QApplication, QDialog, QDialogButtonBox, QHBoxLay
                                QListWidget, QStackedWidget, QVBoxLayout, QWidget)
 
 from preferences_document_widget import PreferencesDocumentWidget
-from preferences_general_settings import PreferencesApplicationWidget
+from preferences_general_settings import PreferencesGeneralSettings
 from settings import Settings
 
 
@@ -39,19 +39,19 @@ class PreferencesDialog(QDialog):
         super(PreferencesDialog, self).__init__(parent)
 
         # Settings box
-        self.applicationSettings = PreferencesApplicationWidget(self)
-        self.applicationSettings.settingChanged.connect(self.onSettingChanged)
+        self.generalSettings = PreferencesGeneralSettings(self)
+        self.generalSettings.settingsChanged.connect(self.onSettingChanged)
 
         self.documentSettings = PreferencesDocumentWidget(self)
         self.documentSettings.settingChanged.connect(self.onSettingChanged)
 
         stackedBox = QStackedWidget()
-        stackedBox.addWidget(self.applicationSettings)
+        stackedBox.addWidget(self.generalSettings)
         stackedBox.addWidget(self.documentSettings)
         stackedBox.setCurrentIndex(0)
 
         listBox = QListWidget()
-        listBox.addItem(self.applicationSettings.title())
+        listBox.addItem(self.generalSettings.title())
         listBox.addItem(self.documentSettings.title())
         listBox.setCurrentRow(stackedBox.currentIndex())
         listBox.currentRowChanged.connect(stackedBox.setCurrentIndex)
@@ -125,8 +125,8 @@ class PreferencesDialog(QDialog):
         """
 
         # Application: Appearance
-        self.applicationSettings.setRestoreWindowGeometry(settings.restoreWindowGeometry)
-        self.applicationSettings.setRestoreDialogGeometry(settings.restoreDialogGeometry)
+        self.generalSettings.setRestoreApplicationGeometry(settings.restoreWindowGeometry)
+        self.generalSettings.setRestoreDialogGeometry(settings.restoreDialogGeometry)
 
         # Document: Defaults
         self.documentSettings.setDefaultHeaderLabelHorizontal(settings.defaultHeaderLabelHorizontal)
@@ -141,8 +141,8 @@ class PreferencesDialog(QDialog):
         """
 
         # Application: Appearance
-        self.m_settings.restoreWindowGeometry = self.applicationSettings.restoreWindowGeometry()
-        self.m_settings.restoreDialogGeometry = self.applicationSettings.restoreDialogGeometry()
+        self.m_settings.restoreWindowGeometry = self.generalSettings.restoreApplicationGeometry()
+        self.m_settings.restoreDialogGeometry = self.generalSettings.restoreDialogGeometry()
 
         # Document: Defaults
         self.m_settings.defaultHeaderLabelHorizontal = self.documentSettings.defaultHeaderLabelHorizontal()
