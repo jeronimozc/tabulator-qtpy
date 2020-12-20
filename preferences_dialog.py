@@ -22,8 +22,8 @@ from PySide2.QtCore import QByteArray, QRect
 from PySide2.QtWidgets import (QApplication, QDialog, QDialogButtonBox, QHBoxLayout,
                                QListWidget, QStackedWidget, QVBoxLayout, QWidget)
 
-from preferences_application_widget import PreferencesApplicationWidget
 from preferences_document_widget import PreferencesDocumentWidget
+from preferences_general_settings import PreferencesApplicationWidget
 from settings import Settings
 
 

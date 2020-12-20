@@ -14,9 +14,9 @@
         "keyboard_shortcuts_widget.py",
         "main.py",
         "main_window.py",
-        "preferences_application_widget.py",
         "preferences_dialog.py",
         "preferences_document_widget.py",
+        "preferences_general_settings.py",
         "resources.qrc",
         "settings.py"
     ]
