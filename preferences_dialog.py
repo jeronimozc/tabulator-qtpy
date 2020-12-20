@@ -2,25 +2,24 @@
 #
 # Copyright 2020 NotNypical, <https://notnypical.github.io>.
 #
-# This file is part of pyTabulator.
+# This file is part of Tabulator-QtPy.
 #
-# pyTabulator is free software: you can redistribute it and/or modify
+# Tabulator-QtPy is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
-# pyTabulator is distributed in the hope that it will be useful,
+# Tabulator-QtPy is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with pyTabulator.  If not, see <https://www.gnu.org/licenses/>.
+# along with Tabulator-QtPy.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from PySide2.QtCore import QByteArray, QRect
-from PySide2.QtWidgets import (QApplication, QDialog, QDialogButtonBox, QHBoxLayout,
-                               QListWidget, QStackedWidget, QVBoxLayout, QWidget)
+from PySide2.QtCore import QByteArray
+from PySide2.QtWidgets import QDialog, QDialogButtonBox, QHBoxLayout, QListWidget, QStackedWidget, QVBoxLayout
 
 from preferences_document_settings import PreferencesDocumentSettings
 from preferences_general_settings import PreferencesGeneralSettings
@@ -29,21 +28,22 @@ from settings import Settings
 
 class PreferencesDialog(QDialog):
 
-    m_settings = Settings()
+    _settings = Settings()
 
 
     def __init__(self, parent=None):
-        """
-        Initializes the PreferencesDialog class.
-        """
-        super(PreferencesDialog, self).__init__(parent)
+        super().__init__(parent)
+
+        self.setWindowTitle(self.tr('Preferences'))
+
+        self.setDialogGeometry()
 
         # Settings box
         self.generalSettings = PreferencesGeneralSettings(self)
-        self.generalSettings.settingsChanged.connect(self.onSettingChanged)
+        self.generalSettings.settingsChanged.connect(self.onSettingsChanged)
 
         self.documentSettings = PreferencesDocumentSettings(self)
-        self.documentSettings.settingsChanged.connect(self.onSettingChanged)
+        self.documentSettings.settingsChanged.connect(self.onSettingsChanged)
 
         stackedBox = QStackedWidget()
         stackedBox.addWidget(self.generalSettings)
@@ -69,62 +69,62 @@ class PreferencesDialog(QDialog):
         buttonBox.rejected.connect(self.close)
 
         # Main layout
-        layout = QVBoxLayout()
-        layout.addLayout(settingsBox, 1)
+        layout = QVBoxLayout(self)
+        layout.addLayout(settingsBox)
         layout.addWidget(buttonBox)
 
-        self.setLayout(layout)
-
-        self.updateSettings(self.m_settings)
+        self.updateSettings(self._settings)
 
 
-    def onSettingChanged(self):
-        """
-        Enables the apply button if a setting has been changed.
-        """
-        self.buttonApply.setEnabled(True)
+    def setDialogGeometry(self, geometry=QByteArray()):
 
-
-    def windowGeometry(self):
-        """
-        Returns the geometry of the widget.
-        """
-        return self.saveGeometry()
-
-
-    def setWindowGeometry(self, geometry):
-        """
-        Sets the geometry of the widget.
-        """
         if geometry:
             self.restoreGeometry(geometry)
         else:
-            availableGeometry = QRect(QApplication.desktop().availableGeometry(self))
-            self.resize(availableGeometry.width() / 2, availableGeometry.height() / 2)
-            self.move((availableGeometry.width() - self.width()) / 2, (availableGeometry.height() - self.height()) / 2)
+            self.resize(800, 600)
 
 
-    def settings(self):
-        """
-        Returns the user preferences.
-        """
-        return self.m_settings
+    def dialogGeometry(self):
+
+        return self.saveGeometry()
+
+
+    def onSettingsChanged(self):
+
+        self.buttonApply.setEnabled(True)
 
 
     def setSettings(self, settings):
-        """
-        Sets the user preferences.
-        """
+
         self.updateSettings(settings)
         self.saveSettings()
 
 
-    def updateSettings(self, settings):
-        """
-        Updates the settings.
-        """
+    def settings(self):
 
-        # Application: Appearance
+        return self._settings
+
+
+    def onButtonDefaultsClicked(self):
+
+        settings = Settings()
+        self.updateSettings(settings)
+
+
+    def onButtonOkClicked(self):
+
+        self.saveSettings()
+        self.close()
+
+
+    def onButtonApplyClicked(self):
+
+        self.saveSettings()
+
+
+    def updateSettings(self, settings):
+
+        # General
         self.generalSettings.setRestoreApplicationGeometry(settings.restoreWindowGeometry)
         self.generalSettings.setRestoreDialogGeometry(settings.restoreDialogGeometry)
 
@@ -136,41 +136,15 @@ class PreferencesDialog(QDialog):
 
 
     def saveSettings(self):
-        """
-        Reads the user preferences and saves them.
-        """
 
-        # Application: Appearance
-        self.m_settings.restoreWindowGeometry = self.generalSettings.restoreApplicationGeometry()
-        self.m_settings.restoreDialogGeometry = self.generalSettings.restoreDialogGeometry()
+        # General
+        self._settings.restoreWindowGeometry = self.generalSettings.restoreApplicationGeometry()
+        self._settings.restoreDialogGeometry = self.generalSettings.restoreDialogGeometry()
 
         # Document: Defaults
-        self.m_settings.defaultHeaderLabelHorizontal = self.documentSettings.defaultHeaderLabelHorizontal()
-        self.m_settings.defaultHeaderLabelVertical = self.documentSettings.defaultHeaderLabelVertical()
-        self.m_settings.defaultCellColumns = self.documentSettings.defaultCellColumns()
-        self.m_settings.defaultCellRows = self.documentSettings.defaultCellRows()
+        self._settings.defaultHeaderLabelHorizontal = self.documentSettings.defaultHeaderLabelHorizontal()
+        self._settings.defaultHeaderLabelVertical = self.documentSettings.defaultHeaderLabelVertical()
+        self._settings.defaultCellColumns = self.documentSettings.defaultCellColumns()
+        self._settings.defaultCellRows = self.documentSettings.defaultCellRows()
 
         self.buttonApply.setEnabled(False)
-
-
-    def onButtonDefaultsClicked(self):
-        """
-        Restores default values of user preferences.
-        """
-        settings = Settings()
-        self.updateSettings(settings)
-
-
-    def onButtonOkClicked(self):
-        """
-        Closes the dialog with saving user preferences.
-        """
-        self.saveSettings()
-        self.close()
-
-
-    def onButtonApplyClicked(self):
-        """
-        Saves user preferences.
-        """
-        self.saveSettings()

@@ -436,14 +436,13 @@ class MainWindow(QMainWindow):
         """
         geometry = self.preferencesDialogGeometry if self.m_settings.restoreDialogGeometry else QByteArray()
 
-        preferencesDialog = PreferencesDialog(self)
-        preferencesDialog.setWindowTitle('Preferences')
-        preferencesDialog.setWindowGeometry(geometry)
-        preferencesDialog.setSettings(self.m_settings)
-        preferencesDialog.exec_()
+        dialog = PreferencesDialog(self)
+        dialog.setDialogGeometry(geometry)
+        dialog.setSettings(self.m_settings)
+        dialog.exec_()
 
-        self.preferencesDialogGeometry = preferencesDialog.windowGeometry()
-        self.m_settings = preferencesDialog.settings()
+        self.preferencesDialogGeometry = dialog.dialogGeometry()
+        self.m_settings = dialog.settings()
 
 
     def onActionQuitTriggered(self):
