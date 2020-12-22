@@ -40,9 +40,11 @@ class PreferencesDialog(QDialog):
 
         # Settings box
         self.generalSettings = PreferencesGeneralSettings(self)
+        self.generalSettings.setZeroMargins()
         self.generalSettings.settingsChanged.connect(self.onSettingsChanged)
 
         self.documentSettings = PreferencesDocumentSettings(self)
+        self.documentSettings.setZeroMargins()
         self.documentSettings.settingsChanged.connect(self.onSettingsChanged)
 
         stackedBox = QStackedWidget()
@@ -74,6 +76,7 @@ class PreferencesDialog(QDialog):
         layout.addWidget(buttonBox)
 
         self.updateSettings(self._settings)
+        self.buttonApply.setEnabled(False)
 
 
     def setDialogGeometry(self, geometry=QByteArray()):
@@ -89,20 +92,21 @@ class PreferencesDialog(QDialog):
         return self.saveGeometry()
 
 
-    def onSettingsChanged(self):
-
-        self.buttonApply.setEnabled(True)
-
-
     def setSettings(self, settings):
 
         self.updateSettings(settings)
         self.saveSettings()
+        self.buttonApply.setEnabled(False)
 
 
     def settings(self):
 
         return self._settings
+
+
+    def onSettingsChanged(self):
+
+        self.buttonApply.setEnabled(True)
 
 
     def onButtonDefaultsClicked(self):
@@ -120,6 +124,7 @@ class PreferencesDialog(QDialog):
     def onButtonApplyClicked(self):
 
         self.saveSettings()
+        self.buttonApply.setEnabled(False)
 
 
     def updateSettings(self, settings):
@@ -146,5 +151,3 @@ class PreferencesDialog(QDialog):
         self._settings.defaultHeaderLabelVertical = self.documentSettings.defaultHeaderLabelVertical()
         self._settings.defaultCellColumns = self.documentSettings.defaultCellColumns()
         self._settings.defaultCellRows = self.documentSettings.defaultCellRows()
-
-        self.buttonApply.setEnabled(False)

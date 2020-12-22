@@ -41,9 +41,9 @@ class PreferencesDocumentSettings(QWidget):
         tabBox.addTab(self.tabDefaultSettings(), self.tr('Default'))
 
         # Main layout
-        layout = QVBoxLayout(self)
-        layout.addWidget(title)
-        layout.addWidget(tabBox)
+        self.layout = QVBoxLayout(self)
+        self.layout.addWidget(title)
+        self.layout.addWidget(tabBox)
 
 
     def tabDefaultSettings(self):
@@ -64,11 +64,11 @@ class PreferencesDocumentSettings(QWidget):
         defaultHeaderLabelHorizontalBox.addWidget(rdbDefaultHeaderLabelHorizontalLetters)
         defaultHeaderLabelHorizontalBox.addWidget(rdbDefaultHeaderLabelHorizontalNumbers)
 
-        rdbDefaultHeaderLabelVerticalLetters = QRadioButton('Letters')
-        rdbDefaultHeaderLabelVerticalLetters.setToolTip('Capital letters as default vertical header labels')
+        rdbDefaultHeaderLabelVerticalLetters = QRadioButton(self.tr('Letters'))
+        rdbDefaultHeaderLabelVerticalLetters.setToolTip(self.tr('Capital letters as default vertical header labels'))
 
-        rdbDefaultHeaderLabelVerticalNumbers = QRadioButton('Numbers')
-        rdbDefaultHeaderLabelVerticalNumbers.setToolTip('Decimal numbers as default vertical header labels')
+        rdbDefaultHeaderLabelVerticalNumbers = QRadioButton(self.tr('Numbers'))
+        rdbDefaultHeaderLabelVerticalNumbers.setToolTip(self.tr('Decimal numbers as default vertical header labels'))
 
         self.grpDefaultHeaderLabelVertical = QButtonGroup(self)
         self.grpDefaultHeaderLabelVertical.addButton(rdbDefaultHeaderLabelVerticalLetters, Settings.HeaderLabel.Letter.value)
