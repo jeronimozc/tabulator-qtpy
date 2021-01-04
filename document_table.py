@@ -28,7 +28,7 @@ from settings import Settings
 
 class DocumentTable(QTableWidget):
 
-    m_settings = Settings()
+    _settings = Settings()
     sequenceNumber = 0
 
 
@@ -41,8 +41,8 @@ class DocumentTable(QTableWidget):
         self.isUntitled = True
 
         # Creates a default document
-        self.setColumnCount(self.m_settings.defaultCellColumns)
-        self.setRowCount(self.m_settings.defaultCellRows)
+        self.setColumnCount(self._settings.defaultCellColumns)
+        self.setRowCount(self._settings.defaultCellRows)
 
         # Enable context menus
         hHeaderView = self.horizontalHeader()
@@ -58,7 +58,7 @@ class DocumentTable(QTableWidget):
         """
         Sets the user preferences.
         """
-        self.m_settings = settings
+        self._settings = settings
 
 
     def newDocument(self):
@@ -72,12 +72,12 @@ class DocumentTable(QTableWidget):
             self.m_url += f' ({DocumentTable.sequenceNumber})'
         self.isUntitled = True
 
-        self.setColumnCount(self.m_settings.defaultCellColumns)
-        self.setRowCount(self.m_settings.defaultCellRows)
+        self.setColumnCount(self._settings.defaultCellColumns)
+        self.setRowCount(self._settings.defaultCellRows)
 
         # Set header items
-        self.setHorizontalHeaderItems(self.m_settings.defaultHeaderLabelHorizontal)
-        self.setVerticalHeaderItems(self.m_settings.defaultHeaderLabelVertical)
+        self.setHorizontalHeaderItems(self._settings.defaultHeaderLabelHorizontal)
+        self.setVerticalHeaderItems(self._settings.defaultHeaderLabelVertical)
 
         self.setWindowTitle(self.documentName())
 
@@ -90,8 +90,8 @@ class DocumentTable(QTableWidget):
         self.isUntitled = False
 
         # Set header items
-        self.setHorizontalHeaderItems(self.m_settings.defaultHeaderLabelHorizontal)
-        self.setVerticalHeaderItems(self.m_settings.defaultHeaderLabelVertical)
+        self.setHorizontalHeaderItems(self._settings.defaultHeaderLabelHorizontal)
+        self.setVerticalHeaderItems(self._settings.defaultHeaderLabelVertical)
 
         self.setWindowTitle(self.documentName())
 

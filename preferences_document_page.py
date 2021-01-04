@@ -34,7 +34,7 @@ class PreferencesDocumentPage(QWidget):
         super().__init__(parent)
 
         # Title
-        title = QLabel(self.tr('<strong style="font-size:large;">Document Settings</strong>'))
+        title = QLabel(self.tr('<strong style="font-size:large;">Document</strong>'))
 
         # Tab box
         tabBox = QTabWidget()

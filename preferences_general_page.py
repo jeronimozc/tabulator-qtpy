@@ -31,7 +31,7 @@ class PreferencesGeneralPage(QWidget):
         super().__init__(parent)
 
         # Title
-        title = QLabel(self.tr('<strong style="font-size:large;">General Settings</strong>'))
+        title = QLabel(self.tr('<strong style="font-size:large;">General</strong>'))
 
         # Geometries
         self.chkRestoreApplicationGeometry = QCheckBox(self.tr('Save and restore application geometry'))

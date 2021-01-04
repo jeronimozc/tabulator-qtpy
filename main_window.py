@@ -34,7 +34,7 @@ import resources
 
 class MainWindow(QMainWindow):
 
-    m_settings = Settings()
+    _settings = Settings()
 
 
     def __init__(self, parent=None):
@@ -231,7 +231,7 @@ class MainWindow(QMainWindow):
 
     def updateMenuOpenRecent(self):
 
-        if len(self.m_settings.recentDocumentList) > 0:
+        if len(self._settings.recentDocumentList) > 0:
             pass
 
         else:
@@ -284,21 +284,23 @@ class MainWindow(QMainWindow):
 
         settings = QSettings()
 
+        self._settings.load(settings)
+
         # Application: Appearance
-        self.m_settings.restoreWindowGeometry = self.valueToBool(settings.value('Settings/restoreWindowGeometry', self.m_settings.restoreWindowGeometry))
-        self.m_settings.restoreDialogGeometry = self.valueToBool(settings.value('Settings/restoreDialogGeometry', self.m_settings.restoreDialogGeometry))
+        self._settings.restoreWindowGeometry = self.valueToBool(settings.value('Settings/restoreWindowGeometry', self._settings.restoreWindowGeometry))
+        self._settings.restoreDialogGeometry = self.valueToBool(settings.value('Settings/restoreDialogGeometry', self._settings.restoreDialogGeometry))
 
         # Document: Defaults
-        self.m_settings.defaultHeaderLabelHorizontal = Settings.HeaderLabel(int(settings.value('Settings/defaultHeaderLabelHorizontal', self.m_settings.defaultHeaderLabelHorizontal.value)))
-        self.m_settings.defaultHeaderLabelVertical = Settings.HeaderLabel(int(settings.value('Settings/defaultHeaderLabelVertical', self.m_settings.defaultHeaderLabelVertical.value)))
-        self.m_settings.defaultCellColumns = int(settings.value('Settings/defaultCellColumns', self.m_settings.defaultCellColumns))
-        self.m_settings.defaultCellRows = int(settings.value('Settings/defaultCellRows', self.m_settings.defaultCellRows))
+        self._settings.defaultHeaderLabelHorizontal = Settings.HeaderLabel(int(settings.value('Settings/defaultHeaderLabelHorizontal', self._settings.defaultHeaderLabelHorizontal.value)))
+        self._settings.defaultHeaderLabelVertical = Settings.HeaderLabel(int(settings.value('Settings/defaultHeaderLabelVertical', self._settings.defaultHeaderLabelVertical.value)))
+        self._settings.defaultCellColumns = int(settings.value('Settings/defaultCellColumns', self._settings.defaultCellColumns))
+        self._settings.defaultCellRows = int(settings.value('Settings/defaultCellRows', self._settings.defaultCellRows))
 
         # Recent documents
         size = settings.beginReadArray('recentDocumentList')
         for i in range(size):
             settings.setArrayIndex(i)
-            self.m_settings.recentDocumentList.append(settings.value('document'))
+            self._settings.recentDocumentList.append(settings.value('document'))
         settings.endArray()
 
         # Window and dialog properties
@@ -310,7 +312,7 @@ class MainWindow(QMainWindow):
         self.preferencesDialogGeometry = settings.value('PreferencesDialog/geometry', QByteArray())
 
         # Set window properties
-        if self.m_settings.restoreWindowGeometry and mainWindowGeometry:
+        if self._settings.restoreWindowGeometry and mainWindowGeometry:
             self.restoreGeometry(mainWindowGeometry)
         else:
             availableGeometry = QRect(QApplication.desktop().availableGeometry(self))
@@ -323,21 +325,23 @@ class MainWindow(QMainWindow):
 
         settings = QSettings()
 
+        self._settings.save(settings)
+
         # Application: Appearance
-        settings.setValue('Settings/restoreWindowGeometry', self.m_settings.restoreWindowGeometry)
-        settings.setValue('Settings/restoreDialogGeometry', self.m_settings.restoreDialogGeometry)
+        settings.setValue('Settings/restoreWindowGeometry', self._settings.restoreWindowGeometry)
+        settings.setValue('Settings/restoreDialogGeometry', self._settings.restoreDialogGeometry)
 
         # Document: Defaults
-        settings.setValue('Settings/defaultHeaderLabelHorizontal', self.m_settings.defaultHeaderLabelHorizontal.value)
-        settings.setValue('Settings/defaultHeaderLabelVertical', self.m_settings.defaultHeaderLabelVertical.value)
-        settings.setValue('Settings/defaultCellColumns', self.m_settings.defaultCellColumns)
-        settings.setValue('Settings/defaultCellRows', self.m_settings.defaultCellRows)
+        settings.setValue('Settings/defaultHeaderLabelHorizontal', self._settings.defaultHeaderLabelHorizontal.value)
+        settings.setValue('Settings/defaultHeaderLabelVertical', self._settings.defaultHeaderLabelVertical.value)
+        settings.setValue('Settings/defaultCellColumns', self._settings.defaultCellColumns)
+        settings.setValue('Settings/defaultCellRows', self._settings.defaultCellRows)
 
         # Recent documents
         settings.beginWriteArray('recentDocumentList')
-        for i in range(len(self.m_settings.recentDocumentList)):
+        for i in range(len(self._settings.recentDocumentList)):
             settings.setArrayIndex(i)
-            settings.setValue('document', self.m_settings.recentDocumentList[i])
+            settings.setValue('document', self._settings.recentDocumentList[i])
         settings.endArray()
 
         # Window and dialog properties
@@ -367,7 +371,7 @@ class MainWindow(QMainWindow):
     def createDocumentChild(self):
 
         document = DocumentTable(self)
-        document.setSettings(self.m_settings)
+        document.setSettings(self._settings)
         self.documentArea.addSubWindow(document)
 
         return document
@@ -421,7 +425,7 @@ class MainWindow(QMainWindow):
 
     def onActionAboutTriggered(self):
 
-        geometry = self.aboutDialogGeometry if self.m_settings.restoreDialogGeometry else QByteArray()
+        geometry = self.aboutDialogGeometry if self._settings.restoreDialogGeometry else QByteArray()
 
         dialog = AboutDialog(self)
         dialog.setDialogGeometry(geometry)
@@ -432,7 +436,7 @@ class MainWindow(QMainWindow):
 
     def onActionColophonTriggered(self):
 
-        geometry = self.colophonDialogGeometry if self.m_settings.restoreDialogGeometry else QByteArray()
+        geometry = self.colophonDialogGeometry if self._settings.restoreDialogGeometry else QByteArray()
 
         dialog = ColophonDialog(self)
         dialog.setDialogGeometry(geometry)
@@ -443,15 +447,15 @@ class MainWindow(QMainWindow):
 
     def onActionPreferencesTriggered(self):
 
-        geometry = self.preferencesDialogGeometry if self.m_settings.restoreDialogGeometry else QByteArray()
+        geometry = self.preferencesDialogGeometry if self._settings.restoreDialogGeometry else QByteArray()
 
         dialog = PreferencesDialog(self)
         dialog.setDialogGeometry(geometry)
-        dialog.setSettings(self.m_settings)
+        dialog.setSettings(self._settings)
         dialog.exec_()
 
         self.preferencesDialogGeometry = dialog.dialogGeometry()
-        self.m_settings = dialog.settings()
+        self._settings = dialog.settings()
 
 
     def onActionNewTriggered(self):
@@ -484,7 +488,7 @@ class MainWindow(QMainWindow):
 
     def onActionKeyboardShortcutsTriggered(self):
 
-        geometry = self.keyboardShortcutsDialogGeometry if self.m_settings.restoreDialogGeometry else QByteArray()
+        geometry = self.keyboardShortcutsDialogGeometry if self._settings.restoreDialogGeometry else QByteArray()
 
         self.keyboardShortcutsDialog = KeyboardShortcutsDialog(self)
         self.keyboardShortcutsDialog.setWindowTitle('Keyboard Shortcuts')

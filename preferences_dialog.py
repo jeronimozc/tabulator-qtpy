@@ -75,7 +75,7 @@ class PreferencesDialog(QDialog):
         layout.addLayout(settingsBox)
         layout.addWidget(buttonBox)
 
-        self.updateSettings(self._settings)
+        self.updateSettings()
         self.buttonApply.setEnabled(False)
 
 
@@ -94,8 +94,9 @@ class PreferencesDialog(QDialog):
 
     def setSettings(self, settings):
 
-        self.updateSettings(settings)
-        self.saveSettings()
+        self._settings = settings
+
+        self.updateSettings()
         self.buttonApply.setEnabled(False)
 
 
@@ -111,8 +112,7 @@ class PreferencesDialog(QDialog):
 
     def onButtonDefaultsClicked(self):
 
-        settings = Settings()
-        self.updateSettings(settings)
+        self.updateSettings(True)
 
 
     def onButtonOkClicked(self):
@@ -127,17 +127,17 @@ class PreferencesDialog(QDialog):
         self.buttonApply.setEnabled(False)
 
 
-    def updateSettings(self, settings):
+    def updateSettings(self, isDefault=False):
 
         # General
-        self.generalPage.setRestoreApplicationGeometry(settings.restoreWindowGeometry)
-        self.generalPage.setRestoreDialogGeometry(settings.restoreDialogGeometry)
+        self.generalPage.setRestoreApplicationGeometry(self._settings.restoreWindowGeometry)
+        self.generalPage.setRestoreDialogGeometry(self._settings.restoreDialogGeometry)
 
         # Document: Defaults
-        self.documentPage.setDefaultHeaderLabelHorizontal(settings.defaultHeaderLabelHorizontal)
-        self.documentPage.setDefaultHeaderLabelVertical(settings.defaultHeaderLabelVertical)
-        self.documentPage.setDefaultCellColumns(settings.defaultCellColumns)
-        self.documentPage.setDefaultCellRows(settings.defaultCellRows)
+        self.documentPage.setDefaultHeaderLabelHorizontal(self._settings.defaultHeaderLabelHorizontal)
+        self.documentPage.setDefaultHeaderLabelVertical(self._settings.defaultHeaderLabelVertical)
+        self.documentPage.setDefaultCellColumns(self._settings.defaultCellColumns)
+        self.documentPage.setDefaultCellRows(self._settings.defaultCellRows)
 
 
     def saveSettings(self):
