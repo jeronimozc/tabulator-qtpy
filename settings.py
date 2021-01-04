@@ -46,6 +46,9 @@ class Settings():
         self._restoreApplicationGeometry = True
         self._restoreDialogGeometry = True
 
+        # Documents: Recently Opened Documents
+        self._maximumRecentDocuments = 10
+
 
     def load(self, settings):
 
@@ -55,6 +58,9 @@ class Settings():
         self.setRestoreApplicationState(self.valueToBool(settings.value('restoreApplicationState', True)))
         self.setRestoreApplicationGeometry(self.valueToBool(settings.value('restoreApplicationGeometry', True)))
         self.setRestoreDialogGeometry(self.valueToBool(settings.value('restoreDialogGeometry', True)))
+
+        # Documents: Recently Opened Documents
+        self.setMaximumRecentDocuments(int(settings.value('maximumRecentDocuments', 10)))
 
         settings.endGroup()
 
@@ -75,6 +81,9 @@ class Settings():
         settings.setValue('restoreApplicationState', self._restoreApplicationState)
         settings.setValue('restoreApplicationGeometry', self._restoreApplicationGeometry)
         settings.setValue('restoreDialogGeometry', self._restoreDialogGeometry)
+
+        # Documents: Recently Opened Documents
+        settings.setValue('maximumRecentDocuments', self._maximumRecentDocuments)
 
         settings.endGroup()
 
@@ -107,3 +116,16 @@ class Settings():
     def restoreDialogGeometry(self, isDefault=False):
 
         return self._restoreDialogGeometry if not isDefault else True
+
+
+    def setMaximumRecentDocuments(self, value):
+
+        if value >= 0 and value <= 25:
+            self._maximumRecentDocuments = value
+        else:
+            self._maximumRecentDocuments = 10
+
+
+    def maximumRecentDocuments(self, isDefault=False):
+
+        return self._maximumRecentDocuments if not isDefault else 10

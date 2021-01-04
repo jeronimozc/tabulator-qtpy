@@ -141,6 +141,9 @@ class PreferencesDialog(QDialog):
         self.generalPage.setRestoreApplicationGeometry(self._settings.restoreApplicationGeometry(isDefault))
         self.generalPage.setRestoreDialogGeometry(self._settings.restoreDialogGeometry(isDefault))
 
+        # Documents: Recently Opened Documents
+        self.documentsPage.setMaximumRecentDocuments(self._settings.maximumRecentDocuments(isDefault))
+
         # Document: Defaults
         self.documentPage.setDefaultHeaderLabelHorizontal(self._settings.defaultHeaderLabelHorizontal)
         self.documentPage.setDefaultHeaderLabelVertical(self._settings.defaultHeaderLabelVertical)
@@ -154,6 +157,9 @@ class PreferencesDialog(QDialog):
         self._settings.setRestoreApplicationState(self.generalPage.restoreApplicationState())
         self._settings.setRestoreApplicationGeometry(self.generalPage.restoreApplicationGeometry())
         self._settings.setRestoreDialogGeometry(self.generalPage.restoreDialogGeometry())
+
+        # Documents: Recently Opened Documents
+        self._settings.setMaximumRecentDocuments(self.documentsPage.maximumRecentDocuments())
 
         # Document: Defaults
         self._settings.defaultHeaderLabelHorizontal = self.documentPage.defaultHeaderLabelHorizontal()

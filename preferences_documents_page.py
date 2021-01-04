@@ -19,7 +19,7 @@
 #
 
 from PySide2.QtCore import Signal
-from PySide2.QtWidgets import QLabel, QVBoxLayout, QWidget
+from PySide2.QtWidgets import QFormLayout, QGroupBox, QLabel, QSpinBox, QVBoxLayout, QWidget
 
 
 class PreferencesDocumentsPage(QWidget):
@@ -33,10 +33,22 @@ class PreferencesDocumentsPage(QWidget):
         # Title
         title = QLabel(self.tr('<strong style="font-size:large;">Documents</strong>'))
 
+        # Recently Opened Documents
+        self.spbMaximumRecentDocuments = QSpinBox()
+        self.spbMaximumRecentDocuments.setRange(0, 25)
+        self.spbMaximumRecentDocuments.setToolTip(self.tr('Maximum number of recently opened documents'))
+        self.spbMaximumRecentDocuments.valueChanged.connect(self.onSettingsChanged)
+
+        recentDocumentsLayout = QFormLayout()
+        recentDocumentsLayout.addRow(self.tr('Number of documents'), self.spbMaximumRecentDocuments)
+
+        recentDocumentsGroup = QGroupBox(self.tr('Recently Opened Documents'))
+        recentDocumentsGroup.setLayout(recentDocumentsLayout)
 
         # Main layout
         self.layout = QVBoxLayout(self)
         self.layout.addWidget(title)
+        self.layout.addWidget(recentDocumentsGroup)
         self.layout.addStretch()
 
 
@@ -53,3 +65,13 @@ class PreferencesDocumentsPage(QWidget):
     def onSettingsChanged(self):
 
         self.settingsChanged.emit()
+
+
+    def setMaximumRecentDocuments(self, val):
+
+        self.spbMaximumRecentDocuments.setValue(val)
+
+
+    def maximumRecentDocuments(self):
+
+        return self.spbMaximumRecentDocuments.value()
