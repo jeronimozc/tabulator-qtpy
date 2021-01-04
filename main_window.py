@@ -131,6 +131,12 @@ class MainWindow(QMainWindow):
         self.actionToolbarDocument.setToolTip(self.tr('Display the Document toolbar'))
         self.actionToolbarDocument.toggled.connect(lambda checked: self.toolbarDocument.setVisible(checked))
 
+        self.actionToolbarEdit = QAction(self.tr('Show Edit Toolbar'), self)
+        self.actionToolbarEdit.setObjectName('actionToolbarEdit')
+        self.actionToolbarEdit.setCheckable(True)
+        self.actionToolbarEdit.setToolTip(self.tr('Display the Edit toolbar'))
+        self.actionToolbarEdit.toggled.connect(lambda checked: self.toolbarEdit.setVisible(checked))
+
         # Actions: Help
         self.actionKeyboardShortcuts = QAction(self.tr('Keyboard Shortcuts'), self)
         self.actionKeyboardShortcuts.setObjectName('actionKeyboardShortcuts')
@@ -194,6 +200,7 @@ class MainWindow(QMainWindow):
         menuView.addSeparator()
         menuView.addAction(self.actionToolbarApplication)
         menuView.addAction(self.actionToolbarDocument)
+        menuView.addAction(self.actionToolbarEdit)
 
         # Menu: Help
         menuHelp = self.menuBar().addMenu(self.tr('Help'))
@@ -230,8 +237,9 @@ class MainWindow(QMainWindow):
         self.toolbarDocument.visibilityChanged.connect(lambda visible: self.actionToolbarDocument.setChecked(visible))
 
         # Toolbar: Edit
-        toolbarEdit = self.addToolBar(self.tr('Edit'))
-        toolbarEdit.setObjectName('toolbarEdit')
+        self.toolbarEdit = self.addToolBar(self.tr('Edit Toolbar'))
+        self.toolbarEdit.setObjectName('toolbarEdit')
+        self.toolbarEdit.visibilityChanged.connect(lambda visible: self.actionToolbarEdit.setChecked(visible))
 
         # Toolbar: Tools
         toolbarTools = self.addToolBar(self.tr('Tools'))
