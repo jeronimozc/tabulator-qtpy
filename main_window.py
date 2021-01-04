@@ -2,23 +2,21 @@
 #
 # Copyright 2020-2021 NotNypical, <https://notnypical.github.io>.
 #
-# This file is part of pyTabulator.
+# This file is part of Tabulator-QtPy.
 #
-# pyTabulator is free software: you can redistribute it and/or modify
+# Tabulator-QtPy is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
-# pyTabulator is distributed in the hope that it will be useful,
+# Tabulator-QtPy is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with pyTabulator.  If not, see <https://www.gnu.org/licenses/>.
+# along with Tabulator-QtPy.  If not, see <https://www.gnu.org/licenses/>.
 #
-
-from PySide2.QtCore import qDebug
 
 from PySide2.QtCore import QByteArray, QFileInfo, QRect, QSettings, QStandardPaths, Qt
 from PySide2.QtGui import QIcon, QKeySequence
@@ -39,11 +37,19 @@ class MainWindow(QMainWindow):
     m_settings = Settings()
 
 
-    def __init__(self):
-        """
-        Initializes the MainWindow class.
-        """
-        QMainWindow.__init__(self)
+    def __init__(self, parent=None):
+        super().__init__(parent)
+
+        self.setWindowIcon(QIcon(':/icons/apps/16/tabulator.svg'))
+
+        self.createActions()
+        self.createMenus()
+        self.createToolbars()
+
+        self.readSettings()
+
+        self.updateActionFullScreen()
+        self.updateMenuOpenRecent()
 
         # Central widget
         self.documentArea = QMdiArea()
@@ -52,111 +58,95 @@ class MainWindow(QMainWindow):
         self.documentArea.setTabsClosable(True)
         self.setCentralWidget(self.documentArea)
 
-        self.setupUI()
-
-        self.readSettings()
-
-        self.updateMenuOpenRecent()
-
-
-    def setupUI(self):
-        """
-        Sets up the user interface.
-        """
-        self.setWindowIcon(QIcon(':/icons/apps/22/tabulator.svg'))
-
-        self.createActions()
-        self.createMenus()
-        self.createToolBars()
-        self.createStatusBar()
-
 
     def createActions(self):
-        """
-        Creates user interface actions.
-        """
 
         # Actions: Application
-        self.actionAbout = QAction(f'About {QApplication.applicationName()}', self)
+        self.actionAbout = QAction(self.tr(f'About {QApplication.applicationName()}'), self)
+        self.actionAbout.setObjectName('actionAbout')
         self.actionAbout.setIcon(QIcon(':/icons/apps/16/tabulator.svg'))
-        self.actionAbout.setStatusTip('Brief description of the application')
-        self.actionAbout.setToolTip('Brief description of the application')
+        self.actionAbout.setIconText(self.tr('About'))
+        self.actionAbout.setToolTip(self.tr('Brief description of the application'))
         self.actionAbout.triggered.connect(self.onActionAboutTriggered)
 
-        self.actionColophon = QAction('Colophon', self)
-        self.actionColophon.setStatusTip('Lengthy description of the application')
-        self.actionColophon.setToolTip('Lengthy description of the application')
+        self.actionColophon = QAction(self.tr('Colophon'), self)
+        self.actionColophon.setObjectName('actionColophon')
+        self.actionColophon.setIconText(self.tr('Colophon'))
+        self.actionColophon.setToolTip(self.tr('Lengthy description of the application'))
         self.actionColophon.triggered.connect(self.onActionColophonTriggered)
 
-        self.actionPreferences = QAction('Preferences…', self)
+        self.actionPreferences = QAction(self.tr('Preferences…'), self)
+        self.actionPreferences.setObjectName('actionPreferences')
         self.actionPreferences.setIcon(QIcon.fromTheme('configure', QIcon(':/icons/actions/16/application-configure.svg')))
-        self.actionPreferences.setStatusTip('Customize the appearance and behavior of the application')
-        self.actionPreferences.setToolTip('Customize the appearance and behavior of the application')
+        self.actionPreferences.setIconText(self.tr('Preferences'))
+        self.actionPreferences.setToolTip(self.tr('Customize the appearance and behavior of the application'))
         self.actionPreferences.triggered.connect(self.onActionPreferencesTriggered)
 
-        self.actionQuit = QAction('Quit', self)
+        self.actionQuit = QAction(self.tr('Quit'), self)
+        self.actionQuit.setObjectName('actionQuit')
         self.actionQuit.setIcon(QIcon.fromTheme('application-exit', QIcon(':/icons/actions/16/application-exit.svg')))
+        self.actionQuit.setIconText(self.tr('Quit'))
         self.actionQuit.setShortcut(QKeySequence.Quit)
-        self.actionQuit.setStatusTip('Quit the application')
-        self.actionQuit.setToolTip('Quit the application')
-        self.actionQuit.triggered.connect(self.onActionQuitTriggered)
+        self.actionQuit.setToolTip(self.tr(f'Quit the application [{self.actionQuit.shortcut().toString(QKeySequence.NativeText)}]'))
+        self.actionQuit.setData(self.tr('Quit the application'))
+        self.actionQuit.triggered.connect(self.close)
 
         # Actions: Document
-        self.actionNew = QAction('New', self)
+        self.actionNew = QAction(self.tr('New'), self)
+        self.actionNew.setObjectName('actionNew')
         self.actionNew.setIcon(QIcon.fromTheme('document-new', QIcon(':/icons/actions/16/document-new.svg')))
+        self.actionNew.setIconText(self.tr('New'))
         self.actionNew.setShortcut(QKeySequence.New)
-        self.actionNew.setStatusTip('Create new document')
-        self.actionNew.setToolTip('Create new document')
+        self.actionNew.setToolTip(self.tr(f'Create new document [{self.actionNew.shortcut().toString(QKeySequence.NativeText)}]'))
+        self.actionNew.setData(self.tr('Create new document'))
         self.actionNew.triggered.connect(self.onActionNewTriggered)
 
-        self.actionOpen = QAction('Open…', self)
+        self.actionOpen = QAction(self.tr('Open…'), self)
+        self.actionOpen.setObjectName('actionOpen')
         self.actionOpen.setIcon(QIcon.fromTheme('document-open', QIcon(':/icons/actions/16/document-open.svg')))
+        self.actionOpen.setIconText(self.tr('Open'))
         self.actionOpen.setShortcut(QKeySequence.Open)
-        self.actionOpen.setStatusTip('Open an existing document')
-        self.actionOpen.setToolTip('Open an existing document')
+        self.actionOpen.setToolTip(self.tr(f'Open an existing document [{self.actionOpen.shortcut().toString(QKeySequence.NativeText)}]'))
+        self.actionOpen.setData(self.tr('Open an existing document'))
         self.actionOpen.triggered.connect(self.onActionOpenTriggered)
 
         # Actions: View
         self.actionFullScreen = QAction(self)
+        self.actionFullScreen.setObjectName('actionFullScreen')
         self.actionFullScreen.setCheckable(True)
+        self.actionFullScreen.setIconText(self.tr('Full Screen'))
         self.actionFullScreen.setShortcuts([QKeySequence(Qt.Key_F11), QKeySequence.FullScreen])
+        self.actionFullScreen.setData(self.tr('Display the window in full screen'))
         self.actionFullScreen.triggered.connect(self.onActionFullScreenTriggered)
 
-        self.updateActionFullScreen()
-
         # Actions: Help
-        self.actionKeyboardShortcuts = QAction('Keyboard Shortcuts', self)
+        self.actionKeyboardShortcuts = QAction(self.tr('Keyboard Shortcuts'), self)
+        self.actionKeyboardShortcuts.setObjectName('actionKeyboardShortcuts')
         self.actionKeyboardShortcuts.setIcon(QIcon.fromTheme('help-keyboard-shortcuts', QIcon(':/icons/actions/16/help-keyboard-shortcuts.svg')))
-        self.actionKeyboardShortcuts.setStatusTip('List of all keyboard shortcuts')
-        self.actionKeyboardShortcuts.setToolTip('List of all keyboard shortcuts')
+        self.actionKeyboardShortcuts.setIconText(self.tr('Shortcuts'))
+        self.actionKeyboardShortcuts.setToolTip(self.tr('List of all keyboard shortcuts'))
         self.actionKeyboardShortcuts.triggered.connect(self.onActionKeyboardShortcutsTriggered)
 
 
     def updateActionFullScreen(self):
-        """
-        Updates the full screen action, depending on the current screen-occupation state.
-        """
+
         if not self.isFullScreen():
-            self.actionFullScreen.setText('Full Screen Mode')
+            self.actionFullScreen.setText(self.tr('Full Screen Mode'))
             self.actionFullScreen.setIcon(QIcon.fromTheme('view-fullscreen', QIcon(':/icons/actions/16/view-fullscreen.svg')))
             self.actionFullScreen.setChecked(False)
-            self.actionFullScreen.setStatusTip('Display the window in full screen')
-            self.actionFullScreen.setToolTip('Display the window in full screen')
+            self.actionFullScreen.setToolTip(self.tr(f'Display the window in full screen [{self.actionFullScreen.shortcut().toString(QKeySequence.NativeText)}]'))
         else:
-            self.actionFullScreen.setText('Exit Full Screen Mode')
+            self.actionFullScreen.setText(self.tr('Exit Full Screen Mode'))
             self.actionFullScreen.setIcon(QIcon.fromTheme('view-restore', QIcon(':/icons/actions/16/view-restore.svg')))
             self.actionFullScreen.setChecked(True)
-            self.actionFullScreen.setStatusTip('Exit the full screen mode')
-            self.actionFullScreen.setToolTip('Exit the full screen mode')
+            self.actionFullScreen.setToolTip(self.tr(f'Exit the full screen mode [{self.actionFullScreen.shortcut().toString(QKeySequence.NativeText)}]'))
 
 
     def createMenus(self):
-        """
-        Creates groups of menu items.
-        """
 
         # Menu: Application
-        menuApplication = self.menuBar().addMenu('Application')
+        menuApplication = self.menuBar().addMenu(self.tr('Application'))
+        menuApplication.setObjectName('menuApplication')
         menuApplication.addAction(self.actionAbout)
         menuApplication.addAction(self.actionColophon)
         menuApplication.addSeparator()
@@ -165,37 +155,39 @@ class MainWindow(QMainWindow):
         menuApplication.addAction(self.actionQuit)
 
         # Menu: Document
-        self.menuOpenRecent = QMenu('Open Recent', self)
+        self.menuOpenRecent = QMenu(self.tr('Open Recent'), self)
         self.menuOpenRecent.setObjectName('menuOpenRecent')
         self.menuOpenRecent.setIcon(QIcon.fromTheme('document-open-recent', QIcon(':/icons/actions/16/document-open-recent.svg')))
-        self.menuOpenRecent.setStatusTip('Open a document which was recently opened')
         self.menuOpenRecent.setToolTip('Open a document which was recently opened')
 
-        menuDocument = self.menuBar().addMenu('Document')
+        menuDocument = self.menuBar().addMenu(self.tr('Document'))
+        menuDocument.setObjectName('menuDocument')
         menuDocument.addAction(self.actionNew)
         menuDocument.addSeparator()
         menuDocument.addAction(self.actionOpen)
         menuDocument.addMenu(self.menuOpenRecent)
 
         # Menu: Edit
-        menuEdit = self.menuBar().addMenu('Edit')
+        menuEdit = self.menuBar().addMenu(self.tr('Edit'))
+        menuEdit.setObjectName('menuEdit')
 
         # Menu: Tools
-        menuTools = self.menuBar().addMenu('Tools')
+        menuTools = self.menuBar().addMenu(self.tr('Tools'))
+        menuTools.setObjectName('menuTools')
 
         # Menu: View
-        menuView = self.menuBar().addMenu('View')
+        menuView = self.menuBar().addMenu(self.tr('View'))
+        menuView.setObjectName('menuView')
         menuView.addAction(self.actionFullScreen)
 
         # Menu: Help
-        menuHelp = self.menuBar().addMenu('Help')
+        menuHelp = self.menuBar().addMenu(self.tr('Help'))
+        menuHelp.setObjectName('menuHelp')
         menuHelp.addAction(self.actionKeyboardShortcuts)
 
 
     def updateMenuOpenRecent(self):
-        """
-        Updates the OpenRecent menu, depending on the recent document list.
-        """
+
         if len(self.m_settings.recentDocumentList) > 0:
             pass
 
@@ -204,42 +196,30 @@ class MainWindow(QMainWindow):
             self.menuOpenRecent.setDisabled(True)
 
 
-    def createToolBars(self):
-        """
-        Creates groups of toolbar buttons.
-        """
+    def createToolbars(self):
 
         # Toolbar: Document
-        toolbarDocument = self.addToolBar('Document')
+        toolbarDocument = self.addToolBar(self.tr('Document'))
         toolbarDocument.setObjectName('toolbarDocument')
         toolbarDocument.addAction(self.actionNew)
         toolbarDocument.addAction(self.actionOpen)
 
         # Toolbar: Edit
-        toolbarEdit = self.addToolBar('Edit')
+        toolbarEdit = self.addToolBar(self.tr('Edit'))
         toolbarEdit.setObjectName('toolbarEdit')
 
         # Toolbar: Tools
-        toolbarTools = self.addToolBar('Tools')
+        toolbarTools = self.addToolBar(self.tr('Tools'))
         toolbarTools.setObjectName('toolbarTools')
 
         # Toolbar: View
-        toolbarView = self.addToolBar('View')
+        toolbarView = self.addToolBar(self.tr('View'))
         toolbarView.setObjectName('toolbarView')
         toolbarView.addAction(self.actionFullScreen)
 
 
-    def createStatusBar(self):
-        """
-        Creates the status bar.
-        """
-        self.statusBar().showMessage(f'Welcome to {QApplication.applicationName()}', 3000)
-
-
     def readSettings(self):
-        """
-        Restores user preferences and other application properties.
-        """
+
         settings = QSettings()
 
         # Application: Appearance
@@ -278,9 +258,7 @@ class MainWindow(QMainWindow):
 
 
     def writeSettings(self):
-        """
-        Saves user preferences and other application properties.
-        """
+
         settings = QSettings()
 
         # Application: Appearance
@@ -311,25 +289,11 @@ class MainWindow(QMainWindow):
 
     @staticmethod
     def valueToBool(value):
-        """
-        Converts a specified value to an equivalent Boolean value.
 
-        Args:
-            value (bool): The specified value.
-
-        Returns:
-            bool: The equivalent Boolean value.
-        """
         return value.lower() == 'true' if isinstance(value, str) else bool(value)
 
 
     def closeEvent(self, event):
-        """
-        Processes the Close event.
-
-        Args:
-            event (QCloseEvent): The Close event.
-        """
 
         if True:
             self.writeSettings()
@@ -339,9 +303,7 @@ class MainWindow(QMainWindow):
 
 
     def createDocumentChild(self):
-        """
-        Creates a child document for the document area.
-        """
+
         document = DocumentTable(self)
         document.setSettings(self.m_settings)
         self.documentArea.addSubWindow(document)
@@ -350,9 +312,7 @@ class MainWindow(QMainWindow):
 
 
     def findDocumentChild(self, url):
-        """
-        Returns a child document of the document area for the given url.
-        """
+
         canonicalFilePath = QFileInfo(url).canonicalFilePath()
 
         for window in self.documentArea.subWindowList():
@@ -363,18 +323,13 @@ class MainWindow(QMainWindow):
 
 
     def activeDocumentChild(self):
-        """
-        Returns the active child document in the document area.
-        """
+
         window = self.documentArea.activeSubWindow()
 
         return window if window else None
 
 
     def openDocument(self, url):
-        """
-        Opens the document for the given url.
-        """
 
         # Checks whether the given document is already open.
         existing = self.findDocumentChild(url)
@@ -390,9 +345,7 @@ class MainWindow(QMainWindow):
 
 
     def loadDocument(self, url):
-        """
-        Loads the document for the given url.
-        """
+
         document = self.createDocumentChild()
 
         succeeded = document.loadDocument(url)
@@ -405,9 +358,7 @@ class MainWindow(QMainWindow):
 
 
     def onActionAboutTriggered(self):
-        """
-        Displays the About dialog.
-        """
+
         geometry = self.aboutDialogGeometry if self.m_settings.restoreDialogGeometry else QByteArray()
 
         dialog = AboutDialog(self)
@@ -418,9 +369,7 @@ class MainWindow(QMainWindow):
 
 
     def onActionColophonTriggered(self):
-        """
-        Displays the Colophon dialog.
-        """
+
         geometry = self.colophonDialogGeometry if self.m_settings.restoreDialogGeometry else QByteArray()
 
         dialog = ColophonDialog(self)
@@ -431,9 +380,7 @@ class MainWindow(QMainWindow):
 
 
     def onActionPreferencesTriggered(self):
-        """
-        Displays the Preferences dialog.
-        """
+
         geometry = self.preferencesDialogGeometry if self.m_settings.restoreDialogGeometry else QByteArray()
 
         dialog = PreferencesDialog(self)
@@ -445,26 +392,15 @@ class MainWindow(QMainWindow):
         self.m_settings = dialog.settings()
 
 
-    def onActionQuitTriggered(self):
-        """
-        Fires the Close event to terminate the application.
-        """
-        self.close()
-
-
     def onActionNewTriggered(self):
-        """
-        Creates a new document.
-        """
+
         document = self.createDocumentChild()
         document.newDocument()
         document.show()
 
 
     def onActionOpenTriggered(self):
-        """
-        Opens an existing document.
-        """
+
         urls = QFileDialog.getOpenFileNames(self,
                    'Open Document',
                    QStandardPaths.writableLocation(QStandardPaths.HomeLocation),
@@ -475,9 +411,7 @@ class MainWindow(QMainWindow):
 
 
     def onActionFullScreenTriggered(self):
-        """
-        Sets the screen-occupation state of the window.
-        """
+
         if not self.isFullScreen():
             self.setWindowState(self.windowState() | Qt.WindowFullScreen)
         else:
@@ -487,9 +421,7 @@ class MainWindow(QMainWindow):
 
 
     def onActionKeyboardShortcutsTriggered(self):
-        """
-        Displays the Keyboard Shortcuts dialog.
-        """
+
         geometry = self.keyboardShortcutsDialogGeometry if self.m_settings.restoreDialogGeometry else QByteArray()
 
         self.keyboardShortcutsDialog = KeyboardShortcutsDialog(self)
@@ -501,7 +433,5 @@ class MainWindow(QMainWindow):
 
 
     def onDialogKeyboardShortcutsFinished(self):
-        """
-        Keyboard Shortcuts dialog was closed.
-        """
+
         self.keyboardShortcutsDialogGeometry = self.keyboardShortcutsDialog.windowGeometry()

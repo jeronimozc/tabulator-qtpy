@@ -51,7 +51,7 @@ class KeyboardShortcutsWidget(QWidget):
         for index in range(len(listShortcutActionItems)):
             tableBox.setItem(index, 0, QTableWidgetItem(listShortcutActionItems[index].icon(), listShortcutActionItems[index].text()))
             tableBox.setItem(index, 1, QTableWidgetItem(listShortcutActionItems[index].shortcut().toString(QKeySequence.NativeText)))
-            tableBox.setItem(index, 2, QTableWidgetItem(listShortcutActionItems[index].statusTip()))
+            tableBox.setItem(index, 2, QTableWidgetItem(listShortcutActionItems[index].data()))
 
         # Main layout
         layout = QVBoxLayout()

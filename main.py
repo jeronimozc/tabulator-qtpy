@@ -20,39 +20,32 @@
 
 import sys
 
-from PySide2.QtCore import QCommandLineParser
+from PySide2.QtCore import QCommandLineParser, QCoreApplication
 from PySide2.QtWidgets import QApplication
 
 from main_window import MainWindow
 
 
-ORGANIZATION_NAME             = 'NotNypical'
-ORGANIZATION_DOMAIN           = 'https://notnypical.github.io'
-APPLICATION_NAME              = 'Tabulator-QtPy'
-APPLICATION_BRIEF_DESCRIPTION = 'A CSV editor written in Qt for Python.'
-APPLICATION_VERSION           = '0.1.0'
-
-
 if __name__ == "__main__":
 
     app = QApplication(sys.argv)
-    app.setOrganizationName(ORGANIZATION_NAME)
-    app.setOrganizationDomain(ORGANIZATION_DOMAIN)
-    app.setApplicationName(APPLICATION_NAME)
-    app.setApplicationDisplayName(APPLICATION_NAME)
-    app.setApplicationVersion(APPLICATION_VERSION)
+    app.setOrganizationName('NotNypical')
+    app.setOrganizationDomain('https://notnypical.github.io')
+    app.setApplicationName('Tabulator-QtPy')
+    app.setApplicationDisplayName('Tabulator-QtPy')
+    app.setApplicationVersion('0.1.0')
 
     parser = QCommandLineParser()
-    parser.setApplicationDescription(f'{APPLICATION_NAME} - {APPLICATION_BRIEF_DESCRIPTION}')
+    parser.setApplicationDescription(QCoreApplication.translate('main', f'{app.applicationName()} - An editor tool for documents with character-separated values'))
     parser.addHelpOption()
     parser.addVersionOption()
-    parser.addPositionalArgument('urls', 'Documents to open.', '[urls...]')
+    parser.addPositionalArgument('files', 'Documents to open.', '[files...]')
     parser.process(app)
 
     window = MainWindow()
-    urls = parser.positionalArguments()
-    for url in urls:
-        window.openDocument(url)
+    fileNames = parser.positionalArguments()
+    for fileName in fileNames:
+        window.openDocument(fileName)
     window.show()
 
     sys.exit(app.exec_())
