@@ -44,14 +44,25 @@ class Settings():
     recentDocumentList = []
 
     def __init__(self):
-        pass
+
+        # General: State & Geometries
+        self._restoreApplicationState = True
 
 
     def load(self, settings):
 
         settings.beginGroup('Settings')
 
+        # General: State & Geometries
+        self.setRestoreApplicationState(self.valueToBool(settings.value('restoreApplicationState', True)))
+
         settings.endGroup()
+
+
+    @staticmethod
+    def valueToBool(value):
+
+        return value.lower() == 'true' if isinstance(value, str) else bool(value)
 
 
     def save(self, settings):
@@ -60,4 +71,17 @@ class Settings():
 
         settings.beginGroup('Settings')
 
+        # General: State & Geometries
+        settings.setValue('restoreApplicationState', self._restoreApplicationState)
+
         settings.endGroup()
+
+
+    def setRestoreApplicationState(self, value):
+
+        self._restoreApplicationState = value
+
+
+    def restoreApplicationState(self, isDefault=False):
+
+        return self._restoreApplicationState if not isDefault else True

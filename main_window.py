@@ -303,9 +303,9 @@ class MainWindow(QMainWindow):
             self._settings.recentDocumentList.append(settings.value('document'))
         settings.endArray()
 
-        # Window and dialog properties
+        # Application and dialog properties
+        applicationState = settings.value('Application/state', QByteArray())
         mainWindowGeometry = settings.value('MainWindow/geometry', QByteArray())
-        mainWindowState = settings.value('MainWindow/state', QByteArray())
         self.aboutDialogGeometry = settings.value('AboutDialog/geometry', QByteArray())
         self.colophonDialogGeometry = settings.value('ColophonDialog/geometry', QByteArray())
         self.keyboardShortcutsDialogGeometry = settings.value('KeyboardShortcutsDialog/geometry', QByteArray())
@@ -318,7 +318,10 @@ class MainWindow(QMainWindow):
             availableGeometry = QRect(QApplication.desktop().availableGeometry(self))
             self.resize(availableGeometry.width() / 2, availableGeometry.height() / 2)
             self.move((availableGeometry.width() - self.width()) / 2, (availableGeometry.height() - self.height()) / 2)
-        self.restoreState(mainWindowState)
+
+        # Set application properties
+        state = applicationState if self._settings.restoreApplicationState() else QByteArray()
+        self.setApplicationState(state)
 
 
     def writeSettings(self):
@@ -344,9 +347,10 @@ class MainWindow(QMainWindow):
             settings.setValue('document', self._settings.recentDocumentList[i])
         settings.endArray()
 
-        # Window and dialog properties
+        # Application and dialog properties
+        state = self.applicationState() if self._settings.restoreApplicationState() else QByteArray()
+        settings.setValue('Application/state', state)
         settings.setValue('MainWindow/geometry', self.saveGeometry())
-        settings.setValue('MainWindow/state', self.saveState())
         settings.setValue('AboutDialog/geometry', self.aboutDialogGeometry)
         settings.setValue('ColophonDialog/geometry', self.colophonDialogGeometry)
         settings.setValue('KeyboardShortcutsDialog/geometry', self.keyboardShortcutsDialogGeometry)
@@ -357,6 +361,24 @@ class MainWindow(QMainWindow):
     def valueToBool(value):
 
         return value.lower() == 'true' if isinstance(value, str) else bool(value)
+
+
+    def setApplicationState(self, state=QByteArray()):
+
+        if state:
+            self.restoreState(state)
+        else:
+            self.toolbarApplication.setVisible(True)
+            self.toolbarDocument.setVisible(True)
+            self.toolbarEdit.setVisible(True)
+            self.toolbarTools.setVisible(True)
+            self.toolbarView.setVisible(False)
+            self.toolbarHelp.setVisible(False)
+
+
+    def applicationState(self):
+
+        return self.saveState()
 
 
     def closeEvent(self, event):

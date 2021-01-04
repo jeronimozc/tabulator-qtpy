@@ -33,24 +33,28 @@ class PreferencesGeneralPage(QWidget):
         # Title
         title = QLabel(self.tr('<strong style="font-size:large;">General</strong>'))
 
-        # Geometries
+        # State & Geometries
+        self.chkRestoreApplicationState = QCheckBox(self.tr('Save and restore the application state'))
+        self.chkRestoreApplicationState.stateChanged.connect(self.onSettingsChanged)
+
         self.chkRestoreApplicationGeometry = QCheckBox(self.tr('Save and restore application geometry'))
         self.chkRestoreApplicationGeometry.stateChanged.connect(self.onSettingsChanged)
 
         self.chkRestoreDialogGeometry = QCheckBox(self.tr('Save and restore dialog geometry'))
         self.chkRestoreDialogGeometry.stateChanged.connect(self.onSettingsChanged)
 
-        geometryLayout = QVBoxLayout()
-        geometryLayout.addWidget(self.chkRestoreApplicationGeometry)
-        geometryLayout.addWidget(self.chkRestoreDialogGeometry)
+        stateGeometryLayout = QVBoxLayout()
+        stateGeometryLayout.addWidget(self.chkRestoreApplicationState)
+        stateGeometryLayout.addWidget(self.chkRestoreApplicationGeometry)
+        stateGeometryLayout.addWidget(self.chkRestoreDialogGeometry)
 
-        geometryGroup = QGroupBox(self.tr('Geometries'))
-        geometryGroup.setLayout(geometryLayout)
+        stateGeometryGroup = QGroupBox(self.tr('State && Geometries'))
+        stateGeometryGroup.setLayout(stateGeometryLayout)
 
         # Main layout
         self.layout = QVBoxLayout(self)
         self.layout.addWidget(title)
-        self.layout.addWidget(geometryGroup)
+        self.layout.addWidget(stateGeometryGroup)
         self.layout.addStretch()
 
 
@@ -67,6 +71,16 @@ class PreferencesGeneralPage(QWidget):
     def onSettingsChanged(self):
 
         self.settingsChanged.emit()
+
+
+    def setRestoreApplicationState(self, checked):
+
+        self.chkRestoreApplicationState.setChecked(checked)
+
+
+    def restoreApplicationState(self):
+
+        return self.chkRestoreApplicationState.isChecked()
 
 
     def setRestoreApplicationGeometry(self, checked):
