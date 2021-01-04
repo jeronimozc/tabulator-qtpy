@@ -89,7 +89,7 @@ class MainWindow(QMainWindow):
         self.actionColophon.triggered.connect(self.onActionColophonTriggered)
 
         self.actionPreferences = QAction('Preferences…', self)
-        self.actionPreferences.setIcon(QIcon.fromTheme('configure', QIcon(':/icons/actions/16/configure.svg')))
+        self.actionPreferences.setIcon(QIcon.fromTheme('configure', QIcon(':/icons/actions/16/application-configure.svg')))
         self.actionPreferences.setStatusTip('Customize the appearance and behavior of the application')
         self.actionPreferences.setToolTip('Customize the appearance and behavior of the application')
         self.actionPreferences.triggered.connect(self.onActionPreferencesTriggered)
