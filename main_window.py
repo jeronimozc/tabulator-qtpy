@@ -125,6 +125,12 @@ class MainWindow(QMainWindow):
         self.actionToolbarApplication.setToolTip(self.tr('Display the Application toolbar'))
         self.actionToolbarApplication.toggled.connect(lambda checked: self.toolbarApplication.setVisible(checked))
 
+        self.actionToolbarDocument = QAction(self.tr('Show Document Toolbar'), self)
+        self.actionToolbarDocument.setObjectName('actionToolbarDocument')
+        self.actionToolbarDocument.setCheckable(True)
+        self.actionToolbarDocument.setToolTip(self.tr('Display the Document toolbar'))
+        self.actionToolbarDocument.toggled.connect(lambda checked: self.toolbarDocument.setVisible(checked))
+
         # Actions: Help
         self.actionKeyboardShortcuts = QAction(self.tr('Keyboard Shortcuts'), self)
         self.actionKeyboardShortcuts.setObjectName('actionKeyboardShortcuts')
@@ -187,6 +193,7 @@ class MainWindow(QMainWindow):
         menuView.addAction(self.actionFullScreen)
         menuView.addSeparator()
         menuView.addAction(self.actionToolbarApplication)
+        menuView.addAction(self.actionToolbarDocument)
 
         # Menu: Help
         menuHelp = self.menuBar().addMenu(self.tr('Help'))
@@ -216,10 +223,11 @@ class MainWindow(QMainWindow):
         self.toolbarApplication.visibilityChanged.connect(lambda visible: self.actionToolbarApplication.setChecked(visible))
 
         # Toolbar: Document
-        toolbarDocument = self.addToolBar(self.tr('Document'))
-        toolbarDocument.setObjectName('toolbarDocument')
-        toolbarDocument.addAction(self.actionNew)
-        toolbarDocument.addAction(self.actionOpen)
+        self.toolbarDocument = self.addToolBar(self.tr('Document Toolbar'))
+        self.toolbarDocument.setObjectName('toolbarDocument')
+        self.toolbarDocument.addAction(self.actionNew)
+        self.toolbarDocument.addAction(self.actionOpen)
+        self.toolbarDocument.visibilityChanged.connect(lambda visible: self.actionToolbarDocument.setChecked(visible))
 
         # Toolbar: Edit
         toolbarEdit = self.addToolBar(self.tr('Edit'))
