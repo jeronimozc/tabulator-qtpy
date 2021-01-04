@@ -21,8 +21,8 @@
 from PySide2.QtCore import QByteArray
 from PySide2.QtWidgets import QDialog, QDialogButtonBox, QHBoxLayout, QListWidget, QStackedWidget, QVBoxLayout
 
-from preferences_document_settings import PreferencesDocumentSettings
-from preferences_general_settings import PreferencesGeneralSettings
+from preferences_document_page import PreferencesDocumentPage
+from preferences_general_page import PreferencesGeneralPage
 from settings import Settings
 
 
@@ -39,22 +39,22 @@ class PreferencesDialog(QDialog):
         self.setDialogGeometry()
 
         # Settings box
-        self.generalSettings = PreferencesGeneralSettings(self)
-        self.generalSettings.setZeroMargins()
-        self.generalSettings.settingsChanged.connect(self.onSettingsChanged)
+        self.generalPage = PreferencesGeneralPage(self)
+        self.generalPage.setZeroMargins()
+        self.generalPage.settingsChanged.connect(self.onSettingsChanged)
 
-        self.documentSettings = PreferencesDocumentSettings(self)
-        self.documentSettings.setZeroMargins()
-        self.documentSettings.settingsChanged.connect(self.onSettingsChanged)
+        self.documentPage = PreferencesDocumentPage(self)
+        self.documentPage.setZeroMargins()
+        self.documentPage.settingsChanged.connect(self.onSettingsChanged)
 
         stackedBox = QStackedWidget()
-        stackedBox.addWidget(self.generalSettings)
-        stackedBox.addWidget(self.documentSettings)
+        stackedBox.addWidget(self.generalPage)
+        stackedBox.addWidget(self.documentPage)
         stackedBox.setCurrentIndex(0)
 
         listBox = QListWidget()
-        listBox.addItem(self.generalSettings.title())
-        listBox.addItem(self.documentSettings.title())
+        listBox.addItem(self.generalPage.title())
+        listBox.addItem(self.documentPage.title())
         listBox.setCurrentRow(stackedBox.currentIndex())
         listBox.currentRowChanged.connect(stackedBox.setCurrentIndex)
 
@@ -130,24 +130,24 @@ class PreferencesDialog(QDialog):
     def updateSettings(self, settings):
 
         # General
-        self.generalSettings.setRestoreApplicationGeometry(settings.restoreWindowGeometry)
-        self.generalSettings.setRestoreDialogGeometry(settings.restoreDialogGeometry)
+        self.generalPage.setRestoreApplicationGeometry(settings.restoreWindowGeometry)
+        self.generalPage.setRestoreDialogGeometry(settings.restoreDialogGeometry)
 
         # Document: Defaults
-        self.documentSettings.setDefaultHeaderLabelHorizontal(settings.defaultHeaderLabelHorizontal)
-        self.documentSettings.setDefaultHeaderLabelVertical(settings.defaultHeaderLabelVertical)
-        self.documentSettings.setDefaultCellColumns(settings.defaultCellColumns)
-        self.documentSettings.setDefaultCellRows(settings.defaultCellRows)
+        self.documentPage.setDefaultHeaderLabelHorizontal(settings.defaultHeaderLabelHorizontal)
+        self.documentPage.setDefaultHeaderLabelVertical(settings.defaultHeaderLabelVertical)
+        self.documentPage.setDefaultCellColumns(settings.defaultCellColumns)
+        self.documentPage.setDefaultCellRows(settings.defaultCellRows)
 
 
     def saveSettings(self):
 
         # General
-        self._settings.restoreWindowGeometry = self.generalSettings.restoreApplicationGeometry()
-        self._settings.restoreDialogGeometry = self.generalSettings.restoreDialogGeometry()
+        self._settings.restoreWindowGeometry = self.generalPage.restoreApplicationGeometry()
+        self._settings.restoreDialogGeometry = self.generalPage.restoreDialogGeometry()
 
         # Document: Defaults
-        self._settings.defaultHeaderLabelHorizontal = self.documentSettings.defaultHeaderLabelHorizontal()
-        self._settings.defaultHeaderLabelVertical = self.documentSettings.defaultHeaderLabelVertical()
-        self._settings.defaultCellColumns = self.documentSettings.defaultCellColumns()
-        self._settings.defaultCellRows = self.documentSettings.defaultCellRows()
+        self._settings.defaultHeaderLabelHorizontal = self.documentPage.defaultHeaderLabelHorizontal()
+        self._settings.defaultHeaderLabelVertical = self.documentPage.defaultHeaderLabelVertical()
+        self._settings.defaultCellColumns = self.documentPage.defaultCellColumns()
+        self._settings.defaultCellRows = self.documentPage.defaultCellRows()

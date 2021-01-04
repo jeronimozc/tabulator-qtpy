@@ -22,7 +22,7 @@ from PySide2.QtCore import Signal
 from PySide2.QtWidgets import QCheckBox, QGroupBox, QLabel, QVBoxLayout, QWidget
 
 
-class PreferencesGeneralSettings(QWidget):
+class PreferencesGeneralPage(QWidget):
 
     settingsChanged = Signal()
 

@@ -25,7 +25,7 @@ from PySide2.QtWidgets import (QButtonGroup, QFormLayout, QGroupBox, QHBoxLayout
 from settings import Settings
 
 
-class PreferencesDocumentSettings(QWidget):
+class PreferencesDocumentPage(QWidget):
 
     settingsChanged = Signal()
 
