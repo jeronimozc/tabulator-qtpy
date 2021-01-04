@@ -119,6 +119,12 @@ class MainWindow(QMainWindow):
         self.actionFullScreen.setData(self.tr('Display the window in full screen'))
         self.actionFullScreen.triggered.connect(self.onActionFullScreenTriggered)
 
+        self.actionToolbarApplication = QAction(self.tr('Show Application Toolbar'), self)
+        self.actionToolbarApplication.setObjectName('actionToolbarApplication')
+        self.actionToolbarApplication.setCheckable(True)
+        self.actionToolbarApplication.setToolTip(self.tr('Display the Application toolbar'))
+        self.actionToolbarApplication.toggled.connect(lambda checked: self.toolbarApplication.setVisible(checked))
+
         # Actions: Help
         self.actionKeyboardShortcuts = QAction(self.tr('Keyboard Shortcuts'), self)
         self.actionKeyboardShortcuts.setObjectName('actionKeyboardShortcuts')
@@ -179,6 +185,8 @@ class MainWindow(QMainWindow):
         menuView = self.menuBar().addMenu(self.tr('View'))
         menuView.setObjectName('menuView')
         menuView.addAction(self.actionFullScreen)
+        menuView.addSeparator()
+        menuView.addAction(self.actionToolbarApplication)
 
         # Menu: Help
         menuHelp = self.menuBar().addMenu(self.tr('Help'))
@@ -197,6 +205,15 @@ class MainWindow(QMainWindow):
 
 
     def createToolbars(self):
+
+        # Toolbar: Application
+        self.toolbarApplication = self.addToolBar(self.tr('Application Toolbar'))
+        self.toolbarApplication.setObjectName('toolbarApplication')
+        self.toolbarApplication.addAction(self.actionAbout)
+        self.toolbarApplication.addAction(self.actionPreferences)
+        self.toolbarApplication.addSeparator()
+        self.toolbarApplication.addAction(self.actionQuit)
+        self.toolbarApplication.visibilityChanged.connect(lambda visible: self.actionToolbarApplication.setChecked(visible))
 
         # Toolbar: Document
         toolbarDocument = self.addToolBar(self.tr('Document'))
