@@ -1,12 +1,12 @@
 
 # Tabulator-QtPy
 
-A CSV editor written in Qt for Python.
+An editor tool for documents with character-separated values written in Qt for Python.
 
 
 ## Description
 
-Tabulator-QtPy is an open source tool written in Qt for Python and designed for easy creation and editing of documents with character-separated values.
+Tabulator-QtPy is an open source editor tool written in Qt for Python and designed for easy creation and editing of documents with character-separated values.
 
 
 ## Copyright
