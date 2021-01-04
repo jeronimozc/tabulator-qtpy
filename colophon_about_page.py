@@ -1,6 +1,6 @@
 # This Python file uses the following encoding: utf-8
 #
-# Copyright 2020 NotNypical, <https://notnypical.github.io>.
+# Copyright 2020-2021 NotNypical, <https://notnypical.github.io>.
 #
 # This file is part of Tabulator-QtPy.
 #
@@ -32,7 +32,7 @@ class ColophonAboutPage(QWidget):
         textBox.setOpenExternalLinks(True)
         textBox.setHtml(self.tr(f'''<html><body>
             <p>{QApplication.applicationName()} is an open source editor tool written in Qt for Python and designed for easy creation and editing of documents with character-separated values.</p>
-            <p>Copyright &copy; 2020 <a href="{QApplication.organizationDomain()}">{QApplication.organizationName()}</a>.</p>
+            <p>Copyright &copy; 2020-2021 <a href="{QApplication.organizationDomain()}">{QApplication.organizationName()}</a>.</p>
             <p>This application is licensed under the terms of the <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GNU General Public License, version 3</a>.</p>
             </body></html>'''))
 

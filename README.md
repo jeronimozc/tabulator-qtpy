@@ -11,7 +11,7 @@ Tabulator-QtPy is an open source tool written in Qt for Python and designed for 
 
 ## Copyright
 
-Copyright &copy; 2020 [NotNypical](https://notnypical.github.io).
+Copyright &copy; 2020-2021 [NotNypical](https://notnypical.github.io).
 
 
 ## License
