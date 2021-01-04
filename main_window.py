@@ -286,9 +286,6 @@ class MainWindow(QMainWindow):
 
         self._settings.load(settings)
 
-        # Application: Appearance
-        self._settings.restoreDialogGeometry = self.valueToBool(settings.value('Settings/restoreDialogGeometry', self._settings.restoreDialogGeometry))
-
         # Document: Defaults
         self._settings.defaultHeaderLabelHorizontal = Settings.HeaderLabel(int(settings.value('Settings/defaultHeaderLabelHorizontal', self._settings.defaultHeaderLabelHorizontal.value)))
         self._settings.defaultHeaderLabelVertical = Settings.HeaderLabel(int(settings.value('Settings/defaultHeaderLabelVertical', self._settings.defaultHeaderLabelVertical.value)))
@@ -323,9 +320,6 @@ class MainWindow(QMainWindow):
 
         self._settings.save(settings)
 
-        # Application: Appearance
-        settings.setValue('Settings/restoreDialogGeometry', self._settings.restoreDialogGeometry)
-
         # Document: Defaults
         settings.setValue('Settings/defaultHeaderLabelHorizontal', self._settings.defaultHeaderLabelHorizontal.value)
         settings.setValue('Settings/defaultHeaderLabelVertical', self._settings.defaultHeaderLabelVertical.value)
@@ -348,12 +342,6 @@ class MainWindow(QMainWindow):
         settings.setValue('ColophonDialog/geometry', self.colophonDialogGeometry)
         settings.setValue('KeyboardShortcutsDialog/geometry', self.keyboardShortcutsDialogGeometry)
         settings.setValue('PreferencesDialog/geometry', self.preferencesDialogGeometry)
-
-
-    @staticmethod
-    def valueToBool(value):
-
-        return value.lower() == 'true' if isinstance(value, str) else bool(value)
 
 
     def setApplicationState(self, state=QByteArray()):
@@ -455,37 +443,37 @@ class MainWindow(QMainWindow):
 
     def onActionAboutTriggered(self):
 
-        geometry = self.aboutDialogGeometry if self._settings.restoreDialogGeometry else QByteArray()
+        geometry = self.aboutDialogGeometry if self._settings.restoreDialogGeometry() else QByteArray()
 
         dialog = AboutDialog(self)
         dialog.setDialogGeometry(geometry)
         dialog.exec_()
 
-        self.aboutDialogGeometry = dialog.dialogGeometry()
+        self.aboutDialogGeometry = dialog.dialogGeometry() if self._settings.restoreDialogGeometry() else QByteArray()
 
 
     def onActionColophonTriggered(self):
 
-        geometry = self.colophonDialogGeometry if self._settings.restoreDialogGeometry else QByteArray()
+        geometry = self.colophonDialogGeometry if self._settings.restoreDialogGeometry() else QByteArray()
 
         dialog = ColophonDialog(self)
         dialog.setDialogGeometry(geometry)
         dialog.exec_()
 
-        self.colophonDialogGeometry = dialog.dialogGeometry()
+        self.colophonDialogGeometry = dialog.dialogGeometry() if self._settings.restoreDialogGeometry() else QByteArray()
 
 
     def onActionPreferencesTriggered(self):
 
-        geometry = self.preferencesDialogGeometry if self._settings.restoreDialogGeometry else QByteArray()
+        geometry = self.preferencesDialogGeometry if self._settings.restoreDialogGeometry() else QByteArray()
 
         dialog = PreferencesDialog(self)
         dialog.setDialogGeometry(geometry)
         dialog.setSettings(self._settings)
         dialog.exec_()
 
-        self.preferencesDialogGeometry = dialog.dialogGeometry()
         self._settings = dialog.settings()
+        self.preferencesDialogGeometry = dialog.dialogGeometry() if self._settings.restoreDialogGeometry() else QByteArray()
 
 
     def onActionNewTriggered(self):
@@ -518,7 +506,7 @@ class MainWindow(QMainWindow):
 
     def onActionKeyboardShortcutsTriggered(self):
 
-        geometry = self.keyboardShortcutsDialogGeometry if self._settings.restoreDialogGeometry else QByteArray()
+        geometry = self.keyboardShortcutsDialogGeometry if self._settings.restoreDialogGeometry() else QByteArray()
 
         self.keyboardShortcutsDialog = KeyboardShortcutsDialog(self)
         self.keyboardShortcutsDialog.setWindowTitle('Keyboard Shortcuts')
@@ -530,4 +518,4 @@ class MainWindow(QMainWindow):
 
     def onDialogKeyboardShortcutsFinished(self):
 
-        self.keyboardShortcutsDialogGeometry = self.keyboardShortcutsDialog.windowGeometry()
+        self.keyboardShortcutsDialogGeometry = self.keyboardShortcutsDialog.windowGeometry() if self._settings.restoreDialogGeometry() else QByteArray()
