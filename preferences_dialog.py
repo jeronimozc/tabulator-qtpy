@@ -131,9 +131,9 @@ class PreferencesDialog(QDialog):
 
         # General: State & Geometries
         self.generalPage.setRestoreApplicationState(self._settings.restoreApplicationState(isDefault))
+        self.generalPage.setRestoreApplicationGeometry(self._settings.restoreApplicationGeometry(isDefault))
 
         # General
-        self.generalPage.setRestoreApplicationGeometry(self._settings.restoreWindowGeometry)
         self.generalPage.setRestoreDialogGeometry(self._settings.restoreDialogGeometry)
 
         # Document: Defaults
@@ -147,9 +147,9 @@ class PreferencesDialog(QDialog):
 
         # General: State & Geometries
         self._settings.setRestoreApplicationState(self.generalPage.restoreApplicationState())
+        self._settings.setRestoreApplicationGeometry(self.generalPage.restoreApplicationGeometry())
 
         # General
-        self._settings.restoreWindowGeometry = self.generalPage.restoreApplicationGeometry()
         self._settings.restoreDialogGeometry = self.generalPage.restoreDialogGeometry()
 
         # Document: Defaults

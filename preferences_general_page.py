@@ -37,7 +37,7 @@ class PreferencesGeneralPage(QWidget):
         self.chkRestoreApplicationState = QCheckBox(self.tr('Save and restore the application state'))
         self.chkRestoreApplicationState.stateChanged.connect(self.onSettingsChanged)
 
-        self.chkRestoreApplicationGeometry = QCheckBox(self.tr('Save and restore application geometry'))
+        self.chkRestoreApplicationGeometry = QCheckBox(self.tr('Save and restore the application geometry'))
         self.chkRestoreApplicationGeometry.stateChanged.connect(self.onSettingsChanged)
 
         self.chkRestoreDialogGeometry = QCheckBox(self.tr('Save and restore dialog geometry'))

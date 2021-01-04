@@ -287,7 +287,6 @@ class MainWindow(QMainWindow):
         self._settings.load(settings)
 
         # Application: Appearance
-        self._settings.restoreWindowGeometry = self.valueToBool(settings.value('Settings/restoreWindowGeometry', self._settings.restoreWindowGeometry))
         self._settings.restoreDialogGeometry = self.valueToBool(settings.value('Settings/restoreDialogGeometry', self._settings.restoreDialogGeometry))
 
         # Document: Defaults
@@ -305,23 +304,17 @@ class MainWindow(QMainWindow):
 
         # Application and dialog properties
         applicationState = settings.value('Application/state', QByteArray())
-        mainWindowGeometry = settings.value('MainWindow/geometry', QByteArray())
+        applicationGeometry = settings.value('Application/geometry', QByteArray())
         self.aboutDialogGeometry = settings.value('AboutDialog/geometry', QByteArray())
         self.colophonDialogGeometry = settings.value('ColophonDialog/geometry', QByteArray())
         self.keyboardShortcutsDialogGeometry = settings.value('KeyboardShortcutsDialog/geometry', QByteArray())
         self.preferencesDialogGeometry = settings.value('PreferencesDialog/geometry', QByteArray())
 
-        # Set window properties
-        if self._settings.restoreWindowGeometry and mainWindowGeometry:
-            self.restoreGeometry(mainWindowGeometry)
-        else:
-            availableGeometry = QRect(QApplication.desktop().availableGeometry(self))
-            self.resize(availableGeometry.width() / 2, availableGeometry.height() / 2)
-            self.move((availableGeometry.width() - self.width()) / 2, (availableGeometry.height() - self.height()) / 2)
-
         # Set application properties
         state = applicationState if self._settings.restoreApplicationState() else QByteArray()
         self.setApplicationState(state)
+        geometry = applicationGeometry if self._settings.restoreApplicationGeometry() else QByteArray()
+        self.setApplicationGeometry(geometry)
 
 
     def writeSettings(self):
@@ -331,7 +324,6 @@ class MainWindow(QMainWindow):
         self._settings.save(settings)
 
         # Application: Appearance
-        settings.setValue('Settings/restoreWindowGeometry', self._settings.restoreWindowGeometry)
         settings.setValue('Settings/restoreDialogGeometry', self._settings.restoreDialogGeometry)
 
         # Document: Defaults
@@ -350,7 +342,8 @@ class MainWindow(QMainWindow):
         # Application and dialog properties
         state = self.applicationState() if self._settings.restoreApplicationState() else QByteArray()
         settings.setValue('Application/state', state)
-        settings.setValue('MainWindow/geometry', self.saveGeometry())
+        geometry = self.applicationGeometry() if self._settings.restoreApplicationGeometry() else QByteArray()
+        settings.setValue('Application/geometry', geometry)
         settings.setValue('AboutDialog/geometry', self.aboutDialogGeometry)
         settings.setValue('ColophonDialog/geometry', self.colophonDialogGeometry)
         settings.setValue('KeyboardShortcutsDialog/geometry', self.keyboardShortcutsDialogGeometry)
@@ -379,6 +372,21 @@ class MainWindow(QMainWindow):
     def applicationState(self):
 
         return self.saveState()
+
+
+    def setApplicationGeometry(self, geometry=QByteArray()):
+
+        if geometry:
+            self.restoreGeometry(geometry)
+        else:
+            availableGeometry = QRect(QApplication.desktop().availableGeometry(self))
+            self.resize(availableGeometry.width() * 2/3, availableGeometry.height() * 2/3)
+            self.move((availableGeometry.width() - self.width()) / 2, (availableGeometry.height() - self.height()) / 2)
+
+
+    def applicationGeometry(self):
+
+        return self.saveGeometry()
 
 
     def closeEvent(self, event):
