@@ -22,6 +22,7 @@ from PySide2.QtCore import QByteArray
 from PySide2.QtWidgets import QDialog, QDialogButtonBox, QHBoxLayout, QListWidget, QStackedWidget, QVBoxLayout
 
 from preferences_document_page import PreferencesDocumentPage
+from preferences_documents_page import PreferencesDocumentsPage
 from preferences_general_page import PreferencesGeneralPage
 from settings import Settings
 
@@ -43,17 +44,23 @@ class PreferencesDialog(QDialog):
         self.generalPage.setZeroMargins()
         self.generalPage.settingsChanged.connect(self.onSettingsChanged)
 
+        self.documentsPage = PreferencesDocumentsPage(self)
+        self.documentsPage.setZeroMargins()
+        self.documentsPage.settingsChanged.connect(self.onSettingsChanged)
+
         self.documentPage = PreferencesDocumentPage(self)
         self.documentPage.setZeroMargins()
         self.documentPage.settingsChanged.connect(self.onSettingsChanged)
 
         stackedBox = QStackedWidget()
         stackedBox.addWidget(self.generalPage)
+        stackedBox.addWidget(self.documentsPage)
         stackedBox.addWidget(self.documentPage)
         stackedBox.setCurrentIndex(0)
 
         listBox = QListWidget()
         listBox.addItem(self.generalPage.title())
+        listBox.addItem(self.documentsPage.title())
         listBox.addItem(self.documentPage.title())
         listBox.setCurrentRow(stackedBox.currentIndex())
         listBox.currentRowChanged.connect(stackedBox.setCurrentIndex)
