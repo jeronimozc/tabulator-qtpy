@@ -36,24 +36,12 @@ class PreferencesDocumentPresetsPage(QWidget):
         # Title
         title = QLabel(self.tr('<strong style="font-size:large;">Document Presets</strong>'))
 
-        # Tab box
-        tabBox = QTabWidget()
-        tabBox.addTab(self.tabDefaultSettings(), self.tr('Default'))
-
-        # Main layout
-        self.layout = QVBoxLayout(self)
-        self.layout.addWidget(title)
-        self.layout.addWidget(tabBox)
-
-
-    def tabDefaultSettings(self):
-
-        # Default: Headers
+        # Header Labels
         rdbDefaultHeaderLabelHorizontalLetters = QRadioButton(self.tr('Letters'))
-        rdbDefaultHeaderLabelHorizontalLetters.setToolTip(self.tr('Capital letters as default horizontal header labels'))
+        rdbDefaultHeaderLabelHorizontalLetters.setToolTip(self.tr('Capital letters as default horizontal header labels of new documents'))
 
         rdbDefaultHeaderLabelHorizontalNumbers = QRadioButton(self.tr('Numbers'))
-        rdbDefaultHeaderLabelHorizontalNumbers.setToolTip(self.tr('Decimal numbers as default horizontal header labels'))
+        rdbDefaultHeaderLabelHorizontalNumbers.setToolTip(self.tr('Decimal numbers as default horizontal header labels of new documents'))
 
         self.grpDefaultHeaderLabelHorizontal = QButtonGroup(self)
         self.grpDefaultHeaderLabelHorizontal.addButton(rdbDefaultHeaderLabelHorizontalLetters, Settings.HeaderLabel.Letter.value)
@@ -64,6 +52,27 @@ class PreferencesDocumentPresetsPage(QWidget):
         defaultHeaderLabelHorizontalBox.addWidget(rdbDefaultHeaderLabelHorizontalLetters)
         defaultHeaderLabelHorizontalBox.addWidget(rdbDefaultHeaderLabelHorizontalNumbers)
 
+        defaultHeaderLabelLayout = QFormLayout()
+        defaultHeaderLabelLayout.addRow(self.tr('Labels of the horizontal header'), defaultHeaderLabelHorizontalBox)
+
+        defaultHeaderLabelGroup = QGroupBox(self.tr('Header Labels'))
+        defaultHeaderLabelGroup.setLayout(defaultHeaderLabelLayout)
+
+        # Tab box
+        tabBox = QTabWidget()
+        tabBox.addTab(self.tabDefaultSettings(), self.tr('Default'))
+
+        # Main layout
+        self.layout = QVBoxLayout(self)
+        self.layout.addWidget(title)
+        self.layout.addWidget(defaultHeaderLabelGroup)
+        self.layout.addWidget(tabBox)
+        self.layout.addStretch()
+
+
+    def tabDefaultSettings(self):
+
+        # Default: Headers
         rdbDefaultHeaderLabelVerticalLetters = QRadioButton(self.tr('Letters'))
         rdbDefaultHeaderLabelVerticalLetters.setToolTip(self.tr('Capital letters as default vertical header labels'))
 
@@ -80,7 +89,6 @@ class PreferencesDocumentPresetsPage(QWidget):
         defaultHeaderLabelVerticalBox.addWidget(rdbDefaultHeaderLabelVerticalNumbers)
 
         defaultHeadersLayout = QFormLayout()
-        defaultHeadersLayout.addRow(self.tr('Labels of horizontal header'), defaultHeaderLabelHorizontalBox)
         defaultHeadersLayout.addRow(self.tr('Labels of vertical header'), defaultHeaderLabelVerticalBox)
 
         defaultHeadersGroup = QGroupBox(self.tr('Headers'))

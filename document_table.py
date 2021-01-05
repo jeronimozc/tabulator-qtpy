@@ -76,7 +76,7 @@ class DocumentTable(QTableWidget):
         self.setRowCount(self._settings.defaultCellRows)
 
         # Set header items
-        self.setHorizontalHeaderItems(self._settings.defaultHeaderLabelHorizontal)
+        self.setHorizontalHeaderItems(self._settings.defaultHeaderLabelHorizontal())
         self.setVerticalHeaderItems(self._settings.defaultHeaderLabelVertical)
 
         self.setWindowTitle(self.documentName())
@@ -90,7 +90,7 @@ class DocumentTable(QTableWidget):
         self.isUntitled = False
 
         # Set header items
-        self.setHorizontalHeaderItems(self._settings.defaultHeaderLabelHorizontal)
+        self.setHorizontalHeaderItems(self._settings.defaultHeaderLabelHorizontal())
         self.setVerticalHeaderItems(self._settings.defaultHeaderLabelVertical)
 
         self.setWindowTitle(self.documentName())

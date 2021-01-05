@@ -32,7 +32,6 @@ class Settings():
         Letter = 26
 
     # Document: Defaults
-    defaultHeaderLabelHorizontal = HeaderLabel.Letter
     defaultHeaderLabelVertical = HeaderLabel.Decimal
     defaultCellColumns = 25
     defaultCellRows = 50
@@ -49,6 +48,9 @@ class Settings():
         # Documents: Recently Opened Documents
         self._maximumRecentDocuments = 10
 
+        # Document Presets: Header Labels
+        self._defaultHeaderLabelHorizontal = self.HeaderLabel.Letter
+
 
     def load(self, settings):
 
@@ -61,6 +63,9 @@ class Settings():
 
         # Documents: Recently Opened Documents
         self.setMaximumRecentDocuments(int(settings.value('maximumRecentDocuments', 10)))
+
+        # Document Presets: Header Labels
+        self.setDefaultHeaderLabelHorizontal(Settings.HeaderLabel(int(settings.value('defaultHeaderLabelHorizontal', self.HeaderLabel.Letter.value))))
 
         settings.endGroup()
 
@@ -84,6 +89,9 @@ class Settings():
 
         # Documents: Recently Opened Documents
         settings.setValue('maximumRecentDocuments', self._maximumRecentDocuments)
+
+        # Document Presets: Header Labels
+        settings.setValue('defaultHeaderLabelHorizontal', self._defaultHeaderLabelHorizontal.value)
 
         settings.endGroup()
 
@@ -129,3 +137,13 @@ class Settings():
     def maximumRecentDocuments(self, isDefault=False):
 
         return self._maximumRecentDocuments if not isDefault else 10
+
+
+    def setDefaultHeaderLabelHorizontal(self, value):
+
+        self._defaultHeaderLabelHorizontal = value
+
+
+    def defaultHeaderLabelHorizontal(self, isDefault=False):
+
+        return self._defaultHeaderLabelHorizontal if not isDefault else self.HeaderLabel.Letter

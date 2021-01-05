@@ -144,8 +144,10 @@ class PreferencesDialog(QDialog):
         # Documents: Recently Opened Documents
         self.documentsPage.setMaximumRecentDocuments(self._settings.maximumRecentDocuments(isDefault))
 
+        # Document Presets: Header Labels
+        self.documentPresetsPage.setDefaultHeaderLabelHorizontal(self._settings.defaultHeaderLabelHorizontal(isDefault))
+
         # Document: Defaults
-        self.documentPresetsPage.setDefaultHeaderLabelHorizontal(self._settings.defaultHeaderLabelHorizontal)
         self.documentPresetsPage.setDefaultHeaderLabelVertical(self._settings.defaultHeaderLabelVertical)
         self.documentPresetsPage.setDefaultCellColumns(self._settings.defaultCellColumns)
         self.documentPresetsPage.setDefaultCellRows(self._settings.defaultCellRows)
@@ -161,8 +163,10 @@ class PreferencesDialog(QDialog):
         # Documents: Recently Opened Documents
         self._settings.setMaximumRecentDocuments(self.documentsPage.maximumRecentDocuments())
 
+        # Document Presets: Header Labels
+        self._settings.setDefaultHeaderLabelHorizontal(self.documentPresetsPage.defaultHeaderLabelHorizontal())
+
         # Document: Defaults
-        self._settings.defaultHeaderLabelHorizontal = self.documentPresetsPage.defaultHeaderLabelHorizontal()
         self._settings.defaultHeaderLabelVertical = self.documentPresetsPage.defaultHeaderLabelVertical()
         self._settings.defaultCellColumns = self.documentPresetsPage.defaultCellColumns()
         self._settings.defaultCellRows = self.documentPresetsPage.defaultCellRows()
