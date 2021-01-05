@@ -41,7 +41,7 @@ class DocumentTable(QTableWidget):
         self.isUntitled = True
 
         # Creates a default document
-        self.setColumnCount(self._settings.defaultCellColumns)
+        self.setColumnCount(self._settings.defaultCellCountColumn())
         self.setRowCount(self._settings.defaultCellRows)
 
         # Enable context menus
@@ -72,7 +72,7 @@ class DocumentTable(QTableWidget):
             self.m_url += f' ({DocumentTable.sequenceNumber})'
         self.isUntitled = True
 
-        self.setColumnCount(self._settings.defaultCellColumns)
+        self.setColumnCount(self._settings.defaultCellCountColumn())
         self.setRowCount(self._settings.defaultCellRows)
 
         # Set header items

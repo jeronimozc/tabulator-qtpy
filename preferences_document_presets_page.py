@@ -74,6 +74,18 @@ class PreferencesDocumentPresetsPage(QWidget):
         defaultHeaderLabelGroup = QGroupBox(self.tr('Header Labels'))
         defaultHeaderLabelGroup.setLayout(defaultHeaderLabelLayout)
 
+        # Cell Counts
+        self.spbDefaultCellCountColumn = QSpinBox(self)
+        self.spbDefaultCellCountColumn.setRange(1, 1000)
+        self.spbDefaultCellCountColumn.setToolTip(self.tr('Default number of columns of new documents'))
+        self.spbDefaultCellCountColumn.valueChanged.connect(self.onSettingsChanged)
+
+        defaultCellCountLayout = QFormLayout()
+        defaultCellCountLayout.addRow(self.tr('Number of columns'), self.spbDefaultCellCountColumn)
+
+        defaultCellCountGroup = QGroupBox(self.tr('Cell Counts'))
+        defaultCellCountGroup.setLayout(defaultCellCountLayout)
+
         # Tab box
         tabBox = QTabWidget()
         tabBox.addTab(self.tabDefaultSettings(), self.tr('Default'))
@@ -82,27 +94,20 @@ class PreferencesDocumentPresetsPage(QWidget):
         self.layout = QVBoxLayout(self)
         self.layout.addWidget(title)
         self.layout.addWidget(defaultHeaderLabelGroup)
+        self.layout.addWidget(defaultCellCountGroup)
         self.layout.addWidget(tabBox)
         self.layout.addStretch()
 
 
     def tabDefaultSettings(self):
 
-        # Default: Headers
-
         # Default: Cells
-        self.spbDefaultCellColumns = QSpinBox(self)
-        self.spbDefaultCellColumns.setRange(1, 1000)
-        self.spbDefaultCellColumns.setToolTip(self.tr('Default number of columns of new documents'))
-        self.spbDefaultCellColumns.valueChanged.connect(self.onSettingsChanged)
-
         self.spbDefaultCellRows = QSpinBox(self)
         self.spbDefaultCellRows.setRange(1, 1000)
         self.spbDefaultCellRows.setToolTip(self.tr('Default number of rows of new documents'))
         self.spbDefaultCellRows.valueChanged.connect(self.onSettingsChanged)
 
         defaultCellsLayout = QFormLayout()
-        defaultCellsLayout.addRow(self.tr('Number of columns'), self.spbDefaultCellColumns)
         defaultCellsLayout.addRow(self.tr('Number of rows'), self.spbDefaultCellRows)
 
         defaultCellsGroup = QGroupBox(self.tr('Cells'))
@@ -164,14 +169,14 @@ class PreferencesDocumentPresetsPage(QWidget):
         return Settings.HeaderLabel(self.grpDefaultHeaderLabelVertical.checkedId())
 
 
-    def setDefaultCellColumns(self, number):
+    def setDefaultCellCountColumn(self, val):
 
-        self.spbDefaultCellColumns.setValue(number)
+        self.spbDefaultCellCountColumn.setValue(val)
 
 
-    def defaultCellColumns(self):
+    def defaultCellCountColumn(self):
 
-        return self.spbDefaultCellColumns.value()
+        return self.spbDefaultCellCountColumn.value()
 
 
     def setDefaultCellRows(self, number):

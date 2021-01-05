@@ -32,7 +32,6 @@ class Settings():
         Letter = 26
 
     # Document: Defaults
-    defaultCellColumns = 25
     defaultCellRows = 50
 
     recentDocumentList = []
@@ -51,6 +50,9 @@ class Settings():
         self._defaultHeaderLabelHorizontal = self.HeaderLabel.Letter
         self._defaultHeaderLabelVertical = self.HeaderLabel.Decimal
 
+        # Document Presets: Cell Counts
+        self._defaultCellCountColumn = 25
+
 
     def load(self, settings):
 
@@ -67,6 +69,9 @@ class Settings():
         # Document Presets: Header Labels
         self.setDefaultHeaderLabelHorizontal(Settings.HeaderLabel(int(settings.value('defaultHeaderLabelHorizontal', self.HeaderLabel.Letter.value))))
         self.setDefaultHeaderLabelVertical(Settings.HeaderLabel(int(settings.value('defaultHeaderLabelVertical', self.HeaderLabel.Decimal.value))))
+
+        # Document Presets: Cell Counts
+        self.setDefaultCellCountColumn(int(settings.value('defaultCellCountColumn', 25)))
 
         settings.endGroup()
 
@@ -94,6 +99,9 @@ class Settings():
         # Document Presets: Header Labels
         settings.setValue('defaultHeaderLabelHorizontal', self._defaultHeaderLabelHorizontal.value)
         settings.setValue('defaultHeaderLabelVertical', self._defaultHeaderLabelVertical.value)
+
+        # Document Presets: Cell Counts
+        settings.setValue('defaultCellCountColumn', self._defaultCellCountColumn)
 
         settings.endGroup()
 
@@ -159,3 +167,16 @@ class Settings():
     def defaultHeaderLabelVertical(self, isDefault=False):
 
         return self._defaultHeaderLabelVertical if not isDefault else self.HeaderLabel.Decimal
+
+
+    def setDefaultCellCountColumn(self, value):
+
+        if value >= 1 and value <= 1000:
+            self._defaultCellCountColumn = value
+        else:
+            self._defaultCellCountColumn = 25
+
+
+    def defaultCellCountColumn(self, isDefault=False):
+
+        return self._defaultCellCountColumn if not isDefault else 25
