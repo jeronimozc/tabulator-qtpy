@@ -286,9 +286,6 @@ class MainWindow(QMainWindow):
 
         self._settings.load(settings)
 
-        # Document: Defaults
-        self._settings.defaultCellRows = int(settings.value('Settings/defaultCellRows', self._settings.defaultCellRows))
-
         # Recent documents
         size = settings.beginReadArray('recentDocumentList')
         for i in range(size):
@@ -316,9 +313,6 @@ class MainWindow(QMainWindow):
         settings = QSettings()
 
         self._settings.save(settings)
-
-        # Document: Defaults
-        settings.setValue('Settings/defaultCellRows', self._settings.defaultCellRows)
 
         # Recent documents
         settings.beginWriteArray('recentDocumentList')

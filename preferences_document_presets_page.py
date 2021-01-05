@@ -20,7 +20,7 @@
 
 from PySide2.QtCore import Signal
 from PySide2.QtWidgets import (QButtonGroup, QFormLayout, QGroupBox, QHBoxLayout, QLabel,
-                               QRadioButton, QSpinBox, QTabWidget, QVBoxLayout, QWidget)
+                               QRadioButton, QSpinBox, QVBoxLayout, QWidget)
 
 from settings import Settings
 
@@ -80,48 +80,24 @@ class PreferencesDocumentPresetsPage(QWidget):
         self.spbDefaultCellCountColumn.setToolTip(self.tr('Default number of columns of new documents'))
         self.spbDefaultCellCountColumn.valueChanged.connect(self.onSettingsChanged)
 
+        self.spbDefaultCellCountRow = QSpinBox(self)
+        self.spbDefaultCellCountRow.setRange(1, 1000)
+        self.spbDefaultCellCountRow.setToolTip(self.tr('Default number of rows of new documents'))
+        self.spbDefaultCellCountRow.valueChanged.connect(self.onSettingsChanged)
+
         defaultCellCountLayout = QFormLayout()
         defaultCellCountLayout.addRow(self.tr('Number of columns'), self.spbDefaultCellCountColumn)
+        defaultCellCountLayout.addRow(self.tr('Number of rows'), self.spbDefaultCellCountRow)
 
         defaultCellCountGroup = QGroupBox(self.tr('Cell Counts'))
         defaultCellCountGroup.setLayout(defaultCellCountLayout)
-
-        # Tab box
-        tabBox = QTabWidget()
-        tabBox.addTab(self.tabDefaultSettings(), self.tr('Default'))
 
         # Main layout
         self.layout = QVBoxLayout(self)
         self.layout.addWidget(title)
         self.layout.addWidget(defaultHeaderLabelGroup)
         self.layout.addWidget(defaultCellCountGroup)
-        self.layout.addWidget(tabBox)
         self.layout.addStretch()
-
-
-    def tabDefaultSettings(self):
-
-        # Default: Cells
-        self.spbDefaultCellRows = QSpinBox(self)
-        self.spbDefaultCellRows.setRange(1, 1000)
-        self.spbDefaultCellRows.setToolTip(self.tr('Default number of rows of new documents'))
-        self.spbDefaultCellRows.valueChanged.connect(self.onSettingsChanged)
-
-        defaultCellsLayout = QFormLayout()
-        defaultCellsLayout.addRow(self.tr('Number of rows'), self.spbDefaultCellRows)
-
-        defaultCellsGroup = QGroupBox(self.tr('Cells'))
-        defaultCellsGroup.setLayout(defaultCellsLayout)
-
-        # Layout
-        layout = QVBoxLayout()
-        layout.addWidget(defaultCellsGroup)
-        layout.addStretch()
-
-        widget = QWidget()
-        widget.setLayout(layout)
-
-        return widget
 
 
     def title(self):
@@ -179,11 +155,11 @@ class PreferencesDocumentPresetsPage(QWidget):
         return self.spbDefaultCellCountColumn.value()
 
 
-    def setDefaultCellRows(self, number):
+    def setDefaultCellCountRow(self, val):
 
-        self.spbDefaultCellRows.setValue(number)
+        self.spbDefaultCellCountRow.setValue(val)
 
 
-    def defaultCellRows(self):
+    def defaultCellCountRow(self):
 
-        return self.spbDefaultCellRows.value()
+        return self.spbDefaultCellCountRow.value()

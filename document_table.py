@@ -42,7 +42,7 @@ class DocumentTable(QTableWidget):
 
         # Creates a default document
         self.setColumnCount(self._settings.defaultCellCountColumn())
-        self.setRowCount(self._settings.defaultCellRows)
+        self.setRowCount(self._settings.defaultCellCountRow())
 
         # Enable context menus
         hHeaderView = self.horizontalHeader()
@@ -73,7 +73,7 @@ class DocumentTable(QTableWidget):
         self.isUntitled = True
 
         self.setColumnCount(self._settings.defaultCellCountColumn())
-        self.setRowCount(self._settings.defaultCellRows)
+        self.setRowCount(self._settings.defaultCellCountRow())
 
         # Set header items
         self.setHorizontalHeaderItems(self._settings.defaultHeaderLabelHorizontal())

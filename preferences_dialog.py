@@ -150,9 +150,7 @@ class PreferencesDialog(QDialog):
 
         # Document Presets: Cell Counts
         self.documentPresetsPage.setDefaultCellCountColumn(self._settings.defaultCellCountColumn(isDefault))
-
-        # Document: Defaults
-        self.documentPresetsPage.setDefaultCellRows(self._settings.defaultCellRows)
+        self.documentPresetsPage.setDefaultCellCountRow(self._settings.defaultCellCountRow(isDefault))
 
 
     def saveSettings(self):
@@ -171,6 +169,4 @@ class PreferencesDialog(QDialog):
 
         # Document Presets: Cell Counts
         self._settings.setDefaultCellCountColumn(self.documentPresetsPage.defaultCellCountColumn())
-
-        # Document: Defaults
-        self._settings.defaultCellRows = self.documentPresetsPage.defaultCellRows()
+        self._settings.setDefaultCellCountRow(self.documentPresetsPage.defaultCellCountRow())

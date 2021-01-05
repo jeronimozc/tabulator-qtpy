@@ -31,10 +31,8 @@ class Settings():
         Hexadecimal = 16
         Letter = 26
 
-    # Document: Defaults
-    defaultCellRows = 50
-
     recentDocumentList = []
+
 
     def __init__(self):
 
@@ -52,6 +50,7 @@ class Settings():
 
         # Document Presets: Cell Counts
         self._defaultCellCountColumn = 25
+        self._defaultCellCountRow = 50
 
 
     def load(self, settings):
@@ -72,6 +71,7 @@ class Settings():
 
         # Document Presets: Cell Counts
         self.setDefaultCellCountColumn(int(settings.value('defaultCellCountColumn', 25)))
+        self.setDefaultCellCountRow(int(settings.value('defaultCellCountRow', 50)))
 
         settings.endGroup()
 
@@ -102,6 +102,7 @@ class Settings():
 
         # Document Presets: Cell Counts
         settings.setValue('defaultCellCountColumn', self._defaultCellCountColumn)
+        settings.setValue('defaultCellCountRow', self._defaultCellCountRow)
 
         settings.endGroup()
 
@@ -180,3 +181,16 @@ class Settings():
     def defaultCellCountColumn(self, isDefault=False):
 
         return self._defaultCellCountColumn if not isDefault else 25
+
+
+    def setDefaultCellCountRow(self, value):
+
+        if value >= 1 and value <= 1000:
+            self._defaultCellCountRow = value
+        else:
+            self._defaultCellCountRow = 50
+
+
+    def defaultCellCountRow(self, isDefault=False):
+
+        return self._defaultCellCountRow if not isDefault else 50
