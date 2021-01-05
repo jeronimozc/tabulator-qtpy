@@ -21,7 +21,7 @@
 from PySide2.QtCore import QByteArray
 from PySide2.QtWidgets import QDialog, QDialogButtonBox, QHBoxLayout, QListWidget, QStackedWidget, QVBoxLayout
 
-from preferences_document_page import PreferencesDocumentPage
+from preferences_document_presets_page import PreferencesDocumentPresetsPage
 from preferences_documents_page import PreferencesDocumentsPage
 from preferences_general_page import PreferencesGeneralPage
 from settings import Settings
@@ -48,20 +48,20 @@ class PreferencesDialog(QDialog):
         self.documentsPage.setZeroMargins()
         self.documentsPage.settingsChanged.connect(self.onSettingsChanged)
 
-        self.documentPage = PreferencesDocumentPage(self)
-        self.documentPage.setZeroMargins()
-        self.documentPage.settingsChanged.connect(self.onSettingsChanged)
+        self.documentPresetsPage = PreferencesDocumentPresetsPage(self)
+        self.documentPresetsPage.setZeroMargins()
+        self.documentPresetsPage.settingsChanged.connect(self.onSettingsChanged)
 
         stackedBox = QStackedWidget()
         stackedBox.addWidget(self.generalPage)
         stackedBox.addWidget(self.documentsPage)
-        stackedBox.addWidget(self.documentPage)
+        stackedBox.addWidget(self.documentPresetsPage)
         stackedBox.setCurrentIndex(0)
 
         listBox = QListWidget()
         listBox.addItem(self.generalPage.title())
         listBox.addItem(self.documentsPage.title())
-        listBox.addItem(self.documentPage.title())
+        listBox.addItem(self.documentPresetsPage.title())
         listBox.setCurrentRow(stackedBox.currentIndex())
         listBox.currentRowChanged.connect(stackedBox.setCurrentIndex)
 
@@ -145,10 +145,10 @@ class PreferencesDialog(QDialog):
         self.documentsPage.setMaximumRecentDocuments(self._settings.maximumRecentDocuments(isDefault))
 
         # Document: Defaults
-        self.documentPage.setDefaultHeaderLabelHorizontal(self._settings.defaultHeaderLabelHorizontal)
-        self.documentPage.setDefaultHeaderLabelVertical(self._settings.defaultHeaderLabelVertical)
-        self.documentPage.setDefaultCellColumns(self._settings.defaultCellColumns)
-        self.documentPage.setDefaultCellRows(self._settings.defaultCellRows)
+        self.documentPresetsPage.setDefaultHeaderLabelHorizontal(self._settings.defaultHeaderLabelHorizontal)
+        self.documentPresetsPage.setDefaultHeaderLabelVertical(self._settings.defaultHeaderLabelVertical)
+        self.documentPresetsPage.setDefaultCellColumns(self._settings.defaultCellColumns)
+        self.documentPresetsPage.setDefaultCellRows(self._settings.defaultCellRows)
 
 
     def saveSettings(self):
@@ -162,7 +162,7 @@ class PreferencesDialog(QDialog):
         self._settings.setMaximumRecentDocuments(self.documentsPage.maximumRecentDocuments())
 
         # Document: Defaults
-        self._settings.defaultHeaderLabelHorizontal = self.documentPage.defaultHeaderLabelHorizontal()
-        self._settings.defaultHeaderLabelVertical = self.documentPage.defaultHeaderLabelVertical()
-        self._settings.defaultCellColumns = self.documentPage.defaultCellColumns()
-        self._settings.defaultCellRows = self.documentPage.defaultCellRows()
+        self._settings.defaultHeaderLabelHorizontal = self.documentPresetsPage.defaultHeaderLabelHorizontal()
+        self._settings.defaultHeaderLabelVertical = self.documentPresetsPage.defaultHeaderLabelVertical()
+        self._settings.defaultCellColumns = self.documentPresetsPage.defaultCellColumns()
+        self._settings.defaultCellRows = self.documentPresetsPage.defaultCellRows()

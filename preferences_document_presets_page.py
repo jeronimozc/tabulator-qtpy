@@ -25,7 +25,7 @@ from PySide2.QtWidgets import (QButtonGroup, QFormLayout, QGroupBox, QHBoxLayout
 from settings import Settings
 
 
-class PreferencesDocumentPage(QWidget):
+class PreferencesDocumentPresetsPage(QWidget):
 
     settingsChanged = Signal()
 
@@ -34,7 +34,7 @@ class PreferencesDocumentPage(QWidget):
         super().__init__(parent)
 
         # Title
-        title = QLabel(self.tr('<strong style="font-size:large;">Document</strong>'))
+        title = QLabel(self.tr('<strong style="font-size:large;">Document Presets</strong>'))
 
         # Tab box
         tabBox = QTabWidget()
@@ -118,7 +118,7 @@ class PreferencesDocumentPage(QWidget):
 
     def title(self):
 
-        return self.tr('Document')
+        return self.tr('Document Presets')
 
 
     def setZeroMargins(self):
