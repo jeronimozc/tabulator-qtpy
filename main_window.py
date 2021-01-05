@@ -287,7 +287,6 @@ class MainWindow(QMainWindow):
         self._settings.load(settings)
 
         # Document: Defaults
-        self._settings.defaultHeaderLabelVertical = Settings.HeaderLabel(int(settings.value('Settings/defaultHeaderLabelVertical', self._settings.defaultHeaderLabelVertical.value)))
         self._settings.defaultCellColumns = int(settings.value('Settings/defaultCellColumns', self._settings.defaultCellColumns))
         self._settings.defaultCellRows = int(settings.value('Settings/defaultCellRows', self._settings.defaultCellRows))
 
@@ -320,7 +319,6 @@ class MainWindow(QMainWindow):
         self._settings.save(settings)
 
         # Document: Defaults
-        settings.setValue('Settings/defaultHeaderLabelVertical', self._settings.defaultHeaderLabelVertical.value)
         settings.setValue('Settings/defaultCellColumns', self._settings.defaultCellColumns)
         settings.setValue('Settings/defaultCellRows', self._settings.defaultCellRows)
 

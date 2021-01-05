@@ -52,8 +52,24 @@ class PreferencesDocumentPresetsPage(QWidget):
         defaultHeaderLabelHorizontalBox.addWidget(rdbDefaultHeaderLabelHorizontalLetters)
         defaultHeaderLabelHorizontalBox.addWidget(rdbDefaultHeaderLabelHorizontalNumbers)
 
+        rdbDefaultHeaderLabelVerticalLetters = QRadioButton(self.tr('Letters'))
+        rdbDefaultHeaderLabelVerticalLetters.setToolTip(self.tr('Capital letters as default vertical header labels of new documents'))
+
+        rdbDefaultHeaderLabelVerticalNumbers = QRadioButton(self.tr('Numbers'))
+        rdbDefaultHeaderLabelVerticalNumbers.setToolTip(self.tr('Decimal numbers as default vertical header labels of new documents'))
+
+        self.grpDefaultHeaderLabelVertical = QButtonGroup(self)
+        self.grpDefaultHeaderLabelVertical.addButton(rdbDefaultHeaderLabelVerticalLetters, Settings.HeaderLabel.Letter.value)
+        self.grpDefaultHeaderLabelVertical.addButton(rdbDefaultHeaderLabelVerticalNumbers, Settings.HeaderLabel.Decimal.value)
+        self.grpDefaultHeaderLabelVertical.buttonClicked.connect(self.onSettingsChanged)
+
+        defaultHeaderLabelVerticalBox = QHBoxLayout()
+        defaultHeaderLabelVerticalBox.addWidget(rdbDefaultHeaderLabelVerticalLetters)
+        defaultHeaderLabelVerticalBox.addWidget(rdbDefaultHeaderLabelVerticalNumbers)
+
         defaultHeaderLabelLayout = QFormLayout()
         defaultHeaderLabelLayout.addRow(self.tr('Labels of the horizontal header'), defaultHeaderLabelHorizontalBox)
+        defaultHeaderLabelLayout.addRow(self.tr('Labels of the vertical header'), defaultHeaderLabelVerticalBox)
 
         defaultHeaderLabelGroup = QGroupBox(self.tr('Header Labels'))
         defaultHeaderLabelGroup.setLayout(defaultHeaderLabelLayout)
@@ -73,26 +89,6 @@ class PreferencesDocumentPresetsPage(QWidget):
     def tabDefaultSettings(self):
 
         # Default: Headers
-        rdbDefaultHeaderLabelVerticalLetters = QRadioButton(self.tr('Letters'))
-        rdbDefaultHeaderLabelVerticalLetters.setToolTip(self.tr('Capital letters as default vertical header labels'))
-
-        rdbDefaultHeaderLabelVerticalNumbers = QRadioButton(self.tr('Numbers'))
-        rdbDefaultHeaderLabelVerticalNumbers.setToolTip(self.tr('Decimal numbers as default vertical header labels'))
-
-        self.grpDefaultHeaderLabelVertical = QButtonGroup(self)
-        self.grpDefaultHeaderLabelVertical.addButton(rdbDefaultHeaderLabelVerticalLetters, Settings.HeaderLabel.Letter.value)
-        self.grpDefaultHeaderLabelVertical.addButton(rdbDefaultHeaderLabelVerticalNumbers, Settings.HeaderLabel.Decimal.value)
-        self.grpDefaultHeaderLabelVertical.buttonClicked.connect(self.onSettingsChanged)
-
-        defaultHeaderLabelVerticalBox = QHBoxLayout()
-        defaultHeaderLabelVerticalBox.addWidget(rdbDefaultHeaderLabelVerticalLetters)
-        defaultHeaderLabelVerticalBox.addWidget(rdbDefaultHeaderLabelVerticalNumbers)
-
-        defaultHeadersLayout = QFormLayout()
-        defaultHeadersLayout.addRow(self.tr('Labels of vertical header'), defaultHeaderLabelVerticalBox)
-
-        defaultHeadersGroup = QGroupBox(self.tr('Headers'))
-        defaultHeadersGroup.setLayout(defaultHeadersLayout)
 
         # Default: Cells
         self.spbDefaultCellColumns = QSpinBox(self)
@@ -114,7 +110,6 @@ class PreferencesDocumentPresetsPage(QWidget):
 
         # Layout
         layout = QVBoxLayout()
-        layout.addWidget(defaultHeadersGroup)
         layout.addWidget(defaultCellsGroup)
         layout.addStretch()
 

@@ -146,9 +146,9 @@ class PreferencesDialog(QDialog):
 
         # Document Presets: Header Labels
         self.documentPresetsPage.setDefaultHeaderLabelHorizontal(self._settings.defaultHeaderLabelHorizontal(isDefault))
+        self.documentPresetsPage.setDefaultHeaderLabelVertical(self._settings.defaultHeaderLabelVertical(isDefault))
 
         # Document: Defaults
-        self.documentPresetsPage.setDefaultHeaderLabelVertical(self._settings.defaultHeaderLabelVertical)
         self.documentPresetsPage.setDefaultCellColumns(self._settings.defaultCellColumns)
         self.documentPresetsPage.setDefaultCellRows(self._settings.defaultCellRows)
 
@@ -165,8 +165,8 @@ class PreferencesDialog(QDialog):
 
         # Document Presets: Header Labels
         self._settings.setDefaultHeaderLabelHorizontal(self.documentPresetsPage.defaultHeaderLabelHorizontal())
+        self._settings.setDefaultHeaderLabelVertical(self.documentPresetsPage.defaultHeaderLabelVertical())
 
         # Document: Defaults
-        self._settings.defaultHeaderLabelVertical = self.documentPresetsPage.defaultHeaderLabelVertical()
         self._settings.defaultCellColumns = self.documentPresetsPage.defaultCellColumns()
         self._settings.defaultCellRows = self.documentPresetsPage.defaultCellRows()

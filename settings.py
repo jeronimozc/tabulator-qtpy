@@ -32,7 +32,6 @@ class Settings():
         Letter = 26
 
     # Document: Defaults
-    defaultHeaderLabelVertical = HeaderLabel.Decimal
     defaultCellColumns = 25
     defaultCellRows = 50
 
@@ -50,6 +49,7 @@ class Settings():
 
         # Document Presets: Header Labels
         self._defaultHeaderLabelHorizontal = self.HeaderLabel.Letter
+        self._defaultHeaderLabelVertical = self.HeaderLabel.Decimal
 
 
     def load(self, settings):
@@ -66,6 +66,7 @@ class Settings():
 
         # Document Presets: Header Labels
         self.setDefaultHeaderLabelHorizontal(Settings.HeaderLabel(int(settings.value('defaultHeaderLabelHorizontal', self.HeaderLabel.Letter.value))))
+        self.setDefaultHeaderLabelVertical(Settings.HeaderLabel(int(settings.value('defaultHeaderLabelVertical', self.HeaderLabel.Decimal.value))))
 
         settings.endGroup()
 
@@ -92,6 +93,7 @@ class Settings():
 
         # Document Presets: Header Labels
         settings.setValue('defaultHeaderLabelHorizontal', self._defaultHeaderLabelHorizontal.value)
+        settings.setValue('defaultHeaderLabelVertical', self._defaultHeaderLabelVertical.value)
 
         settings.endGroup()
 
@@ -147,3 +149,13 @@ class Settings():
     def defaultHeaderLabelHorizontal(self, isDefault=False):
 
         return self._defaultHeaderLabelHorizontal if not isDefault else self.HeaderLabel.Letter
+
+
+    def setDefaultHeaderLabelVertical(self, value):
+
+        self._defaultHeaderLabelVertical = value
+
+
+    def defaultHeaderLabelVertical(self, isDefault=False):
+
+        return self._defaultHeaderLabelVertical if not isDefault else self.HeaderLabel.Decimal
