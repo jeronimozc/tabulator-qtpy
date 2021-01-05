@@ -11,7 +11,7 @@
         "document_table.py",
         "document_table_header_dialog.py",
         "keyboard_shortcuts_dialog.py",
-        "keyboard_shortcuts_widget.py",
+        "keyboard_shortcuts_page.py",
         "main.py",
         "main_window.py",
         "preferences_dialog.py",

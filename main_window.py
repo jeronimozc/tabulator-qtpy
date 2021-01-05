@@ -42,6 +42,8 @@ class MainWindow(QMainWindow):
 
         self.setWindowIcon(QIcon(':/icons/apps/16/tabulator.svg'))
 
+        self.keyboardShortcutsDialog = None
+
         self.createActions()
         self.createMenus()
         self.createToolbars()
@@ -494,16 +496,19 @@ class MainWindow(QMainWindow):
 
     def onActionKeyboardShortcutsTriggered(self):
 
-        geometry = self.keyboardShortcutsDialogGeometry if self._settings.restoreDialogGeometry() else QByteArray()
+        if not self.keyboardShortcutsDialog:
+            geometry = self.keyboardShortcutsDialogGeometry if self._settings.restoreDialogGeometry() else QByteArray()
 
-        self.keyboardShortcutsDialog = KeyboardShortcutsDialog(self)
-        self.keyboardShortcutsDialog.setWindowTitle('Keyboard Shortcuts')
-        self.keyboardShortcutsDialog.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
-        self.keyboardShortcutsDialog.setWindowGeometry(geometry)
-        self.keyboardShortcutsDialog.finished.connect(self.onDialogKeyboardShortcutsFinished)
+            self.keyboardShortcutsDialog = KeyboardShortcutsDialog(self)
+            self.keyboardShortcutsDialog.setDialogGeometry(geometry)
+            self.keyboardShortcutsDialog.finished.connect(self.onDialogKeyboardShortcutsFinished)
+
         self.keyboardShortcutsDialog.show()
+        self.keyboardShortcutsDialog.raise_()
+        self.keyboardShortcutsDialog.activateWindow()
 
 
     def onDialogKeyboardShortcutsFinished(self):
 
-        self.keyboardShortcutsDialogGeometry = self.keyboardShortcutsDialog.windowGeometry() if self._settings.restoreDialogGeometry() else QByteArray()
+        self.keyboardShortcutsDialogGeometry = self.keyboardShortcutsDialog.dialogGeometry() if self._settings.restoreDialogGeometry() else QByteArray()
+        self.keyboardShortcutsDialog = None
