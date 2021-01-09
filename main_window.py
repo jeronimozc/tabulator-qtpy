@@ -113,6 +113,11 @@ class MainWindow(QMainWindow):
         self.actionOpen.setData(self.tr('Open an existing document'))
         self.actionOpen.triggered.connect(self.onActionOpenTriggered)
 
+        self.actionOpenRecentClear = QAction(self.tr('Clear List'), self)
+        self.actionOpenRecentClear.setObjectName('actionOpenRecentClear')
+        self.actionOpenRecentClear.setToolTip(self.tr('Clear document list'))
+        self.actionOpenRecentClear.triggered.connect(self.onActionOpenRecentClearTriggered)
+
         # Actions: View
         self.actionFullScreen = QAction(self)
         self.actionFullScreen.setObjectName('actionFullScreen')
@@ -274,6 +279,8 @@ class MainWindow(QMainWindow):
                 self.menuOpenRecent.setEnabled(True)
                 self.menuOpenRecent.clear()
                 self.menuOpenRecent.addActions(self.actionRecentDocuments)
+                self.menuOpenRecent.addSeparator()
+                self.menuOpenRecent.addAction(self.actionOpenRecentClear)
 
             else:
                 # List of the last documents is empty; therefore the menu is disabled
@@ -552,6 +559,13 @@ class MainWindow(QMainWindow):
     def onActionOpenRecentDocumentTriggered(self, fileName):
 
         self.openDocument(fileName)
+
+
+    def onActionOpenRecentClearTriggered(self):
+
+        self.recentDocuments.clear()
+
+        self.updateMenuOpenRecent()
 
 
     def onActionFullScreenTriggered(self):
