@@ -42,6 +42,7 @@ class MainWindow(QMainWindow):
 
         self.setWindowIcon(QIcon(':/icons/apps/16/tabulator.svg'))
 
+        self.actionRecentDocuments = []
         self.recentDocuments = []
         self.keyboardShortcutsDialog = None
 
@@ -52,7 +53,6 @@ class MainWindow(QMainWindow):
         self.readSettings()
 
         self.updateActionFullScreen()
-        self.updateMenuOpenRecent()
 
         # Central widget
         self.documentArea = QMdiArea()
@@ -181,6 +181,22 @@ class MainWindow(QMainWindow):
             self.actionFullScreen.setToolTip(self.tr(f'Exit the full screen mode [{self.actionFullScreen.shortcut().toString(QKeySequence.NativeText)}]'))
 
 
+    def updateActionRecentDocuments(self):
+
+        if len(self.actionRecentDocuments) != self._settings.maximumRecentDocuments():
+
+            self.actionRecentDocuments = []
+
+            for idx in range(self._settings.maximumRecentDocuments()):
+
+                actionRecentDocument = QAction(self)
+                actionRecentDocument.setObjectName(f'actionRecentDocument_{idx}')
+                actionRecentDocument.setVisible(False)
+                actionRecentDocument.triggered.connect(lambda: self.onActionOpenRecentDocumentTriggered(actionRecentDocument.data()))
+
+                self.actionRecentDocuments.append(actionRecentDocument)
+
+
     def createMenus(self):
 
         # Menu: Application
@@ -233,7 +249,39 @@ class MainWindow(QMainWindow):
 
 
     def updateMenuOpenRecent(self):
-        pass
+
+        if self._settings.maximumRecentDocuments() > 0:
+            # Show the menu
+            self.menuOpenRecent.menuAction().setVisible(True)
+
+            if len(self.recentDocuments) > 0:
+                # Refreshes the menu with the list of the latest documents
+
+                self.updateActionRecentDocuments()
+
+                for idx in range(len(self.actionRecentDocuments)):
+
+                    if idx < len(self.recentDocuments):
+                        file = self.recentDocuments[idx]
+                        text = f'{QFileInfo(file).fileName()} [{file}]'
+
+                        self.actionRecentDocuments[idx].setText(text)
+                        self.actionRecentDocuments[idx].setData(file)
+                        self.actionRecentDocuments[idx].setVisible(True)
+                    else:
+                        self.actionRecentDocuments[idx].setVisible(False)
+
+                self.menuOpenRecent.setEnabled(True)
+                self.menuOpenRecent.clear()
+                self.menuOpenRecent.addActions(self.actionRecentDocuments)
+
+            else:
+                # List of the last documents is empty; therefore the menu is disabled
+                self.menuOpenRecent.setDisabled(True)
+
+        else:
+            # No list of the last documents wanted; therefore hide the menu
+            self.menuOpenRecent.menuAction().setVisible(False)
 
 
     def createToolbars(self):
@@ -499,6 +547,11 @@ class MainWindow(QMainWindow):
 
         for fileName in fileNames:
             self.openDocument(fileName)
+
+
+    def onActionOpenRecentDocumentTriggered(self, fileName):
+
+        self.openDocument(fileName)
 
 
     def onActionFullScreenTriggered(self):
