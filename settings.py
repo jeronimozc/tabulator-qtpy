@@ -31,8 +31,6 @@ class Settings():
         Hexadecimal = 16
         Letter = 26
 
-    recentDocumentList = []
-
 
     def __init__(self):
 

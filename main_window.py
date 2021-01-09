@@ -42,6 +42,7 @@ class MainWindow(QMainWindow):
 
         self.setWindowIcon(QIcon(':/icons/apps/16/tabulator.svg'))
 
+        self.recentDocuments = []
         self.keyboardShortcutsDialog = None
 
         self.createActions()
@@ -232,13 +233,7 @@ class MainWindow(QMainWindow):
 
 
     def updateMenuOpenRecent(self):
-
-        if len(self._settings.recentDocumentList) > 0:
-            pass
-
-        else:
-            # Document list is empty; disable the menu item.
-            self.menuOpenRecent.setDisabled(True)
+        pass
 
 
     def createToolbars(self):
@@ -289,10 +284,10 @@ class MainWindow(QMainWindow):
         self._settings.load(settings)
 
         # Recent documents
-        size = settings.beginReadArray('recentDocumentList')
-        for i in range(size):
-            settings.setArrayIndex(i)
-            self._settings.recentDocumentList.append(settings.value('document'))
+        size = settings.beginReadArray('RecentDocuments')
+        for idx in range(size):
+            settings.setArrayIndex(idx)
+            self.addRecentDocuments(settings.value('document'), False)
         settings.endArray()
 
         # Application and dialog properties
@@ -317,10 +312,10 @@ class MainWindow(QMainWindow):
         self._settings.save(settings)
 
         # Recent documents
-        settings.beginWriteArray('recentDocumentList')
-        for i in range(len(self._settings.recentDocumentList)):
-            settings.setArrayIndex(i)
-            settings.setValue('document', self._settings.recentDocumentList[i])
+        settings.beginWriteArray('RecentDocuments')
+        for idx in range(len(self.recentDocuments)):
+            settings.setArrayIndex(idx)
+            settings.setValue('document', self.recentDocuments[idx])
         settings.endArray()
 
         # Application and dialog properties
@@ -385,50 +380,71 @@ class MainWindow(QMainWindow):
         return document
 
 
-    def findDocumentChild(self, url):
+    def findDocumentChild(self, file):
 
-        canonicalFilePath = QFileInfo(url).canonicalFilePath()
+        filePath = QFileInfo(file).canonicalFilePath()
 
-        for window in self.documentArea.subWindowList():
-            if window.widget().documentPath() == canonicalFilePath:
-                return window
+        for document in self.documentArea.subWindowList():
+            if document.widget().documentPath() == filePath:
+                return document
 
         return None
 
 
     def activeDocumentChild(self):
 
-        window = self.documentArea.activeSubWindow()
+        document = self.documentArea.activeSubWindow()
 
-        return window if window else None
+        return document if document else None
 
 
-    def openDocument(self, url):
+    def openDocument(self, fileName):
+
+        file = QFileInfo(fileName).absoluteFilePath()
 
         # Checks whether the given document is already open.
-        existing = self.findDocumentChild(url)
-        if existing:
-            self.documentArea.setActiveSubWindow(existing)
+        document = self.findDocumentChild(file)
+        if document:
+            self.documentArea.setActiveSubWindow(document)
+            self.addRecentDocuments(file)
             return True
 
-        succeeded = self.loadDocument(url)
-        if succeeded:
-            self.statusBar().showMessage('Document loaded', 3000)
-
-        return succeeded
+        return self.loadDocument(file)
 
 
-    def loadDocument(self, url):
+    def loadDocument(self, file):
 
         document = self.createDocumentChild()
 
-        succeeded = document.loadDocument(url)
+        succeeded = document.loadDocument(file)
         if succeeded:
             document.show()
+            self.addRecentDocuments(file)
         else:
             document.close()
 
         return succeeded
+
+
+    def addRecentDocuments(self, file, prepend=True):
+
+        while file in self.recentDocuments:
+            self.recentDocuments.remove(file)
+
+        if prepend:
+            self.recentDocuments.insert(0, file)
+        else:
+            self.recentDocuments.append(file)
+
+        self.updateRecentDocuments()
+
+
+    def updateRecentDocuments(self):
+
+        while len(self.recentDocuments) > self._settings.maximumRecentDocuments():
+            self.recentDocuments.pop()
+
+        self.updateMenuOpenRecent()
 
 
     def onActionAboutTriggered(self):
@@ -465,6 +481,8 @@ class MainWindow(QMainWindow):
         self._settings = dialog.settings()
         self.preferencesDialogGeometry = dialog.dialogGeometry() if self._settings.restoreDialogGeometry() else QByteArray()
 
+        self.updateRecentDocuments()
+
 
     def onActionNewTriggered(self):
 
@@ -475,13 +493,12 @@ class MainWindow(QMainWindow):
 
     def onActionOpenTriggered(self):
 
-        urls = QFileDialog.getOpenFileNames(self,
-                   'Open Document',
-                   QStandardPaths.writableLocation(QStandardPaths.HomeLocation),
-                   'CSV Files (*.csv);; All Files (*.*)')[0]
+        fileNames = QFileDialog.getOpenFileNames(self, self.tr('Open Document'),
+                        QStandardPaths.writableLocation(QStandardPaths.HomeLocation),
+                        self.tr('CSV Files (*.csv);;All Files (*.*)'))[0]
 
-        for url in urls:
-            self.openDocument(url)
+        for fileName in fileNames:
+            self.openDocument(fileName)
 
 
     def onActionFullScreenTriggered(self):
