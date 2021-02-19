@@ -40,17 +40,17 @@ class MainWindow(QMainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
 
-        self.setWindowIcon(QIcon(':/icons/apps/16/tabulator.svg'))
-
         self.actionRecentDocuments = []
         self.recentDocuments = []
         self.keyboardShortcutsDialog = None
+
+        self.setWindowIcon(QIcon(':/icons/apps/16/tabulator.svg'))
 
         self.readSettings()
 
         self.createActions()
         self.createMenus()
-        self.createToolbars()
+        self.createToolBars()
 
         # Set application properties
         self.setApplicationState(self._applicationState)
@@ -170,7 +170,6 @@ class MainWindow(QMainWindow):
 
         self.actionColophon = QAction(self.tr('Colophon'), self)
         self.actionColophon.setObjectName('actionColophon')
-        self.actionColophon.setIconText(self.tr('Colophon'))
         self.actionColophon.setToolTip(self.tr('Lengthy description of the application'))
         self.actionColophon.triggered.connect(self.onActionColophonTriggered)
 
@@ -390,7 +389,7 @@ class MainWindow(QMainWindow):
             self.menuOpenRecent.menuAction().setVisible(False)
 
 
-    def createToolbars(self):
+    def createToolBars(self):
 
         # Toolbar: Application
         self.toolbarApplication = self.addToolBar(self.tr('Application Toolbar'))
