@@ -41,11 +41,11 @@ class ColophonAboutPage(QWidget):
         self.layout.addWidget(textBox)
 
 
-    def title(self):
-
-        return self.tr('About')
-
-
     def setZeroMargins(self):
 
         self.layout.setContentsMargins(0, 0, 0, 0)
+
+
+    def title(self):
+
+        return self.tr('About')

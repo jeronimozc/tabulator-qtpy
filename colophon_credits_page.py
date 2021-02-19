@@ -42,11 +42,11 @@ class ColophonCreditsPage(QWidget):
         self.layout.addWidget(textBox)
 
 
-    def title(self):
-
-        return self.tr('Credits')
-
-
     def setZeroMargins(self):
 
         self.layout.setContentsMargins(0, 0, 0, 0)
+
+
+    def title(self):
+
+        return self.tr('Credits')

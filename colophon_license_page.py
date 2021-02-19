@@ -46,11 +46,11 @@ class ColophonLicensePage(QWidget):
         self.layout.addWidget(textBox)
 
 
-    def title(self):
-
-        return self.tr('License')
-
-
     def setZeroMargins(self):
 
         self.layout.setContentsMargins(0, 0, 0, 0)
+
+
+    def title(self):
+
+        return self.tr('License')
