@@ -32,8 +32,8 @@ class ColophonAboutPage(QWidget):
         textBox.setOpenExternalLinks(True)
         textBox.setHtml(self.tr(f'''<html><body>
             <p>{QApplication.applicationName()} is an open source editor tool written in Qt for Python and designed for easy creation and editing of documents with character-separated values.</p>
-            <p>Copyright &copy; 2020-2021 <a href="{QApplication.organizationDomain()}">{QApplication.organizationName()}</a>.</p>
-            <p>This application is licensed under the terms of the <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GNU General Public License, version 3</a>.</p>
+            <p>Copyright &copy; 2020-2021 <a href="{QApplication.organizationDomain()}" title="Visit organization's homepage">{QApplication.organizationName()}</a>.</p>
+            <p>This application is licensed under the terms of the <a href="https://www.gnu.org/licenses/gpl-3.0.en.html" title="Visit license's homepage">GNU General Public License, version 3</a>.</p>
             </body></html>'''))
 
         # Main layout
