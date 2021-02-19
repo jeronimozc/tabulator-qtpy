@@ -100,14 +100,14 @@ class PreferencesDocumentPresetsPage(QWidget):
         self.layout.addStretch()
 
 
-    def title(self):
-
-        return self.tr('Document Presets')
-
-
     def setZeroMargins(self):
 
         self.layout.setContentsMargins(0, 0, 0, 0)
+
+
+    def title(self):
+
+        return self.tr('Document Presets')
 
 
     def onPreferencesChanged(self):

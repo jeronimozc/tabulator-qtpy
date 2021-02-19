@@ -37,8 +37,6 @@ class PreferencesDialog(QDialog):
 
         self.setWindowTitle(self.tr('Preferences'))
 
-        self.setDialogGeometry()
-
         # Preferences box
         self.generalPage = PreferencesGeneralPage(self)
         self.generalPage.setZeroMargins()
@@ -88,7 +86,7 @@ class PreferencesDialog(QDialog):
 
     def setDialogGeometry(self, geometry=QByteArray()):
 
-        if geometry:
+        if not geometry.isEmpty():
             self.restoreGeometry(geometry)
         else:
             self.resize(800, 600)

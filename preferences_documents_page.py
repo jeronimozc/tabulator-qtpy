@@ -52,14 +52,14 @@ class PreferencesDocumentsPage(QWidget):
         self.layout.addStretch()
 
 
-    def title(self):
-
-        return self.tr('Documents')
-
-
     def setZeroMargins(self):
 
         self.layout.setContentsMargins(0, 0, 0, 0)
+
+
+    def title(self):
+
+        return self.tr('Documents')
 
 
     def onPreferencesChanged(self):

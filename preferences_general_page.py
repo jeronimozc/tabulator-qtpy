@@ -43,29 +43,29 @@ class PreferencesGeneralPage(QWidget):
         self.chkRestoreDialogGeometry = QCheckBox(self.tr('Save and restore dialog geometries'))
         self.chkRestoreDialogGeometry.stateChanged.connect(self.onPreferencesChanged)
 
-        stateGeometryLayout = QVBoxLayout()
-        stateGeometryLayout.addWidget(self.chkRestoreApplicationState)
-        stateGeometryLayout.addWidget(self.chkRestoreApplicationGeometry)
-        stateGeometryLayout.addWidget(self.chkRestoreDialogGeometry)
+        stateGeometriesLayout = QVBoxLayout()
+        stateGeometriesLayout.addWidget(self.chkRestoreApplicationState)
+        stateGeometriesLayout.addWidget(self.chkRestoreApplicationGeometry)
+        stateGeometriesLayout.addWidget(self.chkRestoreDialogGeometry)
 
-        stateGeometryGroup = QGroupBox(self.tr('State && Geometries'))
-        stateGeometryGroup.setLayout(stateGeometryLayout)
+        stateGeometriesGroup = QGroupBox(self.tr('State && Geometries'))
+        stateGeometriesGroup.setLayout(stateGeometriesLayout)
 
         # Main layout
         self.layout = QVBoxLayout(self)
         self.layout.addWidget(title)
-        self.layout.addWidget(stateGeometryGroup)
+        self.layout.addWidget(stateGeometriesGroup)
         self.layout.addStretch()
-
-
-    def title(self):
-
-        return self.tr('General')
 
 
     def setZeroMargins(self):
 
         self.layout.setContentsMargins(0, 0, 0, 0)
+
+
+    def title(self):
+
+        return self.tr('General')
 
 
     def onPreferencesChanged(self):
