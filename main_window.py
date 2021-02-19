@@ -18,7 +18,7 @@
 # along with Tabulator-QtPy.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from PySide2.QtCore import QByteArray, QFileInfo, QRect, QSettings, QStandardPaths, Qt
+from PySide2.QtCore import QByteArray, QFileInfo, QSettings, QStandardPaths, Qt
 from PySide2.QtGui import QIcon, QKeySequence
 from PySide2.QtWidgets import QAction, QApplication, QFileDialog, QMainWindow, QMdiArea, QMenu
 
@@ -46,11 +46,15 @@ class MainWindow(QMainWindow):
         self.recentDocuments = []
         self.keyboardShortcutsDialog = None
 
+        self.readSettings()
+
         self.createActions()
         self.createMenus()
         self.createToolbars()
 
-        self.readSettings()
+        # Set application properties
+        self.setApplicationState(self._applicationState)
+        self.setApplicationGeometry(self._applicationGeometry)
 
         self.updateActionFullScreen()
 
@@ -60,6 +64,98 @@ class MainWindow(QMainWindow):
         self.documentArea.setTabsMovable(True)
         self.documentArea.setTabsClosable(True)
         self.setCentralWidget(self.documentArea)
+
+
+    def setApplicationState(self, state=QByteArray()):
+
+        if not state.isEmpty():
+            self.restoreState(state)
+        else:
+            self.toolbarApplication.setVisible(True)
+            self.toolbarDocument.setVisible(True)
+            self.toolbarEdit.setVisible(True)
+            self.toolbarTools.setVisible(True)
+            self.toolbarView.setVisible(False)
+            self.toolbarHelp.setVisible(False)
+
+
+    def applicationState(self):
+
+        return self.saveState()
+
+
+    def setApplicationGeometry(self, geometry=QByteArray()):
+
+        if not geometry.isEmpty():
+            self.restoreGeometry(geometry)
+        else:
+            availableGeometry = self.screen().availableGeometry()
+            self.resize(availableGeometry.width() * 2/3, availableGeometry.height() * 2/3)
+            self.move((availableGeometry.width() - self.width()) / 2, (availableGeometry.height() - self.height()) / 2)
+
+
+    def applicationGeometry(self):
+
+        return self.saveGeometry()
+
+
+    def closeEvent(self, event):
+
+        if True:
+            # Store application properties
+            self._applicationState = self.applicationState() if self._preferences.restoreApplicationState() else QByteArray()
+            self._applicationGeometry = self.applicationGeometry() if self._preferences.restoreApplicationGeometry() else QByteArray()
+
+            self.writeSettings()
+            event.accept()
+        else:
+            event.ignore()
+
+
+    def readSettings(self):
+
+        settings = QSettings()
+
+        # Preferences
+        self._preferences.load(settings)
+
+        # Recent documents
+        size = settings.beginReadArray('RecentDocuments')
+        for idx in range(size):
+            settings.setArrayIndex(idx)
+            self.addRecentDocuments(settings.value('Document'), False)
+        settings.endArray()
+
+        # Application and dialog properties
+        self._applicationState = settings.value('Application/State', QByteArray()) if self._preferences.restoreApplicationState() else QByteArray()
+        self._applicationGeometry = settings.value('Application/Geometry', QByteArray()) if self._preferences.restoreApplicationGeometry() else QByteArray()
+        self.aboutDialogGeometry = settings.value('AboutDialog/Geometry', QByteArray())
+        self.colophonDialogGeometry = settings.value('ColophonDialog/Geometry', QByteArray())
+        self.keyboardShortcutsDialogGeometry = settings.value('KeyboardShortcutsDialog/Geometry', QByteArray())
+        self.preferencesDialogGeometry = settings.value('PreferencesDialog/Geometry', QByteArray())
+
+
+    def writeSettings(self):
+
+        settings = QSettings()
+
+        # Preferences
+        self._preferences.save(settings)
+
+        # Recent documents
+        settings.beginWriteArray('RecentDocuments')
+        for idx in range(len(self.recentDocuments)):
+            settings.setArrayIndex(idx)
+            settings.setValue('Document', self.recentDocuments[idx])
+        settings.endArray()
+
+        # Application and dialog properties
+        settings.setValue('Application/State', self._applicationState)
+        settings.setValue('Application/Geometry', self._applicationGeometry)
+        settings.setValue('AboutDialog/Geometry', self.aboutDialogGeometry)
+        settings.setValue('ColophonDialog/Geometry', self.colophonDialogGeometry)
+        settings.setValue('KeyboardShortcutsDialog/Geometry', self.keyboardShortcutsDialogGeometry)
+        settings.setValue('PreferencesDialog/Geometry', self.preferencesDialogGeometry)
 
 
     def createActions(self):
@@ -255,6 +351,9 @@ class MainWindow(QMainWindow):
 
     def updateMenuOpenRecent(self):
 
+        if not 'menuOpenRecent' in globals():
+            return
+
         if self._preferences.maximumRecentDocuments() > 0:
             # Show the menu
             self.menuOpenRecent.menuAction().setVisible(True)
@@ -330,100 +429,6 @@ class MainWindow(QMainWindow):
         self.toolbarHelp.setObjectName('toolbarHelp')
         self.toolbarHelp.addAction(self.actionKeyboardShortcuts)
         self.toolbarHelp.visibilityChanged.connect(lambda visible: self.actionToolbarHelp.setChecked(visible))
-
-
-    def readSettings(self):
-
-        settings = QSettings()
-
-        self._preferences.load(settings)
-
-        # Recent documents
-        size = settings.beginReadArray('RecentDocuments')
-        for idx in range(size):
-            settings.setArrayIndex(idx)
-            self.addRecentDocuments(settings.value('Document'), False)
-        settings.endArray()
-
-        # Application and dialog properties
-        applicationState = settings.value('Application/State', QByteArray())
-        applicationGeometry = settings.value('Application/Geometry', QByteArray())
-        self.aboutDialogGeometry = settings.value('AboutDialog/Geometry', QByteArray())
-        self.colophonDialogGeometry = settings.value('ColophonDialog/Geometry', QByteArray())
-        self.keyboardShortcutsDialogGeometry = settings.value('KeyboardShortcutsDialog/Geometry', QByteArray())
-        self.preferencesDialogGeometry = settings.value('PreferencesDialog/Geometry', QByteArray())
-
-        # Set application properties
-        state = applicationState if self._preferences.restoreApplicationState() else QByteArray()
-        self.setApplicationState(state)
-        geometry = applicationGeometry if self._preferences.restoreApplicationGeometry() else QByteArray()
-        self.setApplicationGeometry(geometry)
-
-
-    def writeSettings(self):
-
-        settings = QSettings()
-
-        self._preferences.save(settings)
-
-        # Recent documents
-        settings.beginWriteArray('RecentDocuments')
-        for idx in range(len(self.recentDocuments)):
-            settings.setArrayIndex(idx)
-            settings.setValue('Document', self.recentDocuments[idx])
-        settings.endArray()
-
-        # Application and dialog properties
-        state = self.applicationState() if self._preferences.restoreApplicationState() else QByteArray()
-        settings.setValue('Application/State', state)
-        geometry = self.applicationGeometry() if self._preferences.restoreApplicationGeometry() else QByteArray()
-        settings.setValue('Application/Geometry', geometry)
-        settings.setValue('AboutDialog/Geometry', self.aboutDialogGeometry)
-        settings.setValue('ColophonDialog/Geometry', self.colophonDialogGeometry)
-        settings.setValue('KeyboardShortcutsDialog/Geometry', self.keyboardShortcutsDialogGeometry)
-        settings.setValue('PreferencesDialog/Geometry', self.preferencesDialogGeometry)
-
-
-    def setApplicationState(self, state=QByteArray()):
-
-        if state:
-            self.restoreState(state)
-        else:
-            self.toolbarApplication.setVisible(True)
-            self.toolbarDocument.setVisible(True)
-            self.toolbarEdit.setVisible(True)
-            self.toolbarTools.setVisible(True)
-            self.toolbarView.setVisible(False)
-            self.toolbarHelp.setVisible(False)
-
-
-    def applicationState(self):
-
-        return self.saveState()
-
-
-    def setApplicationGeometry(self, geometry=QByteArray()):
-
-        if geometry:
-            self.restoreGeometry(geometry)
-        else:
-            availableGeometry = QRect(QApplication.desktop().availableGeometry(self))
-            self.resize(availableGeometry.width() * 2/3, availableGeometry.height() * 2/3)
-            self.move((availableGeometry.width() - self.width()) / 2, (availableGeometry.height() - self.height()) / 2)
-
-
-    def applicationGeometry(self):
-
-        return self.saveGeometry()
-
-
-    def closeEvent(self, event):
-
-        if True:
-            self.writeSettings()
-            event.accept()
-        else:
-            event.ignore()
 
 
     def createDocumentChild(self):
