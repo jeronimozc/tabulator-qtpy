@@ -24,7 +24,7 @@ from PySide2.QtWidgets import QFormLayout, QGroupBox, QLabel, QSpinBox, QVBoxLay
 
 class PreferencesDocumentsPage(QWidget):
 
-    settingsChanged = Signal()
+    preferencesChanged = Signal()
 
 
     def __init__(self, parent=None):
@@ -37,7 +37,7 @@ class PreferencesDocumentsPage(QWidget):
         self.spbMaximumRecentDocuments = QSpinBox()
         self.spbMaximumRecentDocuments.setRange(0, 25)
         self.spbMaximumRecentDocuments.setToolTip(self.tr('Maximum number of recently opened documents'))
-        self.spbMaximumRecentDocuments.valueChanged.connect(self.onSettingsChanged)
+        self.spbMaximumRecentDocuments.valueChanged.connect(self.onPreferencesChanged)
 
         recentDocumentsLayout = QFormLayout()
         recentDocumentsLayout.addRow(self.tr('Number of documents'), self.spbMaximumRecentDocuments)
@@ -62,9 +62,9 @@ class PreferencesDocumentsPage(QWidget):
         self.layout.setContentsMargins(0, 0, 0, 0)
 
 
-    def onSettingsChanged(self):
+    def onPreferencesChanged(self):
 
-        self.settingsChanged.emit()
+        self.preferencesChanged.emit()
 
 
     def setMaximumRecentDocuments(self, val):

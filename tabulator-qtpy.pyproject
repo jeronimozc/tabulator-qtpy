@@ -14,11 +14,11 @@
         "keyboard_shortcuts_page.py",
         "main.py",
         "main_window.py",
+        "preferences.py",
         "preferences_dialog.py",
         "preferences_document_presets_page.py",
         "preferences_documents_page.py",
         "preferences_general_page.py",
-        "resources.qrc",
-        "settings.py"
+        "resources.qrc"
     ]
 }

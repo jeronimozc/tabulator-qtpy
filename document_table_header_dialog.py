@@ -22,7 +22,7 @@ from PySide2.QtCore import Qt
 from PySide2.QtWidgets import (QButtonGroup, QCheckBox, QDialog, QDialogButtonBox, QGridLayout,
                                QGroupBox, QLabel, QLineEdit, QRadioButton, QVBoxLayout)
 
-from settings import Settings
+from preferences import Preferences
 
 
 class DocumentTableHeaderDialog(QDialog):
@@ -115,12 +115,12 @@ class DocumentTableHeaderDialog(QDialog):
         rdbCustom.toggled.connect(lambda checked: lblCustom.setEnabled(checked))
 
         self.grpHeaderLabel = QButtonGroup(self)
-        self.grpHeaderLabel.addButton(rdbBinary, Settings.HeaderLabel.Binary.value)
-        self.grpHeaderLabel.addButton(rdbOctal, Settings.HeaderLabel.Octal.value)
-        self.grpHeaderLabel.addButton(rdbDecimal, Settings.HeaderLabel.Decimal.value)
-        self.grpHeaderLabel.addButton(rdbHexadecimal, Settings.HeaderLabel.Hexadecimal.value)
-        self.grpHeaderLabel.addButton(rdbLetter, Settings.HeaderLabel.Letter.value)
-        self.grpHeaderLabel.addButton(rdbCustom, Settings.HeaderLabel.Custom.value)
+        self.grpHeaderLabel.addButton(rdbBinary, Preferences.HeaderLabel.Binary.value)
+        self.grpHeaderLabel.addButton(rdbOctal, Preferences.HeaderLabel.Octal.value)
+        self.grpHeaderLabel.addButton(rdbDecimal, Preferences.HeaderLabel.Decimal.value)
+        self.grpHeaderLabel.addButton(rdbHexadecimal, Preferences.HeaderLabel.Hexadecimal.value)
+        self.grpHeaderLabel.addButton(rdbLetter, Preferences.HeaderLabel.Letter.value)
+        self.grpHeaderLabel.addButton(rdbCustom, Preferences.HeaderLabel.Custom.value)
         self.grpHeaderLabel.buttonClicked.connect(self.onSettingChanged)
 
         groupLayout = QGridLayout()
@@ -169,7 +169,7 @@ class DocumentTableHeaderDialog(QDialog):
         """
         Returns the type of the header label.
         """
-        return Settings.HeaderLabel(self.grpHeaderLabel.checkedId())
+        return Preferences.HeaderLabel(self.grpHeaderLabel.checkedId())
 
 
     def headerLabelParameter(self):
@@ -178,17 +178,17 @@ class DocumentTableHeaderDialog(QDialog):
         """
         type = self.headerLabelType()
 
-        if type == Settings.HeaderLabel.Binary:
+        if type == Preferences.HeaderLabel.Binary:
             return '0b' if self.chkBinary.isChecked() else ''
-        elif type == Settings.HeaderLabel.Octal:
+        elif type == Preferences.HeaderLabel.Octal:
             return '0o' if self.chkOctal.isChecked() else ''
-        elif type == Settings.HeaderLabel.Decimal:
+        elif type == Preferences.HeaderLabel.Decimal:
             return '1' if self.chkDecimal.isChecked() else '0'
-        elif type == Settings.HeaderLabel.Hexadecimal:
+        elif type == Preferences.HeaderLabel.Hexadecimal:
             return '0x' if self.chkHexadecimal.isChecked() else ''
-        elif type == Settings.HeaderLabel.Letter:
+        elif type == Preferences.HeaderLabel.Letter:
             return 'upper' if self.chkLetter.isChecked() else 'lower'
-        elif type == Settings.HeaderLabel.Custom:
+        elif type == Preferences.HeaderLabel.Custom:
             return self.ledCustom.text()
         else:
             return ''

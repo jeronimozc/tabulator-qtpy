@@ -21,7 +21,7 @@
 from enum import Enum
 
 
-class Settings:
+class Preferences:
 
     class HeaderLabel(Enum):
         Custom = 0
@@ -53,7 +53,7 @@ class Settings:
 
     def load(self, settings):
 
-        settings.beginGroup('Settings')
+        settings.beginGroup('Preferences')
 
         # General: State & Geometries
         self.setRestoreApplicationState(self.valueToBool(settings.value('RestoreApplicationState', True)))
@@ -64,8 +64,8 @@ class Settings:
         self.setMaximumRecentDocuments(int(settings.value('MaximumRecentDocuments', 10)))
 
         # Document Presets: Header Labels
-        self.setDefaultHeaderLabelHorizontal(Settings.HeaderLabel(int(settings.value('DefaultHeaderLabelHorizontal', self.HeaderLabel.Letter.value))))
-        self.setDefaultHeaderLabelVertical(Settings.HeaderLabel(int(settings.value('DefaultHeaderLabelVertical', self.HeaderLabel.Decimal.value))))
+        self.setDefaultHeaderLabelHorizontal(Preferences.HeaderLabel(int(settings.value('DefaultHeaderLabelHorizontal', self.HeaderLabel.Letter.value))))
+        self.setDefaultHeaderLabelVertical(Preferences.HeaderLabel(int(settings.value('DefaultHeaderLabelVertical', self.HeaderLabel.Decimal.value))))
 
         # Document Presets: Cell Counts
         self.setDefaultCellCountColumn(int(settings.value('DefaultCellCountColumn', 25)))
@@ -76,7 +76,7 @@ class Settings:
 
     def save(self, settings):
 
-        settings.beginGroup('Settings')
+        settings.beginGroup('Preferences')
         settings.remove('')
 
         # General: State & Geometries

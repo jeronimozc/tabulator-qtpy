@@ -23,12 +23,12 @@ from PySide2.QtGui import QIcon
 from PySide2.QtWidgets import QAction, QDialog, QMenu, QTableWidget, QTableWidgetItem
 
 from document_table_header_dialog import DocumentTableHeaderDialog
-from settings import Settings
+from preferences import Preferences
 
 
 class DocumentTable(QTableWidget):
 
-    _settings = Settings()
+    _preferences = Preferences()
     sequenceNumber = 0
 
 
@@ -41,8 +41,8 @@ class DocumentTable(QTableWidget):
         self.isUntitled = True
 
         # Creates a default document
-        self.setColumnCount(self._settings.defaultCellCountColumn())
-        self.setRowCount(self._settings.defaultCellCountRow())
+        self.setColumnCount(self._preferences.defaultCellCountColumn())
+        self.setRowCount(self._preferences.defaultCellCountRow())
 
         # Enable context menus
         hHeaderView = self.horizontalHeader()
@@ -54,11 +54,11 @@ class DocumentTable(QTableWidget):
         vHeaderView.customContextMenuRequested.connect(self.contextMenuVerticalHeader)
 
 
-    def setSettings(self, settings):
+    def setPreferences(self, preferences):
         """
         Sets the user preferences.
         """
-        self._settings = settings
+        self._preferences = preferences
 
 
     def newDocument(self):
@@ -72,12 +72,12 @@ class DocumentTable(QTableWidget):
             self.m_url += f' ({DocumentTable.sequenceNumber})'
         self.isUntitled = True
 
-        self.setColumnCount(self._settings.defaultCellCountColumn())
-        self.setRowCount(self._settings.defaultCellCountRow())
+        self.setColumnCount(self._preferences.defaultCellCountColumn())
+        self.setRowCount(self._preferences.defaultCellCountRow())
 
         # Set header items
-        self.setHorizontalHeaderItems(self._settings.defaultHeaderLabelHorizontal())
-        self.setVerticalHeaderItems(self._settings.defaultHeaderLabelVertical())
+        self.setHorizontalHeaderItems(self._preferences.defaultHeaderLabelHorizontal())
+        self.setVerticalHeaderItems(self._preferences.defaultHeaderLabelVertical())
 
         self.setWindowTitle(self.documentName())
 
@@ -90,8 +90,8 @@ class DocumentTable(QTableWidget):
         self.isUntitled = False
 
         # Set header items
-        self.setHorizontalHeaderItems(self._settings.defaultHeaderLabelHorizontal())
-        self.setVerticalHeaderItems(self._settings.defaultHeaderLabelVertical())
+        self.setHorizontalHeaderItems(self._preferences.defaultHeaderLabelHorizontal())
+        self.setVerticalHeaderItems(self._preferences.defaultHeaderLabelVertical())
 
         self.setWindowTitle(self.documentName())
 
@@ -150,17 +150,17 @@ class DocumentTable(QTableWidget):
         """
         Returns the header item text.
         """
-        if type == Settings.HeaderLabel.Custom:
+        if type == Preferences.HeaderLabel.Custom:
             return self.numberToCustom(number, parameter)
-        elif type == Settings.HeaderLabel.Binary:
+        elif type == Preferences.HeaderLabel.Binary:
             return self.numberToBinary(number, parameter)
-        elif type == Settings.HeaderLabel.Octal:
+        elif type == Preferences.HeaderLabel.Octal:
             return self.numberToOctal(number, parameter)
-        elif type == Settings.HeaderLabel.Decimal:
+        elif type == Preferences.HeaderLabel.Decimal:
             return self.numberToDecimal(number, parameter)
-        elif type == Settings.HeaderLabel.Hexadecimal:
+        elif type == Preferences.HeaderLabel.Hexadecimal:
             return self.numberToHexadecimal(number, parameter)
-        elif type == Settings.HeaderLabel.Letter:
+        elif type == Preferences.HeaderLabel.Letter:
             return self.numberToLetter(number, parameter)
         else:
             return ''
@@ -170,15 +170,15 @@ class DocumentTable(QTableWidget):
         """
         Returns a default parameter that matches the type of the header label.
         """
-        if type == Settings.HeaderLabel.Binary:
+        if type == Preferences.HeaderLabel.Binary:
             return '0b'
-        elif type == Settings.HeaderLabel.Octal:
+        elif type == Preferences.HeaderLabel.Octal:
             return '0o'
-        elif type == Settings.HeaderLabel.Decimal:
+        elif type == Preferences.HeaderLabel.Decimal:
             return '1'
-        elif type == Settings.HeaderLabel.Hexadecimal:
+        elif type == Preferences.HeaderLabel.Hexadecimal:
             return '0x'
-        elif type == Settings.HeaderLabel.Letter:
+        elif type == Preferences.HeaderLabel.Letter:
             return 'upper'
         else:
             return ''
@@ -244,32 +244,32 @@ class DocumentTable(QTableWidget):
         actionLabelLetter = QAction('Letter', self)
         actionLabelLetter.setStatusTip('Change label to a capital letter')
         actionLabelLetter.setToolTip('Change label to a capital letter')
-        actionLabelLetter.triggered.connect( lambda: self.onActionLabelHorizontalTriggered(index.column(), Settings.HeaderLabel.Letter) )
+        actionLabelLetter.triggered.connect( lambda: self.onActionLabelHorizontalTriggered(index.column(), Preferences.HeaderLabel.Letter) )
 
         actionLabelNumber = QAction('Number', self)
         actionLabelNumber.setStatusTip('Change label to a decimal number')
         actionLabelNumber.setToolTip('Change label to a decimal number')
-        actionLabelNumber.triggered.connect( lambda: self.onActionLabelHorizontalTriggered(index.column(), Settings.HeaderLabel.Decimal) )
+        actionLabelNumber.triggered.connect( lambda: self.onActionLabelHorizontalTriggered(index.column(), Preferences.HeaderLabel.Decimal) )
 
         actionLabelCustom = QAction('Custom…', self)
         actionLabelCustom.setStatusTip('Change label to a user-defined text')
         actionLabelCustom.setToolTip('Change label to a user-defined text')
-        actionLabelCustom.triggered.connect( lambda: self.onActionLabelHorizontalTriggered(index.column(), Settings.HeaderLabel.Custom) )
+        actionLabelCustom.triggered.connect( lambda: self.onActionLabelHorizontalTriggered(index.column(), Preferences.HeaderLabel.Custom) )
 
         actionLabelLetters = QAction('Letters', self)
         actionLabelLetters.setStatusTip('Change all labels to capital letters')
         actionLabelLetters.setToolTip('Change all labels to capital letters')
-        actionLabelLetters.triggered.connect( lambda: self.onActionLabelAllHorizontalTriggered(Settings.HeaderLabel.Letter) )
+        actionLabelLetters.triggered.connect( lambda: self.onActionLabelAllHorizontalTriggered(Preferences.HeaderLabel.Letter) )
 
         actionLabelNumbers = QAction('Numbers', self)
         actionLabelNumbers.setStatusTip('Change all labels to decimal numbers')
         actionLabelNumbers.setToolTip('Change all labels to decimal numbers')
-        actionLabelNumbers.triggered.connect( lambda: self.onActionLabelAllHorizontalTriggered(Settings.HeaderLabel.Decimal) )
+        actionLabelNumbers.triggered.connect( lambda: self.onActionLabelAllHorizontalTriggered(Preferences.HeaderLabel.Decimal) )
 
         actionLabelCustoms = QAction('Custom…', self)
         actionLabelCustoms.setStatusTip('Change all labels to user-defined texts')
         actionLabelCustoms.setToolTip('Change all labels to user-defined texts')
-        actionLabelCustoms.triggered.connect( lambda: self.onActionLabelAllHorizontalTriggered(Settings.HeaderLabel.Custom) )
+        actionLabelCustoms.triggered.connect( lambda: self.onActionLabelAllHorizontalTriggered(Preferences.HeaderLabel.Custom) )
 
         # Context menu
         menuLabel = QMenu('Label', self)
@@ -295,7 +295,7 @@ class DocumentTable(QTableWidget):
         """
         parameter = self.headerItemDefaultParameter(type)
 
-        if type == Settings.HeaderLabel.Custom:
+        if type == Preferences.HeaderLabel.Custom:
 
             documentTableHeaderDialog = DocumentTableHeaderDialog('horizontal', column, self)
             documentTableHeaderDialog.setWindowTitle(f'Horizontal Header Item')
@@ -315,7 +315,7 @@ class DocumentTable(QTableWidget):
         """
         parameter = self.headerItemDefaultParameter(type)
 
-        if type == Settings.HeaderLabel.Custom:
+        if type == Preferences.HeaderLabel.Custom:
 
             documentTableHeaderDialog = DocumentTableHeaderDialog('horizontal', -1, self)
             documentTableHeaderDialog.setWindowTitle(f'Horizontal Header Items')
@@ -350,32 +350,32 @@ class DocumentTable(QTableWidget):
         actionLabelLetter = QAction('Letter', self)
         actionLabelLetter.setStatusTip('Change label to a capital letter')
         actionLabelLetter.setToolTip('Change label to a capital letter')
-        actionLabelLetter.triggered.connect( lambda: self.onActionLabelVerticalTriggered(index.row(), Settings.HeaderLabel.Letter) )
+        actionLabelLetter.triggered.connect( lambda: self.onActionLabelVerticalTriggered(index.row(), Preferences.HeaderLabel.Letter) )
 
         actionLabelNumber = QAction('Number', self)
         actionLabelNumber.setStatusTip('Change label to a decimal number')
         actionLabelNumber.setToolTip('Change label to a decimal number')
-        actionLabelNumber.triggered.connect( lambda: self.onActionLabelVerticalTriggered(index.row(), Settings.HeaderLabel.Decimal) )
+        actionLabelNumber.triggered.connect( lambda: self.onActionLabelVerticalTriggered(index.row(), Preferences.HeaderLabel.Decimal) )
 
         actionLabelCustom = QAction('Custom…', self)
         actionLabelCustom.setStatusTip('Change label to a user-defined text')
         actionLabelCustom.setToolTip('Change label to a user-defined text')
-        actionLabelCustom.triggered.connect( lambda: self.onActionLabelVerticalTriggered(index.row(), Settings.HeaderLabel.Custom) )
+        actionLabelCustom.triggered.connect( lambda: self.onActionLabelVerticalTriggered(index.row(), Preferences.HeaderLabel.Custom) )
 
         actionLabelLetters = QAction('Letters', self)
         actionLabelLetters.setStatusTip('Change all labels to capital letters')
         actionLabelLetters.setToolTip('Change all labels to capital letters')
-        actionLabelLetters.triggered.connect( lambda: self.onActionLabelAllVerticalTriggered(Settings.HeaderLabel.Letter) )
+        actionLabelLetters.triggered.connect( lambda: self.onActionLabelAllVerticalTriggered(Preferences.HeaderLabel.Letter) )
 
         actionLabelNumbers = QAction('Numbers', self)
         actionLabelNumbers.setStatusTip('Change all labels to decimal numbers')
         actionLabelNumbers.setToolTip('Change all labels to decimal numbers')
-        actionLabelNumbers.triggered.connect( lambda: self.onActionLabelAllVerticalTriggered(Settings.HeaderLabel.Decimal) )
+        actionLabelNumbers.triggered.connect( lambda: self.onActionLabelAllVerticalTriggered(Preferences.HeaderLabel.Decimal) )
 
         actionLabelCustoms = QAction('Custom…', self)
         actionLabelCustoms.setStatusTip('Change all labels to user-defined texts')
         actionLabelCustoms.setToolTip('Change all labels to user-defined texts')
-        actionLabelCustoms.triggered.connect( lambda: self.onActionLabelAllVerticalTriggered(Settings.HeaderLabel.Custom) )
+        actionLabelCustoms.triggered.connect( lambda: self.onActionLabelAllVerticalTriggered(Preferences.HeaderLabel.Custom) )
 
         # Context menu
         menuLabel = QMenu('Label', self)
@@ -401,7 +401,7 @@ class DocumentTable(QTableWidget):
         """
         parameter = self.headerItemDefaultParameter(type)
 
-        if type == Settings.HeaderLabel.Custom:
+        if type == Preferences.HeaderLabel.Custom:
 
             documentTableHeaderDialog = DocumentTableHeaderDialog('vertical', row, self)
             documentTableHeaderDialog.setWindowTitle(f'Vertical Header Item')
@@ -421,7 +421,7 @@ class DocumentTable(QTableWidget):
         """
         parameter = self.headerItemDefaultParameter(type)
 
-        if type == Settings.HeaderLabel.Custom:
+        if type == Preferences.HeaderLabel.Custom:
 
             documentTableHeaderDialog = DocumentTableHeaderDialog('vertical', -1, self)
             documentTableHeaderDialog.setWindowTitle(f'Vertical Header Items')

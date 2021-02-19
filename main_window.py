@@ -26,15 +26,15 @@ from about_dialog import AboutDialog
 from colophon_dialog import ColophonDialog
 from document_table import DocumentTable
 from keyboard_shortcuts_dialog import KeyboardShortcutsDialog
+from preferences import Preferences
 from preferences_dialog import PreferencesDialog
-from settings import Settings
 
 import resources
 
 
 class MainWindow(QMainWindow):
 
-    _settings = Settings()
+    _preferences = Preferences()
 
 
     def __init__(self, parent=None):
@@ -188,11 +188,11 @@ class MainWindow(QMainWindow):
 
     def updateActionRecentDocuments(self):
 
-        if len(self.actionRecentDocuments) != self._settings.maximumRecentDocuments():
+        if len(self.actionRecentDocuments) != self._preferences.maximumRecentDocuments():
 
             self.actionRecentDocuments = []
 
-            for idx in range(self._settings.maximumRecentDocuments()):
+            for idx in range(self._preferences.maximumRecentDocuments()):
 
                 actionRecentDocument = QAction(self)
                 actionRecentDocument.setObjectName(f'actionRecentDocument_{idx}')
@@ -255,7 +255,7 @@ class MainWindow(QMainWindow):
 
     def updateMenuOpenRecent(self):
 
-        if self._settings.maximumRecentDocuments() > 0:
+        if self._preferences.maximumRecentDocuments() > 0:
             # Show the menu
             self.menuOpenRecent.menuAction().setVisible(True)
 
@@ -336,7 +336,7 @@ class MainWindow(QMainWindow):
 
         settings = QSettings()
 
-        self._settings.load(settings)
+        self._preferences.load(settings)
 
         # Recent documents
         size = settings.beginReadArray('RecentDocuments')
@@ -354,9 +354,9 @@ class MainWindow(QMainWindow):
         self.preferencesDialogGeometry = settings.value('PreferencesDialog/Geometry', QByteArray())
 
         # Set application properties
-        state = applicationState if self._settings.restoreApplicationState() else QByteArray()
+        state = applicationState if self._preferences.restoreApplicationState() else QByteArray()
         self.setApplicationState(state)
-        geometry = applicationGeometry if self._settings.restoreApplicationGeometry() else QByteArray()
+        geometry = applicationGeometry if self._preferences.restoreApplicationGeometry() else QByteArray()
         self.setApplicationGeometry(geometry)
 
 
@@ -364,7 +364,7 @@ class MainWindow(QMainWindow):
 
         settings = QSettings()
 
-        self._settings.save(settings)
+        self._preferences.save(settings)
 
         # Recent documents
         settings.beginWriteArray('RecentDocuments')
@@ -374,9 +374,9 @@ class MainWindow(QMainWindow):
         settings.endArray()
 
         # Application and dialog properties
-        state = self.applicationState() if self._settings.restoreApplicationState() else QByteArray()
+        state = self.applicationState() if self._preferences.restoreApplicationState() else QByteArray()
         settings.setValue('Application/State', state)
-        geometry = self.applicationGeometry() if self._settings.restoreApplicationGeometry() else QByteArray()
+        geometry = self.applicationGeometry() if self._preferences.restoreApplicationGeometry() else QByteArray()
         settings.setValue('Application/Geometry', geometry)
         settings.setValue('AboutDialog/Geometry', self.aboutDialogGeometry)
         settings.setValue('ColophonDialog/Geometry', self.colophonDialogGeometry)
@@ -429,7 +429,7 @@ class MainWindow(QMainWindow):
     def createDocumentChild(self):
 
         document = DocumentTable(self)
-        document.setSettings(self._settings)
+        document.setPreferences(self._preferences)
         self.documentArea.addSubWindow(document)
 
         return document
@@ -496,7 +496,7 @@ class MainWindow(QMainWindow):
 
     def updateRecentDocuments(self):
 
-        while len(self.recentDocuments) > self._settings.maximumRecentDocuments():
+        while len(self.recentDocuments) > self._preferences.maximumRecentDocuments():
             self.recentDocuments.pop()
 
         self.updateMenuOpenRecent()
@@ -504,37 +504,37 @@ class MainWindow(QMainWindow):
 
     def onActionAboutTriggered(self):
 
-        geometry = self.aboutDialogGeometry if self._settings.restoreDialogGeometry() else QByteArray()
+        geometry = self.aboutDialogGeometry if self._preferences.restoreDialogGeometry() else QByteArray()
 
         dialog = AboutDialog(self)
         dialog.setDialogGeometry(geometry)
         dialog.exec_()
 
-        self.aboutDialogGeometry = dialog.dialogGeometry() if self._settings.restoreDialogGeometry() else QByteArray()
+        self.aboutDialogGeometry = dialog.dialogGeometry() if self._preferences.restoreDialogGeometry() else QByteArray()
 
 
     def onActionColophonTriggered(self):
 
-        geometry = self.colophonDialogGeometry if self._settings.restoreDialogGeometry() else QByteArray()
+        geometry = self.colophonDialogGeometry if self._preferences.restoreDialogGeometry() else QByteArray()
 
         dialog = ColophonDialog(self)
         dialog.setDialogGeometry(geometry)
         dialog.exec_()
 
-        self.colophonDialogGeometry = dialog.dialogGeometry() if self._settings.restoreDialogGeometry() else QByteArray()
+        self.colophonDialogGeometry = dialog.dialogGeometry() if self._preferences.restoreDialogGeometry() else QByteArray()
 
 
     def onActionPreferencesTriggered(self):
 
-        geometry = self.preferencesDialogGeometry if self._settings.restoreDialogGeometry() else QByteArray()
+        geometry = self.preferencesDialogGeometry if self._preferences.restoreDialogGeometry() else QByteArray()
 
         dialog = PreferencesDialog(self)
         dialog.setDialogGeometry(geometry)
-        dialog.setSettings(self._settings)
+        dialog.setPreferences(self._preferences)
         dialog.exec_()
 
-        self._settings = dialog.settings()
-        self.preferencesDialogGeometry = dialog.dialogGeometry() if self._settings.restoreDialogGeometry() else QByteArray()
+        self._preferences = dialog.preferences()
+        self.preferencesDialogGeometry = dialog.dialogGeometry() if self._preferences.restoreDialogGeometry() else QByteArray()
 
         self.updateRecentDocuments()
 
@@ -581,7 +581,7 @@ class MainWindow(QMainWindow):
     def onActionKeyboardShortcutsTriggered(self):
 
         if not self.keyboardShortcutsDialog:
-            geometry = self.keyboardShortcutsDialogGeometry if self._settings.restoreDialogGeometry() else QByteArray()
+            geometry = self.keyboardShortcutsDialogGeometry if self._preferences.restoreDialogGeometry() else QByteArray()
 
             self.keyboardShortcutsDialog = KeyboardShortcutsDialog(self)
             self.keyboardShortcutsDialog.setDialogGeometry(geometry)
@@ -594,5 +594,5 @@ class MainWindow(QMainWindow):
 
     def onDialogKeyboardShortcutsFinished(self):
 
-        self.keyboardShortcutsDialogGeometry = self.keyboardShortcutsDialog.dialogGeometry() if self._settings.restoreDialogGeometry() else QByteArray()
+        self.keyboardShortcutsDialogGeometry = self.keyboardShortcutsDialog.dialogGeometry() if self._preferences.restoreDialogGeometry() else QByteArray()
         self.keyboardShortcutsDialog = None

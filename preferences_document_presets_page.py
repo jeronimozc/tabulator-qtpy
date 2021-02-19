@@ -22,12 +22,12 @@ from PySide2.QtCore import Signal
 from PySide2.QtWidgets import (QButtonGroup, QFormLayout, QGroupBox, QHBoxLayout, QLabel,
                                QRadioButton, QSpinBox, QVBoxLayout, QWidget)
 
-from settings import Settings
+from preferences import Preferences
 
 
 class PreferencesDocumentPresetsPage(QWidget):
 
-    settingsChanged = Signal()
+    preferencesChanged = Signal()
 
 
     def __init__(self, parent=None):
@@ -44,9 +44,9 @@ class PreferencesDocumentPresetsPage(QWidget):
         rdbDefaultHeaderLabelHorizontalNumbers.setToolTip(self.tr('Decimal numbers as default horizontal header labels of new documents'))
 
         self.grpDefaultHeaderLabelHorizontal = QButtonGroup(self)
-        self.grpDefaultHeaderLabelHorizontal.addButton(rdbDefaultHeaderLabelHorizontalLetters, Settings.HeaderLabel.Letter.value)
-        self.grpDefaultHeaderLabelHorizontal.addButton(rdbDefaultHeaderLabelHorizontalNumbers, Settings.HeaderLabel.Decimal.value)
-        self.grpDefaultHeaderLabelHorizontal.buttonClicked.connect(self.onSettingsChanged)
+        self.grpDefaultHeaderLabelHorizontal.addButton(rdbDefaultHeaderLabelHorizontalLetters, Preferences.HeaderLabel.Letter.value)
+        self.grpDefaultHeaderLabelHorizontal.addButton(rdbDefaultHeaderLabelHorizontalNumbers, Preferences.HeaderLabel.Decimal.value)
+        self.grpDefaultHeaderLabelHorizontal.buttonClicked.connect(self.onPreferencesChanged)
 
         defaultHeaderLabelHorizontalBox = QHBoxLayout()
         defaultHeaderLabelHorizontalBox.addWidget(rdbDefaultHeaderLabelHorizontalLetters)
@@ -59,9 +59,9 @@ class PreferencesDocumentPresetsPage(QWidget):
         rdbDefaultHeaderLabelVerticalNumbers.setToolTip(self.tr('Decimal numbers as default vertical header labels of new documents'))
 
         self.grpDefaultHeaderLabelVertical = QButtonGroup(self)
-        self.grpDefaultHeaderLabelVertical.addButton(rdbDefaultHeaderLabelVerticalLetters, Settings.HeaderLabel.Letter.value)
-        self.grpDefaultHeaderLabelVertical.addButton(rdbDefaultHeaderLabelVerticalNumbers, Settings.HeaderLabel.Decimal.value)
-        self.grpDefaultHeaderLabelVertical.buttonClicked.connect(self.onSettingsChanged)
+        self.grpDefaultHeaderLabelVertical.addButton(rdbDefaultHeaderLabelVerticalLetters, Preferences.HeaderLabel.Letter.value)
+        self.grpDefaultHeaderLabelVertical.addButton(rdbDefaultHeaderLabelVerticalNumbers, Preferences.HeaderLabel.Decimal.value)
+        self.grpDefaultHeaderLabelVertical.buttonClicked.connect(self.onPreferencesChanged)
 
         defaultHeaderLabelVerticalBox = QHBoxLayout()
         defaultHeaderLabelVerticalBox.addWidget(rdbDefaultHeaderLabelVerticalLetters)
@@ -78,12 +78,12 @@ class PreferencesDocumentPresetsPage(QWidget):
         self.spbDefaultCellCountColumn = QSpinBox(self)
         self.spbDefaultCellCountColumn.setRange(1, 1000)
         self.spbDefaultCellCountColumn.setToolTip(self.tr('Default number of columns of new documents'))
-        self.spbDefaultCellCountColumn.valueChanged.connect(self.onSettingsChanged)
+        self.spbDefaultCellCountColumn.valueChanged.connect(self.onPreferencesChanged)
 
         self.spbDefaultCellCountRow = QSpinBox(self)
         self.spbDefaultCellCountRow.setRange(1, 1000)
         self.spbDefaultCellCountRow.setToolTip(self.tr('Default number of rows of new documents'))
-        self.spbDefaultCellCountRow.valueChanged.connect(self.onSettingsChanged)
+        self.spbDefaultCellCountRow.valueChanged.connect(self.onPreferencesChanged)
 
         defaultCellCountLayout = QFormLayout()
         defaultCellCountLayout.addRow(self.tr('Number of columns'), self.spbDefaultCellCountColumn)
@@ -110,15 +110,15 @@ class PreferencesDocumentPresetsPage(QWidget):
         self.layout.setContentsMargins(0, 0, 0, 0)
 
 
-    def onSettingsChanged(self):
+    def onPreferencesChanged(self):
 
-        self.settingsChanged.emit()
+        self.preferencesChanged.emit()
 
 
     def setDefaultHeaderLabelHorizontal(self, type):
 
         if type.value != self.grpDefaultHeaderLabelHorizontal.checkedId():
-            self.onSettingsChanged()
+            self.onPreferencesChanged()
 
         for button in self.grpDefaultHeaderLabelHorizontal.buttons():
             if self.grpDefaultHeaderLabelHorizontal.id(button) == type.value:
@@ -127,13 +127,13 @@ class PreferencesDocumentPresetsPage(QWidget):
 
     def defaultHeaderLabelHorizontal(self):
 
-        return Settings.HeaderLabel(self.grpDefaultHeaderLabelHorizontal.checkedId())
+        return Preferences.HeaderLabel(self.grpDefaultHeaderLabelHorizontal.checkedId())
 
 
     def setDefaultHeaderLabelVertical(self, type):
 
         if type.value != self.grpDefaultHeaderLabelVertical.checkedId():
-            self.onSettingsChanged()
+            self.onPreferencesChanged()
 
         for button in self.grpDefaultHeaderLabelVertical.buttons():
             if self.grpDefaultHeaderLabelVertical.id(button) == type.value:
@@ -142,7 +142,7 @@ class PreferencesDocumentPresetsPage(QWidget):
 
     def defaultHeaderLabelVertical(self):
 
-        return Settings.HeaderLabel(self.grpDefaultHeaderLabelVertical.checkedId())
+        return Preferences.HeaderLabel(self.grpDefaultHeaderLabelVertical.checkedId())
 
 
     def setDefaultCellCountColumn(self, val):
