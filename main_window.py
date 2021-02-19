@@ -342,16 +342,16 @@ class MainWindow(QMainWindow):
         size = settings.beginReadArray('RecentDocuments')
         for idx in range(size):
             settings.setArrayIndex(idx)
-            self.addRecentDocuments(settings.value('document'), False)
+            self.addRecentDocuments(settings.value('Document'), False)
         settings.endArray()
 
         # Application and dialog properties
-        applicationState = settings.value('Application/state', QByteArray())
-        applicationGeometry = settings.value('Application/geometry', QByteArray())
-        self.aboutDialogGeometry = settings.value('AboutDialog/geometry', QByteArray())
-        self.colophonDialogGeometry = settings.value('ColophonDialog/geometry', QByteArray())
-        self.keyboardShortcutsDialogGeometry = settings.value('KeyboardShortcutsDialog/geometry', QByteArray())
-        self.preferencesDialogGeometry = settings.value('PreferencesDialog/geometry', QByteArray())
+        applicationState = settings.value('Application/State', QByteArray())
+        applicationGeometry = settings.value('Application/Geometry', QByteArray())
+        self.aboutDialogGeometry = settings.value('AboutDialog/Geometry', QByteArray())
+        self.colophonDialogGeometry = settings.value('ColophonDialog/Geometry', QByteArray())
+        self.keyboardShortcutsDialogGeometry = settings.value('KeyboardShortcutsDialog/Geometry', QByteArray())
+        self.preferencesDialogGeometry = settings.value('PreferencesDialog/Geometry', QByteArray())
 
         # Set application properties
         state = applicationState if self._settings.restoreApplicationState() else QByteArray()
@@ -370,18 +370,18 @@ class MainWindow(QMainWindow):
         settings.beginWriteArray('RecentDocuments')
         for idx in range(len(self.recentDocuments)):
             settings.setArrayIndex(idx)
-            settings.setValue('document', self.recentDocuments[idx])
+            settings.setValue('Document', self.recentDocuments[idx])
         settings.endArray()
 
         # Application and dialog properties
         state = self.applicationState() if self._settings.restoreApplicationState() else QByteArray()
-        settings.setValue('Application/state', state)
+        settings.setValue('Application/State', state)
         geometry = self.applicationGeometry() if self._settings.restoreApplicationGeometry() else QByteArray()
-        settings.setValue('Application/geometry', geometry)
-        settings.setValue('AboutDialog/geometry', self.aboutDialogGeometry)
-        settings.setValue('ColophonDialog/geometry', self.colophonDialogGeometry)
-        settings.setValue('KeyboardShortcutsDialog/geometry', self.keyboardShortcutsDialogGeometry)
-        settings.setValue('PreferencesDialog/geometry', self.preferencesDialogGeometry)
+        settings.setValue('Application/Geometry', geometry)
+        settings.setValue('AboutDialog/Geometry', self.aboutDialogGeometry)
+        settings.setValue('ColophonDialog/Geometry', self.colophonDialogGeometry)
+        settings.setValue('KeyboardShortcutsDialog/Geometry', self.keyboardShortcutsDialogGeometry)
+        settings.setValue('PreferencesDialog/Geometry', self.preferencesDialogGeometry)
 
 
     def setApplicationState(self, state=QByteArray()):

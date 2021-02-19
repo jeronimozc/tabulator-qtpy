@@ -21,7 +21,7 @@
 from enum import Enum
 
 
-class Settings():
+class Settings:
 
     class HeaderLabel(Enum):
         Custom = 0
@@ -56,20 +56,44 @@ class Settings():
         settings.beginGroup('Settings')
 
         # General: State & Geometries
-        self.setRestoreApplicationState(self.valueToBool(settings.value('restoreApplicationState', True)))
-        self.setRestoreApplicationGeometry(self.valueToBool(settings.value('restoreApplicationGeometry', True)))
-        self.setRestoreDialogGeometry(self.valueToBool(settings.value('restoreDialogGeometry', True)))
+        self.setRestoreApplicationState(self.valueToBool(settings.value('RestoreApplicationState', True)))
+        self.setRestoreApplicationGeometry(self.valueToBool(settings.value('RestoreApplicationGeometry', True)))
+        self.setRestoreDialogGeometry(self.valueToBool(settings.value('RestoreDialogGeometry', True)))
 
         # Documents: Recently Opened Documents
-        self.setMaximumRecentDocuments(int(settings.value('maximumRecentDocuments', 10)))
+        self.setMaximumRecentDocuments(int(settings.value('MaximumRecentDocuments', 10)))
 
         # Document Presets: Header Labels
-        self.setDefaultHeaderLabelHorizontal(Settings.HeaderLabel(int(settings.value('defaultHeaderLabelHorizontal', self.HeaderLabel.Letter.value))))
-        self.setDefaultHeaderLabelVertical(Settings.HeaderLabel(int(settings.value('defaultHeaderLabelVertical', self.HeaderLabel.Decimal.value))))
+        self.setDefaultHeaderLabelHorizontal(Settings.HeaderLabel(int(settings.value('DefaultHeaderLabelHorizontal', self.HeaderLabel.Letter.value))))
+        self.setDefaultHeaderLabelVertical(Settings.HeaderLabel(int(settings.value('DefaultHeaderLabelVertical', self.HeaderLabel.Decimal.value))))
 
         # Document Presets: Cell Counts
-        self.setDefaultCellCountColumn(int(settings.value('defaultCellCountColumn', 25)))
-        self.setDefaultCellCountRow(int(settings.value('defaultCellCountRow', 50)))
+        self.setDefaultCellCountColumn(int(settings.value('DefaultCellCountColumn', 25)))
+        self.setDefaultCellCountRow(int(settings.value('DefaultCellCountRow', 50)))
+
+        settings.endGroup()
+
+
+    def save(self, settings):
+
+        settings.beginGroup('Settings')
+        settings.remove('')
+
+        # General: State & Geometries
+        settings.setValue('RestoreApplicationState', self._restoreApplicationState)
+        settings.setValue('RestoreApplicationGeometry', self._restoreApplicationGeometry)
+        settings.setValue('RestoreDialogGeometry', self._restoreDialogGeometry)
+
+        # Documents: Recently Opened Documents
+        settings.setValue('MaximumRecentDocuments', self._maximumRecentDocuments)
+
+        # Document Presets: Header Labels
+        settings.setValue('DefaultHeaderLabelHorizontal', self._defaultHeaderLabelHorizontal.value)
+        settings.setValue('DefaultHeaderLabelVertical', self._defaultHeaderLabelVertical.value)
+
+        # Document Presets: Cell Counts
+        settings.setValue('DefaultCellCountColumn', self._defaultCellCountColumn)
+        settings.setValue('DefaultCellCountRow', self._defaultCellCountRow)
 
         settings.endGroup()
 
@@ -78,31 +102,6 @@ class Settings():
     def valueToBool(value):
 
         return value.lower() == 'true' if isinstance(value, str) else bool(value)
-
-
-    def save(self, settings):
-
-        settings.remove('Settings')
-
-        settings.beginGroup('Settings')
-
-        # General: State & Geometries
-        settings.setValue('restoreApplicationState', self._restoreApplicationState)
-        settings.setValue('restoreApplicationGeometry', self._restoreApplicationGeometry)
-        settings.setValue('restoreDialogGeometry', self._restoreDialogGeometry)
-
-        # Documents: Recently Opened Documents
-        settings.setValue('maximumRecentDocuments', self._maximumRecentDocuments)
-
-        # Document Presets: Header Labels
-        settings.setValue('defaultHeaderLabelHorizontal', self._defaultHeaderLabelHorizontal.value)
-        settings.setValue('defaultHeaderLabelVertical', self._defaultHeaderLabelVertical.value)
-
-        # Document Presets: Cell Counts
-        settings.setValue('defaultCellCountColumn', self._defaultCellCountColumn)
-        settings.setValue('defaultCellCountRow', self._defaultCellCountRow)
-
-        settings.endGroup()
 
 
     def setRestoreApplicationState(self, value):
