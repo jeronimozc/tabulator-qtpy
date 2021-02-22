@@ -29,7 +29,7 @@ from keyboard_shortcuts_dialog import KeyboardShortcutsDialog
 from preferences import Preferences
 from preferences_dialog import PreferencesDialog
 
-import resources
+import icons
 
 
 class MainWindow(QMainWindow):

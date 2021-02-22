@@ -10,6 +10,7 @@
         "dialog_title_box.py",
         "document_table.py",
         "document_table_header_dialog.py",
+        "icons.qrc",
         "keyboard_shortcuts_dialog.py",
         "keyboard_shortcuts_page.py",
         "main.py",
@@ -18,7 +19,6 @@
         "preferences_dialog.py",
         "preferences_document_presets_page.py",
         "preferences_documents_page.py",
-        "preferences_general_page.py",
-        "resources.qrc"
+        "preferences_general_page.py"
     ]
 }

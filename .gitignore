@@ -133,4 +133,4 @@ dmypy.json
 
 # Qt stuff
 *.pyproject.user
-resources.py
+icons.py
