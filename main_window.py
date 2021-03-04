@@ -52,7 +52,7 @@ class MainWindow(QMainWindow):
         self.createMenus()
         self.createToolBars()
 
-        # Set application properties
+        # Application properties
         self.setApplicationState(self._applicationState)
         self.setApplicationGeometry(self._applicationGeometry)
 
@@ -102,7 +102,7 @@ class MainWindow(QMainWindow):
     def closeEvent(self, event):
 
         if True:
-            # Store application properties
+            # Application properties
             self._applicationState = self.applicationState() if self._preferences.restoreApplicationState() else QByteArray()
             self._applicationGeometry = self.applicationGeometry() if self._preferences.restoreApplicationGeometry() else QByteArray()
 
@@ -267,36 +267,6 @@ class MainWindow(QMainWindow):
         self.actionKeyboardShortcuts.triggered.connect(self.onActionKeyboardShortcutsTriggered)
 
 
-    def updateActionFullScreen(self):
-
-        if not self.isFullScreen():
-            self.actionFullScreen.setText(self.tr('Full Screen Mode'))
-            self.actionFullScreen.setIcon(QIcon.fromTheme('view-fullscreen', QIcon(':/icons/actions/16/view-fullscreen.svg')))
-            self.actionFullScreen.setChecked(False)
-            self.actionFullScreen.setToolTip(self.tr(f'Display the window in full screen [{self.actionFullScreen.shortcut().toString(QKeySequence.NativeText)}]'))
-        else:
-            self.actionFullScreen.setText(self.tr('Exit Full Screen Mode'))
-            self.actionFullScreen.setIcon(QIcon.fromTheme('view-restore', QIcon(':/icons/actions/16/view-restore.svg')))
-            self.actionFullScreen.setChecked(True)
-            self.actionFullScreen.setToolTip(self.tr(f'Exit the full screen mode [{self.actionFullScreen.shortcut().toString(QKeySequence.NativeText)}]'))
-
-
-    def updateActionRecentDocuments(self):
-
-        if len(self.actionRecentDocuments) != self._preferences.maximumRecentDocuments():
-
-            self.actionRecentDocuments = []
-
-            for idx in range(self._preferences.maximumRecentDocuments()):
-
-                actionRecentDocument = QAction(self)
-                actionRecentDocument.setObjectName(f'actionRecentDocument_{idx}')
-                actionRecentDocument.setVisible(False)
-                actionRecentDocument.triggered.connect(lambda: self.onActionOpenRecentDocumentTriggered(actionRecentDocument.data()))
-
-                self.actionRecentDocuments.append(actionRecentDocument)
-
-
     def createMenus(self):
 
         # Menu: Application
@@ -348,47 +318,6 @@ class MainWindow(QMainWindow):
         menuHelp.addAction(self.actionKeyboardShortcuts)
 
 
-    def updateMenuOpenRecent(self):
-
-        if not 'menuOpenRecent' in globals():
-            return
-
-        if self._preferences.maximumRecentDocuments() > 0:
-            # Show the menu
-            self.menuOpenRecent.menuAction().setVisible(True)
-
-            if len(self.recentDocuments) > 0:
-                # Refreshes the menu with the list of the latest documents
-
-                self.updateActionRecentDocuments()
-
-                for idx in range(len(self.actionRecentDocuments)):
-
-                    if idx < len(self.recentDocuments):
-                        file = self.recentDocuments[idx]
-                        text = f'{QFileInfo(file).fileName()} [{file}]'
-
-                        self.actionRecentDocuments[idx].setText(text)
-                        self.actionRecentDocuments[idx].setData(file)
-                        self.actionRecentDocuments[idx].setVisible(True)
-                    else:
-                        self.actionRecentDocuments[idx].setVisible(False)
-
-                self.menuOpenRecent.setEnabled(True)
-                self.menuOpenRecent.clear()
-                self.menuOpenRecent.addActions(self.actionRecentDocuments)
-                self.menuOpenRecent.addSeparator()
-                self.menuOpenRecent.addAction(self.actionOpenRecentClear)
-
-            else:
-                # List of the last documents is empty; therefore the menu is disabled
-                self.menuOpenRecent.setDisabled(True)
-
-        else:
-            # No list of the last documents wanted; therefore hide the menu
-            self.menuOpenRecent.menuAction().setVisible(False)
-
-
     def createToolBars(self):
 
         # Toolbar: Application
@@ -430,80 +359,75 @@ class MainWindow(QMainWindow):
         self.toolbarHelp.visibilityChanged.connect(lambda visible: self.actionToolbarHelp.setChecked(visible))
 
 
-    def createDocumentChild(self):
+    def updateActionFullScreen(self):
 
-        document = DocumentTable(self)
-        document.setPreferences(self._preferences)
-        self.documentArea.addSubWindow(document)
-
-        return document
-
-
-    def findDocumentChild(self, file):
-
-        filePath = QFileInfo(file).canonicalFilePath()
-
-        for document in self.documentArea.subWindowList():
-            if document.widget().documentPath() == filePath:
-                return document
-
-        return None
-
-
-    def activeDocumentChild(self):
-
-        document = self.documentArea.activeSubWindow()
-
-        return document if document else None
-
-
-    def openDocument(self, fileName):
-
-        file = QFileInfo(fileName).absoluteFilePath()
-
-        # Checks whether the given document is already open.
-        document = self.findDocumentChild(file)
-        if document:
-            self.documentArea.setActiveSubWindow(document)
-            self.addRecentDocuments(file)
-            return True
-
-        return self.loadDocument(file)
-
-
-    def loadDocument(self, file):
-
-        document = self.createDocumentChild()
-
-        succeeded = document.loadDocument(file)
-        if succeeded:
-            document.show()
-            self.addRecentDocuments(file)
+        if not self.isFullScreen():
+            self.actionFullScreen.setText(self.tr('Full Screen Mode'))
+            self.actionFullScreen.setIcon(QIcon.fromTheme('view-fullscreen', QIcon(':/icons/actions/16/view-fullscreen.svg')))
+            self.actionFullScreen.setChecked(False)
+            self.actionFullScreen.setToolTip(self.tr(f'Display the window in full screen [{self.actionFullScreen.shortcut().toString(QKeySequence.NativeText)}]'))
         else:
-            document.close()
+            self.actionFullScreen.setText(self.tr('Exit Full Screen Mode'))
+            self.actionFullScreen.setIcon(QIcon.fromTheme('view-restore', QIcon(':/icons/actions/16/view-restore.svg')))
+            self.actionFullScreen.setChecked(True)
+            self.actionFullScreen.setToolTip(self.tr(f'Exit the full screen mode [{self.actionFullScreen.shortcut().toString(QKeySequence.NativeText)}]'))
 
-        return succeeded
+
+    def updateActionRecentDocuments(self):
+
+        if len(self.actionRecentDocuments) != self._preferences.maximumRecentDocuments():
+
+            self.actionRecentDocuments = []
+
+            for idx in range(self._preferences.maximumRecentDocuments()):
+
+                actionRecentDocument = QAction(self)
+                actionRecentDocument.setObjectName(f'actionRecentDocument_{idx}')
+                actionRecentDocument.setVisible(False)
+                actionRecentDocument.triggered.connect(lambda: self.onActionOpenRecentDocumentTriggered(actionRecentDocument.data()))
+
+                self.actionRecentDocuments.append(actionRecentDocument)
 
 
-    def addRecentDocuments(self, file, prepend=True):
+    def updateMenuOpenRecent(self):
 
-        while file in self.recentDocuments:
-            self.recentDocuments.remove(file)
+        if not 'menuOpenRecent' in globals():
+            return
 
-        if prepend:
-            self.recentDocuments.insert(0, file)
+        if self._preferences.maximumRecentDocuments() > 0:
+            # Show the menu
+            self.menuOpenRecent.menuAction().setVisible(True)
+
+            if len(self.recentDocuments) > 0:
+                # Refreshes the menu with the list of the latest documents
+
+                self.updateActionRecentDocuments()
+
+                for idx in range(len(self.actionRecentDocuments)):
+
+                    if idx < len(self.recentDocuments):
+                        file = self.recentDocuments[idx]
+                        text = f'{QFileInfo(file).fileName()} [{file}]'
+
+                        self.actionRecentDocuments[idx].setText(text)
+                        self.actionRecentDocuments[idx].setData(file)
+                        self.actionRecentDocuments[idx].setVisible(True)
+                    else:
+                        self.actionRecentDocuments[idx].setVisible(False)
+
+                self.menuOpenRecent.setEnabled(True)
+                self.menuOpenRecent.clear()
+                self.menuOpenRecent.addActions(self.actionRecentDocuments)
+                self.menuOpenRecent.addSeparator()
+                self.menuOpenRecent.addAction(self.actionOpenRecentClear)
+
+            else:
+                # List of the last documents is empty; therefore the menu is disabled
+                self.menuOpenRecent.setDisabled(True)
+
         else:
-            self.recentDocuments.append(file)
-
-        self.updateRecentDocuments()
-
-
-    def updateRecentDocuments(self):
-
-        while len(self.recentDocuments) > self._preferences.maximumRecentDocuments():
-            self.recentDocuments.pop()
-
-        self.updateMenuOpenRecent()
+            # No list of the last documents wanted; therefore hide the menu
+            self.menuOpenRecent.menuAction().setVisible(False)
 
 
     def onActionAboutTriggered(self):
@@ -600,3 +524,79 @@ class MainWindow(QMainWindow):
 
         self.keyboardShortcutsDialogGeometry = self.keyboardShortcutsDialog.dialogGeometry() if self._preferences.restoreDialogGeometry() else QByteArray()
         self.keyboardShortcutsDialog = None
+
+
+    def createDocumentChild(self):
+
+        document = DocumentTable(self)
+        document.setPreferences(self._preferences)
+        self.documentArea.addSubWindow(document)
+
+        return document
+
+
+    def findDocumentChild(self, file):
+
+        filePath = QFileInfo(file).canonicalFilePath()
+
+        for document in self.documentArea.subWindowList():
+            if document.widget().documentPath() == filePath:
+                return document
+
+        return None
+
+
+    def activeDocumentChild(self):
+
+        document = self.documentArea.activeSubWindow()
+
+        return document if document else None
+
+
+    def openDocument(self, fileName):
+
+        file = QFileInfo(fileName).absoluteFilePath()
+
+        # Checks whether the given document is already open.
+        document = self.findDocumentChild(file)
+        if document:
+            self.documentArea.setActiveSubWindow(document)
+            self.addRecentDocuments(file)
+            return True
+
+        return self.loadDocument(file)
+
+
+    def loadDocument(self, file):
+
+        document = self.createDocumentChild()
+
+        succeeded = document.loadDocument(file)
+        if succeeded:
+            document.show()
+            self.addRecentDocuments(file)
+        else:
+            document.close()
+
+        return succeeded
+
+
+    def addRecentDocuments(self, file, prepend=True):
+
+        while file in self.recentDocuments:
+            self.recentDocuments.remove(file)
+
+        if prepend:
+            self.recentDocuments.insert(0, file)
+        else:
+            self.recentDocuments.append(file)
+
+        self.updateRecentDocuments()
+
+
+    def updateRecentDocuments(self):
+
+        while len(self.recentDocuments) > self._preferences.maximumRecentDocuments():
+            self.recentDocuments.pop()
+
+        self.updateMenuOpenRecent()
