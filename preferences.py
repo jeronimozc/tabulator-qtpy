@@ -136,10 +136,7 @@ class Preferences:
 
     def setMaximumRecentDocuments(self, value):
 
-        if value >= 0 and value <= 25:
-            self._maximumRecentDocuments = value
-        else:
-            self._maximumRecentDocuments = 10
+        self._maximumRecentDocuments = value if value >= 0 and value <= 25 else 10
 
 
     def maximumRecentDocuments(self, isDefault=False):
@@ -169,10 +166,7 @@ class Preferences:
 
     def setDefaultCellCountColumn(self, value):
 
-        if value >= 1 and value <= 1000:
-            self._defaultCellCountColumn = value
-        else:
-            self._defaultCellCountColumn = 25
+        self._defaultCellCountColumn = value if value >= 1 and value <= 1000 else 25
 
 
     def defaultCellCountColumn(self, isDefault=False):
@@ -182,10 +176,7 @@ class Preferences:
 
     def setDefaultCellCountRow(self, value):
 
-        if value >= 1 and value <= 1000:
-            self._defaultCellCountRow = value
-        else:
-            self._defaultCellCountRow = 50
+        self._defaultCellCountRow = value if value >= 1 and value <= 1000 else 50
 
 
     def defaultCellCountRow(self, isDefault=False):
