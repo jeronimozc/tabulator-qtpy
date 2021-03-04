@@ -46,7 +46,7 @@ class MainWindow(QMainWindow):
 
         self.setWindowIcon(QIcon(':/icons/apps/16/tabulator.svg'))
 
-        self.readSettings()
+        self.loadSettings()
 
         self.createActions()
         self.createMenus()
@@ -106,13 +106,13 @@ class MainWindow(QMainWindow):
             self._applicationState = self.applicationState() if self._preferences.restoreApplicationState() else QByteArray()
             self._applicationGeometry = self.applicationGeometry() if self._preferences.restoreApplicationGeometry() else QByteArray()
 
-            self.writeSettings()
+            self.saveSettings()
             event.accept()
         else:
             event.ignore()
 
 
-    def readSettings(self):
+    def loadSettings(self):
 
         settings = QSettings()
 
@@ -135,7 +135,7 @@ class MainWindow(QMainWindow):
         self.preferencesDialogGeometry = settings.value('PreferencesDialog/Geometry', QByteArray())
 
 
-    def writeSettings(self):
+    def saveSettings(self):
 
         settings = QSettings()
 
