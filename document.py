@@ -18,13 +18,15 @@
 # along with Tabulator-QtPy.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from PySide2.QtCore import Qt
+from PySide2.QtCore import Qt, Signal
 from PySide2.QtWidgets import QWidget
 
 
 class Document(QWidget):
 
     _preferences = Preferences()
+
+    documentClosed = Signal(str)
 
 
     def __init__(self, parent=None):
@@ -67,3 +69,14 @@ class Document(QWidget):
 
 
         return True
+
+
+    def closeEvent(self, event):
+
+        if True:
+            # Document will be closed
+            self.documentClosed.emit(self.canonicalName())
+
+            event.accept()
+        else:
+            event.ignore()
