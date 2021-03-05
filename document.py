@@ -31,6 +31,7 @@ class Document(QWidget):
         super().__init__(parent)
 
         self._canonicalName = None
+        self._canonicalIndex = None
 
         self.setAttribute(Qt.WA_DeleteOnClose)
 
@@ -48,3 +49,14 @@ class Document(QWidget):
     def canonicalName(self):
 
         return self._canonicalName
+
+
+    def setCanonicalIndex(self, canonicalIndex):
+
+        self._canonicalIndex = canonicalIndex
+
+
+    def canonicalIndex(self):
+
+        return self._canonicalIndex
+
