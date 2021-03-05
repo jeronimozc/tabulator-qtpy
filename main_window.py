@@ -64,6 +64,7 @@ class MainWindow(QMainWindow):
         self.documentArea.setTabsMovable(True)
         self.documentArea.setTabsClosable(True)
         self.setCentralWidget(self.documentArea)
+        self.documentArea.subWindowActivated.connect(self.onDocumentActivated)
 
 
     def setApplicationState(self, state=QByteArray()):
@@ -524,6 +525,10 @@ class MainWindow(QMainWindow):
 
         self.keyboardShortcutsDialogGeometry = self.keyboardShortcutsDialog.dialogGeometry() if self._preferences.restoreDialogGeometry() else QByteArray()
         self.keyboardShortcutsDialog = None
+
+
+    def onDocumentActivated(self, window):
+        pass
 
 
     def createDocumentChild(self):
