@@ -564,26 +564,25 @@ class MainWindow(QMainWindow):
 
     def openDocument(self, fileName):
 
-        file = QFileInfo(fileName).absoluteFilePath()
+        canonicalName = QFileInfo(fileName).canonicalFilePath()
 
-        # Checks whether the given document is already open.
-        document = self.findDocumentChild(file)
-        if document:
-            self.documentArea.setActiveSubWindow(document)
-            self.addRecentDocuments(file)
+        # Checks whether the given document is already open
+        window = self.findDocument(canonicalName)
+        if window:
+            self.documentArea.setActiveSubWindow(window)
             return True
 
-        return self.loadDocument(file)
+        return self.loadDocument(canonicalName);
 
 
-    def loadDocument(self, file):
+    def loadDocument(self, canonicalName):
 
-        document = self.createDocumentChild()
+        document = self.createDocument()
 
-        succeeded = document.loadDocument(file)
+        succeeded = document.load(canonicalName)
         if succeeded:
+            document.setWindowTitle(canonicalName)
             document.show()
-            self.addRecentDocuments(file)
         else:
             document.close()
 
