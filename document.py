@@ -30,6 +30,8 @@ class Document(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
 
+        self._canonicalName = None
+
         self.setAttribute(Qt.WA_DeleteOnClose)
 
 
@@ -37,3 +39,12 @@ class Document(QWidget):
 
         self._preferences = preferences
 
+
+    def setCanonicalName(self, canonicalName):
+
+        self._canonicalName = canonicalName
+
+
+    def canonicalName(self):
+
+        return self._canonicalName
