@@ -21,6 +21,8 @@
 from PySide2.QtCore import Qt, Signal
 from PySide2.QtWidgets import QWidget
 
+from preferences import Preferences
+
 
 class Document(QWidget):
 

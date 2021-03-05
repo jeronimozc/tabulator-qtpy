@@ -24,7 +24,7 @@ from PySide2.QtWidgets import QAction, QApplication, QFileDialog, QMainWindow, Q
 
 from about_dialog import AboutDialog
 from colophon_dialog import ColophonDialog
-from document_table import DocumentTable
+from document import Document
 from keyboard_shortcuts_dialog import KeyboardShortcutsDialog
 from preferences import Preferences
 from preferences_dialog import PreferencesDialog
@@ -470,8 +470,8 @@ class MainWindow(QMainWindow):
 
     def onActionNewTriggered(self):
 
-        document = self.createDocumentChild()
-        document.newDocument()
+        document = self.createDocument()
+        document.load('')
         document.show()
 
 
@@ -531,31 +531,35 @@ class MainWindow(QMainWindow):
         pass
 
 
-    def createDocumentChild(self):
+    def onDocumentClosed(self, canonicalName):
+        pass
 
-        document = DocumentTable(self)
+
+    def createDocument(self):
+
+        document = Document(self)
         document.setPreferences(self._preferences)
+        document.documentClosed.connect(self.onDocumentClosed)
+
         self.documentArea.addSubWindow(document)
 
         return document
 
 
-    def findDocumentChild(self, file):
+    def findDocument(self, canonicalName):
 
-        filePath = QFileInfo(file).canonicalFilePath()
-
-        for document in self.documentArea.subWindowList():
-            if document.widget().documentPath() == filePath:
-                return document
+        for window in self.documentArea.subWindowList():
+            if window.widget().canonicalName() == canonicalName:
+                return window
 
         return None
 
 
-    def activeDocumentChild(self):
+    def activeDocument(self):
 
-        document = self.documentArea.activeSubWindow()
+        window = self.documentArea.activeSubWindow()
 
-        return document if document else None
+        return window if window else None
 
 
     def openDocument(self, fileName):
