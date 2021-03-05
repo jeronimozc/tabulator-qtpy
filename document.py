@@ -60,3 +60,10 @@ class Document(QWidget):
 
         return self._canonicalIndex
 
+
+    def load(self, canonicalName):
+
+        self.setCanonicalName(canonicalName)
+
+
+        return True
