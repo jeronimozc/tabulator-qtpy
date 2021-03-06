@@ -57,6 +57,7 @@ class MainWindow(QMainWindow):
         self.setApplicationGeometry(self._applicationGeometry)
 
         self.updateActionFullScreen()
+        self.updateMenuOpenRecent()
 
         # Central widget
         self.documentArea = QMdiArea()
@@ -383,7 +384,7 @@ class MainWindow(QMainWindow):
 
             actionRecentDocument = QAction(self)
             actionRecentDocument.setObjectName(f'actionRecentDocument_{idx}')
-            actionRecentDocument.triggered.connect(lambda: self.onActionOpenRecentDocumentTriggered(actionRecentDocument.data()))
+            actionRecentDocument.triggered.connect(lambda data=actionRecentDocument.data(): self.onActionOpenRecentDocumentTriggered(data))
 
             self.actionRecentDocuments.append(actionRecentDocument)
 
@@ -410,42 +411,24 @@ class MainWindow(QMainWindow):
 
     def updateMenuOpenRecent(self):
 
-        if not 'menuOpenRecent' in globals():
-            return
+        self.menuOpenRecent.clear()
 
         if self._preferences.maximumRecentDocuments() > 0:
-            # Show the menu
+            # Document list wanted; show the menu
             self.menuOpenRecent.menuAction().setVisible(True)
 
             if len(self.recentDocuments) > 0:
-                # Refreshes the menu with the list of the latest documents
-
-                self.updateActionRecentDocuments()
-
-                for idx in range(len(self.actionRecentDocuments)):
-
-                    if idx < len(self.recentDocuments):
-                        file = self.recentDocuments[idx]
-                        text = f'{QFileInfo(file).fileName()} [{file}]'
-
-                        self.actionRecentDocuments[idx].setText(text)
-                        self.actionRecentDocuments[idx].setData(file)
-                        self.actionRecentDocuments[idx].setVisible(True)
-                    else:
-                        self.actionRecentDocuments[idx].setVisible(False)
-
+                # Document list has items; enable the menu
                 self.menuOpenRecent.setEnabled(True)
-                self.menuOpenRecent.clear()
+
                 self.menuOpenRecent.addActions(self.actionRecentDocuments)
                 self.menuOpenRecent.addSeparator()
                 self.menuOpenRecent.addAction(self.actionOpenRecentClear)
-
             else:
-                # List of the last documents is empty; therefore the menu is disabled
-                self.menuOpenRecent.setDisabled(True)
-
+                # Document list is empty; disable the menu
+                self.menuOpenRecent.setEnabled(False)
         else:
-            # No list of the last documents wanted; therefore hide the menu
+            # No document list wanted; hide the menu
             self.menuOpenRecent.menuAction().setVisible(False)
 
 
@@ -484,6 +467,7 @@ class MainWindow(QMainWindow):
         self.preferencesDialogGeometry = dialog.dialogGeometry() if self._preferences.restoreDialogGeometry() else QByteArray()
 
         self.updateRecentDocuments(None)
+        self.updateMenuOpenRecent()
 
 
     def onActionNewTriggered(self):
@@ -503,15 +487,17 @@ class MainWindow(QMainWindow):
             self.openDocument(fileName)
 
 
-    def onActionOpenRecentDocumentTriggered(self, fileName):
+    def onActionOpenRecentDocumentTriggered(self, canonicalName):
+        pass
 
-        self.openDocument(fileName)
+#        self.openDocument(canonicalName)
 
 
     def onActionOpenRecentClearTriggered(self):
 
         self.recentDocuments.clear()
 
+        self.updateRecentDocuments(None)
         self.updateMenuOpenRecent()
 
 
@@ -590,6 +576,7 @@ class MainWindow(QMainWindow):
             self.documentArea.setActiveSubWindow(window)
 
             self.updateRecentDocuments(canonicalName)
+            self.updateMenuOpenRecent()
             return True
 
         return self.loadDocument(canonicalName);
@@ -605,6 +592,7 @@ class MainWindow(QMainWindow):
             document.show()
 
             self.updateRecentDocuments(canonicalName)
+            self.updateMenuOpenRecent()
         else:
             document.close()
 
