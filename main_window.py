@@ -40,8 +40,8 @@ class MainWindow(QMainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
 
-        self.actionRecentDocuments = []
         self.recentDocuments = []
+        self.actionRecentDocuments = []
         self.keyboardShortcutsDialog = None
 
         self.setWindowIcon(QIcon(':/icons/apps/16/tabulator.svg'))
@@ -122,9 +122,10 @@ class MainWindow(QMainWindow):
 
         # Recent documents
         size = settings.beginReadArray('RecentDocuments')
-        for idx in range(size):
+        for idx in range(size-1, -1, -1):
             settings.setArrayIndex(idx)
-            self.addRecentDocuments(settings.value('Document'), False)
+            canonicalName = QFileInfo(settings.value('Document')).canonicalFilePath()
+            self.updateRecentDocuments(canonicalName)
         settings.endArray()
 
         # Application and dialog properties
@@ -465,13 +466,13 @@ class MainWindow(QMainWindow):
         self._preferences = dialog.preferences()
         self.preferencesDialogGeometry = dialog.dialogGeometry() if self._preferences.restoreDialogGeometry() else QByteArray()
 
-        self.updateRecentDocuments()
+        self.updateRecentDocuments(None)
 
 
     def onActionNewTriggered(self):
 
         document = self.createDocument()
-        document.load('')
+        document.load(None)
         document.show()
 
 
@@ -570,6 +571,8 @@ class MainWindow(QMainWindow):
         window = self.findDocument(canonicalName)
         if window:
             self.documentArea.setActiveSubWindow(window)
+
+            self.updateRecentDocuments(canonicalName)
             return True
 
         return self.loadDocument(canonicalName);
@@ -583,28 +586,21 @@ class MainWindow(QMainWindow):
         if succeeded:
             document.setWindowTitle(canonicalName)
             document.show()
+
+            self.updateRecentDocuments(canonicalName)
         else:
             document.close()
 
         return succeeded
 
 
-    def addRecentDocuments(self, file, prepend=True):
+    def updateRecentDocuments(self, canonicalName):
 
-        while file in self.recentDocuments:
-            self.recentDocuments.remove(file)
+        if canonicalName:
+            while canonicalName in self.recentDocuments:
+                self.recentDocuments.remove(canonicalName)
+            self.recentDocuments.insert(0, canonicalName)
 
-        if prepend:
-            self.recentDocuments.insert(0, file)
-        else:
-            self.recentDocuments.append(file)
-
-        self.updateRecentDocuments()
-
-
-    def updateRecentDocuments(self):
-
+        # Remove items from the list, if necessary
         while len(self.recentDocuments) > self._preferences.maximumRecentDocuments():
             self.recentDocuments.pop()
-
-        self.updateMenuOpenRecent()
