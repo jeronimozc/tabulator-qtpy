@@ -145,6 +145,7 @@ class MainWindow(QMainWindow):
         self._preferences.save(settings)
 
         # Recent documents
+        settings.remove('RecentDocuments')
         settings.beginWriteArray('RecentDocuments')
         for idx in range(len(self.recentDocuments)):
             settings.setArrayIndex(idx)
@@ -377,18 +378,34 @@ class MainWindow(QMainWindow):
 
     def updateActionRecentDocuments(self):
 
-        if len(self.actionRecentDocuments) != self._preferences.maximumRecentDocuments():
+        # Add items to the list, if necessary
+        for idx in range(len(self.actionRecentDocuments)+1, self._preferences.maximumRecentDocuments()+1):
 
-            self.actionRecentDocuments = []
+            actionRecentDocument = QAction(self)
+            actionRecentDocument.setObjectName(f'actionRecentDocument_{idx}')
+            actionRecentDocument.triggered.connect(lambda: self.onActionOpenRecentDocumentTriggered(actionRecentDocument.data()))
 
-            for idx in range(self._preferences.maximumRecentDocuments()):
+            self.actionRecentDocuments.append(actionRecentDocument)
 
-                actionRecentDocument = QAction(self)
-                actionRecentDocument.setObjectName(f'actionRecentDocument_{idx}')
-                actionRecentDocument.setVisible(False)
-                actionRecentDocument.triggered.connect(lambda: self.onActionOpenRecentDocumentTriggered(actionRecentDocument.data()))
+        # Remove items from the list, if necessary
+        while len(self.actionRecentDocuments) > self._preferences.maximumRecentDocuments():
+            self.actionRecentDocuments.pop()
 
-                self.actionRecentDocuments.append(actionRecentDocument)
+        # Update items
+        for idx in range(len(self.actionRecentDocuments)):
+
+            if idx < len(self.recentDocuments):
+                text = self.tr(f'{QFileInfo(self.recentDocuments[idx]).fileName()} [{self.recentDocuments[idx]}]')
+                data = self.recentDocuments[idx]
+                show = True
+            else:
+                text = None
+                data = None
+                show = False
+
+            self.actionRecentDocuments[idx].setText(text)
+            self.actionRecentDocuments[idx].setData(data)
+            self.actionRecentDocuments[idx].setVisible(show)
 
 
     def updateMenuOpenRecent(self):
@@ -604,3 +621,5 @@ class MainWindow(QMainWindow):
         # Remove items from the list, if necessary
         while len(self.recentDocuments) > self._preferences.maximumRecentDocuments():
             self.recentDocuments.pop()
+
+        self.updateActionRecentDocuments()
