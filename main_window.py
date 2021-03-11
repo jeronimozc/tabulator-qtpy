@@ -471,10 +471,7 @@ class MainWindow(QMainWindow):
 
     def onActionNewTriggered(self):
 
-        document = self.createDocument()
-        document.load(None)
-        document.setDocumentTitle()
-        document.show()
+        self.loadDocument('')
 
 
     def onActionOpenTriggered(self):
