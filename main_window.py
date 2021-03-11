@@ -245,6 +245,13 @@ class MainWindow(QMainWindow):
         self.actionFullScreen.setData(self.tr('Display the window in full screen'))
         self.actionFullScreen.triggered.connect(self.onActionFullScreenTriggered)
 
+        self.actionTitlebarFullPath = QAction(self.tr('Show Path in Titlebar'), self)
+        self.actionTitlebarFullPath.setObjectName('actionTitlebarFullPath')
+        self.actionTitlebarFullPath.setCheckable(True)
+        self.actionTitlebarFullPath.setChecked(True)
+        self.actionTitlebarFullPath.setToolTip(self.tr('Display the full path of the document in the titlebar'))
+        self.actionTitlebarFullPath.triggered.connect(self.onActionTitlebarFullPathTriggered)
+
         self.actionToolbarApplication = QAction(self.tr('Show Application Toolbar'), self)
         self.actionToolbarApplication.setObjectName('actionToolbarApplication')
         self.actionToolbarApplication.setCheckable(True)
@@ -331,6 +338,8 @@ class MainWindow(QMainWindow):
         menuView = self.menuBar().addMenu(self.tr('View'))
         menuView.setObjectName('menuView')
         menuView.addAction(self.actionFullScreen)
+        menuView.addSeparator()
+        menuView.addAction(self.actionTitlebarFullPath)
         menuView.addSeparator()
         menuView.addAction(self.actionToolbarApplication)
         menuView.addAction(self.actionToolbarDocument)
@@ -560,6 +569,11 @@ class MainWindow(QMainWindow):
         self.updateActionFullScreen()
 
 
+    def onActionTitlebarFullPathTriggered(self):
+
+        self.updateApplicationTitle()
+
+
     def onActionKeyboardShortcutsTriggered(self):
 
         if not self.keyboardShortcutsDialog:
@@ -694,6 +708,6 @@ class MainWindow(QMainWindow):
 
         document = self.activeDocument()
         if document:
-            title = document.canonicalName() if document.canonicalName() else document.documentTitle()
+            title = document.canonicalName() if self.actionTitlebarFullPath.isChecked() and document.canonicalName() else document.documentTitle()
 
         self.setWindowTitle(title)
