@@ -218,6 +218,13 @@ class MainWindow(QMainWindow):
         self.actionOpenRecentClear.setToolTip(self.tr('Clear document list'))
         self.actionOpenRecentClear.triggered.connect(self.onActionOpenRecentClearTriggered)
 
+        self.actionClose = QAction(self.tr('Close'), self)
+        self.actionClose.setObjectName('actionClose')
+        self.actionClose.setIcon(QIcon.fromTheme('document-close', QIcon(':/icons/actions/16/document-close.svg')))
+        self.actionClose.setShortcut(QKeySequence.Close)
+        self.actionClose.setToolTip(f'Close document [{self.actionClose.shortcut().toString(QKeySequence.NativeText)}]')
+        self.actionClose.triggered.connect(self.onActionCloseTriggered)
+
         # Actions: View
         self.actionFullScreen = QAction(self)
         self.actionFullScreen.setObjectName('actionFullScreen')
@@ -296,6 +303,8 @@ class MainWindow(QMainWindow):
         menuDocument.addSeparator()
         menuDocument.addAction(self.actionOpen)
         menuDocument.addMenu(self.menuOpenRecent)
+        menuDocument.addSeparator()
+        menuDocument.addAction(self.actionClose)
 
         # Menu: Edit
         menuEdit = self.menuBar().addMenu(self.tr('Edit'))
@@ -339,6 +348,8 @@ class MainWindow(QMainWindow):
         self.toolbarDocument.setObjectName('toolbarDocument')
         self.toolbarDocument.addAction(self.actionNew)
         self.toolbarDocument.addAction(self.actionOpen)
+        self.toolbarDocument.addSeparator()
+        self.toolbarDocument.addAction(self.actionClose)
         self.toolbarDocument.visibilityChanged.connect(lambda visible: self.actionToolbarDocument.setChecked(visible))
 
         # Toolbar: Edit
@@ -413,6 +424,8 @@ class MainWindow(QMainWindow):
 
         hasDocument = cntWindows >= 1
         hasDocuments = cntWindows >= 2
+
+        self.actionClose.setEnabled(hasDocument)
 
 
     def updateMenuOpenRecent(self):
@@ -503,6 +516,11 @@ class MainWindow(QMainWindow):
 
         self.updateRecentDocuments(None)
         self.updateMenuOpenRecent()
+
+
+    def onActionCloseTriggered(self):
+
+        self.documentArea.closeActiveSubWindow()
 
 
     def onActionFullScreenTriggered(self):
