@@ -230,6 +230,12 @@ class MainWindow(QMainWindow):
         self.actionCloseOther.setToolTip('Close all other documents')
         self.actionCloseOther.triggered.connect(self.onActionCloseOtherTriggered)
 
+        self.actionCloseAll = QAction(self.tr('Close All'), self)
+        self.actionCloseAll.setObjectName('actionCloseAll')
+        self.actionCloseAll.setShortcut(QKeySequence(Qt.CTRL + Qt.SHIFT + Qt.Key_W))
+        self.actionCloseAll.setToolTip(f'Close all documents [{self.actionCloseAll.shortcut().toString(QKeySequence.NativeText)}]')
+        self.actionCloseAll.triggered.connect(self.onActionCloseAllTriggered)
+
         # Actions: View
         self.actionFullScreen = QAction(self)
         self.actionFullScreen.setObjectName('actionFullScreen')
@@ -311,6 +317,7 @@ class MainWindow(QMainWindow):
         menuDocument.addSeparator()
         menuDocument.addAction(self.actionClose)
         menuDocument.addAction(self.actionCloseOther)
+        menuDocument.addAction(self.actionCloseAll)
 
         # Menu: Edit
         menuEdit = self.menuBar().addMenu(self.tr('Edit'))
@@ -433,6 +440,7 @@ class MainWindow(QMainWindow):
 
         self.actionClose.setEnabled(hasDocument)
         self.actionCloseOther.setEnabled(hasDocuments)
+        self.actionCloseAll.setEnabled(hasDocument)
 
 
     def updateMenuOpenRecent(self):
@@ -535,6 +543,11 @@ class MainWindow(QMainWindow):
         for window in self.documentArea.subWindowList():
             if window != self.documentArea.activeSubWindow():
                 window.close()
+
+
+    def onActionCloseAllTriggered(self):
+
+        self.documentArea.closeAllSubWindows()
 
 
     def onActionFullScreenTriggered(self):
