@@ -549,6 +549,19 @@ class MainWindow(QMainWindow):
         return document
 
 
+    def createDocumentIndex(self, canonicalName):
+
+        fileName = QFileInfo(canonicalName).fileName()
+        canonicalIndex = 0
+
+        for window in self.documentArea.subWindowList():
+            if QFileInfo(window.widget().canonicalName()).fileName() == fileName:
+                if window.widget().canonicalIndex() > canonicalIndex:
+                    canonicalIndex = window.widget().canonicalIndex()
+
+        return canonicalIndex+1
+
+
     def findDocument(self, canonicalName):
 
         for window in self.documentArea.subWindowList():
@@ -587,6 +600,7 @@ class MainWindow(QMainWindow):
 
         succeeded = document.load(canonicalName)
         if succeeded:
+            document.setCanonicalIndex(self.createDocumentIndex(canonicalName))
             document.setDocumentTitle()
             document.show()
 
