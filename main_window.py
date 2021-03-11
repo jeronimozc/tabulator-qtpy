@@ -394,15 +394,14 @@ class MainWindow(QMainWindow):
 
         # Update items
         for idx in range(len(self.actionRecentDocuments)):
+            text = None
+            data = None
+            show = False
 
             if idx < len(self.recentDocuments):
                 text = self.tr(f'{QFileInfo(self.recentDocuments[idx]).fileName()} [{self.recentDocuments[idx]}]')
                 data = self.recentDocuments[idx]
                 show = True
-            else:
-                text = None
-                data = None
-                show = False
 
             self.actionRecentDocuments[idx].setText(text)
             self.actionRecentDocuments[idx].setData(data)
@@ -566,7 +565,7 @@ class MainWindow(QMainWindow):
 
         window = self.documentArea.activeSubWindow()
 
-        return window if window else None
+        return window.widget() if window else None
 
 
     def openDocument(self, fileName):
