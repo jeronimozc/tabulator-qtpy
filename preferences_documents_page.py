@@ -19,7 +19,7 @@
 #
 
 from PySide2.QtCore import Signal
-from PySide2.QtWidgets import QFormLayout, QGroupBox, QLabel, QSpinBox, QVBoxLayout, QWidget
+from PySide2.QtWidgets import QCheckBox, QFormLayout, QGroupBox, QLabel, QSpinBox, QVBoxLayout, QWidget
 
 
 class PreferencesDocumentsPage(QWidget):
@@ -38,9 +38,17 @@ class PreferencesDocumentsPage(QWidget):
         self.spbMaximumRecentDocuments.setRange(0, 25)
         self.spbMaximumRecentDocuments.setToolTip(self.tr('Maximum number of recently opened documents'))
         self.spbMaximumRecentDocuments.valueChanged.connect(self.onPreferencesChanged)
+        self.spbMaximumRecentDocuments.valueChanged[int].connect(self.onMaximumRecentDocumentsChanged)
 
-        recentDocumentsLayout = QFormLayout()
-        recentDocumentsLayout.addRow(self.tr('Number of documents'), self.spbMaximumRecentDocuments)
+        self.chkRestoreRecentDocuments = QCheckBox(self.tr('Save and restore documents'))
+        self.chkRestoreRecentDocuments.stateChanged.connect(self.onPreferencesChanged)
+
+        recentDocumentsFormLayout = QFormLayout()
+        recentDocumentsFormLayout.addRow(self.tr('Number of documents'), self.spbMaximumRecentDocuments)
+
+        recentDocumentsLayout = QVBoxLayout()
+        recentDocumentsLayout.addLayout(recentDocumentsFormLayout)
+        recentDocumentsLayout.addWidget(self.chkRestoreRecentDocuments)
 
         recentDocumentsGroup = QGroupBox(self.tr('Recently Opened Documents'))
         recentDocumentsGroup.setLayout(recentDocumentsLayout)
@@ -67,6 +75,11 @@ class PreferencesDocumentsPage(QWidget):
         self.preferencesChanged.emit()
 
 
+    def onMaximumRecentDocumentsChanged(self, val):
+
+        self.chkRestoreRecentDocuments.setEnabled(val>0)
+
+
     def setMaximumRecentDocuments(self, val):
 
         self.spbMaximumRecentDocuments.setValue(val)
@@ -75,3 +88,13 @@ class PreferencesDocumentsPage(QWidget):
     def maximumRecentDocuments(self):
 
         return self.spbMaximumRecentDocuments.value()
+
+
+    def setRestoreRecentDocuments(self, checked):
+
+        self.chkRestoreRecentDocuments.setChecked(checked)
+
+
+    def restoreRecentDocuments(self):
+
+        return self.chkRestoreRecentDocuments.isChecked()

@@ -141,6 +141,7 @@ class PreferencesDialog(QDialog):
 
         # Documents: Recently Opened Documents
         self.documentsPage.setMaximumRecentDocuments(self._preferences.maximumRecentDocuments(isDefault))
+        self.documentsPage.setRestoreRecentDocuments(self._preferences.restoreRecentDocuments(isDefault))
 
         # Document Presets: Header Labels
         self.documentPresetsPage.setDefaultHeaderLabelHorizontal(self._preferences.defaultHeaderLabelHorizontal(isDefault))
@@ -160,6 +161,7 @@ class PreferencesDialog(QDialog):
 
         # Documents: Recently Opened Documents
         self._preferences.setMaximumRecentDocuments(self.documentsPage.maximumRecentDocuments())
+        self._preferences.setRestoreRecentDocuments(self.documentsPage.restoreRecentDocuments())
 
         # Document Presets: Header Labels
         self._preferences.setDefaultHeaderLabelHorizontal(self.documentPresetsPage.defaultHeaderLabelHorizontal())

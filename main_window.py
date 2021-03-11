@@ -105,6 +105,10 @@ class MainWindow(QMainWindow):
     def closeEvent(self, event):
 
         if True:
+            # Recent documents
+            if not self._preferences.restoreRecentDocuments():
+                 self.recentDocuments.clear()
+
             # Application properties
             self._applicationState = self.applicationState() if self._preferences.restoreApplicationState() else QByteArray()
             self._applicationGeometry = self.applicationGeometry() if self._preferences.restoreApplicationGeometry() else QByteArray()

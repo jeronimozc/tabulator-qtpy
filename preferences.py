@@ -41,6 +41,7 @@ class Preferences:
 
         # Documents: Recently Opened Documents
         self._maximumRecentDocuments = 10
+        self._restoreRecentDocuments = True
 
         # Document Presets: Header Labels
         self._defaultHeaderLabelHorizontal = self.HeaderLabel.Letter
@@ -62,6 +63,7 @@ class Preferences:
 
         # Documents: Recently Opened Documents
         self.setMaximumRecentDocuments(int(settings.value('MaximumRecentDocuments', 10)))
+        self.setRestoreRecentDocuments(self.valueToBool(settings.value('RestoreRecentDocuments', True)))
 
         # Document Presets: Header Labels
         self.setDefaultHeaderLabelHorizontal(Preferences.HeaderLabel(int(settings.value('DefaultHeaderLabelHorizontal', self.HeaderLabel.Letter.value))))
@@ -86,6 +88,7 @@ class Preferences:
 
         # Documents: Recently Opened Documents
         settings.setValue('MaximumRecentDocuments', self._maximumRecentDocuments)
+        settings.setValue('RestoreRecentDocuments', self._restoreRecentDocuments)
 
         # Document Presets: Header Labels
         settings.setValue('DefaultHeaderLabelHorizontal', self._defaultHeaderLabelHorizontal.value)
@@ -142,6 +145,16 @@ class Preferences:
     def maximumRecentDocuments(self, isDefault=False):
 
         return self._maximumRecentDocuments if not isDefault else 10
+
+
+    def setRestoreRecentDocuments(self, value):
+
+        self._restoreRecentDocuments = value
+
+
+    def restoreRecentDocuments(self, isDefault=False):
+
+        return self._restoreRecentDocuments if not isDefault else True
 
 
     def setDefaultHeaderLabelHorizontal(self, value):
