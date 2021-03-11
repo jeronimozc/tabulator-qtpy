@@ -529,7 +529,11 @@ class MainWindow(QMainWindow):
 
 
     def onDocumentActivated(self, window):
-        pass
+
+        self.updateApplicationTitle()
+
+        if not window:
+            return
 
 
     def onDocumentClosed(self, canonicalName):
@@ -606,6 +610,8 @@ class MainWindow(QMainWindow):
 
             self.updateRecentDocuments(canonicalName)
             self.updateMenuOpenRecent()
+
+            self.updateApplicationTitle()
         else:
             document.close()
 
@@ -624,3 +630,14 @@ class MainWindow(QMainWindow):
             self.recentDocuments.pop()
 
         self.updateActionRecentDocuments()
+
+
+    def updateApplicationTitle(self):
+
+        title = None
+
+        document = self.activeDocument()
+        if document:
+            title = document.canonicalName() if document.canonicalName() else document.documentTitle()
+
+        self.setWindowTitle(title)
