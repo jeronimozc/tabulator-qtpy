@@ -546,7 +546,8 @@ class MainWindow(QMainWindow):
         document.setPreferences(self._preferences)
         document.documentClosed.connect(self.onDocumentClosed)
 
-        self.documentArea.addSubWindow(document)
+        window = self.documentArea.addSubWindow(document)
+        window.showMaximized()
 
         return document
 
