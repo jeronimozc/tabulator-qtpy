@@ -57,6 +57,7 @@ class MainWindow(QMainWindow):
         self.setApplicationGeometry(self._applicationGeometry)
 
         self.updateActionFullScreen()
+        self.updateMenus()
         self.updateMenuOpenRecent()
 
         # Central widget
@@ -408,6 +409,12 @@ class MainWindow(QMainWindow):
             self.actionRecentDocuments[idx].setVisible(show)
 
 
+    def updateMenus(self, cntWindows=0):
+
+        hasDocument = cntWindows >= 1
+        hasDocuments = cntWindows >= 2
+
+
     def updateMenuOpenRecent(self):
 
         self.menuOpenRecent.clear()
@@ -531,13 +538,16 @@ class MainWindow(QMainWindow):
     def onDocumentActivated(self, window):
 
         self.updateApplicationTitle()
+        self.updateMenus(len(self.documentArea.subWindowList()))
 
         if not window:
             return
 
 
     def onDocumentClosed(self, canonicalName):
-        pass
+
+        # Update menu items; delete emitter from the list
+        self.updateMenus(len(self.documentArea.subWindowList())-1)
 
 
     def createDocument(self):
@@ -612,6 +622,7 @@ class MainWindow(QMainWindow):
             self.updateMenuOpenRecent()
 
             self.updateApplicationTitle()
+            self.updateMenus(len(self.documentArea.subWindowList()))
         else:
             document.close()
 
