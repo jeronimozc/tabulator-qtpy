@@ -18,7 +18,7 @@
 # along with Tabulator-QtPy.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from PySide2.QtCore import Qt, Signal
+from PySide2.QtCore import QFileInfo, Qt, Signal
 from PySide2.QtWidgets import QWidget
 
 from preferences import Preferences
@@ -61,6 +61,20 @@ class Document(QWidget):
     def setCanonicalIndex(self, canonicalIndex):
 
         self._canonicalIndex = canonicalIndex
+
+
+    def documentTitle(self):
+
+        return self.windowTitle()
+
+    def setDocumentTitle(self):
+
+        fileName = QFileInfo(self._canonicalName).fileName() if self._canonicalName else self.tr('Untitled')
+
+        if self._canonicalIndex > 1:
+            self.setWindowTitle(self.tr(f'{fileName} ({self._canonicalIndex})'))
+        else:
+            self.setWindowTitle(fileName)
 
 
     def load(self, canonicalName):

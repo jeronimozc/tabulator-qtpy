@@ -474,6 +474,7 @@ class MainWindow(QMainWindow):
 
         document = self.createDocument()
         document.load(None)
+        document.setDocumentTitle()
         document.show()
 
 
@@ -588,7 +589,7 @@ class MainWindow(QMainWindow):
 
         succeeded = document.load(canonicalName)
         if succeeded:
-            document.setWindowTitle(canonicalName)
+            document.setDocumentTitle()
             document.show()
 
             self.updateRecentDocuments(canonicalName)
