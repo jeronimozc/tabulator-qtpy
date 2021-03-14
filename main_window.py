@@ -479,6 +479,17 @@ class MainWindow(QMainWindow):
             self.menuOpenRecent.menuAction().setVisible(False)
 
 
+    def updateTitleBar(self):
+
+        title = None
+
+        document = self.activeDocument()
+        if document:
+            title = document.canonicalName() if self.actionTitlebarFullPath.isChecked() and document.canonicalName() else document.documentTitle()
+
+        self.setWindowTitle(title)
+
+
     def onActionAboutTriggered(self):
 
         geometry = self._aboutDialogGeometry if self._preferences.restoreDialogGeometry() else QByteArray()
@@ -575,7 +586,7 @@ class MainWindow(QMainWindow):
 
     def onActionTitlebarFullPathTriggered(self):
 
-        self.updateApplicationTitle()
+        self.updateTitleBar()
 
 
     def onActionKeyboardShortcutsTriggered(self):
@@ -600,7 +611,7 @@ class MainWindow(QMainWindow):
 
     def onDocumentWindowActivated(self, window):
 
-        self.updateApplicationTitle()
+        self.updateTitleBar()
         self.updateMenus(len(self._documentArea.subWindowList()))
 
         if not window:
@@ -686,7 +697,7 @@ class MainWindow(QMainWindow):
             self.updateMenuOpenRecent()
 
             # Update application
-            self.updateApplicationTitle()
+            self.updateTitleBar()
             self.updateMenus(len(self._documentArea.subWindowList()))
         else:
             document.close()
@@ -706,14 +717,3 @@ class MainWindow(QMainWindow):
             self.recentDocuments.pop()
 
         self.updateActionRecentDocuments()
-
-
-    def updateApplicationTitle(self):
-
-        title = None
-
-        document = self.activeDocument()
-        if document:
-            title = document.canonicalName() if self.actionTitlebarFullPath.isChecked() and document.canonicalName() else document.documentTitle()
-
-        self.setWindowTitle(title)
