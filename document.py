@@ -45,27 +45,30 @@ class Document(QWidget):
         self._preferences = preferences
 
 
-    def canonicalName(self):
-
-        return self._canonicalName
-
     def setCanonicalName(self, canonicalName):
 
         self._canonicalName = canonicalName
 
 
-    def canonicalIndex(self):
+    def canonicalName(self):
 
-        return self._canonicalIndex
+        return self._canonicalName
+
 
     def setCanonicalIndex(self, canonicalIndex):
 
         self._canonicalIndex = canonicalIndex
 
 
+    def canonicalIndex(self):
+
+        return self._canonicalIndex
+
+
     def documentTitle(self):
 
         return self.windowTitle()
+
 
     def setDocumentTitle(self):
 
@@ -77,14 +80,6 @@ class Document(QWidget):
             self.setWindowTitle(fileName)
 
 
-    def load(self, canonicalName):
-
-        self.setCanonicalName(canonicalName)
-
-
-        return True
-
-
     def closeEvent(self, event):
 
         if True:
@@ -94,3 +89,11 @@ class Document(QWidget):
             event.accept()
         else:
             event.ignore()
+
+
+    def load(self, canonicalName):
+
+        self.setCanonicalName(canonicalName)
+
+
+        return True

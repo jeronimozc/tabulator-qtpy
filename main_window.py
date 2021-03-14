@@ -61,12 +61,12 @@ class MainWindow(QMainWindow):
         self.updateMenuOpenRecent()
 
         # Central widget
-        self.documentArea = QMdiArea()
-        self.documentArea.setViewMode(QMdiArea.TabbedView)
-        self.documentArea.setTabsMovable(True)
-        self.documentArea.setTabsClosable(True)
-        self.setCentralWidget(self.documentArea)
-        self.documentArea.subWindowActivated.connect(self.onDocumentActivated)
+        self._documentArea = QMdiArea()
+        self._documentArea.setViewMode(QMdiArea.TabbedView)
+        self._documentArea.setTabsMovable(True)
+        self._documentArea.setTabsClosable(True)
+        self.setCentralWidget(self._documentArea)
+        self._documentArea.subWindowActivated.connect(self.onDocumentActivated)
 
 
     def setApplicationState(self, state=QByteArray()):
@@ -137,10 +137,10 @@ class MainWindow(QMainWindow):
         # Application and dialog properties
         self._applicationState = settings.value('Application/State', QByteArray()) if self._preferences.restoreApplicationState() else QByteArray()
         self._applicationGeometry = settings.value('Application/Geometry', QByteArray()) if self._preferences.restoreApplicationGeometry() else QByteArray()
-        self.aboutDialogGeometry = settings.value('AboutDialog/Geometry', QByteArray())
-        self.colophonDialogGeometry = settings.value('ColophonDialog/Geometry', QByteArray())
-        self.keyboardShortcutsDialogGeometry = settings.value('KeyboardShortcutsDialog/Geometry', QByteArray())
-        self.preferencesDialogGeometry = settings.value('PreferencesDialog/Geometry', QByteArray())
+        self._aboutDialogGeometry = settings.value('AboutDialog/Geometry', QByteArray())
+        self._colophonDialogGeometry = settings.value('ColophonDialog/Geometry', QByteArray())
+        self._keyboardShortcutsDialogGeometry = settings.value('KeyboardShortcutsDialog/Geometry', QByteArray())
+        self._preferencesDialogGeometry = settings.value('PreferencesDialog/Geometry', QByteArray())
 
 
     def saveSettings(self):
@@ -161,10 +161,10 @@ class MainWindow(QMainWindow):
         # Application and dialog properties
         settings.setValue('Application/State', self._applicationState)
         settings.setValue('Application/Geometry', self._applicationGeometry)
-        settings.setValue('AboutDialog/Geometry', self.aboutDialogGeometry)
-        settings.setValue('ColophonDialog/Geometry', self.colophonDialogGeometry)
-        settings.setValue('KeyboardShortcutsDialog/Geometry', self.keyboardShortcutsDialogGeometry)
-        settings.setValue('PreferencesDialog/Geometry', self.preferencesDialogGeometry)
+        settings.setValue('AboutDialog/Geometry', self._aboutDialogGeometry)
+        settings.setValue('ColophonDialog/Geometry', self._colophonDialogGeometry)
+        settings.setValue('KeyboardShortcutsDialog/Geometry', self._keyboardShortcutsDialogGeometry)
+        settings.setValue('PreferencesDialog/Geometry', self._preferencesDialogGeometry)
 
 
     def createActions(self):
@@ -481,29 +481,29 @@ class MainWindow(QMainWindow):
 
     def onActionAboutTriggered(self):
 
-        geometry = self.aboutDialogGeometry if self._preferences.restoreDialogGeometry() else QByteArray()
+        geometry = self._aboutDialogGeometry if self._preferences.restoreDialogGeometry() else QByteArray()
 
         dialog = AboutDialog(self)
         dialog.setDialogGeometry(geometry)
         dialog.exec_()
 
-        self.aboutDialogGeometry = dialog.dialogGeometry() if self._preferences.restoreDialogGeometry() else QByteArray()
+        self._aboutDialogGeometry = dialog.dialogGeometry() if self._preferences.restoreDialogGeometry() else QByteArray()
 
 
     def onActionColophonTriggered(self):
 
-        geometry = self.colophonDialogGeometry if self._preferences.restoreDialogGeometry() else QByteArray()
+        geometry = self._colophonDialogGeometry if self._preferences.restoreDialogGeometry() else QByteArray()
 
         dialog = ColophonDialog(self)
         dialog.setDialogGeometry(geometry)
         dialog.exec_()
 
-        self.colophonDialogGeometry = dialog.dialogGeometry() if self._preferences.restoreDialogGeometry() else QByteArray()
+        self._colophonDialogGeometry = dialog.dialogGeometry() if self._preferences.restoreDialogGeometry() else QByteArray()
 
 
     def onActionPreferencesTriggered(self):
 
-        geometry = self.preferencesDialogGeometry if self._preferences.restoreDialogGeometry() else QByteArray()
+        geometry = self._preferencesDialogGeometry if self._preferences.restoreDialogGeometry() else QByteArray()
 
         dialog = PreferencesDialog(self)
         dialog.setDialogGeometry(geometry)
@@ -511,7 +511,7 @@ class MainWindow(QMainWindow):
         dialog.exec_()
 
         self._preferences = dialog.preferences()
-        self.preferencesDialogGeometry = dialog.dialogGeometry() if self._preferences.restoreDialogGeometry() else QByteArray()
+        self._preferencesDialogGeometry = dialog.dialogGeometry() if self._preferences.restoreDialogGeometry() else QByteArray()
 
         self.updateRecentDocuments(None)
         self.updateMenuOpenRecent()
@@ -548,19 +548,19 @@ class MainWindow(QMainWindow):
 
     def onActionCloseTriggered(self):
 
-        self.documentArea.closeActiveSubWindow()
+        self._documentArea.closeActiveSubWindow()
 
 
     def onActionCloseOtherTriggered(self):
 
-        for window in self.documentArea.subWindowList():
-            if window != self.documentArea.activeSubWindow():
+        for window in self._documentArea.subWindowList():
+            if window != self._documentArea.activeSubWindow():
                 window.close()
 
 
     def onActionCloseAllTriggered(self):
 
-        self.documentArea.closeAllSubWindows()
+        self._documentArea.closeAllSubWindows()
 
 
     def onActionFullScreenTriggered(self):
@@ -581,7 +581,7 @@ class MainWindow(QMainWindow):
     def onActionKeyboardShortcutsTriggered(self):
 
         if not self.keyboardShortcutsDialog:
-            geometry = self.keyboardShortcutsDialogGeometry if self._preferences.restoreDialogGeometry() else QByteArray()
+            geometry = self._keyboardShortcutsDialogGeometry if self._preferences.restoreDialogGeometry() else QByteArray()
 
             self.keyboardShortcutsDialog = KeyboardShortcutsDialog(self)
             self.keyboardShortcutsDialog.setDialogGeometry(geometry)
@@ -594,14 +594,14 @@ class MainWindow(QMainWindow):
 
     def onDialogKeyboardShortcutsFinished(self):
 
-        self.keyboardShortcutsDialogGeometry = self.keyboardShortcutsDialog.dialogGeometry() if self._preferences.restoreDialogGeometry() else QByteArray()
+        self._keyboardShortcutsDialogGeometry = self.keyboardShortcutsDialog.dialogGeometry() if self._preferences.restoreDialogGeometry() else QByteArray()
         self.keyboardShortcutsDialog = None
 
 
     def onDocumentActivated(self, window):
 
         self.updateApplicationTitle()
-        self.updateMenus(len(self.documentArea.subWindowList()))
+        self.updateMenus(len(self._documentArea.subWindowList()))
 
         if not window:
             return
@@ -609,8 +609,8 @@ class MainWindow(QMainWindow):
 
     def onDocumentClosed(self, canonicalName):
 
-        # Update menu items; delete emitter from the list
-        self.updateMenus(len(self.documentArea.subWindowList())-1)
+        # Update menu items but first delete the emitter from the list
+        self.updateMenus(len(self._documentArea.subWindowList())-1)
 
 
     def createDocument(self):
@@ -619,9 +619,9 @@ class MainWindow(QMainWindow):
         document.setPreferences(self._preferences)
         document.documentClosed.connect(self.onDocumentClosed)
 
-        window = self.documentArea.addSubWindow(document)
-        window.showMaximized()
+        window = self._documentArea.addSubWindow(document)
         window.setWindowIcon(QIcon())
+        window.showMaximized()
 
         return document
 
@@ -631,7 +631,7 @@ class MainWindow(QMainWindow):
         fileName = QFileInfo(canonicalName).fileName()
         canonicalIndex = 0
 
-        for window in self.documentArea.subWindowList():
+        for window in self._documentArea.subWindowList():
             if QFileInfo(window.widget().canonicalName()).fileName() == fileName:
                 if window.widget().canonicalIndex() > canonicalIndex:
                     canonicalIndex = window.widget().canonicalIndex()
@@ -641,7 +641,7 @@ class MainWindow(QMainWindow):
 
     def findDocument(self, canonicalName):
 
-        for window in self.documentArea.subWindowList():
+        for window in self._documentArea.subWindowList():
             if window.widget().canonicalName() == canonicalName:
                 return window
 
@@ -650,7 +650,7 @@ class MainWindow(QMainWindow):
 
     def activeDocument(self):
 
-        window = self.documentArea.activeSubWindow()
+        window = self._documentArea.activeSubWindow()
 
         return window.widget() if window else None
 
@@ -659,10 +659,10 @@ class MainWindow(QMainWindow):
 
         canonicalName = QFileInfo(fileName).canonicalFilePath()
 
-        # Checks whether the given document is already open
         window = self.findDocument(canonicalName)
         if window:
-            self.documentArea.setActiveSubWindow(window)
+            # Given document is already open; activate the window
+            self._documentArea.setActiveSubWindow(window)
 
             self.updateRecentDocuments(canonicalName)
             self.updateMenuOpenRecent()
@@ -681,11 +681,13 @@ class MainWindow(QMainWindow):
             document.setDocumentTitle()
             document.show()
 
+            # Update list of recent documents
             self.updateRecentDocuments(canonicalName)
             self.updateMenuOpenRecent()
 
+            # Update application
             self.updateApplicationTitle()
-            self.updateMenus(len(self.documentArea.subWindowList()))
+            self.updateMenus(len(self._documentArea.subWindowList()))
         else:
             document.close()
 
