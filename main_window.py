@@ -678,7 +678,7 @@ class MainWindow(QMainWindow):
         succeeded = document.load(canonicalName)
         if succeeded:
             document.setCanonicalIndex(self.createDocumentIndex(canonicalName))
-            document.setDocumentTitle()
+            document.updateDocumentTitle()
             document.show()
 
             # Update list of recent documents
