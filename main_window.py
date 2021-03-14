@@ -650,7 +650,7 @@ class MainWindow(QMainWindow):
         return canonicalIndex+1
 
 
-    def findDocument(self, canonicalName):
+    def findDocumentWindow(self, canonicalName):
 
         for window in self._documentArea.subWindowList():
             if window.widget().canonicalName() == canonicalName:
@@ -670,7 +670,7 @@ class MainWindow(QMainWindow):
 
         canonicalName = QFileInfo(fileName).canonicalFilePath()
 
-        window = self.findDocument(canonicalName)
+        window = self.findDocumentWindow(canonicalName)
         if window:
             # Given document is already open; activate the window
             self._documentArea.setActiveSubWindow(window)
