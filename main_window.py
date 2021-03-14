@@ -66,7 +66,7 @@ class MainWindow(QMainWindow):
         self._documentArea.setTabsMovable(True)
         self._documentArea.setTabsClosable(True)
         self.setCentralWidget(self._documentArea)
-        self._documentArea.subWindowActivated.connect(self.onDocumentActivated)
+        self._documentArea.subWindowActivated.connect(self.onDocumentWindowActivated)
 
 
     def setApplicationState(self, state=QByteArray()):
@@ -598,7 +598,7 @@ class MainWindow(QMainWindow):
         self.keyboardShortcutsDialog = None
 
 
-    def onDocumentActivated(self, window):
+    def onDocumentWindowActivated(self, window):
 
         self.updateApplicationTitle()
         self.updateMenus(len(self._documentArea.subWindowList()))
