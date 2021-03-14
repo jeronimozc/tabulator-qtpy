@@ -607,7 +607,7 @@ class MainWindow(QMainWindow):
             return
 
 
-    def onDocumentClosed(self, canonicalName):
+    def onDocumentAboutToClose(self, canonicalName):
 
         # Update menu items but first delete the emitter from the list
         self.updateMenus(len(self._documentArea.subWindowList())-1)
@@ -617,7 +617,7 @@ class MainWindow(QMainWindow):
 
         document = Document(self)
         document.setPreferences(self._preferences)
-        document.documentClosed.connect(self.onDocumentClosed)
+        document.aboutToClose.connect(self.onDocumentAboutToClose)
 
         window = self._documentArea.addSubWindow(document)
         window.setWindowIcon(QIcon())
