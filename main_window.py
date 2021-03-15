@@ -56,8 +56,8 @@ class MainWindow(QMainWindow):
         self.setApplicationState(self._applicationState)
         self.setApplicationGeometry(self._applicationGeometry)
 
+        self.updateActions()
         self.updateActionFullScreen()
-        self.updateMenus()
         self.updateMenuOpenRecent()
 
         # Central widget
@@ -107,7 +107,7 @@ class MainWindow(QMainWindow):
         if True:
             # Recent documents
             if not self._preferences.restoreRecentDocuments():
-                 self.recentDocuments.clear()
+                self.recentDocuments.clear()
 
             # Application properties
             self._applicationState = self.applicationState() if self._preferences.restoreApplicationState() else QByteArray()
@@ -401,6 +401,17 @@ class MainWindow(QMainWindow):
         self.toolbarHelp.visibilityChanged.connect(lambda visible: self.actionToolbarHelp.setChecked(visible))
 
 
+    def updateActions(self, windowCount=0):
+
+        hasDocument = windowCount >= 1
+        hasDocuments = windowCount >= 2
+
+        # Actions: Document
+        self.actionClose.setEnabled(hasDocument)
+        self.actionCloseOther.setEnabled(hasDocuments)
+        self.actionCloseAll.setEnabled(hasDocument)
+
+
     def updateActionFullScreen(self):
 
         if not self.isFullScreen():
@@ -444,16 +455,6 @@ class MainWindow(QMainWindow):
             self.actionRecentDocuments[idx].setText(text)
             self.actionRecentDocuments[idx].setData(data)
             self.actionRecentDocuments[idx].setVisible(show)
-
-
-    def updateMenus(self, cntWindows=0):
-
-        hasDocument = cntWindows >= 1
-        hasDocuments = cntWindows >= 2
-
-        self.actionClose.setEnabled(hasDocument)
-        self.actionCloseOther.setEnabled(hasDocuments)
-        self.actionCloseAll.setEnabled(hasDocument)
 
 
     def updateMenuOpenRecent(self):
@@ -611,8 +612,8 @@ class MainWindow(QMainWindow):
 
     def onDocumentWindowActivated(self, window):
 
+        self.updateActions(len(self._documentArea.subWindowList()))
         self.updateTitleBar()
-        self.updateMenus(len(self._documentArea.subWindowList()))
 
         if not window:
             return
@@ -620,8 +621,8 @@ class MainWindow(QMainWindow):
 
     def onDocumentAboutToClose(self, canonicalName):
 
-        # Update menu items but first delete the emitter from the list
-        self.updateMenus(len(self._documentArea.subWindowList())-1)
+        # Update menu items; delete the emitter from the list
+        self.updateActions(len(self._documentArea.subWindowList())-1)
 
 
     def createDocument(self):
@@ -675,6 +676,7 @@ class MainWindow(QMainWindow):
             # Given document is already open; activate the window
             self._documentArea.setActiveSubWindow(window)
 
+            # Update list of recent documents
             self.updateRecentDocuments(canonicalName)
             self.updateMenuOpenRecent()
             return True
@@ -697,8 +699,8 @@ class MainWindow(QMainWindow):
             self.updateMenuOpenRecent()
 
             # Update application
+            self.updateActions(len(self._documentArea.subWindowList()))
             self.updateTitleBar()
-            self.updateMenus(len(self._documentArea.subWindowList()))
         else:
             document.close()
 
