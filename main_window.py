@@ -195,7 +195,6 @@ class MainWindow(QMainWindow):
         self.actionQuit.setIconText(self.tr('Quit'))
         self.actionQuit.setShortcut(QKeySequence.Quit)
         self.actionQuit.setToolTip(self.tr(f'Quit the application [{self.actionQuit.shortcut().toString(QKeySequence.NativeText)}]'))
-        self.actionQuit.setData(self.tr('Quit the application'))
         self.actionQuit.triggered.connect(self.close)
 
         # Actions: Document
@@ -205,7 +204,6 @@ class MainWindow(QMainWindow):
         self.actionNew.setIconText(self.tr('New'))
         self.actionNew.setShortcut(QKeySequence.New)
         self.actionNew.setToolTip(self.tr(f'Create new document [{self.actionNew.shortcut().toString(QKeySequence.NativeText)}]'))
-        self.actionNew.setData(self.tr('Create new document'))
         self.actionNew.triggered.connect(self.onActionNewTriggered)
 
         self.actionOpen = QAction(self.tr('Open…'), self)
@@ -214,7 +212,6 @@ class MainWindow(QMainWindow):
         self.actionOpen.setIconText(self.tr('Open'))
         self.actionOpen.setShortcut(QKeySequence.Open)
         self.actionOpen.setToolTip(self.tr(f'Open an existing document [{self.actionOpen.shortcut().toString(QKeySequence.NativeText)}]'))
-        self.actionOpen.setData(self.tr('Open an existing document'))
         self.actionOpen.triggered.connect(self.onActionOpenTriggered)
 
         self.actionOpenRecentClear = QAction(self.tr('Clear List'), self)
@@ -246,7 +243,6 @@ class MainWindow(QMainWindow):
         self.actionFullScreen.setCheckable(True)
         self.actionFullScreen.setIconText(self.tr('Full Screen'))
         self.actionFullScreen.setShortcuts([QKeySequence(Qt.Key_F11), QKeySequence.FullScreen])
-        self.actionFullScreen.setData(self.tr('Display the window in full screen'))
         self.actionFullScreen.triggered.connect(self.onActionFullScreenTriggered)
 
         self.actionTitlebarFullPath = QAction(self.tr('Show Path in Titlebar'), self)
