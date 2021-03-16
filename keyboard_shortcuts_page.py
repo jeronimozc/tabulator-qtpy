@@ -28,10 +28,10 @@ class KeyboardShortcutsPage(QWidget):
     def __init__(self, mainWindow, parent=None):
         super().__init__(parent)
 
-        listHeaderLabels = [self.tr('Name'), self.tr('Shortcut'), self.tr('Description')]
+        headerLabels = [self.tr('Name'), self.tr('Shortcut'), self.tr('Description')]
 
-        tableBox = QTableWidget(0, len(listHeaderLabels), self)
-        tableBox.setHorizontalHeaderLabels(listHeaderLabels)
+        tableBox = QTableWidget(0, len(headerLabels), self)
+        tableBox.setHorizontalHeaderLabels(headerLabels)
         tableBox.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
         tableBox.horizontalHeader().setStretchLastSection(True)
         tableBox.verticalHeader().setVisible(False)
@@ -39,8 +39,7 @@ class KeyboardShortcutsPage(QWidget):
         tableBox.setSelectionMode(QAbstractItemView.NoSelection)
         tableBox.setFocusPolicy(Qt.NoFocus)
 
-        listActionItems = mainWindow.findChildren(QAction)
-        for actionItem in listActionItems:
+        for actionItem in mainWindow.findChildren(QAction):
 
             if not actionItem.shortcut().isEmpty():
                 idx = tableBox.rowCount()
@@ -57,11 +56,11 @@ class KeyboardShortcutsPage(QWidget):
         self.layout.addWidget(tableBox)
 
 
-    def title(self):
-
-        return self.tr('Keyboard Shortcuts')
-
-
     def setZeroMargins(self):
 
         self.layout.setContentsMargins(0, 0, 0, 0)
+
+
+    def title(self):
+
+        return self.tr('Keyboard Shortcuts')

@@ -32,8 +32,6 @@ class KeyboardShortcutsDialog(QDialog):
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         self.setWindowTitle(self.tr('Keyboard Shortcuts'))
 
-        self.setDialogGeometry()
-
         # Content
         keyboardShortcutsPage = KeyboardShortcutsPage(self.parentWidget())
         keyboardShortcutsPage.setZeroMargins()
