@@ -607,7 +607,6 @@ class MainWindow(QMainWindow):
     def onDialogKeyboardShortcutsFinished(self):
 
         self._keyboardShortcutsDialogGeometry = self.keyboardShortcutsDialog.dialogGeometry() if self._preferences.restoreDialogGeometry() else QByteArray()
-        self.keyboardShortcutsDialog = None
 
 
     def onDocumentWindowActivated(self, window):
