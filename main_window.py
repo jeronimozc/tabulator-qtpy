@@ -246,10 +246,18 @@ class MainWindow(QMainWindow):
         self.actionSaveAsDelimiterComma.setData('comma')
         self.actionSaveAsDelimiterComma.triggered.connect(lambda: self.onActionSaveAsDelimiterTriggered('comma') )
 
+        self.actionSaveAsDelimiterSemicolon = QAction(self.tr('Semicolon'), self)
+        self.actionSaveAsDelimiterSemicolon.setObjectName('actionSaveAsDelimiterSemicolon')
+        self.actionSaveAsDelimiterSemicolon.setCheckable(True)
+        self.actionSaveAsDelimiterSemicolon.setToolTip(self.tr('Save document with semicolon as delimiter under a new name'))
+        self.actionSaveAsDelimiterSemicolon.setData('semicolon')
+        self.actionSaveAsDelimiterSemicolon.triggered.connect(lambda: self.onActionSaveAsDelimiterTriggered('semicolon') )
+
         self.actionSaveAsDelimiter = QActionGroup(self)
         self.actionSaveAsDelimiter.setObjectName('actionSaveAsDelimiter')
         self.actionSaveAsDelimiter.addAction(self.actionSaveAsDelimiterColon)
         self.actionSaveAsDelimiter.addAction(self.actionSaveAsDelimiterComma)
+        self.actionSaveAsDelimiter.addAction(self.actionSaveAsDelimiterSemicolon)
 
         self.actionClose = QAction(self.tr('Close'), self)
         self.actionClose.setObjectName('actionClose')
