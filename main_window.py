@@ -267,6 +267,13 @@ class MainWindow(QMainWindow):
         self.actionSaveAsDelimiter.addAction(self.actionSaveAsDelimiterSemicolon)
         self.actionSaveAsDelimiter.addAction(self.actionSaveAsDelimiterTab)
 
+        self.actionSaveCopyAs = QAction(self.tr('Save Copy As…'), self)
+        self.actionSaveCopyAs.setObjectName('actionSaveCopyAs')
+        self.actionSaveCopyAs.setIcon(QIcon.fromTheme('document-save-as', QIcon(':/icons/actions/16/document-save-as.svg')))
+        self.actionSaveCopyAs.setIconText(self.tr('Save Copy As'))
+        self.actionSaveCopyAs.setToolTip(self.tr('Save copy of document under a new name'))
+        self.actionSaveCopyAs.triggered.connect(self.onActionSaveCopyAsTriggered)
+
         self.actionClose = QAction(self.tr('Close'), self)
         self.actionClose.setObjectName('actionClose')
         self.actionClose.setIcon(QIcon.fromTheme('document-close', QIcon(':/icons/actions/16/document-close.svg')))
@@ -379,6 +386,7 @@ class MainWindow(QMainWindow):
         menuDocument.addAction(self.actionSave)
         menuDocument.addAction(self.actionSaveAs)
         menuDocument.addMenu(self.menuSaveAsDelimiter)
+        menuDocument.addAction(self.actionSaveCopyAs)
         menuDocument.addSeparator()
         menuDocument.addAction(self.actionClose)
         menuDocument.addAction(self.actionCloseOther)
@@ -467,6 +475,7 @@ class MainWindow(QMainWindow):
         self.actionSave.setEnabled(hasDocument)
         self.actionSaveAs.setEnabled(hasDocument)
         self.menuSaveAsDelimiter.setEnabled(hasDocument)
+        self.actionSaveCopyAs.setEnabled(hasDocument)
         self.actionClose.setEnabled(hasDocument)
         self.actionCloseOther.setEnabled(hasDocuments)
         self.actionCloseAll.setEnabled(hasDocument)
@@ -627,6 +636,10 @@ class MainWindow(QMainWindow):
 
 
     def onActionSaveAsDelimiterTriggered(self, delimiter):
+        pass
+
+
+    def onActionSaveCopyAsTriggered(self):
         pass
 
 
