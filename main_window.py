@@ -253,11 +253,19 @@ class MainWindow(QMainWindow):
         self.actionSaveAsDelimiterSemicolon.setData('semicolon')
         self.actionSaveAsDelimiterSemicolon.triggered.connect(lambda: self.onActionSaveAsDelimiterTriggered('semicolon') )
 
+        self.actionSaveAsDelimiterTab = QAction(self.tr('Tab'), self)
+        self.actionSaveAsDelimiterTab.setObjectName('actionSaveAsDelimiterTab')
+        self.actionSaveAsDelimiterTab.setCheckable(True)
+        self.actionSaveAsDelimiterTab.setToolTip(self.tr('Save document with tab as delimiter under a new name'))
+        self.actionSaveAsDelimiterTab.setData('tab')
+        self.actionSaveAsDelimiterTab.triggered.connect(lambda: self.onActionSaveAsDelimiterTriggered('tab') )
+
         self.actionSaveAsDelimiter = QActionGroup(self)
         self.actionSaveAsDelimiter.setObjectName('actionSaveAsDelimiter')
         self.actionSaveAsDelimiter.addAction(self.actionSaveAsDelimiterColon)
         self.actionSaveAsDelimiter.addAction(self.actionSaveAsDelimiterComma)
         self.actionSaveAsDelimiter.addAction(self.actionSaveAsDelimiterSemicolon)
+        self.actionSaveAsDelimiter.addAction(self.actionSaveAsDelimiterTab)
 
         self.actionClose = QAction(self.tr('Close'), self)
         self.actionClose.setObjectName('actionClose')
