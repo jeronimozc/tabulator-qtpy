@@ -239,9 +239,17 @@ class MainWindow(QMainWindow):
         self.actionSaveAsDelimiterColon.setData('colon')
         self.actionSaveAsDelimiterColon.triggered.connect(lambda: self.onActionSaveAsDelimiterTriggered('colon') )
 
+        self.actionSaveAsDelimiterComma = QAction(self.tr('Comma'), self)
+        self.actionSaveAsDelimiterComma.setObjectName('actionSaveAsDelimiterComma')
+        self.actionSaveAsDelimiterComma.setCheckable(True)
+        self.actionSaveAsDelimiterComma.setToolTip(self.tr('Save document with comma as delimiter under a new name'))
+        self.actionSaveAsDelimiterComma.setData('comma')
+        self.actionSaveAsDelimiterComma.triggered.connect(lambda: self.onActionSaveAsDelimiterTriggered('comma') )
+
         self.actionSaveAsDelimiter = QActionGroup(self)
         self.actionSaveAsDelimiter.setObjectName('actionSaveAsDelimiter')
         self.actionSaveAsDelimiter.addAction(self.actionSaveAsDelimiterColon)
+        self.actionSaveAsDelimiter.addAction(self.actionSaveAsDelimiterComma)
 
         self.actionClose = QAction(self.tr('Close'), self)
         self.actionClose.setObjectName('actionClose')
