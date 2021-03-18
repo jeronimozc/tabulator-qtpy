@@ -224,6 +224,14 @@ class MainWindow(QMainWindow):
         self.actionSave.setToolTip(self.tr(f'Save document [{self.actionSave.shortcut().toString(QKeySequence.NativeText)}]'))
         self.actionSave.triggered.connect(self.onActionSaveTriggered)
 
+        self.actionSaveAs = QAction(self.tr('Save As…'), self)
+        self.actionSaveAs.setObjectName('actionSaveAs')
+        self.actionSaveAs.setIcon(QIcon.fromTheme('document-save-as', QIcon(':/icons/actions/16/document-save-as.svg')))
+        self.actionSaveAs.setIconText(self.tr('Save As'))
+        self.actionSaveAs.setShortcut(QKeySequence.SaveAs)
+        self.actionSaveAs.setToolTip(self.tr(f'Save document under a new name [{self.actionSaveAs.shortcut().toString(QKeySequence.NativeText)}]'))
+        self.actionSaveAs.triggered.connect(self.onActionSaveAsTriggered)
+
         self.actionClose = QAction(self.tr('Close'), self)
         self.actionClose.setObjectName('actionClose')
         self.actionClose.setIcon(QIcon.fromTheme('document-close', QIcon(':/icons/actions/16/document-close.svg')))
@@ -328,6 +336,7 @@ class MainWindow(QMainWindow):
         menuDocument.addMenu(self.menuOpenRecent)
         menuDocument.addSeparator()
         menuDocument.addAction(self.actionSave)
+        menuDocument.addAction(self.actionSaveAs)
         menuDocument.addSeparator()
         menuDocument.addAction(self.actionClose)
         menuDocument.addAction(self.actionCloseOther)
@@ -379,6 +388,7 @@ class MainWindow(QMainWindow):
         self.toolbarDocument.addAction(self.actionOpen)
         self.toolbarDocument.addSeparator()
         self.toolbarDocument.addAction(self.actionSave)
+        self.toolbarDocument.addAction(self.actionSaveAs)
         self.toolbarDocument.addSeparator()
         self.toolbarDocument.addAction(self.actionClose)
         self.toolbarDocument.visibilityChanged.connect(lambda visible: self.actionToolbarDocument.setChecked(visible))
@@ -413,6 +423,7 @@ class MainWindow(QMainWindow):
 
         # Actions: Document
         self.actionSave.setEnabled(hasDocument)
+        self.actionSaveAs.setEnabled(hasDocument)
         self.actionClose.setEnabled(hasDocument)
         self.actionCloseOther.setEnabled(hasDocuments)
         self.actionCloseAll.setEnabled(hasDocument)
@@ -565,6 +576,10 @@ class MainWindow(QMainWindow):
 
 
     def onActionSaveTriggered(self):
+        pass
+
+
+    def onActionSaveAsTriggered(self):
         pass
 
 
