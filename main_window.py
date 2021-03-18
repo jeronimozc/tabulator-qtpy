@@ -232,8 +232,16 @@ class MainWindow(QMainWindow):
         self.actionSaveAs.setToolTip(self.tr(f'Save document under a new name [{self.actionSaveAs.shortcut().toString(QKeySequence.NativeText)}]'))
         self.actionSaveAs.triggered.connect(self.onActionSaveAsTriggered)
 
+        self.actionSaveAsDelimiterColon = QAction(self.tr('Colon'), self)
+        self.actionSaveAsDelimiterColon.setObjectName('actionSaveAsDelimiterColon')
+        self.actionSaveAsDelimiterColon.setCheckable(True)
+        self.actionSaveAsDelimiterColon.setToolTip(self.tr('Save document with colon as delimiter under a new name'))
+        self.actionSaveAsDelimiterColon.setData('colon')
+        self.actionSaveAsDelimiterColon.triggered.connect(lambda: self.onActionSaveAsDelimiterTriggered('colon') )
+
         self.actionSaveAsDelimiter = QActionGroup(self)
         self.actionSaveAsDelimiter.setObjectName('actionSaveAsDelimiter')
+        self.actionSaveAsDelimiter.addAction(self.actionSaveAsDelimiterColon)
 
         self.actionClose = QAction(self.tr('Close'), self)
         self.actionClose.setObjectName('actionClose')
