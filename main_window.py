@@ -20,7 +20,7 @@
 
 from PySide2.QtCore import QByteArray, QFileInfo, QSettings, QStandardPaths, Qt
 from PySide2.QtGui import QIcon, QKeySequence
-from PySide2.QtWidgets import QAction, QApplication, QFileDialog, QMainWindow, QMdiArea, QMenu
+from PySide2.QtWidgets import QAction, QActionGroup, QApplication, QFileDialog, QMainWindow, QMdiArea, QMenu
 
 from about_dialog import AboutDialog
 from colophon_dialog import ColophonDialog
@@ -232,6 +232,9 @@ class MainWindow(QMainWindow):
         self.actionSaveAs.setToolTip(self.tr(f'Save document under a new name [{self.actionSaveAs.shortcut().toString(QKeySequence.NativeText)}]'))
         self.actionSaveAs.triggered.connect(self.onActionSaveAsTriggered)
 
+        self.actionSaveAsDelimiter = QActionGroup(self)
+        self.actionSaveAsDelimiter.setObjectName('actionSaveAsDelimiter')
+
         self.actionClose = QAction(self.tr('Close'), self)
         self.actionClose.setObjectName('actionClose')
         self.actionClose.setIcon(QIcon.fromTheme('document-close', QIcon(':/icons/actions/16/document-close.svg')))
@@ -328,6 +331,12 @@ class MainWindow(QMainWindow):
         self.menuOpenRecent.setIcon(QIcon.fromTheme('document-open-recent', QIcon(':/icons/actions/16/document-open-recent.svg')))
         self.menuOpenRecent.setToolTip('Open a document which was recently opened')
 
+        self.menuSaveAsDelimiter = QMenu(self.tr('Save As with Delimiter…'), self)
+        self.menuSaveAsDelimiter.setObjectName('menuSaveAsDelimiter')
+        self.menuSaveAsDelimiter.setIcon(QIcon.fromTheme('document-save-as', QIcon(':/icons/actions/16/document-save-as.svg')))
+        self.menuSaveAsDelimiter.setToolTip(self.tr('Save document with specific delimiter under a new name'))
+        self.menuSaveAsDelimiter.addActions(self.actionSaveAsDelimiter.actions())
+
         menuDocument = self.menuBar().addMenu(self.tr('Document'))
         menuDocument.setObjectName('menuDocument')
         menuDocument.addAction(self.actionNew)
@@ -337,6 +346,7 @@ class MainWindow(QMainWindow):
         menuDocument.addSeparator()
         menuDocument.addAction(self.actionSave)
         menuDocument.addAction(self.actionSaveAs)
+        menuDocument.addMenu(self.menuSaveAsDelimiter)
         menuDocument.addSeparator()
         menuDocument.addAction(self.actionClose)
         menuDocument.addAction(self.actionCloseOther)
@@ -424,6 +434,7 @@ class MainWindow(QMainWindow):
         # Actions: Document
         self.actionSave.setEnabled(hasDocument)
         self.actionSaveAs.setEnabled(hasDocument)
+        self.menuSaveAsDelimiter.setEnabled(hasDocument)
         self.actionClose.setEnabled(hasDocument)
         self.actionCloseOther.setEnabled(hasDocuments)
         self.actionCloseAll.setEnabled(hasDocument)
@@ -580,6 +591,10 @@ class MainWindow(QMainWindow):
 
 
     def onActionSaveAsTriggered(self):
+        pass
+
+
+    def onActionSaveAsDelimiterTriggered(self, delimiter):
         pass
 
 
