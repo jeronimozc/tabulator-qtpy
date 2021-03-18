@@ -217,6 +217,13 @@ class MainWindow(QMainWindow):
         self.actionOpenRecentClear.setToolTip(self.tr('Clear document list'))
         self.actionOpenRecentClear.triggered.connect(self.onActionOpenRecentClearTriggered)
 
+        self.actionSave = QAction(self.tr('Save'), self)
+        self.actionSave.setObjectName('actionSave')
+        self.actionSave.setIcon(QIcon.fromTheme('document-save', QIcon(':/icons/actions/16/document-save.svg')))
+        self.actionSave.setShortcut(QKeySequence.Save)
+        self.actionSave.setToolTip(self.tr(f'Save document [{self.actionSave.shortcut().toString(QKeySequence.NativeText)}]'))
+        self.actionSave.triggered.connect(self.onActionSaveTriggered)
+
         self.actionClose = QAction(self.tr('Close'), self)
         self.actionClose.setObjectName('actionClose')
         self.actionClose.setIcon(QIcon.fromTheme('document-close', QIcon(':/icons/actions/16/document-close.svg')))
@@ -320,6 +327,8 @@ class MainWindow(QMainWindow):
         menuDocument.addAction(self.actionOpen)
         menuDocument.addMenu(self.menuOpenRecent)
         menuDocument.addSeparator()
+        menuDocument.addAction(self.actionSave)
+        menuDocument.addSeparator()
         menuDocument.addAction(self.actionClose)
         menuDocument.addAction(self.actionCloseOther)
         menuDocument.addAction(self.actionCloseAll)
@@ -369,6 +378,8 @@ class MainWindow(QMainWindow):
         self.toolbarDocument.addAction(self.actionNew)
         self.toolbarDocument.addAction(self.actionOpen)
         self.toolbarDocument.addSeparator()
+        self.toolbarDocument.addAction(self.actionSave)
+        self.toolbarDocument.addSeparator()
         self.toolbarDocument.addAction(self.actionClose)
         self.toolbarDocument.visibilityChanged.connect(lambda visible: self.actionToolbarDocument.setChecked(visible))
 
@@ -401,6 +412,7 @@ class MainWindow(QMainWindow):
         hasDocuments = windowCount >= 2
 
         # Actions: Document
+        self.actionSave.setEnabled(hasDocument)
         self.actionClose.setEnabled(hasDocument)
         self.actionCloseOther.setEnabled(hasDocuments)
         self.actionCloseAll.setEnabled(hasDocument)
@@ -550,6 +562,10 @@ class MainWindow(QMainWindow):
 
         self.updateRecentDocuments(None)
         self.updateMenuOpenRecent()
+
+
+    def onActionSaveTriggered(self):
+        pass
 
 
     def onActionCloseTriggered(self):
