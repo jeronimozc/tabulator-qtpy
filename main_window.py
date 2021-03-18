@@ -274,6 +274,13 @@ class MainWindow(QMainWindow):
         self.actionSaveCopyAs.setToolTip(self.tr('Save copy of document under a new name'))
         self.actionSaveCopyAs.triggered.connect(self.onActionSaveCopyAsTriggered)
 
+        self.actionSaveAll = QAction(self.tr('Save All'), self)
+        self.actionSaveAll.setObjectName('actionSaveAll')
+        self.actionSaveAll.setIcon(QIcon.fromTheme('document-save-all', QIcon(':/icons/actions/16/document-save-all.svg')))
+        self.actionSaveAll.setShortcut(QKeySequence(Qt.CTRL + Qt.Key_L))
+        self.actionSaveAll.setToolTip(self.tr(f'Save all documents [{self.actionSaveAll.shortcut().toString(QKeySequence.NativeText)}]'))
+        self.actionSaveAll.triggered.connect(self.onActionSaveAllTriggered)
+
         self.actionClose = QAction(self.tr('Close'), self)
         self.actionClose.setObjectName('actionClose')
         self.actionClose.setIcon(QIcon.fromTheme('document-close', QIcon(':/icons/actions/16/document-close.svg')))
@@ -387,6 +394,7 @@ class MainWindow(QMainWindow):
         menuDocument.addAction(self.actionSaveAs)
         menuDocument.addMenu(self.menuSaveAsDelimiter)
         menuDocument.addAction(self.actionSaveCopyAs)
+        menuDocument.addAction(self.actionSaveAll)
         menuDocument.addSeparator()
         menuDocument.addAction(self.actionClose)
         menuDocument.addAction(self.actionCloseOther)
@@ -476,6 +484,7 @@ class MainWindow(QMainWindow):
         self.actionSaveAs.setEnabled(hasDocument)
         self.menuSaveAsDelimiter.setEnabled(hasDocument)
         self.actionSaveCopyAs.setEnabled(hasDocument)
+        self.actionSaveAll.setEnabled(hasDocument)
         self.actionClose.setEnabled(hasDocument)
         self.actionCloseOther.setEnabled(hasDocuments)
         self.actionCloseAll.setEnabled(hasDocument)
@@ -640,6 +649,10 @@ class MainWindow(QMainWindow):
 
 
     def onActionSaveCopyAsTriggered(self):
+        pass
+
+
+    def onActionSaveAllTriggered(self):
         pass
 
 
