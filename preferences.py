@@ -20,6 +20,8 @@
 
 from enum import Enum
 
+from PySide2.QtCore import QSettings
+
 
 class Preferences:
 
@@ -51,7 +53,9 @@ class Preferences:
         self._defaultCellCountRow = 50
 
 
-    def load(self, settings):
+    def load(self):
+
+        settings = QSettings()
 
         settings.beginGroup('Preferences')
 
@@ -74,7 +78,9 @@ class Preferences:
         settings.endGroup()
 
 
-    def save(self, settings):
+    def save(self):
+
+        settings = QSettings()
 
         settings.beginGroup('Preferences')
         settings.remove('')

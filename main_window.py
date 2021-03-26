@@ -46,11 +46,13 @@ class MainWindow(QMainWindow):
 
         self.setWindowIcon(QIcon(':/icons/apps/16/tabulator.svg'))
 
-        self.loadSettings()
+        self._preferences.load()
 
         self.createActions()
         self.createMenus()
         self.createToolBars()
+
+        self.loadSettings()
 
         # Application properties
         self.setApplicationGeometry(self._applicationGeometry)
@@ -114,6 +116,7 @@ class MainWindow(QMainWindow):
             self._applicationState = self.applicationState() if self._preferences.restoreApplicationState() else QByteArray()
 
             self.saveSettings()
+            self._preferences.save()
             event.accept()
         else:
             event.ignore()
@@ -122,9 +125,6 @@ class MainWindow(QMainWindow):
     def loadSettings(self):
 
         settings = QSettings()
-
-        # Preferences
-        self._preferences.load(settings)
 
         # Recent documents
         size = settings.beginReadArray('RecentDocuments')
@@ -142,9 +142,6 @@ class MainWindow(QMainWindow):
     def saveSettings(self):
 
         settings = QSettings()
-
-        # Preferences
-        self._preferences.save(settings)
 
         # Recent documents
         settings.remove('RecentDocuments')
