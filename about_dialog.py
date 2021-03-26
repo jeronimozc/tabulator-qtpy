@@ -18,7 +18,7 @@
 # along with Tabulator-QtPy.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from PySide2.QtCore import QByteArray, Qt
+from PySide2.QtCore import Qt
 from PySide2.QtWidgets import QApplication, QDialog, QDialogButtonBox, QVBoxLayout
 
 from colophon_about_page import ColophonAboutPage
@@ -30,6 +30,7 @@ class AboutDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
 
+        self.setMinimumSize(480, 320)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         self.setWindowTitle(self.tr(f'About {QApplication.applicationName()}'))
 
@@ -49,16 +50,3 @@ class AboutDialog(QDialog):
         layout.addWidget(titleBox)
         layout.addWidget(aboutPage)
         layout.addWidget(buttonBox)
-
-
-    def setDialogGeometry(self, geometry=QByteArray()):
-
-        if not geometry.isEmpty():
-            self.restoreGeometry(geometry)
-        else:
-            self.resize(480, 320)
-
-
-    def dialogGeometry(self):
-
-        return self.saveGeometry()
