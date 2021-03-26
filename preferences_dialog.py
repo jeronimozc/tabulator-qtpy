@@ -18,7 +18,6 @@
 # along with Tabulator-QtPy.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from PySide2.QtCore import QByteArray
 from PySide2.QtWidgets import QDialog, QDialogButtonBox, QHBoxLayout, QListWidget, QStackedWidget, QVBoxLayout
 
 from preferences import Preferences
@@ -35,6 +34,7 @@ class PreferencesDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
 
+        self.setMinimumSize(800, 600)
         self.setWindowTitle(self.tr('Preferences'))
 
         # Preferences box
@@ -82,19 +82,6 @@ class PreferencesDialog(QDialog):
 
         self.updatePreferences()
         self.buttonApply.setEnabled(False)
-
-
-    def setDialogGeometry(self, geometry=QByteArray()):
-
-        if not geometry.isEmpty():
-            self.restoreGeometry(geometry)
-        else:
-            self.resize(800, 600)
-
-
-    def dialogGeometry(self):
-
-        return self.saveGeometry()
 
 
     def setPreferences(self, preferences):
