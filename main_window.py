@@ -137,7 +137,6 @@ class MainWindow(QMainWindow):
         # Application and dialog properties
         self._applicationState = settings.value('Application/State', QByteArray()) if self._preferences.restoreApplicationState() else QByteArray()
         self._applicationGeometry = settings.value('Application/Geometry', QByteArray()) if self._preferences.restoreApplicationGeometry() else QByteArray()
-        self._keyboardShortcutsDialogGeometry = settings.value('KeyboardShortcutsDialog/Geometry', QByteArray())
 
 
     def saveSettings(self):
@@ -158,7 +157,6 @@ class MainWindow(QMainWindow):
         # Application and dialog properties
         settings.setValue('Application/State', self._applicationState)
         settings.setValue('Application/Geometry', self._applicationGeometry)
-        settings.setValue('KeyboardShortcutsDialog/Geometry', self._keyboardShortcutsDialogGeometry)
 
 
     def createActions(self):
@@ -671,20 +669,11 @@ class MainWindow(QMainWindow):
     def onActionKeyboardShortcutsTriggered(self):
 
         if not self.keyboardShortcutsDialog:
-            geometry = self._keyboardShortcutsDialogGeometry if self._preferences.restoreDialogGeometry() else QByteArray()
-
             self.keyboardShortcutsDialog = KeyboardShortcutsDialog(self)
-            self.keyboardShortcutsDialog.setDialogGeometry(geometry)
-            self.keyboardShortcutsDialog.finished.connect(self.onDialogKeyboardShortcutsFinished)
 
         self.keyboardShortcutsDialog.show()
         self.keyboardShortcutsDialog.raise_()
         self.keyboardShortcutsDialog.activateWindow()
-
-
-    def onDialogKeyboardShortcutsFinished(self):
-
-        self._keyboardShortcutsDialogGeometry = self.keyboardShortcutsDialog.dialogGeometry() if self._preferences.restoreDialogGeometry() else QByteArray()
 
 
     def onDocumentWindowActivated(self, window):

@@ -18,7 +18,7 @@
 # along with Tabulator-QtPy.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from PySide2.QtCore import QByteArray, QRect, Qt
+from PySide2.QtCore import Qt
 from PySide2.QtWidgets import QApplication, QDialog, QDialogButtonBox, QVBoxLayout
 
 from keyboard_shortcuts_page import KeyboardShortcutsPage
@@ -29,6 +29,7 @@ class KeyboardShortcutsDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
 
+        self.setMinimumSize(640, 480)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         self.setWindowTitle(self.tr('Keyboard Shortcuts'))
 
@@ -44,16 +45,3 @@ class KeyboardShortcutsDialog(QDialog):
         layout = QVBoxLayout(self)
         layout.addWidget(keyboardShortcutsPage)
         layout.addWidget(buttonBox)
-
-
-    def setDialogGeometry(self, geometry=QByteArray()):
-
-        if geometry:
-            self.restoreGeometry(geometry)
-        else:
-            self.resize(640, 480)
-
-
-    def dialogGeometry(self):
-
-        return self.saveGeometry()
