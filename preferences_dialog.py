@@ -121,10 +121,9 @@ class PreferencesDialog(QDialog):
 
     def updatePreferences(self, isDefault=False):
 
-        # General: State & Geometries
-        self.generalPage.setRestoreApplicationState(self._preferences.restoreApplicationState(isDefault))
+        # General: Geometry & State
         self.generalPage.setRestoreApplicationGeometry(self._preferences.restoreApplicationGeometry(isDefault))
-        self.generalPage.setRestoreDialogGeometry(self._preferences.restoreDialogGeometry(isDefault))
+        self.generalPage.setRestoreApplicationState(self._preferences.restoreApplicationState(isDefault))
 
         # Documents: Recently Opened Documents
         self.documentsPage.setMaximumRecentDocuments(self._preferences.maximumRecentDocuments(isDefault))
@@ -141,10 +140,9 @@ class PreferencesDialog(QDialog):
 
     def savePreferences(self):
 
-        # General: State & Geometries
-        self._preferences.setRestoreApplicationState(self.generalPage.restoreApplicationState())
+        # General: Geometry & State
         self._preferences.setRestoreApplicationGeometry(self.generalPage.restoreApplicationGeometry())
-        self._preferences.setRestoreDialogGeometry(self.generalPage.restoreDialogGeometry())
+        self._preferences.setRestoreApplicationState(self.generalPage.restoreApplicationState())
 
         # Documents: Recently Opened Documents
         self._preferences.setMaximumRecentDocuments(self.documentsPage.maximumRecentDocuments())
