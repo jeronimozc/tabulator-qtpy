@@ -43,12 +43,11 @@ class KeyboardShortcutsPage(QWidget):
 
             if not actionItem.shortcut().isEmpty():
                 idx = tableBox.rowCount()
-                pos = actionItem.toolTip().rfind('[') - 1;
 
                 tableBox.setRowCount(idx + 1)
                 tableBox.setItem(idx, 0, QTableWidgetItem(actionItem.icon(), actionItem.text()))
                 tableBox.setItem(idx, 1, QTableWidgetItem(actionItem.shortcut().toString(QKeySequence.NativeText)))
-                tableBox.setItem(idx, 2, QTableWidgetItem(actionItem.toolTip()[:pos]))
+                tableBox.setItem(idx, 2, QTableWidgetItem(actionItem.toolTip()))
 
         tableBox.resizeColumnsToContents()
 

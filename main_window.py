@@ -161,7 +161,7 @@ class MainWindow(QMainWindow):
         self.actionQuit.setObjectName('actionQuit')
         self.actionQuit.setIcon(QIcon.fromTheme('application-exit', QIcon(':/icons/actions/16/application-exit.svg')))
         self.actionQuit.setShortcut(QKeySequence.Quit)
-        self.actionQuit.setToolTip(self.tr(f'Quit the application [{self.actionQuit.shortcut().toString(QKeySequence.NativeText)}]'))
+        self.actionQuit.setToolTip(self.tr('Quit the application'))
         self.actionQuit.triggered.connect(self.close)
 
         # Actions: Document
@@ -169,14 +169,14 @@ class MainWindow(QMainWindow):
         self.actionNew.setObjectName('actionNew')
         self.actionNew.setIcon(QIcon.fromTheme('document-new', QIcon(':/icons/actions/16/document-new.svg')))
         self.actionNew.setShortcut(QKeySequence.New)
-        self.actionNew.setToolTip(self.tr(f'Create new document [{self.actionNew.shortcut().toString(QKeySequence.NativeText)}]'))
+        self.actionNew.setToolTip(self.tr('Create new document'))
         self.actionNew.triggered.connect(self.onActionNewTriggered)
 
         self.actionOpen = QAction(self.tr('Open…'), self)
         self.actionOpen.setObjectName('actionOpen')
         self.actionOpen.setIcon(QIcon.fromTheme('document-open', QIcon(':/icons/actions/16/document-open.svg')))
         self.actionOpen.setShortcut(QKeySequence.Open)
-        self.actionOpen.setToolTip(self.tr(f'Open an existing document [{self.actionOpen.shortcut().toString(QKeySequence.NativeText)}]'))
+        self.actionOpen.setToolTip(self.tr('Open an existing document'))
         self.actionOpen.triggered.connect(self.onActionOpenTriggered)
 
         self.actionOpenRecentClear = QAction(self.tr('Clear List'), self)
@@ -188,14 +188,14 @@ class MainWindow(QMainWindow):
         self.actionSave.setObjectName('actionSave')
         self.actionSave.setIcon(QIcon.fromTheme('document-save', QIcon(':/icons/actions/16/document-save.svg')))
         self.actionSave.setShortcut(QKeySequence.Save)
-        self.actionSave.setToolTip(self.tr(f'Save document [{self.actionSave.shortcut().toString(QKeySequence.NativeText)}]'))
+        self.actionSave.setToolTip(self.tr('Save document'))
         self.actionSave.triggered.connect(self.onActionSaveTriggered)
 
         self.actionSaveAs = QAction(self.tr('Save As…'), self)
         self.actionSaveAs.setObjectName('actionSaveAs')
         self.actionSaveAs.setIcon(QIcon.fromTheme('document-save-as', QIcon(':/icons/actions/16/document-save-as.svg')))
         self.actionSaveAs.setShortcut(QKeySequence.SaveAs)
-        self.actionSaveAs.setToolTip(self.tr(f'Save document under a new name [{self.actionSaveAs.shortcut().toString(QKeySequence.NativeText)}]'))
+        self.actionSaveAs.setToolTip(self.tr('Save document under a new name'))
         self.actionSaveAs.triggered.connect(self.onActionSaveAsTriggered)
 
         self.actionSaveAsDelimiterColon = QAction(self.tr('Colon'), self)
@@ -243,14 +243,14 @@ class MainWindow(QMainWindow):
         self.actionSaveAll.setObjectName('actionSaveAll')
         self.actionSaveAll.setIcon(QIcon.fromTheme('document-save-all', QIcon(':/icons/actions/16/document-save-all.svg')))
         self.actionSaveAll.setShortcut(QKeySequence(Qt.CTRL + Qt.Key_L))
-        self.actionSaveAll.setToolTip(self.tr(f'Save all documents [{self.actionSaveAll.shortcut().toString(QKeySequence.NativeText)}]'))
+        self.actionSaveAll.setToolTip(self.tr('Save all documents'))
         self.actionSaveAll.triggered.connect(self.onActionSaveAllTriggered)
 
         self.actionClose = QAction(self.tr('Close'), self)
         self.actionClose.setObjectName('actionClose')
         self.actionClose.setIcon(QIcon.fromTheme('document-close', QIcon(':/icons/actions/16/document-close.svg')))
         self.actionClose.setShortcut(QKeySequence.Close)
-        self.actionClose.setToolTip(f'Close document [{self.actionClose.shortcut().toString(QKeySequence.NativeText)}]')
+        self.actionClose.setToolTip('Close document')
         self.actionClose.triggered.connect(self.onActionCloseTriggered)
 
         self.actionCloseOther = QAction(self.tr('Close Other'), self)
@@ -261,7 +261,7 @@ class MainWindow(QMainWindow):
         self.actionCloseAll = QAction(self.tr('Close All'), self)
         self.actionCloseAll.setObjectName('actionCloseAll')
         self.actionCloseAll.setShortcut(QKeySequence(Qt.CTRL + Qt.SHIFT + Qt.Key_W))
-        self.actionCloseAll.setToolTip(f'Close all documents [{self.actionCloseAll.shortcut().toString(QKeySequence.NativeText)}]')
+        self.actionCloseAll.setToolTip('Close all documents')
         self.actionCloseAll.triggered.connect(self.onActionCloseAllTriggered)
 
         # Actions: View
@@ -461,12 +461,12 @@ class MainWindow(QMainWindow):
             self.actionFullScreen.setText(self.tr('Full Screen Mode'))
             self.actionFullScreen.setIcon(QIcon.fromTheme('view-fullscreen', QIcon(':/icons/actions/16/view-fullscreen.svg')))
             self.actionFullScreen.setChecked(False)
-            self.actionFullScreen.setToolTip(self.tr(f'Display the window in full screen [{self.actionFullScreen.shortcut().toString(QKeySequence.NativeText)}]'))
+            self.actionFullScreen.setToolTip(self.tr('Display the window in full screen'))
         else:
             self.actionFullScreen.setText(self.tr('Exit Full Screen Mode'))
             self.actionFullScreen.setIcon(QIcon.fromTheme('view-restore', QIcon(':/icons/actions/16/view-restore.svg')))
             self.actionFullScreen.setChecked(True)
-            self.actionFullScreen.setToolTip(self.tr(f'Exit the full screen mode [{self.actionFullScreen.shortcut().toString(QKeySequence.NativeText)}]'))
+            self.actionFullScreen.setToolTip(self.tr('Exit the full screen mode'))
 
 
     def updateActionRecentDocuments(self):
