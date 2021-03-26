@@ -154,7 +154,6 @@ class MainWindow(QMainWindow):
         self.actionPreferences = QAction(self.tr('Preferences…'), self)
         self.actionPreferences.setObjectName('actionPreferences')
         self.actionPreferences.setIcon(QIcon.fromTheme('configure', QIcon(':/icons/actions/16/application-configure.svg')))
-        self.actionPreferences.setIconText(self.tr('Preferences'))
         self.actionPreferences.setToolTip(self.tr('Customize the appearance and behavior of the application'))
         self.actionPreferences.triggered.connect(self.onActionPreferencesTriggered)
 
@@ -176,7 +175,6 @@ class MainWindow(QMainWindow):
         self.actionOpen = QAction(self.tr('Open…'), self)
         self.actionOpen.setObjectName('actionOpen')
         self.actionOpen.setIcon(QIcon.fromTheme('document-open', QIcon(':/icons/actions/16/document-open.svg')))
-        self.actionOpen.setIconText(self.tr('Open'))
         self.actionOpen.setShortcut(QKeySequence.Open)
         self.actionOpen.setToolTip(self.tr(f'Open an existing document [{self.actionOpen.shortcut().toString(QKeySequence.NativeText)}]'))
         self.actionOpen.triggered.connect(self.onActionOpenTriggered)
@@ -196,7 +194,6 @@ class MainWindow(QMainWindow):
         self.actionSaveAs = QAction(self.tr('Save As…'), self)
         self.actionSaveAs.setObjectName('actionSaveAs')
         self.actionSaveAs.setIcon(QIcon.fromTheme('document-save-as', QIcon(':/icons/actions/16/document-save-as.svg')))
-        self.actionSaveAs.setIconText(self.tr('Save As'))
         self.actionSaveAs.setShortcut(QKeySequence.SaveAs)
         self.actionSaveAs.setToolTip(self.tr(f'Save document under a new name [{self.actionSaveAs.shortcut().toString(QKeySequence.NativeText)}]'))
         self.actionSaveAs.triggered.connect(self.onActionSaveAsTriggered)
@@ -239,7 +236,6 @@ class MainWindow(QMainWindow):
         self.actionSaveCopyAs = QAction(self.tr('Save Copy As…'), self)
         self.actionSaveCopyAs.setObjectName('actionSaveCopyAs')
         self.actionSaveCopyAs.setIcon(QIcon.fromTheme('document-save-as', QIcon(':/icons/actions/16/document-save-as.svg')))
-        self.actionSaveCopyAs.setIconText(self.tr('Save Copy As'))
         self.actionSaveCopyAs.setToolTip(self.tr('Save copy of document under a new name'))
         self.actionSaveCopyAs.triggered.connect(self.onActionSaveCopyAsTriggered)
 
