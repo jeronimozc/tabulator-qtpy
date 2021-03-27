@@ -97,7 +97,7 @@ class PreferencesDocumentPresetsPage(QWidget):
         self.layout.addWidget(title)
         self.layout.addWidget(defaultHeaderLabelGroup)
         self.layout.addWidget(defaultCellCountGroup)
-        self.layout.addStretch()
+        self.layout.addStretch(1)
 
 
     def setZeroMargins(self):

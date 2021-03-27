@@ -19,7 +19,7 @@
 #
 
 from PySide2.QtCore import Signal
-from PySide2.QtWidgets import QCheckBox, QGroupBox, QLabel, QVBoxLayout, QWidget
+from PySide2.QtWidgets import QCheckBox, QFormLayout, QGroupBox, QLabel, QSpinBox, QVBoxLayout, QWidget
 
 
 class PreferencesGeneralPage(QWidget):
@@ -47,11 +47,32 @@ class PreferencesGeneralPage(QWidget):
         geometryStateGroup = QGroupBox(self.tr('Geometry && State'))
         geometryStateGroup.setLayout(geometryStateLayout)
 
+        # Recently Opened Documents
+        self.spbMaximumRecentDocuments = QSpinBox()
+        self.spbMaximumRecentDocuments.setRange(0, 25)
+        self.spbMaximumRecentDocuments.setToolTip(self.tr('Maximum number of recently opened documents'))
+        self.spbMaximumRecentDocuments.valueChanged.connect(self.onPreferencesChanged)
+        self.spbMaximumRecentDocuments.valueChanged[int].connect(self.onMaximumRecentDocumentsChanged)
+
+        self.chkRestoreRecentDocuments = QCheckBox(self.tr('Save and restore documents'))
+        self.chkRestoreRecentDocuments.stateChanged.connect(self.onPreferencesChanged)
+
+        recentDocumentsFormLayout = QFormLayout()
+        recentDocumentsFormLayout.addRow(self.tr('Number of documents'), self.spbMaximumRecentDocuments)
+
+        recentDocumentsLayout = QVBoxLayout()
+        recentDocumentsLayout.addLayout(recentDocumentsFormLayout)
+        recentDocumentsLayout.addWidget(self.chkRestoreRecentDocuments)
+
+        recentDocumentsGroup = QGroupBox(self.tr('Recently Opened Documents'))
+        recentDocumentsGroup.setLayout(recentDocumentsLayout)
+
         # Main layout
         self.layout = QVBoxLayout(self)
         self.layout.addWidget(title)
         self.layout.addWidget(geometryStateGroup)
-        self.layout.addStretch()
+        self.layout.addWidget(recentDocumentsGroup)
+        self.layout.addStretch(1)
 
 
     def setZeroMargins(self):
@@ -67,6 +88,11 @@ class PreferencesGeneralPage(QWidget):
     def onPreferencesChanged(self):
 
         self.preferencesChanged.emit()
+
+
+    def onMaximumRecentDocumentsChanged(self, val):
+
+        self.chkRestoreRecentDocuments.setEnabled(val>0)
 
 
     def setRestoreApplicationGeometry(self, checked):
@@ -87,3 +113,23 @@ class PreferencesGeneralPage(QWidget):
     def restoreApplicationState(self):
 
         return self.chkRestoreApplicationState.isChecked()
+
+
+    def setMaximumRecentDocuments(self, val):
+
+        self.spbMaximumRecentDocuments.setValue(val)
+
+
+    def maximumRecentDocuments(self):
+
+        return self.spbMaximumRecentDocuments.value()
+
+
+    def setRestoreRecentDocuments(self, checked):
+
+        self.chkRestoreRecentDocuments.setChecked(checked)
+
+
+    def restoreRecentDocuments(self):
+
+        return self.chkRestoreRecentDocuments.isChecked()

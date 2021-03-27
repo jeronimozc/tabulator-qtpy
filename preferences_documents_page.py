@@ -19,7 +19,7 @@
 #
 
 from PySide2.QtCore import Signal
-from PySide2.QtWidgets import QCheckBox, QFormLayout, QGroupBox, QLabel, QSpinBox, QVBoxLayout, QWidget
+from PySide2.QtWidgets import QLabel, QVBoxLayout, QWidget
 
 
 class PreferencesDocumentsPage(QWidget):
@@ -33,31 +33,11 @@ class PreferencesDocumentsPage(QWidget):
         # Title
         title = QLabel(self.tr('<strong style="font-size:large;">Documents</strong>'))
 
-        # Recently Opened Documents
-        self.spbMaximumRecentDocuments = QSpinBox()
-        self.spbMaximumRecentDocuments.setRange(0, 25)
-        self.spbMaximumRecentDocuments.setToolTip(self.tr('Maximum number of recently opened documents'))
-        self.spbMaximumRecentDocuments.valueChanged.connect(self.onPreferencesChanged)
-        self.spbMaximumRecentDocuments.valueChanged[int].connect(self.onMaximumRecentDocumentsChanged)
-
-        self.chkRestoreRecentDocuments = QCheckBox(self.tr('Save and restore documents'))
-        self.chkRestoreRecentDocuments.stateChanged.connect(self.onPreferencesChanged)
-
-        recentDocumentsFormLayout = QFormLayout()
-        recentDocumentsFormLayout.addRow(self.tr('Number of documents'), self.spbMaximumRecentDocuments)
-
-        recentDocumentsLayout = QVBoxLayout()
-        recentDocumentsLayout.addLayout(recentDocumentsFormLayout)
-        recentDocumentsLayout.addWidget(self.chkRestoreRecentDocuments)
-
-        recentDocumentsGroup = QGroupBox(self.tr('Recently Opened Documents'))
-        recentDocumentsGroup.setLayout(recentDocumentsLayout)
 
         # Main layout
         self.layout = QVBoxLayout(self)
         self.layout.addWidget(title)
-        self.layout.addWidget(recentDocumentsGroup)
-        self.layout.addStretch()
+        self.layout.addStretch(1)
 
 
     def setZeroMargins(self):
@@ -73,28 +53,3 @@ class PreferencesDocumentsPage(QWidget):
     def onPreferencesChanged(self):
 
         self.preferencesChanged.emit()
-
-
-    def onMaximumRecentDocumentsChanged(self, val):
-
-        self.chkRestoreRecentDocuments.setEnabled(val>0)
-
-
-    def setMaximumRecentDocuments(self, val):
-
-        self.spbMaximumRecentDocuments.setValue(val)
-
-
-    def maximumRecentDocuments(self):
-
-        return self.spbMaximumRecentDocuments.value()
-
-
-    def setRestoreRecentDocuments(self, checked):
-
-        self.chkRestoreRecentDocuments.setChecked(checked)
-
-
-    def restoreRecentDocuments(self):
-
-        return self.chkRestoreRecentDocuments.isChecked()

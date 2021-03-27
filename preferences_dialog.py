@@ -125,9 +125,9 @@ class PreferencesDialog(QDialog):
         self.generalPage.setRestoreApplicationGeometry(self._preferences.restoreApplicationGeometry(isDefault))
         self.generalPage.setRestoreApplicationState(self._preferences.restoreApplicationState(isDefault))
 
-        # Documents: Recently Opened Documents
-        self.documentsPage.setMaximumRecentDocuments(self._preferences.maximumRecentDocuments(isDefault))
-        self.documentsPage.setRestoreRecentDocuments(self._preferences.restoreRecentDocuments(isDefault))
+        # General: Recently Opened Documents
+        self.generalPage.setMaximumRecentDocuments(self._preferences.maximumRecentDocuments(isDefault))
+        self.generalPage.setRestoreRecentDocuments(self._preferences.restoreRecentDocuments(isDefault))
 
         # Document Presets: Header Labels
         self.documentPresetsPage.setDefaultHeaderLabelHorizontal(self._preferences.defaultHeaderLabelHorizontal(isDefault))
@@ -144,9 +144,9 @@ class PreferencesDialog(QDialog):
         self._preferences.setRestoreApplicationGeometry(self.generalPage.restoreApplicationGeometry())
         self._preferences.setRestoreApplicationState(self.generalPage.restoreApplicationState())
 
-        # Documents: Recently Opened Documents
-        self._preferences.setMaximumRecentDocuments(self.documentsPage.maximumRecentDocuments())
-        self._preferences.setRestoreRecentDocuments(self.documentsPage.restoreRecentDocuments())
+        # General: Recently Opened Documents
+        self._preferences.setMaximumRecentDocuments(self.generalPage.maximumRecentDocuments())
+        self._preferences.setRestoreRecentDocuments(self.generalPage.restoreRecentDocuments())
 
         # Document Presets: Header Labels
         self._preferences.setDefaultHeaderLabelHorizontal(self.documentPresetsPage.defaultHeaderLabelHorizontal())

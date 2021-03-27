@@ -40,7 +40,7 @@ class Preferences:
         self._restoreApplicationGeometry = True
         self._restoreApplicationState = True
 
-        # Documents: Recently Opened Documents
+        # General: Recently Opened Documents
         self._maximumRecentDocuments = 10
         self._restoreRecentDocuments = True
 
@@ -63,7 +63,7 @@ class Preferences:
         self.setRestoreApplicationGeometry(self.valueToBool(settings.value('RestoreApplicationGeometry', True)))
         self.setRestoreApplicationState(self.valueToBool(settings.value('RestoreApplicationState', True)))
 
-        # Documents: Recently Opened Documents
+        # General: Recently Opened Documents
         self.setMaximumRecentDocuments(int(settings.value('MaximumRecentDocuments', 10)))
         self.setRestoreRecentDocuments(self.valueToBool(settings.value('RestoreRecentDocuments', True)))
 
@@ -89,7 +89,7 @@ class Preferences:
         settings.setValue('RestoreApplicationGeometry', self._restoreApplicationGeometry)
         settings.setValue('RestoreApplicationState', self._restoreApplicationState)
 
-        # Documents: Recently Opened Documents
+        # General: Recently Opened Documents
         settings.setValue('MaximumRecentDocuments', self._maximumRecentDocuments)
         settings.setValue('RestoreRecentDocuments', self._restoreRecentDocuments)
 
