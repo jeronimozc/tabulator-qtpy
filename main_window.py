@@ -46,7 +46,7 @@ class MainWindow(QMainWindow):
 
         self.setWindowIcon(QIcon(':/icons/apps/16/tabulator.svg'))
 
-        self._preferences.load()
+        self._preferences.loadSettings()
 
         self.createActions()
         self.createMenus()
@@ -75,7 +75,7 @@ class MainWindow(QMainWindow):
                 self.recentDocuments.clear()
 
             self.saveSettings()
-            self._preferences.save()
+            self._preferences.saveSettings()
             event.accept()
         else:
             event.ignore()

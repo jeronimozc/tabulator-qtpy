@@ -53,7 +53,7 @@ class Preferences:
         self._defaultCellCountRow = 50
 
 
-    def load(self):
+    def loadSettings(self):
 
         settings = QSettings()
 
@@ -78,12 +78,12 @@ class Preferences:
         settings.endGroup()
 
 
-    def save(self):
+    def saveSettings(self):
 
         settings = QSettings()
 
+        settings.remove('Preferences')
         settings.beginGroup('Preferences')
-        settings.remove('')
 
         # General: Geometry & State
         settings.setValue('RestoreApplicationGeometry', self._restoreApplicationGeometry)
