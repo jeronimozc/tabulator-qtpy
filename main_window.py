@@ -660,6 +660,11 @@ class MainWindow(QMainWindow):
 
     def onDocumentAboutToClose(self, canonicalName):
 
+        # Workaround to show subwindows always maximized
+        for window in self._documentArea.subWindowList():
+            if not window.isMaximized():
+                window.showMaximized()
+
         # Update menu items; delete the emitter from the list
         self.updateActions(len(self._documentArea.subWindowList())-1)
 
