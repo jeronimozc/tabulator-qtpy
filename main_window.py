@@ -34,29 +34,27 @@ import icons
 
 class MainWindow(QMainWindow):
 
-    _preferences = Preferences()
-
-
     def __init__(self, parent=None):
         super().__init__(parent)
 
-        self.recentDocuments = []
-        self.actionRecentDocuments = []
-        self.keyboardShortcutsDialog = None
-
         self.setWindowIcon(QIcon(':/icons/apps/16/tabulator.svg'))
 
+        self._recentDocuments = []
+        self._actionRecentDocuments = []
+        self._keyboardShortcutsDialog = None
+
+        self._preferences = Preferences()
         self._preferences.loadSettings()
 
-        self.createActions()
-        self.createMenus()
-        self.createToolBars()
+        self._createActions()
+        self._createMenus()
+        self._createToolBars()
 
-        self.loadSettings()
+        self._loadSettings()
 
-        self.updateActions()
-        self.updateActionFullScreen()
-        self.updateMenuOpenRecent()
+        self._updateActions()
+        self._updateActionFullScreen()
+        self._updateMenuOpenRecent()
 
         # Central widget
         self._documentArea = QMdiArea()
@@ -64,24 +62,22 @@ class MainWindow(QMainWindow):
         self._documentArea.setTabsMovable(True)
         self._documentArea.setTabsClosable(True)
         self.setCentralWidget(self._documentArea)
-        self._documentArea.subWindowActivated.connect(self.onDocumentWindowActivated)
+        self._documentArea.subWindowActivated.connect(self._onDocumentWindowActivated)
 
 
     def closeEvent(self, event):
 
         if True:
-            # Recent documents
-            if not self._preferences.restoreRecentDocuments():
-                self.recentDocuments.clear()
-
-            self.saveSettings()
+            # Store application properties and preferences
+            self._saveSettings()
             self._preferences.saveSettings()
+
             event.accept()
         else:
             event.ignore()
 
 
-    def loadSettings(self):
+    def _loadSettings(self):
 
         settings = QSettings()
 
@@ -90,7 +86,7 @@ class MainWindow(QMainWindow):
         for idx in range(size-1, -1, -1):
             settings.setArrayIndex(idx)
             canonicalName = QFileInfo(settings.value('Document')).canonicalFilePath()
-            self.updateRecentDocuments(canonicalName)
+            self._updateRecentDocuments(canonicalName)
         settings.endArray()
 
         # Application properties: Geometry
@@ -107,24 +103,26 @@ class MainWindow(QMainWindow):
         if not state.isEmpty():
             self.restoreState(state)
         else:
-            self.toolbarApplication.setVisible(True)
-            self.toolbarDocument.setVisible(True)
-            self.toolbarEdit.setVisible(True)
-            self.toolbarTools.setVisible(True)
-            self.toolbarView.setVisible(False)
-            self.toolbarHelp.setVisible(False)
+            self._toolbarApplication.setVisible(True)
+            self._toolbarDocument.setVisible(True)
+            self._toolbarEdit.setVisible(True)
+            self._toolbarTools.setVisible(True)
+            self._toolbarView.setVisible(False)
+            self._toolbarHelp.setVisible(False)
 
 
-    def saveSettings(self):
+    def _saveSettings(self):
 
         settings = QSettings()
 
         # Recent documents
+        if not self._preferences.restoreRecentDocuments():
+            self._recentDocuments.clear()
         settings.remove('RecentDocuments')
         settings.beginWriteArray('RecentDocuments')
-        for idx in range(len(self.recentDocuments)):
+        for idx in range(len(self._recentDocuments)):
             settings.setArrayIndex(idx)
-            settings.setValue('Document', self.recentDocuments[idx])
+            settings.setValue('Document', self._recentDocuments[idx])
         settings.endArray()
 
         # Application properties: Geometry
@@ -136,234 +134,238 @@ class MainWindow(QMainWindow):
         settings.setValue('Application/State', state)
 
 
-    def createActions(self):
+    def _createActions(self):
 
         # Actions: Application
-        self.actionAbout = QAction(self.tr(f'About {QApplication.applicationName()}'), self)
-        self.actionAbout.setObjectName('actionAbout')
-        self.actionAbout.setIcon(QIcon(':/icons/apps/16/tabulator.svg'))
-        self.actionAbout.setIconText(self.tr('About'))
-        self.actionAbout.setToolTip(self.tr('Brief description of the application'))
-        self.actionAbout.triggered.connect(self.onActionAboutTriggered)
 
-        self.actionColophon = QAction(self.tr('Colophon'), self)
-        self.actionColophon.setObjectName('actionColophon')
-        self.actionColophon.setToolTip(self.tr('Lengthy description of the application'))
-        self.actionColophon.triggered.connect(self.onActionColophonTriggered)
+        self._actionAbout = QAction(self.tr(f'About {QApplication.applicationName()}'), self)
+        self._actionAbout.setObjectName('actionAbout')
+        self._actionAbout.setIcon(QIcon(':/icons/apps/16/tabulator.svg'))
+        self._actionAbout.setIconText(self.tr('About'))
+        self._actionAbout.setToolTip(self.tr('Brief description of the application'))
+        self._actionAbout.triggered.connect(self._onActionAboutTriggered)
 
-        self.actionPreferences = QAction(self.tr('Preferences…'), self)
-        self.actionPreferences.setObjectName('actionPreferences')
-        self.actionPreferences.setIcon(QIcon.fromTheme('configure', QIcon(':/icons/actions/16/application-configure.svg')))
-        self.actionPreferences.setToolTip(self.tr('Customize the appearance and behavior of the application'))
-        self.actionPreferences.triggered.connect(self.onActionPreferencesTriggered)
+        self._actionColophon = QAction(self.tr('Colophon'), self)
+        self._actionColophon.setObjectName('actionColophon')
+        self._actionColophon.setToolTip(self.tr('Lengthy description of the application'))
+        self._actionColophon.triggered.connect(self._onActionColophonTriggered)
 
-        self.actionQuit = QAction(self.tr('Quit'), self)
-        self.actionQuit.setObjectName('actionQuit')
-        self.actionQuit.setIcon(QIcon.fromTheme('application-exit', QIcon(':/icons/actions/16/application-exit.svg')))
-        self.actionQuit.setShortcut(QKeySequence.Quit)
-        self.actionQuit.setToolTip(self.tr('Quit the application'))
-        self.actionQuit.triggered.connect(self.close)
+        self._actionPreferences = QAction(self.tr('Preferences…'), self)
+        self._actionPreferences.setObjectName('actionPreferences')
+        self._actionPreferences.setIcon(QIcon.fromTheme('configure', QIcon(':/icons/actions/16/application-configure.svg')))
+        self._actionPreferences.setToolTip(self.tr('Customize the appearance and behavior of the application'))
+        self._actionPreferences.triggered.connect(self._onActionPreferencesTriggered)
+
+        self._actionQuit = QAction(self.tr('Quit'), self)
+        self._actionQuit.setObjectName('actionQuit')
+        self._actionQuit.setIcon(QIcon.fromTheme('application-exit', QIcon(':/icons/actions/16/application-exit.svg')))
+        self._actionQuit.setShortcut(QKeySequence.Quit)
+        self._actionQuit.setToolTip(self.tr('Quit the application'))
+        self._actionQuit.triggered.connect(self.close)
 
         # Actions: Document
-        self.actionNew = QAction(self.tr('New'), self)
-        self.actionNew.setObjectName('actionNew')
-        self.actionNew.setIcon(QIcon.fromTheme('document-new', QIcon(':/icons/actions/16/document-new.svg')))
-        self.actionNew.setShortcut(QKeySequence.New)
-        self.actionNew.setToolTip(self.tr('Create new document'))
-        self.actionNew.triggered.connect(self.onActionNewTriggered)
 
-        self.actionOpen = QAction(self.tr('Open…'), self)
-        self.actionOpen.setObjectName('actionOpen')
-        self.actionOpen.setIcon(QIcon.fromTheme('document-open', QIcon(':/icons/actions/16/document-open.svg')))
-        self.actionOpen.setShortcut(QKeySequence.Open)
-        self.actionOpen.setToolTip(self.tr('Open an existing document'))
-        self.actionOpen.triggered.connect(self.onActionOpenTriggered)
+        self._actionNew = QAction(self.tr('New'), self)
+        self._actionNew.setObjectName('actionNew')
+        self._actionNew.setIcon(QIcon.fromTheme('document-new', QIcon(':/icons/actions/16/document-new.svg')))
+        self._actionNew.setShortcut(QKeySequence.New)
+        self._actionNew.setToolTip(self.tr('Create new document'))
+        self._actionNew.triggered.connect(self._onActionNewTriggered)
 
-        self.actionOpenRecentClear = QAction(self.tr('Clear List'), self)
-        self.actionOpenRecentClear.setObjectName('actionOpenRecentClear')
-        self.actionOpenRecentClear.setToolTip(self.tr('Clear document list'))
-        self.actionOpenRecentClear.triggered.connect(self.onActionOpenRecentClearTriggered)
+        self._actionOpen = QAction(self.tr('Open…'), self)
+        self._actionOpen.setObjectName('actionOpen')
+        self._actionOpen.setIcon(QIcon.fromTheme('document-open', QIcon(':/icons/actions/16/document-open.svg')))
+        self._actionOpen.setShortcut(QKeySequence.Open)
+        self._actionOpen.setToolTip(self.tr('Open an existing document'))
+        self._actionOpen.triggered.connect(self._onActionOpenTriggered)
 
-        self.actionSave = QAction(self.tr('Save'), self)
-        self.actionSave.setObjectName('actionSave')
-        self.actionSave.setIcon(QIcon.fromTheme('document-save', QIcon(':/icons/actions/16/document-save.svg')))
-        self.actionSave.setShortcut(QKeySequence.Save)
-        self.actionSave.setToolTip(self.tr('Save document'))
-        self.actionSave.triggered.connect(self.onActionSaveTriggered)
+        self._actionOpenRecentClear = QAction(self.tr('Clear List'), self)
+        self._actionOpenRecentClear.setObjectName('actionOpenRecentClear')
+        self._actionOpenRecentClear.setToolTip(self.tr('Clear document list'))
+        self._actionOpenRecentClear.triggered.connect(self._onActionOpenRecentClearTriggered)
 
-        self.actionSaveAs = QAction(self.tr('Save As…'), self)
-        self.actionSaveAs.setObjectName('actionSaveAs')
-        self.actionSaveAs.setIcon(QIcon.fromTheme('document-save-as', QIcon(':/icons/actions/16/document-save-as.svg')))
-        self.actionSaveAs.setShortcut(QKeySequence.SaveAs)
-        self.actionSaveAs.setToolTip(self.tr('Save document under a new name'))
-        self.actionSaveAs.triggered.connect(self.onActionSaveAsTriggered)
+        self._actionSave = QAction(self.tr('Save'), self)
+        self._actionSave.setObjectName('actionSave')
+        self._actionSave.setIcon(QIcon.fromTheme('document-save', QIcon(':/icons/actions/16/document-save.svg')))
+        self._actionSave.setShortcut(QKeySequence.Save)
+        self._actionSave.setToolTip(self.tr('Save document'))
+        self._actionSave.triggered.connect(self._onActionSaveTriggered)
 
-        self.actionSaveAsDelimiterColon = QAction(self.tr('Colon'), self)
-        self.actionSaveAsDelimiterColon.setObjectName('actionSaveAsDelimiterColon')
-        self.actionSaveAsDelimiterColon.setCheckable(True)
-        self.actionSaveAsDelimiterColon.setToolTip(self.tr('Save document with colon as delimiter under a new name'))
-        self.actionSaveAsDelimiterColon.setData('colon')
-        self.actionSaveAsDelimiterColon.triggered.connect(lambda: self.onActionSaveAsDelimiterTriggered('colon') )
+        self._actionSaveAs = QAction(self.tr('Save As…'), self)
+        self._actionSaveAs.setObjectName('actionSaveAs')
+        self._actionSaveAs.setIcon(QIcon.fromTheme('document-save-as', QIcon(':/icons/actions/16/document-save-as.svg')))
+        self._actionSaveAs.setShortcut(QKeySequence.SaveAs)
+        self._actionSaveAs.setToolTip(self.tr('Save document under a new name'))
+        self._actionSaveAs.triggered.connect(self._onActionSaveAsTriggered)
 
-        self.actionSaveAsDelimiterComma = QAction(self.tr('Comma'), self)
-        self.actionSaveAsDelimiterComma.setObjectName('actionSaveAsDelimiterComma')
-        self.actionSaveAsDelimiterComma.setCheckable(True)
-        self.actionSaveAsDelimiterComma.setToolTip(self.tr('Save document with comma as delimiter under a new name'))
-        self.actionSaveAsDelimiterComma.setData('comma')
-        self.actionSaveAsDelimiterComma.triggered.connect(lambda: self.onActionSaveAsDelimiterTriggered('comma') )
+        self._actionSaveAsDelimiterColon = QAction(self.tr('Colon'), self)
+        self._actionSaveAsDelimiterColon.setObjectName('actionSaveAsDelimiterColon')
+        self._actionSaveAsDelimiterColon.setCheckable(True)
+        self._actionSaveAsDelimiterColon.setToolTip(self.tr('Save document with colon as delimiter under a new name'))
+        self._actionSaveAsDelimiterColon.setData('colon')
+        self._actionSaveAsDelimiterColon.triggered.connect(lambda: self._onActionSaveAsDelimiterTriggered('colon') )
 
-        self.actionSaveAsDelimiterSemicolon = QAction(self.tr('Semicolon'), self)
-        self.actionSaveAsDelimiterSemicolon.setObjectName('actionSaveAsDelimiterSemicolon')
-        self.actionSaveAsDelimiterSemicolon.setCheckable(True)
-        self.actionSaveAsDelimiterSemicolon.setToolTip(self.tr('Save document with semicolon as delimiter under a new name'))
-        self.actionSaveAsDelimiterSemicolon.setData('semicolon')
-        self.actionSaveAsDelimiterSemicolon.triggered.connect(lambda: self.onActionSaveAsDelimiterTriggered('semicolon') )
+        self._actionSaveAsDelimiterComma = QAction(self.tr('Comma'), self)
+        self._actionSaveAsDelimiterComma.setObjectName('actionSaveAsDelimiterComma')
+        self._actionSaveAsDelimiterComma.setCheckable(True)
+        self._actionSaveAsDelimiterComma.setToolTip(self.tr('Save document with comma as delimiter under a new name'))
+        self._actionSaveAsDelimiterComma.setData('comma')
+        self._actionSaveAsDelimiterComma.triggered.connect(lambda: self._onActionSaveAsDelimiterTriggered('comma') )
 
-        self.actionSaveAsDelimiterTab = QAction(self.tr('Tab'), self)
-        self.actionSaveAsDelimiterTab.setObjectName('actionSaveAsDelimiterTab')
-        self.actionSaveAsDelimiterTab.setCheckable(True)
-        self.actionSaveAsDelimiterTab.setToolTip(self.tr('Save document with tab as delimiter under a new name'))
-        self.actionSaveAsDelimiterTab.setData('tab')
-        self.actionSaveAsDelimiterTab.triggered.connect(lambda: self.onActionSaveAsDelimiterTriggered('tab') )
+        self._actionSaveAsDelimiterSemicolon = QAction(self.tr('Semicolon'), self)
+        self._actionSaveAsDelimiterSemicolon.setObjectName('actionSaveAsDelimiterSemicolon')
+        self._actionSaveAsDelimiterSemicolon.setCheckable(True)
+        self._actionSaveAsDelimiterSemicolon.setToolTip(self.tr('Save document with semicolon as delimiter under a new name'))
+        self._actionSaveAsDelimiterSemicolon.setData('semicolon')
+        self._actionSaveAsDelimiterSemicolon.triggered.connect(lambda: self._onActionSaveAsDelimiterTriggered('semicolon') )
 
-        self.actionSaveAsDelimiter = QActionGroup(self)
-        self.actionSaveAsDelimiter.setObjectName('actionSaveAsDelimiter')
-        self.actionSaveAsDelimiter.addAction(self.actionSaveAsDelimiterColon)
-        self.actionSaveAsDelimiter.addAction(self.actionSaveAsDelimiterComma)
-        self.actionSaveAsDelimiter.addAction(self.actionSaveAsDelimiterSemicolon)
-        self.actionSaveAsDelimiter.addAction(self.actionSaveAsDelimiterTab)
+        self._actionSaveAsDelimiterTab = QAction(self.tr('Tab'), self)
+        self._actionSaveAsDelimiterTab.setObjectName('actionSaveAsDelimiterTab')
+        self._actionSaveAsDelimiterTab.setCheckable(True)
+        self._actionSaveAsDelimiterTab.setToolTip(self.tr('Save document with tab as delimiter under a new name'))
+        self._actionSaveAsDelimiterTab.setData('tab')
+        self._actionSaveAsDelimiterTab.triggered.connect(lambda: self._onActionSaveAsDelimiterTriggered('tab') )
 
-        self.actionSaveCopyAs = QAction(self.tr('Save Copy As…'), self)
-        self.actionSaveCopyAs.setObjectName('actionSaveCopyAs')
-        self.actionSaveCopyAs.setIcon(QIcon.fromTheme('document-save-as', QIcon(':/icons/actions/16/document-save-as.svg')))
-        self.actionSaveCopyAs.setToolTip(self.tr('Save copy of document under a new name'))
-        self.actionSaveCopyAs.triggered.connect(self.onActionSaveCopyAsTriggered)
+        self._actionSaveAsDelimiter = QActionGroup(self)
+        self._actionSaveAsDelimiter.setObjectName('actionSaveAsDelimiter')
+        self._actionSaveAsDelimiter.addAction(self._actionSaveAsDelimiterColon)
+        self._actionSaveAsDelimiter.addAction(self._actionSaveAsDelimiterComma)
+        self._actionSaveAsDelimiter.addAction(self._actionSaveAsDelimiterSemicolon)
+        self._actionSaveAsDelimiter.addAction(self._actionSaveAsDelimiterTab)
 
-        self.actionSaveAll = QAction(self.tr('Save All'), self)
-        self.actionSaveAll.setObjectName('actionSaveAll')
-        self.actionSaveAll.setIcon(QIcon.fromTheme('document-save-all', QIcon(':/icons/actions/16/document-save-all.svg')))
-        self.actionSaveAll.setShortcut(QKeySequence(Qt.CTRL + Qt.Key_L))
-        self.actionSaveAll.setToolTip(self.tr('Save all documents'))
-        self.actionSaveAll.triggered.connect(self.onActionSaveAllTriggered)
+        self._actionSaveCopyAs = QAction(self.tr('Save Copy As…'), self)
+        self._actionSaveCopyAs.setObjectName('actionSaveCopyAs')
+        self._actionSaveCopyAs.setIcon(QIcon.fromTheme('document-save-as', QIcon(':/icons/actions/16/document-save-as.svg')))
+        self._actionSaveCopyAs.setToolTip(self.tr('Save copy of document under a new name'))
+        self._actionSaveCopyAs.triggered.connect(self._onActionSaveCopyAsTriggered)
 
-        self.actionClose = QAction(self.tr('Close'), self)
-        self.actionClose.setObjectName('actionClose')
-        self.actionClose.setIcon(QIcon.fromTheme('document-close', QIcon(':/icons/actions/16/document-close.svg')))
-        self.actionClose.setShortcut(QKeySequence.Close)
-        self.actionClose.setToolTip('Close document')
-        self.actionClose.triggered.connect(self.onActionCloseTriggered)
+        self._actionSaveAll = QAction(self.tr('Save All'), self)
+        self._actionSaveAll.setObjectName('actionSaveAll')
+        self._actionSaveAll.setIcon(QIcon.fromTheme('document-save-all', QIcon(':/icons/actions/16/document-save-all.svg')))
+        self._actionSaveAll.setShortcut(QKeySequence(Qt.CTRL + Qt.Key_L))
+        self._actionSaveAll.setToolTip(self.tr('Save all documents'))
+        self._actionSaveAll.triggered.connect(self._onActionSaveAllTriggered)
 
-        self.actionCloseOther = QAction(self.tr('Close Other'), self)
-        self.actionCloseOther.setObjectName('actionCloseOther')
-        self.actionCloseOther.setToolTip('Close all other documents')
-        self.actionCloseOther.triggered.connect(self.onActionCloseOtherTriggered)
+        self._actionClose = QAction(self.tr('Close'), self)
+        self._actionClose.setObjectName('actionClose')
+        self._actionClose.setIcon(QIcon.fromTheme('document-close', QIcon(':/icons/actions/16/document-close.svg')))
+        self._actionClose.setShortcut(QKeySequence.Close)
+        self._actionClose.setToolTip('Close document')
+        self._actionClose.triggered.connect(self._onActionCloseTriggered)
 
-        self.actionCloseAll = QAction(self.tr('Close All'), self)
-        self.actionCloseAll.setObjectName('actionCloseAll')
-        self.actionCloseAll.setShortcut(QKeySequence(Qt.CTRL + Qt.SHIFT + Qt.Key_W))
-        self.actionCloseAll.setToolTip('Close all documents')
-        self.actionCloseAll.triggered.connect(self.onActionCloseAllTriggered)
+        self._actionCloseOther = QAction(self.tr('Close Other'), self)
+        self._actionCloseOther.setObjectName('actionCloseOther')
+        self._actionCloseOther.setToolTip('Close all other documents')
+        self._actionCloseOther.triggered.connect(self._onActionCloseOtherTriggered)
+
+        self._actionCloseAll = QAction(self.tr('Close All'), self)
+        self._actionCloseAll.setObjectName('actionCloseAll')
+        self._actionCloseAll.setShortcut(QKeySequence(Qt.CTRL + Qt.SHIFT + Qt.Key_W))
+        self._actionCloseAll.setToolTip('Close all documents')
+        self._actionCloseAll.triggered.connect(self._onActionCloseAllTriggered)
 
         # Actions: View
-        self.actionFullScreen = QAction(self)
-        self.actionFullScreen.setObjectName('actionFullScreen')
-        self.actionFullScreen.setCheckable(True)
-        self.actionFullScreen.setIconText(self.tr('Full Screen'))
-        self.actionFullScreen.setShortcuts([QKeySequence(Qt.Key_F11), QKeySequence.FullScreen])
-        self.actionFullScreen.triggered.connect(self.onActionFullScreenTriggered)
 
-        self.actionTitlebarFullPath = QAction(self.tr('Show Path in Titlebar'), self)
-        self.actionTitlebarFullPath.setObjectName('actionTitlebarFullPath')
-        self.actionTitlebarFullPath.setCheckable(True)
-        self.actionTitlebarFullPath.setChecked(True)
-        self.actionTitlebarFullPath.setToolTip(self.tr('Display the full path of the document in the titlebar'))
-        self.actionTitlebarFullPath.triggered.connect(self.onActionTitlebarFullPathTriggered)
+        self._actionFullScreen = QAction(self)
+        self._actionFullScreen.setObjectName('actionFullScreen')
+        self._actionFullScreen.setIconText(self.tr('Full Screen'))
+        self._actionFullScreen.setCheckable(True)
+        self._actionFullScreen.setShortcuts([QKeySequence(Qt.Key_F11), QKeySequence.FullScreen])
+        self._actionFullScreen.triggered.connect(self._onActionFullScreenTriggered)
 
-        self.actionToolbarApplication = QAction(self.tr('Show Application Toolbar'), self)
-        self.actionToolbarApplication.setObjectName('actionToolbarApplication')
-        self.actionToolbarApplication.setCheckable(True)
-        self.actionToolbarApplication.setToolTip(self.tr('Display the Application toolbar'))
-        self.actionToolbarApplication.toggled.connect(lambda checked: self.toolbarApplication.setVisible(checked))
+        self._actionTitlebarFullPath = QAction(self.tr('Show Path in Titlebar'), self)
+        self._actionTitlebarFullPath.setObjectName('actionTitlebarFullPath')
+        self._actionTitlebarFullPath.setCheckable(True)
+        self._actionTitlebarFullPath.setChecked(True)
+        self._actionTitlebarFullPath.setToolTip(self.tr('Display the full path of the document in the titlebar'))
+        self._actionTitlebarFullPath.triggered.connect(self._onActionTitlebarFullPathTriggered)
 
-        self.actionToolbarDocument = QAction(self.tr('Show Document Toolbar'), self)
-        self.actionToolbarDocument.setObjectName('actionToolbarDocument')
-        self.actionToolbarDocument.setCheckable(True)
-        self.actionToolbarDocument.setToolTip(self.tr('Display the Document toolbar'))
-        self.actionToolbarDocument.toggled.connect(lambda checked: self.toolbarDocument.setVisible(checked))
+        self._actionToolbarApplication = QAction(self.tr('Show Application Toolbar'), self)
+        self._actionToolbarApplication.setObjectName('actionToolbarApplication')
+        self._actionToolbarApplication.setCheckable(True)
+        self._actionToolbarApplication.setToolTip(self.tr('Display the Application toolbar'))
+        self._actionToolbarApplication.toggled.connect(lambda checked: self._toolbarApplication.setVisible(checked))
 
-        self.actionToolbarEdit = QAction(self.tr('Show Edit Toolbar'), self)
-        self.actionToolbarEdit.setObjectName('actionToolbarEdit')
-        self.actionToolbarEdit.setCheckable(True)
-        self.actionToolbarEdit.setToolTip(self.tr('Display the Edit toolbar'))
-        self.actionToolbarEdit.toggled.connect(lambda checked: self.toolbarEdit.setVisible(checked))
+        self._actionToolbarDocument = QAction(self.tr('Show Document Toolbar'), self)
+        self._actionToolbarDocument.setObjectName('actionToolbarDocument')
+        self._actionToolbarDocument.setCheckable(True)
+        self._actionToolbarDocument.setToolTip(self.tr('Display the Document toolbar'))
+        self._actionToolbarDocument.toggled.connect(lambda checked: self._toolbarDocument.setVisible(checked))
 
-        self.actionToolbarTools = QAction(self.tr('Show Tools Toolbar'), self)
-        self.actionToolbarTools.setObjectName('actionToolbarTools')
-        self.actionToolbarTools.setCheckable(True)
-        self.actionToolbarTools.setToolTip(self.tr('Display the Tools toolbar'))
-        self.actionToolbarTools.toggled.connect(lambda checked: self.toolbarTools.setVisible(checked))
+        self._actionToolbarEdit = QAction(self.tr('Show Edit Toolbar'), self)
+        self._actionToolbarEdit.setObjectName('actionToolbarEdit')
+        self._actionToolbarEdit.setCheckable(True)
+        self._actionToolbarEdit.setToolTip(self.tr('Display the Edit toolbar'))
+        self._actionToolbarEdit.toggled.connect(lambda checked: self._toolbarEdit.setVisible(checked))
 
-        self.actionToolbarView = QAction(self.tr('Show View Toolbar'), self)
-        self.actionToolbarView.setObjectName('actionToolbarView')
-        self.actionToolbarView.setCheckable(True)
-        self.actionToolbarView.setToolTip(self.tr('Display the View toolbar'))
-        self.actionToolbarView.toggled.connect(lambda checked: self.toolbarView.setVisible(checked))
+        self._actionToolbarTools = QAction(self.tr('Show Tools Toolbar'), self)
+        self._actionToolbarTools.setObjectName('actionToolbarTools')
+        self._actionToolbarTools.setCheckable(True)
+        self._actionToolbarTools.setToolTip(self.tr('Display the Tools toolbar'))
+        self._actionToolbarTools.toggled.connect(lambda checked: self._toolbarTools.setVisible(checked))
 
-        self.actionToolbarHelp = QAction(self.tr('Show Help Toolbar'), self)
-        self.actionToolbarHelp.setObjectName('actionToolbarHelp')
-        self.actionToolbarHelp.setCheckable(True)
-        self.actionToolbarHelp.setToolTip(self.tr('Display the Help toolbar'))
-        self.actionToolbarHelp.toggled.connect(lambda checked: self.toolbarHelp.setVisible(checked))
+        self._actionToolbarView = QAction(self.tr('Show View Toolbar'), self)
+        self._actionToolbarView.setObjectName('actionToolbarView')
+        self._actionToolbarView.setCheckable(True)
+        self._actionToolbarView.setToolTip(self.tr('Display the View toolbar'))
+        self._actionToolbarView.toggled.connect(lambda checked: self._toolbarView.setVisible(checked))
+
+        self._actionToolbarHelp = QAction(self.tr('Show Help Toolbar'), self)
+        self._actionToolbarHelp.setObjectName('actionToolbarHelp')
+        self._actionToolbarHelp.setCheckable(True)
+        self._actionToolbarHelp.setToolTip(self.tr('Display the Help toolbar'))
+        self._actionToolbarHelp.toggled.connect(lambda checked: self._toolbarHelp.setVisible(checked))
 
         # Actions: Help
-        self.actionKeyboardShortcuts = QAction(self.tr('Keyboard Shortcuts'), self)
-        self.actionKeyboardShortcuts.setObjectName('actionKeyboardShortcuts')
-        self.actionKeyboardShortcuts.setIcon(QIcon.fromTheme('help-keyboard-shortcuts', QIcon(':/icons/actions/16/help-keyboard-shortcuts.svg')))
-        self.actionKeyboardShortcuts.setIconText(self.tr('Shortcuts'))
-        self.actionKeyboardShortcuts.setToolTip(self.tr('List of all keyboard shortcuts'))
-        self.actionKeyboardShortcuts.triggered.connect(self.onActionKeyboardShortcutsTriggered)
+
+        self._actionKeyboardShortcuts = QAction(self.tr('Keyboard Shortcuts'), self)
+        self._actionKeyboardShortcuts.setObjectName('actionKeyboardShortcuts')
+        self._actionKeyboardShortcuts.setIcon(QIcon.fromTheme('help-keyboard-shortcuts', QIcon(':/icons/actions/16/help-keyboard-shortcuts.svg')))
+        self._actionKeyboardShortcuts.setIconText(self.tr('Shortcuts'))
+        self._actionKeyboardShortcuts.setToolTip(self.tr('List of all keyboard shortcuts'))
+        self._actionKeyboardShortcuts.triggered.connect(self._onActionKeyboardShortcutsTriggered)
 
 
-    def createMenus(self):
+    def _createMenus(self):
 
         # Menu: Application
         menuApplication = self.menuBar().addMenu(self.tr('Application'))
         menuApplication.setObjectName('menuApplication')
-        menuApplication.addAction(self.actionAbout)
-        menuApplication.addAction(self.actionColophon)
+        menuApplication.addAction(self._actionAbout)
+        menuApplication.addAction(self._actionColophon)
         menuApplication.addSeparator()
-        menuApplication.addAction(self.actionPreferences)
+        menuApplication.addAction(self._actionPreferences)
         menuApplication.addSeparator()
-        menuApplication.addAction(self.actionQuit)
+        menuApplication.addAction(self._actionQuit)
 
         # Menu: Document
-        self.menuOpenRecent = QMenu(self.tr('Open Recent'), self)
-        self.menuOpenRecent.setObjectName('menuOpenRecent')
-        self.menuOpenRecent.setIcon(QIcon.fromTheme('document-open-recent', QIcon(':/icons/actions/16/document-open-recent.svg')))
-        self.menuOpenRecent.setToolTip('Open a document which was recently opened')
+        self._menuOpenRecent = QMenu(self.tr('Open Recent'), self)
+        self._menuOpenRecent.setObjectName('menuOpenRecent')
+        self._menuOpenRecent.setIcon(QIcon.fromTheme('document-open-recent', QIcon(':/icons/actions/16/document-open-recent.svg')))
+        self._menuOpenRecent.setToolTip('Open a document which was recently opened')
 
-        self.menuSaveAsDelimiter = QMenu(self.tr('Save As with Delimiter…'), self)
-        self.menuSaveAsDelimiter.setObjectName('menuSaveAsDelimiter')
-        self.menuSaveAsDelimiter.setIcon(QIcon.fromTheme('document-save-as', QIcon(':/icons/actions/16/document-save-as.svg')))
-        self.menuSaveAsDelimiter.setToolTip(self.tr('Save document with specific delimiter under a new name'))
-        self.menuSaveAsDelimiter.addActions(self.actionSaveAsDelimiter.actions())
+        self._menuSaveAsDelimiter = QMenu(self.tr('Save As with Delimiter…'), self)
+        self._menuSaveAsDelimiter.setObjectName('menuSaveAsDelimiter')
+        self._menuSaveAsDelimiter.setIcon(QIcon.fromTheme('document-save-as', QIcon(':/icons/actions/16/document-save-as.svg')))
+        self._menuSaveAsDelimiter.setToolTip(self.tr('Save document with specific delimiter under a new name'))
+        self._menuSaveAsDelimiter.addActions(self._actionSaveAsDelimiter.actions())
 
         menuDocument = self.menuBar().addMenu(self.tr('Document'))
         menuDocument.setObjectName('menuDocument')
-        menuDocument.addAction(self.actionNew)
+        menuDocument.addAction(self._actionNew)
         menuDocument.addSeparator()
-        menuDocument.addAction(self.actionOpen)
-        menuDocument.addMenu(self.menuOpenRecent)
+        menuDocument.addAction(self._actionOpen)
+        menuDocument.addMenu(self._menuOpenRecent)
         menuDocument.addSeparator()
-        menuDocument.addAction(self.actionSave)
-        menuDocument.addAction(self.actionSaveAs)
-        menuDocument.addMenu(self.menuSaveAsDelimiter)
-        menuDocument.addAction(self.actionSaveCopyAs)
-        menuDocument.addAction(self.actionSaveAll)
+        menuDocument.addAction(self._actionSave)
+        menuDocument.addAction(self._actionSaveAs)
+        menuDocument.addMenu(self._menuSaveAsDelimiter)
+        menuDocument.addAction(self._actionSaveCopyAs)
+        menuDocument.addAction(self._actionSaveAll)
         menuDocument.addSeparator()
-        menuDocument.addAction(self.actionClose)
-        menuDocument.addAction(self.actionCloseOther)
-        menuDocument.addAction(self.actionCloseAll)
+        menuDocument.addAction(self._actionClose)
+        menuDocument.addAction(self._actionCloseOther)
+        menuDocument.addAction(self._actionCloseAll)
 
         # Menu: Edit
         menuEdit = self.menuBar().addMenu(self.tr('Edit'))
@@ -376,177 +378,177 @@ class MainWindow(QMainWindow):
         # Menu: View
         menuView = self.menuBar().addMenu(self.tr('View'))
         menuView.setObjectName('menuView')
-        menuView.addAction(self.actionFullScreen)
+        menuView.addAction(self._actionFullScreen)
         menuView.addSeparator()
-        menuView.addAction(self.actionTitlebarFullPath)
+        menuView.addAction(self._actionTitlebarFullPath)
         menuView.addSeparator()
-        menuView.addAction(self.actionToolbarApplication)
-        menuView.addAction(self.actionToolbarDocument)
-        menuView.addAction(self.actionToolbarEdit)
-        menuView.addAction(self.actionToolbarTools)
-        menuView.addAction(self.actionToolbarView)
-        menuView.addAction(self.actionToolbarHelp)
+        menuView.addAction(self._actionToolbarApplication)
+        menuView.addAction(self._actionToolbarDocument)
+        menuView.addAction(self._actionToolbarEdit)
+        menuView.addAction(self._actionToolbarTools)
+        menuView.addAction(self._actionToolbarView)
+        menuView.addAction(self._actionToolbarHelp)
 
         # Menu: Help
         menuHelp = self.menuBar().addMenu(self.tr('Help'))
         menuHelp.setObjectName('menuHelp')
-        menuHelp.addAction(self.actionKeyboardShortcuts)
+        menuHelp.addAction(self._actionKeyboardShortcuts)
 
 
-    def createToolBars(self):
+    def _createToolBars(self):
 
         # Toolbar: Application
-        self.toolbarApplication = self.addToolBar(self.tr('Application Toolbar'))
-        self.toolbarApplication.setObjectName('toolbarApplication')
-        self.toolbarApplication.addAction(self.actionAbout)
-        self.toolbarApplication.addAction(self.actionPreferences)
-        self.toolbarApplication.addSeparator()
-        self.toolbarApplication.addAction(self.actionQuit)
-        self.toolbarApplication.visibilityChanged.connect(lambda visible: self.actionToolbarApplication.setChecked(visible))
+        self._toolbarApplication = self.addToolBar(self.tr('Application Toolbar'))
+        self._toolbarApplication.setObjectName('toolbarApplication')
+        self._toolbarApplication.addAction(self._actionAbout)
+        self._toolbarApplication.addAction(self._actionPreferences)
+        self._toolbarApplication.addSeparator()
+        self._toolbarApplication.addAction(self._actionQuit)
+        self._toolbarApplication.visibilityChanged.connect(lambda visible: self._actionToolbarApplication.setChecked(visible))
 
         # Toolbar: Document
-        self.toolbarDocument = self.addToolBar(self.tr('Document Toolbar'))
-        self.toolbarDocument.setObjectName('toolbarDocument')
-        self.toolbarDocument.addAction(self.actionNew)
-        self.toolbarDocument.addAction(self.actionOpen)
-        self.toolbarDocument.addSeparator()
-        self.toolbarDocument.addAction(self.actionSave)
-        self.toolbarDocument.addAction(self.actionSaveAs)
-        self.toolbarDocument.addSeparator()
-        self.toolbarDocument.addAction(self.actionClose)
-        self.toolbarDocument.visibilityChanged.connect(lambda visible: self.actionToolbarDocument.setChecked(visible))
+        self._toolbarDocument = self.addToolBar(self.tr('Document Toolbar'))
+        self._toolbarDocument.setObjectName('toolbarDocument')
+        self._toolbarDocument.addAction(self._actionNew)
+        self._toolbarDocument.addAction(self._actionOpen)
+        self._toolbarDocument.addSeparator()
+        self._toolbarDocument.addAction(self._actionSave)
+        self._toolbarDocument.addAction(self._actionSaveAs)
+        self._toolbarDocument.addSeparator()
+        self._toolbarDocument.addAction(self._actionClose)
+        self._toolbarDocument.visibilityChanged.connect(lambda visible: self._actionToolbarDocument.setChecked(visible))
 
         # Toolbar: Edit
-        self.toolbarEdit = self.addToolBar(self.tr('Edit Toolbar'))
-        self.toolbarEdit.setObjectName('toolbarEdit')
-        self.toolbarEdit.visibilityChanged.connect(lambda visible: self.actionToolbarEdit.setChecked(visible))
+        self._toolbarEdit = self.addToolBar(self.tr('Edit Toolbar'))
+        self._toolbarEdit.setObjectName('toolbarEdit')
+        self._toolbarEdit.visibilityChanged.connect(lambda visible: self._actionToolbarEdit.setChecked(visible))
 
         # Toolbar: Tools
-        self.toolbarTools = self.addToolBar(self.tr('Tools Toolbar'))
-        self.toolbarTools.setObjectName('toolbarTools')
-        self.toolbarTools.visibilityChanged.connect(lambda visible: self.actionToolbarTools.setChecked(visible))
+        self._toolbarTools = self.addToolBar(self.tr('Tools Toolbar'))
+        self._toolbarTools.setObjectName('toolbarTools')
+        self._toolbarTools.visibilityChanged.connect(lambda visible: self._actionToolbarTools.setChecked(visible))
 
         # Toolbar: View
-        self.toolbarView = self.addToolBar(self.tr('View Toolbar'))
-        self.toolbarView.setObjectName('toolbarView')
-        self.toolbarView.addAction(self.actionFullScreen)
-        self.toolbarView.visibilityChanged.connect(lambda visible: self.actionToolbarView.setChecked(visible))
+        self._toolbarView = self.addToolBar(self.tr('View Toolbar'))
+        self._toolbarView.setObjectName('toolbarView')
+        self._toolbarView.addAction(self._actionFullScreen)
+        self._toolbarView.visibilityChanged.connect(lambda visible: self._actionToolbarView.setChecked(visible))
 
         # Toolbar: Help
-        self.toolbarHelp = self.addToolBar(self.tr('Help Toolbar'))
-        self.toolbarHelp.setObjectName('toolbarHelp')
-        self.toolbarHelp.addAction(self.actionKeyboardShortcuts)
-        self.toolbarHelp.visibilityChanged.connect(lambda visible: self.actionToolbarHelp.setChecked(visible))
+        self._toolbarHelp = self.addToolBar(self.tr('Help Toolbar'))
+        self._toolbarHelp.setObjectName('toolbarHelp')
+        self._toolbarHelp.addAction(self._actionKeyboardShortcuts)
+        self._toolbarHelp.visibilityChanged.connect(lambda visible: self._actionToolbarHelp.setChecked(visible))
 
 
-    def updateActions(self, windowCount=0):
+    def _updateActions(self, subWindowCount=0):
 
-        hasDocument = windowCount >= 1
-        hasDocuments = windowCount >= 2
+        hasDocument = subWindowCount >= 1
+        hasDocuments = subWindowCount >= 2
 
         # Actions: Document
-        self.actionSave.setEnabled(hasDocument)
-        self.actionSaveAs.setEnabled(hasDocument)
-        self.menuSaveAsDelimiter.setEnabled(hasDocument)
-        self.actionSaveCopyAs.setEnabled(hasDocument)
-        self.actionSaveAll.setEnabled(hasDocument)
-        self.actionClose.setEnabled(hasDocument)
-        self.actionCloseOther.setEnabled(hasDocuments)
-        self.actionCloseAll.setEnabled(hasDocument)
+        self._actionSave.setEnabled(hasDocument)
+        self._actionSaveAs.setEnabled(hasDocument)
+        self._menuSaveAsDelimiter.setEnabled(hasDocument)
+        self._actionSaveCopyAs.setEnabled(hasDocument)
+        self._actionSaveAll.setEnabled(hasDocument)
+        self._actionClose.setEnabled(hasDocument)
+        self._actionCloseOther.setEnabled(hasDocuments)
+        self._actionCloseAll.setEnabled(hasDocument)
 
 
-    def updateActionFullScreen(self):
+    def _updateActionFullScreen(self):
 
         if not self.isFullScreen():
-            self.actionFullScreen.setText(self.tr('Full Screen Mode'))
-            self.actionFullScreen.setIcon(QIcon.fromTheme('view-fullscreen', QIcon(':/icons/actions/16/view-fullscreen.svg')))
-            self.actionFullScreen.setChecked(False)
-            self.actionFullScreen.setToolTip(self.tr('Display the window in full screen'))
+            self._actionFullScreen.setText(self.tr('Full Screen Mode'))
+            self._actionFullScreen.setIcon(QIcon.fromTheme('view-fullscreen', QIcon(':/icons/actions/16/view-fullscreen.svg')))
+            self._actionFullScreen.setChecked(False)
+            self._actionFullScreen.setToolTip(self.tr('Display the window in full screen'))
         else:
-            self.actionFullScreen.setText(self.tr('Exit Full Screen Mode'))
-            self.actionFullScreen.setIcon(QIcon.fromTheme('view-restore', QIcon(':/icons/actions/16/view-restore.svg')))
-            self.actionFullScreen.setChecked(True)
-            self.actionFullScreen.setToolTip(self.tr('Exit the full screen mode'))
+            self._actionFullScreen.setText(self.tr('Exit Full Screen Mode'))
+            self._actionFullScreen.setIcon(QIcon.fromTheme('view-restore', QIcon(':/icons/actions/16/view-restore.svg')))
+            self._actionFullScreen.setChecked(True)
+            self._actionFullScreen.setToolTip(self.tr('Exit the full screen mode'))
 
 
-    def updateActionRecentDocuments(self):
+    def _updateActionRecentDocuments(self):
 
         # Add items to the list, if necessary
-        for idx in range(len(self.actionRecentDocuments)+1, self._preferences.maximumRecentDocuments()+1):
+        for idx in range(len(self._actionRecentDocuments)+1, self._preferences.maximumRecentDocuments()+1):
 
             actionRecentDocument = QAction(self)
             actionRecentDocument.setObjectName(f'actionRecentDocument_{idx}')
-            actionRecentDocument.triggered.connect(lambda data=actionRecentDocument.data(): self.onActionOpenRecentDocumentTriggered(data))
+            actionRecentDocument.triggered.connect(lambda data=actionRecentDocument.data(): self._onActionOpenRecentDocumentTriggered(data))
 
-            self.actionRecentDocuments.append(actionRecentDocument)
+            self._actionRecentDocuments.append(actionRecentDocument)
 
         # Remove items from the list, if necessary
-        while len(self.actionRecentDocuments) > self._preferences.maximumRecentDocuments():
-            self.actionRecentDocuments.pop()
+        while len(self._actionRecentDocuments) > self._preferences.maximumRecentDocuments():
+            self._actionRecentDocuments.pop()
 
         # Update items
-        for idx in range(len(self.actionRecentDocuments)):
+        for idx in range(len(self._actionRecentDocuments)):
             text = None
             data = None
             show = False
 
-            if idx < len(self.recentDocuments):
-                text = self.tr(f'{QFileInfo(self.recentDocuments[idx]).fileName()} [{self.recentDocuments[idx]}]')
-                data = self.recentDocuments[idx]
+            if idx < len(self._recentDocuments):
+                text = self.tr(f'{QFileInfo(self._recentDocuments[idx]).fileName()} [{self._recentDocuments[idx]}]')
+                data = self._recentDocuments[idx]
                 show = True
 
-            self.actionRecentDocuments[idx].setText(text)
-            self.actionRecentDocuments[idx].setData(data)
-            self.actionRecentDocuments[idx].setVisible(show)
+            self._actionRecentDocuments[idx].setText(text)
+            self._actionRecentDocuments[idx].setData(data)
+            self._actionRecentDocuments[idx].setVisible(show)
 
 
-    def updateMenuOpenRecent(self):
+    def _updateMenuOpenRecent(self):
 
-        self.menuOpenRecent.clear()
+        self._menuOpenRecent.clear()
 
         if self._preferences.maximumRecentDocuments() > 0:
             # Document list wanted; show the menu
-            self.menuOpenRecent.menuAction().setVisible(True)
+            self._menuOpenRecent.menuAction().setVisible(True)
 
-            if len(self.recentDocuments) > 0:
+            if len(self._recentDocuments) > 0:
                 # Document list has items; enable the menu
-                self.menuOpenRecent.setEnabled(True)
+                self._menuOpenRecent.setEnabled(True)
 
-                self.menuOpenRecent.addActions(self.actionRecentDocuments)
-                self.menuOpenRecent.addSeparator()
-                self.menuOpenRecent.addAction(self.actionOpenRecentClear)
+                self._menuOpenRecent.addActions(self._actionRecentDocuments)
+                self._menuOpenRecent.addSeparator()
+                self._menuOpenRecent.addAction(self._actionOpenRecentClear)
             else:
                 # Document list is empty; disable the menu
-                self.menuOpenRecent.setEnabled(False)
+                self._menuOpenRecent.setEnabled(False)
         else:
             # No document list wanted; hide the menu
-            self.menuOpenRecent.menuAction().setVisible(False)
+            self._menuOpenRecent.menuAction().setVisible(False)
 
 
-    def updateTitleBar(self):
+    def _updateTitleBar(self):
 
         title = None
 
-        document = self.activeDocument()
+        document = self._activeDocument()
         if document:
-            title = document.canonicalName() if self.actionTitlebarFullPath.isChecked() and document.canonicalName() else document.documentTitle()
+            title = document.canonicalName() if self._actionTitlebarFullPath.isChecked() and document.canonicalName() else document.documentTitle()
 
         self.setWindowTitle(title)
 
 
-    def onActionAboutTriggered(self):
+    def _onActionAboutTriggered(self):
 
         dialog = AboutDialog(self)
         dialog.exec_()
 
 
-    def onActionColophonTriggered(self):
+    def _onActionColophonTriggered(self):
 
         dialog = ColophonDialog(self)
         dialog.exec_()
 
 
-    def onActionPreferencesTriggered(self):
+    def _onActionPreferencesTriggered(self):
 
         dialog = PreferencesDialog(self)
         dialog.setPreferences(self._preferences)
@@ -554,212 +556,213 @@ class MainWindow(QMainWindow):
 
         self._preferences = dialog.preferences()
 
-        self.updateRecentDocuments(None)
-        self.updateMenuOpenRecent()
+        self._updateRecentDocuments(None)
+        self._updateMenuOpenRecent()
 
 
-    def onActionNewTriggered(self):
+    def _onActionNewTriggered(self):
 
-        self.loadDocument('')
+        self._loadDocument('')
 
 
-    def onActionOpenTriggered(self):
+    def _onActionOpenTriggered(self):
 
         fileNames = QFileDialog.getOpenFileNames(self, self.tr('Open Document'),
                         QStandardPaths.writableLocation(QStandardPaths.HomeLocation),
                         self.tr('CSV Files (*.csv);;All Files (*.*)'))[0]
 
         for fileName in fileNames:
-            self.openDocument(fileName)
+            self._openDocument(fileName)
 
 
-    def onActionOpenRecentDocumentTriggered(self, canonicalName):
+    def _onActionOpenRecentDocumentTriggered(self, canonicalName):
         pass
 
 #        self.openDocument(canonicalName)
 
 
-    def onActionOpenRecentClearTriggered(self):
+    def _onActionOpenRecentClearTriggered(self):
 
-        self.recentDocuments.clear()
+        self._recentDocuments.clear()
 
-        self.updateRecentDocuments(None)
-        self.updateMenuOpenRecent()
+        self._updateRecentDocuments(None)
+        self._updateMenuOpenRecent()
 
 
-    def onActionSaveTriggered(self):
+    def _onActionSaveTriggered(self):
         pass
 
 
-    def onActionSaveAsTriggered(self):
+    def _onActionSaveAsTriggered(self):
         pass
 
 
-    def onActionSaveAsDelimiterTriggered(self, delimiter):
+    def _onActionSaveAsDelimiterTriggered(self, delimiter):
         pass
 
 
-    def onActionSaveCopyAsTriggered(self):
+    def _onActionSaveCopyAsTriggered(self):
         pass
 
 
-    def onActionSaveAllTriggered(self):
+    def _onActionSaveAllTriggered(self):
         pass
 
 
-    def onActionCloseTriggered(self):
+    def _onActionCloseTriggered(self):
 
         self._documentArea.closeActiveSubWindow()
 
 
-    def onActionCloseOtherTriggered(self):
+    def _onActionCloseOtherTriggered(self):
 
-        for window in self._documentArea.subWindowList():
-            if window != self._documentArea.activeSubWindow():
-                window.close()
+        for subWindow in self._documentArea.subWindowList():
+            if subWindow != self._documentArea.activeSubWindow():
+                subWindow.close()
 
 
-    def onActionCloseAllTriggered(self):
+    def _onActionCloseAllTriggered(self):
 
         self._documentArea.closeAllSubWindows()
 
 
-    def onActionFullScreenTriggered(self):
+    def _onActionFullScreenTriggered(self):
 
         if not self.isFullScreen():
             self.setWindowState(self.windowState() | Qt.WindowFullScreen)
         else:
             self.setWindowState(self.windowState() & ~Qt.WindowFullScreen)
 
-        self.updateActionFullScreen()
+        self._updateActionFullScreen()
 
 
-    def onActionTitlebarFullPathTriggered(self):
+    def _onActionTitlebarFullPathTriggered(self):
 
-        self.updateTitleBar()
-
-
-    def onActionKeyboardShortcutsTriggered(self):
-
-        if not self.keyboardShortcutsDialog:
-            self.keyboardShortcutsDialog = KeyboardShortcutsDialog(self)
-
-        self.keyboardShortcutsDialog.show()
-        self.keyboardShortcutsDialog.raise_()
-        self.keyboardShortcutsDialog.activateWindow()
+        self._updateTitleBar()
 
 
-    def onDocumentWindowActivated(self, window):
+    def _onActionKeyboardShortcutsTriggered(self):
 
-        self.updateActions(len(self._documentArea.subWindowList()))
-        self.updateTitleBar()
+        if not self._keyboardShortcutsDialog:
+            self._keyboardShortcutsDialog = KeyboardShortcutsDialog(self)
 
-        if not window:
+        self._keyboardShortcutsDialog.show()
+        self._keyboardShortcutsDialog.raise_()
+        self._keyboardShortcutsDialog.activateWindow()
+
+
+    def _onDocumentWindowActivated(self, subWindow):
+
+        # Update the application window
+        self._updateActions(len(self._documentArea.subWindowList()))
+        self._updateTitleBar()
+
+        if not subWindow:
             return
 
 
-    def onDocumentAboutToClose(self, canonicalName):
+    def _onDocumentAboutToClose(self, canonicalName):
 
         # Workaround to show subwindows always maximized
-        for window in self._documentArea.subWindowList():
-            if not window.isMaximized():
-                window.showMaximized()
+        for subWindow in self._documentArea.subWindowList():
+            if not subWindow.isMaximized():
+                subWindow.showMaximized()
 
-        # Update menu items; delete the emitter from the list
-        self.updateActions(len(self._documentArea.subWindowList())-1)
+        # Update menu items without the emitter
+        self._updateActions(len(self._documentArea.subWindowList()) - 1)
 
 
-    def createDocument(self):
+    def _createDocument(self):
 
-        document = Document(self)
+        document = Document()
         document.setPreferences(self._preferences)
-        document.aboutToClose.connect(self.onDocumentAboutToClose)
+        document.aboutToClose.connect(self._onDocumentAboutToClose)
 
-        window = self._documentArea.addSubWindow(document)
-        window.setWindowIcon(QIcon())
-        window.showMaximized()
+        subWindow = self._documentArea.addSubWindow(document)
+        subWindow.setWindowIcon(QIcon())
+        subWindow.showMaximized()
 
         return document
 
 
-    def createDocumentIndex(self, canonicalName):
+    def _createDocumentIndex(self, canonicalName):
 
         fileName = QFileInfo(canonicalName).fileName()
         canonicalIndex = 0
 
-        for window in self._documentArea.subWindowList():
-            if QFileInfo(window.widget().canonicalName()).fileName() == fileName:
-                if window.widget().canonicalIndex() > canonicalIndex:
-                    canonicalIndex = window.widget().canonicalIndex()
+        for subWindow in self._documentArea.subWindowList():
+            if QFileInfo(subWindow.widget().canonicalName()).fileName() == fileName:
+                if subWindow.widget().canonicalIndex() > canonicalIndex:
+                    canonicalIndex = subWindow.widget().canonicalIndex()
 
-        return canonicalIndex+1
+        return canonicalIndex + 1
 
 
-    def findDocumentWindow(self, canonicalName):
+    def _findDocumentWindow(self, canonicalName):
 
-        for window in self._documentArea.subWindowList():
-            if window.widget().canonicalName() == canonicalName:
-                return window
+        for subWindow in self._documentArea.subWindowList():
+            if subWindow.widget().canonicalName() == canonicalName:
+                return subWindow
 
         return None
 
 
-    def activeDocument(self):
+    def _activeDocument(self):
 
-        window = self._documentArea.activeSubWindow()
+        subWindow = self._documentArea.activeSubWindow()
 
-        return window.widget() if window else None
+        return subWindow.widget() if subWindow else None
 
 
-    def openDocument(self, fileName):
+    def _openDocument(self, fileName):
 
         canonicalName = QFileInfo(fileName).canonicalFilePath()
 
-        window = self.findDocumentWindow(canonicalName)
-        if window:
-            # Given document is already open; activate the window
-            self._documentArea.setActiveSubWindow(window)
+        subWindow = self._findDocumentWindow(canonicalName)
+        if subWindow:
+            # Given document is already loaded; activate the subwindow
+            self._documentArea.setActiveSubWindow(subWindow)
 
             # Update list of recent documents
-            self.updateRecentDocuments(canonicalName)
-            self.updateMenuOpenRecent()
+            self._updateRecentDocuments(canonicalName)
+            self._updateMenuOpenRecent()
             return True
 
-        return self.loadDocument(canonicalName);
+        return self._loadDocument(canonicalName);
 
 
-    def loadDocument(self, canonicalName):
+    def _loadDocument(self, canonicalName):
 
-        document = self.createDocument()
+        document = self._createDocument()
 
         succeeded = document.load(canonicalName)
         if succeeded:
-            document.setCanonicalIndex(self.createDocumentIndex(canonicalName))
+            document.setCanonicalIndex(self._createDocumentIndex(canonicalName))
             document.updateDocumentTitle()
             document.show()
 
             # Update list of recent documents
-            self.updateRecentDocuments(canonicalName)
-            self.updateMenuOpenRecent()
+            self._updateRecentDocuments(canonicalName)
+            self._updateMenuOpenRecent()
 
-            # Update application
-            self.updateActions(len(self._documentArea.subWindowList()))
-            self.updateTitleBar()
+            # Update the application window
+            self._updateActions(len(self._documentArea.subWindowList()))
+            self._updateTitleBar()
         else:
             document.close()
 
         return succeeded
 
 
-    def updateRecentDocuments(self, canonicalName):
+    def _updateRecentDocuments(self, canonicalName):
 
         if canonicalName:
-            while canonicalName in self.recentDocuments:
-                self.recentDocuments.remove(canonicalName)
-            self.recentDocuments.insert(0, canonicalName)
+            while canonicalName in self._recentDocuments:
+                self._recentDocuments.remove(canonicalName)
+            self._recentDocuments.insert(0, canonicalName)
 
         # Remove items from the list, if necessary
-        while len(self.recentDocuments) > self._preferences.maximumRecentDocuments():
-            self.recentDocuments.pop()
+        while len(self._recentDocuments) > self._preferences.maximumRecentDocuments():
+            self._recentDocuments.pop()
 
-        self.updateActionRecentDocuments()
+        self._updateActionRecentDocuments()

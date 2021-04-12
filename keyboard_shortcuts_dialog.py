@@ -19,7 +19,7 @@
 #
 
 from PySide2.QtCore import Qt
-from PySide2.QtWidgets import QApplication, QDialog, QDialogButtonBox, QVBoxLayout
+from PySide2.QtWidgets import QDialog, QDialogButtonBox, QVBoxLayout
 
 from keyboard_shortcuts_page import KeyboardShortcutsPage
 

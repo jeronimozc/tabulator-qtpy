@@ -36,17 +36,18 @@ class PreferencesDocumentPresetsPage(QWidget):
         # Title
         title = QLabel(self.tr('<strong style="font-size:large;">Document Presets</strong>'))
 
-        # Header Labels
+        # Content: Header Labels
+
         rdbDefaultHeaderLabelHorizontalLetters = QRadioButton(self.tr('Letters'))
         rdbDefaultHeaderLabelHorizontalLetters.setToolTip(self.tr('Capital letters as default horizontal header labels of new documents'))
 
         rdbDefaultHeaderLabelHorizontalNumbers = QRadioButton(self.tr('Numbers'))
         rdbDefaultHeaderLabelHorizontalNumbers.setToolTip(self.tr('Decimal numbers as default horizontal header labels of new documents'))
 
-        self.grpDefaultHeaderLabelHorizontal = QButtonGroup(self)
-        self.grpDefaultHeaderLabelHorizontal.addButton(rdbDefaultHeaderLabelHorizontalLetters, Preferences.HeaderLabel.Letter.value)
-        self.grpDefaultHeaderLabelHorizontal.addButton(rdbDefaultHeaderLabelHorizontalNumbers, Preferences.HeaderLabel.Decimal.value)
-        self.grpDefaultHeaderLabelHorizontal.buttonClicked.connect(self.onPreferencesChanged)
+        self._grpDefaultHeaderLabelHorizontal = QButtonGroup(self)
+        self._grpDefaultHeaderLabelHorizontal.addButton(rdbDefaultHeaderLabelHorizontalLetters, Preferences.HeaderLabel.Letter.value)
+        self._grpDefaultHeaderLabelHorizontal.addButton(rdbDefaultHeaderLabelHorizontalNumbers, Preferences.HeaderLabel.Decimal.value)
+        self._grpDefaultHeaderLabelHorizontal.buttonClicked.connect(self._onPreferencesChanged)
 
         defaultHeaderLabelHorizontalBox = QHBoxLayout()
         defaultHeaderLabelHorizontalBox.addWidget(rdbDefaultHeaderLabelHorizontalLetters)
@@ -58,10 +59,10 @@ class PreferencesDocumentPresetsPage(QWidget):
         rdbDefaultHeaderLabelVerticalNumbers = QRadioButton(self.tr('Numbers'))
         rdbDefaultHeaderLabelVerticalNumbers.setToolTip(self.tr('Decimal numbers as default vertical header labels of new documents'))
 
-        self.grpDefaultHeaderLabelVertical = QButtonGroup(self)
-        self.grpDefaultHeaderLabelVertical.addButton(rdbDefaultHeaderLabelVerticalLetters, Preferences.HeaderLabel.Letter.value)
-        self.grpDefaultHeaderLabelVertical.addButton(rdbDefaultHeaderLabelVerticalNumbers, Preferences.HeaderLabel.Decimal.value)
-        self.grpDefaultHeaderLabelVertical.buttonClicked.connect(self.onPreferencesChanged)
+        self._grpDefaultHeaderLabelVertical = QButtonGroup()
+        self._grpDefaultHeaderLabelVertical.addButton(rdbDefaultHeaderLabelVerticalLetters, Preferences.HeaderLabel.Letter.value)
+        self._grpDefaultHeaderLabelVertical.addButton(rdbDefaultHeaderLabelVerticalNumbers, Preferences.HeaderLabel.Decimal.value)
+        self._grpDefaultHeaderLabelVertical.buttonClicked.connect(self._onPreferencesChanged)
 
         defaultHeaderLabelVerticalBox = QHBoxLayout()
         defaultHeaderLabelVerticalBox.addWidget(rdbDefaultHeaderLabelVerticalLetters)
@@ -74,35 +75,36 @@ class PreferencesDocumentPresetsPage(QWidget):
         defaultHeaderLabelGroup = QGroupBox(self.tr('Header Labels'))
         defaultHeaderLabelGroup.setLayout(defaultHeaderLabelLayout)
 
-        # Cell Counts
-        self.spbDefaultCellCountColumn = QSpinBox(self)
-        self.spbDefaultCellCountColumn.setRange(1, 1000)
-        self.spbDefaultCellCountColumn.setToolTip(self.tr('Default number of columns of new documents'))
-        self.spbDefaultCellCountColumn.valueChanged.connect(self.onPreferencesChanged)
+        # Content: Cell Counts
 
-        self.spbDefaultCellCountRow = QSpinBox(self)
-        self.spbDefaultCellCountRow.setRange(1, 1000)
-        self.spbDefaultCellCountRow.setToolTip(self.tr('Default number of rows of new documents'))
-        self.spbDefaultCellCountRow.valueChanged.connect(self.onPreferencesChanged)
+        self._spbDefaultCellCountColumn = QSpinBox()
+        self._spbDefaultCellCountColumn.setRange(1, 1000)
+        self._spbDefaultCellCountColumn.setToolTip(self.tr('Default number of columns of new documents'))
+        self._spbDefaultCellCountColumn.valueChanged.connect(self._onPreferencesChanged)
+
+        self._spbDefaultCellCountRow = QSpinBox()
+        self._spbDefaultCellCountRow.setRange(1, 1000)
+        self._spbDefaultCellCountRow.setToolTip(self.tr('Default number of rows of new documents'))
+        self._spbDefaultCellCountRow.valueChanged.connect(self._onPreferencesChanged)
 
         defaultCellCountLayout = QFormLayout()
-        defaultCellCountLayout.addRow(self.tr('Number of columns'), self.spbDefaultCellCountColumn)
-        defaultCellCountLayout.addRow(self.tr('Number of rows'), self.spbDefaultCellCountRow)
+        defaultCellCountLayout.addRow(self.tr('Number of columns'), self._spbDefaultCellCountColumn)
+        defaultCellCountLayout.addRow(self.tr('Number of rows'), self._spbDefaultCellCountRow)
 
         defaultCellCountGroup = QGroupBox(self.tr('Cell Counts'))
         defaultCellCountGroup.setLayout(defaultCellCountLayout)
 
         # Main layout
-        self.layout = QVBoxLayout(self)
-        self.layout.addWidget(title)
-        self.layout.addWidget(defaultHeaderLabelGroup)
-        self.layout.addWidget(defaultCellCountGroup)
-        self.layout.addStretch(1)
+        self._layout = QVBoxLayout(self)
+        self._layout.addWidget(title)
+        self._layout.addWidget(defaultHeaderLabelGroup)
+        self._layout.addWidget(defaultCellCountGroup)
+        self._layout.addStretch(1)
 
 
     def setZeroMargins(self):
 
-        self.layout.setContentsMargins(0, 0, 0, 0)
+        self._layout.setContentsMargins(0, 0, 0, 0)
 
 
     def title(self):
@@ -110,56 +112,56 @@ class PreferencesDocumentPresetsPage(QWidget):
         return self.tr('Document Presets')
 
 
-    def onPreferencesChanged(self):
+    def _onPreferencesChanged(self):
 
         self.preferencesChanged.emit()
 
 
     def setDefaultHeaderLabelHorizontal(self, type):
 
-        if type.value != self.grpDefaultHeaderLabelHorizontal.checkedId():
-            self.onPreferencesChanged()
+        if type.value != self._grpDefaultHeaderLabelHorizontal.checkedId():
+            self._onPreferencesChanged()
 
-        for button in self.grpDefaultHeaderLabelHorizontal.buttons():
-            if self.grpDefaultHeaderLabelHorizontal.id(button) == type.value:
+        for button in self._grpDefaultHeaderLabelHorizontal.buttons():
+            if self._grpDefaultHeaderLabelHorizontal.id(button) == type.value:
                 button.setChecked(True)
 
 
     def defaultHeaderLabelHorizontal(self):
 
-        return Preferences.HeaderLabel(self.grpDefaultHeaderLabelHorizontal.checkedId())
+        return Preferences.HeaderLabel(self._grpDefaultHeaderLabelHorizontal.checkedId())
 
 
     def setDefaultHeaderLabelVertical(self, type):
 
-        if type.value != self.grpDefaultHeaderLabelVertical.checkedId():
-            self.onPreferencesChanged()
+        if type.value != self._grpDefaultHeaderLabelVertical.checkedId():
+            self._onPreferencesChanged()
 
-        for button in self.grpDefaultHeaderLabelVertical.buttons():
-            if self.grpDefaultHeaderLabelVertical.id(button) == type.value:
+        for button in self._grpDefaultHeaderLabelVertical.buttons():
+            if self._grpDefaultHeaderLabelVertical.id(button) == type.value:
                 button.setChecked(True)
 
 
     def defaultHeaderLabelVertical(self):
 
-        return Preferences.HeaderLabel(self.grpDefaultHeaderLabelVertical.checkedId())
+        return Preferences.HeaderLabel(self._grpDefaultHeaderLabelVertical.checkedId())
 
 
     def setDefaultCellCountColumn(self, val):
 
-        self.spbDefaultCellCountColumn.setValue(val)
+        self._spbDefaultCellCountColumn.setValue(val)
 
 
     def defaultCellCountColumn(self):
 
-        return self.spbDefaultCellCountColumn.value()
+        return self._spbDefaultCellCountColumn.value()
 
 
     def setDefaultCellCountRow(self, val):
 
-        self.spbDefaultCellCountRow.setValue(val)
+        self._spbDefaultCellCountRow.setValue(val)
 
 
     def defaultCellCountRow(self):
 
-        return self.spbDefaultCellCountRow.value()
+        return self._spbDefaultCellCountRow.value()

@@ -25,6 +25,10 @@ from PySide2.QtCore import QSysInfo
 from PySide2.QtWidgets import QApplication, QFrame, QTextBrowser, QVBoxLayout, QWidget
 
 
+#
+# Colophon page: About
+#
+
 class ColophonAboutPage(QWidget):
 
     def __init__(self, parent=None):
@@ -41,19 +45,23 @@ class ColophonAboutPage(QWidget):
             </body></html>'''))
 
         # Main layout
-        self.layout = QVBoxLayout(self)
-        self.layout.addWidget(textBox)
+        self._layout = QVBoxLayout(self)
+        self._layout.addWidget(textBox)
 
 
     def setZeroMargins(self):
 
-        self.layout.setContentsMargins(0, 0, 0, 0)
+        self._layout.setContentsMargins(0, 0, 0, 0)
 
 
     def title(self):
 
         return self.tr('About')
 
+
+#
+# Colophon page: Authors
+#
 
 class ColophonAuthorsPage(QWidget):
 
@@ -70,19 +78,23 @@ class ColophonAuthorsPage(QWidget):
             </body></html>'''))
 
         # Main layout
-        self.layout = QVBoxLayout(self)
-        self.layout.addWidget(textBox)
+        self._layout = QVBoxLayout(self)
+        self._layout.addWidget(textBox)
 
 
     def setZeroMargins(self):
 
-        self.layout.setContentsMargins(0, 0, 0, 0)
+        self._layout.setContentsMargins(0, 0, 0, 0)
 
 
     def title(self):
 
         return self.tr('Authors')
 
+
+#
+# Colophon page: Credits
+#
 
 class ColophonCreditsPage(QWidget):
 
@@ -101,19 +113,23 @@ class ColophonCreditsPage(QWidget):
             </body></html>'''))
 
         # Main layout
-        self.layout = QVBoxLayout(self)
-        self.layout.addWidget(textBox)
+        self._layout = QVBoxLayout(self)
+        self._layout.addWidget(textBox)
 
 
     def setZeroMargins(self):
 
-        self.layout.setContentsMargins(0, 0, 0, 0)
+        self._layout.setContentsMargins(0, 0, 0, 0)
 
 
     def title(self):
 
         return self.tr('Credits')
 
+
+#
+# Colophon page: Environment
+#
 
 class ColophonEnvironmentPage(QWidget):
 
@@ -144,19 +160,23 @@ class ColophonEnvironmentPage(QWidget):
             </body></html>'''))
 
         # Main layout
-        self.layout = QVBoxLayout(self)
-        self.layout.addWidget(textBox)
+        self._layout = QVBoxLayout(self)
+        self._layout.addWidget(textBox)
 
 
     def setZeroMargins(self):
 
-        self.layout.setContentsMargins(0, 0, 0, 0)
+        self._layout.setContentsMargins(0, 0, 0, 0)
 
 
     def title(self):
 
         return self.tr('Environment')
 
+
+#
+# Colophon page: License
+#
 
 class ColophonLicensePage(QWidget):
 
@@ -179,13 +199,13 @@ class ColophonLicensePage(QWidget):
             </body></html>'''))
 
         # Main layout
-        self.layout = QVBoxLayout(self)
-        self.layout.addWidget(textBox)
+        self._layout = QVBoxLayout(self)
+        self._layout.addWidget(textBox)
 
 
     def setZeroMargins(self):
 
-        self.layout.setContentsMargins(0, 0, 0, 0)
+        self._layout.setContentsMargins(0, 0, 0, 0)
 
 
     def title(self):

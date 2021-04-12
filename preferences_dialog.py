@@ -28,38 +28,38 @@ from preferences_general_page import PreferencesGeneralPage
 
 class PreferencesDialog(QDialog):
 
-    _preferences = Preferences()
-
-
     def __init__(self, parent=None):
         super().__init__(parent)
 
         self.setMinimumSize(800, 600)
         self.setWindowTitle(self.tr('Preferences'))
 
-        # Preferences box
-        self.generalPage = PreferencesGeneralPage(self)
-        self.generalPage.setZeroMargins()
-        self.generalPage.preferencesChanged.connect(self.onPreferencesChanged)
+        self._preferences = Preferences()
 
-        self.documentsPage = PreferencesDocumentsPage(self)
-        self.documentsPage.setZeroMargins()
-        self.documentsPage.preferencesChanged.connect(self.onPreferencesChanged)
+        # Content
 
-        self.documentPresetsPage = PreferencesDocumentPresetsPage(self)
-        self.documentPresetsPage.setZeroMargins()
-        self.documentPresetsPage.preferencesChanged.connect(self.onPreferencesChanged)
+        self._generalPage = PreferencesGeneralPage()
+        self._generalPage.setZeroMargins()
+        self._generalPage.preferencesChanged.connect(self._onPreferencesChanged)
+
+        self._documentsPage = PreferencesDocumentsPage()
+        self._documentsPage.setZeroMargins()
+        self._documentsPage.preferencesChanged.connect(self._onPreferencesChanged)
+
+        self._documentPresetsPage = PreferencesDocumentPresetsPage()
+        self._documentPresetsPage.setZeroMargins()
+        self._documentPresetsPage.preferencesChanged.connect(self._onPreferencesChanged)
 
         stackedBox = QStackedWidget()
-        stackedBox.addWidget(self.generalPage)
-        stackedBox.addWidget(self.documentsPage)
-        stackedBox.addWidget(self.documentPresetsPage)
+        stackedBox.addWidget(self._generalPage)
+        stackedBox.addWidget(self._documentsPage)
+        stackedBox.addWidget(self._documentPresetsPage)
         stackedBox.setCurrentIndex(0)
 
         listBox = QListWidget()
-        listBox.addItem(self.generalPage.title())
-        listBox.addItem(self.documentsPage.title())
-        listBox.addItem(self.documentPresetsPage.title())
+        listBox.addItem(self._generalPage.title())
+        listBox.addItem(self._documentsPage.title())
+        listBox.addItem(self._documentPresetsPage.title())
         listBox.setCurrentRow(stackedBox.currentIndex())
         listBox.currentRowChanged.connect(stackedBox.setCurrentIndex)
 
@@ -69,10 +69,10 @@ class PreferencesDialog(QDialog):
 
         # Button box
         buttonBox = QDialogButtonBox(QDialogButtonBox.RestoreDefaults | QDialogButtonBox.Ok | QDialogButtonBox.Apply | QDialogButtonBox.Cancel)
-        self.buttonApply = buttonBox.button(QDialogButtonBox.Apply)
-        buttonBox.button(QDialogButtonBox.RestoreDefaults).clicked.connect(self.onButtonDefaultsClicked)
-        buttonBox.accepted.connect(self.onButtonOkClicked)
-        buttonBox.button(QDialogButtonBox.Apply).clicked.connect(self.onButtonApplyClicked)
+        self._buttonApply = buttonBox.button(QDialogButtonBox.Apply)
+        buttonBox.button(QDialogButtonBox.RestoreDefaults).clicked.connect(self._onButtonDefaultsClicked)
+        buttonBox.accepted.connect(self._onButtonOkClicked)
+        buttonBox.button(QDialogButtonBox.Apply).clicked.connect(self._onButtonApplyClicked)
         buttonBox.rejected.connect(self.close)
 
         # Main layout
@@ -80,16 +80,16 @@ class PreferencesDialog(QDialog):
         layout.addLayout(preferencesBox)
         layout.addWidget(buttonBox)
 
-        self.updatePreferences()
-        self.buttonApply.setEnabled(False)
+        self._updatePreferences()
+        self._buttonApply.setEnabled(False)
 
 
     def setPreferences(self, preferences):
 
         self._preferences = preferences
 
-        self.updatePreferences()
-        self.buttonApply.setEnabled(False)
+        self._updatePreferences()
+        self._buttonApply.setEnabled(False)
 
 
     def preferences(self):
@@ -97,61 +97,61 @@ class PreferencesDialog(QDialog):
         return self._preferences
 
 
-    def onPreferencesChanged(self):
+    def _onPreferencesChanged(self):
 
-        self.buttonApply.setEnabled(True)
-
-
-    def onButtonDefaultsClicked(self):
-
-        self.updatePreferences(True)
+        self._buttonApply.setEnabled(True)
 
 
-    def onButtonOkClicked(self):
+    def _onButtonDefaultsClicked(self):
 
-        self.savePreferences()
+        self._updatePreferences(True)
+
+
+    def _onButtonOkClicked(self):
+
+        self._savePreferences()
         self.close()
 
 
-    def onButtonApplyClicked(self):
+    def _onButtonApplyClicked(self):
 
-        self.savePreferences()
-        self.buttonApply.setEnabled(False)
-
-
-    def updatePreferences(self, isDefault=False):
-
-        # General: Geometry & State
-        self.generalPage.setRestoreApplicationGeometry(self._preferences.restoreApplicationGeometry(isDefault))
-        self.generalPage.setRestoreApplicationState(self._preferences.restoreApplicationState(isDefault))
-
-        # General: Recently Opened Documents
-        self.generalPage.setMaximumRecentDocuments(self._preferences.maximumRecentDocuments(isDefault))
-        self.generalPage.setRestoreRecentDocuments(self._preferences.restoreRecentDocuments(isDefault))
-
-        # Document Presets: Header Labels
-        self.documentPresetsPage.setDefaultHeaderLabelHorizontal(self._preferences.defaultHeaderLabelHorizontal(isDefault))
-        self.documentPresetsPage.setDefaultHeaderLabelVertical(self._preferences.defaultHeaderLabelVertical(isDefault))
-
-        # Document Presets: Cell Counts
-        self.documentPresetsPage.setDefaultCellCountColumn(self._preferences.defaultCellCountColumn(isDefault))
-        self.documentPresetsPage.setDefaultCellCountRow(self._preferences.defaultCellCountRow(isDefault))
+        self._savePreferences()
+        self._buttonApply.setEnabled(False)
 
 
-    def savePreferences(self):
+    def _updatePreferences(self, isDefault=False):
 
         # General: Geometry & State
-        self._preferences.setRestoreApplicationGeometry(self.generalPage.restoreApplicationGeometry())
-        self._preferences.setRestoreApplicationState(self.generalPage.restoreApplicationState())
+        self._generalPage.setRestoreApplicationGeometry(self._preferences.restoreApplicationGeometry(isDefault))
+        self._generalPage.setRestoreApplicationState(self._preferences.restoreApplicationState(isDefault))
 
         # General: Recently Opened Documents
-        self._preferences.setMaximumRecentDocuments(self.generalPage.maximumRecentDocuments())
-        self._preferences.setRestoreRecentDocuments(self.generalPage.restoreRecentDocuments())
+        self._generalPage.setMaximumRecentDocuments(self._preferences.maximumRecentDocuments(isDefault))
+        self._generalPage.setRestoreRecentDocuments(self._preferences.restoreRecentDocuments(isDefault))
 
         # Document Presets: Header Labels
-        self._preferences.setDefaultHeaderLabelHorizontal(self.documentPresetsPage.defaultHeaderLabelHorizontal())
-        self._preferences.setDefaultHeaderLabelVertical(self.documentPresetsPage.defaultHeaderLabelVertical())
+        self._documentPresetsPage.setDefaultHeaderLabelHorizontal(self._preferences.defaultHeaderLabelHorizontal(isDefault))
+        self._documentPresetsPage.setDefaultHeaderLabelVertical(self._preferences.defaultHeaderLabelVertical(isDefault))
 
         # Document Presets: Cell Counts
-        self._preferences.setDefaultCellCountColumn(self.documentPresetsPage.defaultCellCountColumn())
-        self._preferences.setDefaultCellCountRow(self.documentPresetsPage.defaultCellCountRow())
+        self._documentPresetsPage.setDefaultCellCountColumn(self._preferences.defaultCellCountColumn(isDefault))
+        self._documentPresetsPage.setDefaultCellCountRow(self._preferences.defaultCellCountRow(isDefault))
+
+
+    def _savePreferences(self):
+
+        # General: Geometry & State
+        self._preferences.setRestoreApplicationGeometry(self._generalPage.restoreApplicationGeometry())
+        self._preferences.setRestoreApplicationState(self._generalPage.restoreApplicationState())
+
+        # General: Recently Opened Documents
+        self._preferences.setMaximumRecentDocuments(self._generalPage.maximumRecentDocuments())
+        self._preferences.setRestoreRecentDocuments(self._generalPage.restoreRecentDocuments())
+
+        # Document Presets: Header Labels
+        self._preferences.setDefaultHeaderLabelHorizontal(self._documentPresetsPage.defaultHeaderLabelHorizontal())
+        self._preferences.setDefaultHeaderLabelVertical(self._documentPresetsPage.defaultHeaderLabelVertical())
+
+        # Document Presets: Cell Counts
+        self._preferences.setDefaultCellCountColumn(self._documentPresetsPage.defaultCellCountColumn())
+        self._preferences.setDefaultCellCountRow(self._documentPresetsPage.defaultCellCountRow())
