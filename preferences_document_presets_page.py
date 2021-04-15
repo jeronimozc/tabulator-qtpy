@@ -34,15 +34,16 @@ class PreferencesDocumentPresetsPage(QWidget):
         super().__init__(parent)
 
         # Title
-        title = QLabel(self.tr('<strong style="font-size:large;">Document Presets</strong>'))
+        title = QLabel(self.tr("<strong style=\"font-size:large;\">{0}</strong>").format(self.title()))
 
+        #
         # Content: Header Labels
 
-        rdbDefaultHeaderLabelHorizontalLetters = QRadioButton(self.tr('Letters'))
-        rdbDefaultHeaderLabelHorizontalLetters.setToolTip(self.tr('Capital letters as default horizontal header labels of new documents'))
+        rdbDefaultHeaderLabelHorizontalLetters = QRadioButton(self.tr("Letters"))
+        rdbDefaultHeaderLabelHorizontalLetters.setToolTip(self.tr("Capital letters as default horizontal header labels of new documents"))
 
-        rdbDefaultHeaderLabelHorizontalNumbers = QRadioButton(self.tr('Numbers'))
-        rdbDefaultHeaderLabelHorizontalNumbers.setToolTip(self.tr('Decimal numbers as default horizontal header labels of new documents'))
+        rdbDefaultHeaderLabelHorizontalNumbers = QRadioButton(self.tr("Numbers"))
+        rdbDefaultHeaderLabelHorizontalNumbers.setToolTip(self.tr("Decimal numbers as default horizontal header labels of new documents"))
 
         self._grpDefaultHeaderLabelHorizontal = QButtonGroup(self)
         self._grpDefaultHeaderLabelHorizontal.addButton(rdbDefaultHeaderLabelHorizontalLetters, Preferences.HeaderLabel.Letter.value)
@@ -53,11 +54,11 @@ class PreferencesDocumentPresetsPage(QWidget):
         defaultHeaderLabelHorizontalBox.addWidget(rdbDefaultHeaderLabelHorizontalLetters)
         defaultHeaderLabelHorizontalBox.addWidget(rdbDefaultHeaderLabelHorizontalNumbers)
 
-        rdbDefaultHeaderLabelVerticalLetters = QRadioButton(self.tr('Letters'))
-        rdbDefaultHeaderLabelVerticalLetters.setToolTip(self.tr('Capital letters as default vertical header labels of new documents'))
+        rdbDefaultHeaderLabelVerticalLetters = QRadioButton(self.tr("Letters"))
+        rdbDefaultHeaderLabelVerticalLetters.setToolTip(self.tr("Capital letters as default vertical header labels of new documents"))
 
-        rdbDefaultHeaderLabelVerticalNumbers = QRadioButton(self.tr('Numbers'))
-        rdbDefaultHeaderLabelVerticalNumbers.setToolTip(self.tr('Decimal numbers as default vertical header labels of new documents'))
+        rdbDefaultHeaderLabelVerticalNumbers = QRadioButton(self.tr("Numbers"))
+        rdbDefaultHeaderLabelVerticalNumbers.setToolTip(self.tr("Decimal numbers as default vertical header labels of new documents"))
 
         self._grpDefaultHeaderLabelVertical = QButtonGroup()
         self._grpDefaultHeaderLabelVertical.addButton(rdbDefaultHeaderLabelVerticalLetters, Preferences.HeaderLabel.Letter.value)
@@ -69,29 +70,30 @@ class PreferencesDocumentPresetsPage(QWidget):
         defaultHeaderLabelVerticalBox.addWidget(rdbDefaultHeaderLabelVerticalNumbers)
 
         defaultHeaderLabelLayout = QFormLayout()
-        defaultHeaderLabelLayout.addRow(self.tr('Labels of the horizontal header'), defaultHeaderLabelHorizontalBox)
-        defaultHeaderLabelLayout.addRow(self.tr('Labels of the vertical header'), defaultHeaderLabelVerticalBox)
+        defaultHeaderLabelLayout.addRow(self.tr("Labels of the horizontal header"), defaultHeaderLabelHorizontalBox)
+        defaultHeaderLabelLayout.addRow(self.tr("Labels of the vertical header"), defaultHeaderLabelVerticalBox)
 
-        defaultHeaderLabelGroup = QGroupBox(self.tr('Header Labels'))
+        defaultHeaderLabelGroup = QGroupBox(self.tr("Header Labels"))
         defaultHeaderLabelGroup.setLayout(defaultHeaderLabelLayout)
 
+        #
         # Content: Cell Counts
 
         self._spbDefaultCellCountColumn = QSpinBox()
         self._spbDefaultCellCountColumn.setRange(1, 1000)
-        self._spbDefaultCellCountColumn.setToolTip(self.tr('Default number of columns of new documents'))
+        self._spbDefaultCellCountColumn.setToolTip(self.tr("Default number of columns of new documents"))
         self._spbDefaultCellCountColumn.valueChanged.connect(self._onPreferencesChanged)
 
         self._spbDefaultCellCountRow = QSpinBox()
         self._spbDefaultCellCountRow.setRange(1, 1000)
-        self._spbDefaultCellCountRow.setToolTip(self.tr('Default number of rows of new documents'))
+        self._spbDefaultCellCountRow.setToolTip(self.tr("Default number of rows of new documents"))
         self._spbDefaultCellCountRow.valueChanged.connect(self._onPreferencesChanged)
 
         defaultCellCountLayout = QFormLayout()
-        defaultCellCountLayout.addRow(self.tr('Number of columns'), self._spbDefaultCellCountColumn)
-        defaultCellCountLayout.addRow(self.tr('Number of rows'), self._spbDefaultCellCountRow)
+        defaultCellCountLayout.addRow(self.tr("Number of columns"), self._spbDefaultCellCountColumn)
+        defaultCellCountLayout.addRow(self.tr("Number of rows"), self._spbDefaultCellCountRow)
 
-        defaultCellCountGroup = QGroupBox(self.tr('Cell Counts'))
+        defaultCellCountGroup = QGroupBox(self.tr("Cell Counts"))
         defaultCellCountGroup.setLayout(defaultCellCountLayout)
 
         # Main layout
@@ -109,7 +111,7 @@ class PreferencesDocumentPresetsPage(QWidget):
 
     def title(self):
 
-        return self.tr('Document Presets')
+        return self.tr("Document Presets")
 
 
     def _onPreferencesChanged(self):

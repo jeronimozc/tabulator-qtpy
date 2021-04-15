@@ -57,23 +57,23 @@ class Preferences:
 
         settings = QSettings()
 
-        settings.beginGroup('Preferences')
+        settings.beginGroup("Preferences")
 
         # General: Geometry & State
-        self.setRestoreApplicationGeometry(self._valueToBool(settings.value('RestoreApplicationGeometry', True)))
-        self.setRestoreApplicationState(self._valueToBool(settings.value('RestoreApplicationState', True)))
+        self.setRestoreApplicationGeometry(self._valueToBool(settings.value("RestoreApplicationGeometry", True)))
+        self.setRestoreApplicationState(self._valueToBool(settings.value("RestoreApplicationState", True)))
 
         # General: Recently Opened Documents
-        self.setMaximumRecentDocuments(int(settings.value('MaximumRecentDocuments', 10)))
-        self.setRestoreRecentDocuments(self._valueToBool(settings.value('RestoreRecentDocuments', True)))
+        self.setMaximumRecentDocuments(int(settings.value("MaximumRecentDocuments", 10)))
+        self.setRestoreRecentDocuments(self._valueToBool(settings.value("RestoreRecentDocuments", True)))
 
         # Document Presets: Header Labels
-        self.setDefaultHeaderLabelHorizontal(Preferences.HeaderLabel(int(settings.value('DefaultHeaderLabelHorizontal', self.HeaderLabel.Letter.value))))
-        self.setDefaultHeaderLabelVertical(Preferences.HeaderLabel(int(settings.value('DefaultHeaderLabelVertical', self.HeaderLabel.Decimal.value))))
+        self.setDefaultHeaderLabelHorizontal(Preferences.HeaderLabel(int(settings.value("DefaultHeaderLabelHorizontal", self.HeaderLabel.Letter.value))))
+        self.setDefaultHeaderLabelVertical(Preferences.HeaderLabel(int(settings.value("DefaultHeaderLabelVertical", self.HeaderLabel.Decimal.value))))
 
         # Document Presets: Cell Counts
-        self.setDefaultCellCountColumn(int(settings.value('DefaultCellCountColumn', 25)))
-        self.setDefaultCellCountRow(int(settings.value('DefaultCellCountRow', 50)))
+        self.setDefaultCellCountColumn(int(settings.value("DefaultCellCountColumn", 25)))
+        self.setDefaultCellCountRow(int(settings.value("DefaultCellCountRow", 50)))
 
         settings.endGroup()
 
@@ -82,24 +82,24 @@ class Preferences:
 
         settings = QSettings()
 
-        settings.remove('Preferences')
-        settings.beginGroup('Preferences')
+        settings.remove("Preferences")
+        settings.beginGroup("Preferences")
 
         # General: Geometry & State
-        settings.setValue('RestoreApplicationGeometry', self._restoreApplicationGeometry)
-        settings.setValue('RestoreApplicationState', self._restoreApplicationState)
+        settings.setValue("RestoreApplicationGeometry", self._restoreApplicationGeometry)
+        settings.setValue("RestoreApplicationState", self._restoreApplicationState)
 
         # General: Recently Opened Documents
-        settings.setValue('MaximumRecentDocuments', self._maximumRecentDocuments)
-        settings.setValue('RestoreRecentDocuments', self._restoreRecentDocuments)
+        settings.setValue("MaximumRecentDocuments", self._maximumRecentDocuments)
+        settings.setValue("RestoreRecentDocuments", self._restoreRecentDocuments)
 
         # Document Presets: Header Labels
-        settings.setValue('DefaultHeaderLabelHorizontal', self._defaultHeaderLabelHorizontal.value)
-        settings.setValue('DefaultHeaderLabelVertical', self._defaultHeaderLabelVertical.value)
+        settings.setValue("DefaultHeaderLabelHorizontal", self._defaultHeaderLabelHorizontal.value)
+        settings.setValue("DefaultHeaderLabelVertical", self._defaultHeaderLabelVertical.value)
 
         # Document Presets: Cell Counts
-        settings.setValue('DefaultCellCountColumn', self._defaultCellCountColumn)
-        settings.setValue('DefaultCellCountRow', self._defaultCellCountRow)
+        settings.setValue("DefaultCellCountColumn", self._defaultCellCountColumn)
+        settings.setValue("DefaultCellCountRow", self._defaultCellCountRow)
 
         settings.endGroup()
 
@@ -107,7 +107,7 @@ class Preferences:
     @staticmethod
     def _valueToBool(value):
 
-        return value.lower() == 'true' if isinstance(value, str) else bool(value)
+        return value.lower() == "true" if isinstance(value, str) else bool(value)
 
 
     def setRestoreApplicationGeometry(self, value):

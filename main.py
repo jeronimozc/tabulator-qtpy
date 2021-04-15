@@ -29,17 +29,17 @@ from main_window import MainWindow
 if __name__ == "__main__":
 
     app = QApplication(sys.argv)
-    app.setOrganizationName('NotNypical')
-    app.setOrganizationDomain('https://notnypical.github.io')
-    app.setApplicationName('Tabulator-QtPy')
-    app.setApplicationDisplayName('Tabulator-QtPy')
-    app.setApplicationVersion('0.1.0')
+    app.setOrganizationName("NotNypical")
+    app.setOrganizationDomain("https://notnypical.github.io")
+    app.setApplicationName("Tabulator-QtPy")
+    app.setApplicationDisplayName("Tabulator-QtPy")
+    app.setApplicationVersion("0.1.0")
 
     parser = QCommandLineParser()
-    parser.setApplicationDescription(QCoreApplication.translate('main', f'{app.applicationName()} - An editor tool for documents with character-separated values'))
+    parser.setApplicationDescription(QCoreApplication.translate("main", "{0} - An editor tool for documents with character-separated values").format(app.applicationName()))
     parser.addHelpOption()
     parser.addVersionOption()
-    parser.addPositionalArgument('files', 'Documents to open.', '[files...]')
+    parser.addPositionalArgument("files", "Documents to open.", "[files...]")
     parser.process(app)
 
     window = MainWindow()

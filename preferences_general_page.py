@@ -31,42 +31,44 @@ class PreferencesGeneralPage(QWidget):
         super().__init__(parent)
 
         # Title
-        title = QLabel(self.tr('<strong style="font-size:large;">General</strong>'))
+        title = QLabel(self.tr("<strong style=\"font-size:large;\">{0}</strong>").format(self.title()))
 
+        #
         # Content: Geometry & State
 
-        self._chkRestoreApplicationGeometry = QCheckBox(self.tr('Save and restore the application geometry'))
+        self._chkRestoreApplicationGeometry = QCheckBox(self.tr("Save and restore the application geometry"))
         self._chkRestoreApplicationGeometry.stateChanged.connect(self._onPreferencesChanged)
 
-        self._chkRestoreApplicationState = QCheckBox(self.tr('Save and restore the application state'))
+        self._chkRestoreApplicationState = QCheckBox(self.tr("Save and restore the application state"))
         self._chkRestoreApplicationState.stateChanged.connect(self._onPreferencesChanged)
 
         geometryStateLayout = QVBoxLayout()
         geometryStateLayout.addWidget(self._chkRestoreApplicationGeometry)
         geometryStateLayout.addWidget(self._chkRestoreApplicationState)
 
-        geometryStateGroup = QGroupBox(self.tr('Geometry && State'))
+        geometryStateGroup = QGroupBox(self.tr("Geometry && State"))
         geometryStateGroup.setLayout(geometryStateLayout)
 
+        #
         # Content: Recently Opened Documents
 
         self._spbMaximumRecentDocuments = QSpinBox()
         self._spbMaximumRecentDocuments.setRange(0, 25)
-        self._spbMaximumRecentDocuments.setToolTip(self.tr('Maximum number of recently opened documents'))
+        self._spbMaximumRecentDocuments.setToolTip(self.tr("Maximum number of recently opened documents"))
         self._spbMaximumRecentDocuments.valueChanged.connect(self._onPreferencesChanged)
         self._spbMaximumRecentDocuments.valueChanged[int].connect(self._onMaximumRecentDocumentsChanged)
 
-        self._chkRestoreRecentDocuments = QCheckBox(self.tr('Save and restore documents'))
+        self._chkRestoreRecentDocuments = QCheckBox(self.tr("Save and restore documents"))
         self._chkRestoreRecentDocuments.stateChanged.connect(self._onPreferencesChanged)
 
         recentDocumentsFormLayout = QFormLayout()
-        recentDocumentsFormLayout.addRow(self.tr('Number of documents'), self._spbMaximumRecentDocuments)
+        recentDocumentsFormLayout.addRow(self.tr("Number of documents"), self._spbMaximumRecentDocuments)
 
         recentDocumentsLayout = QVBoxLayout()
         recentDocumentsLayout.addLayout(recentDocumentsFormLayout)
         recentDocumentsLayout.addWidget(self._chkRestoreRecentDocuments)
 
-        recentDocumentsGroup = QGroupBox(self.tr('Recently Opened Documents'))
+        recentDocumentsGroup = QGroupBox(self.tr("Recently Opened Documents"))
         recentDocumentsGroup.setLayout(recentDocumentsLayout)
 
         # Main layout
@@ -84,7 +86,7 @@ class PreferencesGeneralPage(QWidget):
 
     def title(self):
 
-        return self.tr('General')
+        return self.tr("General")
 
 
     def _onPreferencesChanged(self):

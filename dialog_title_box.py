@@ -30,10 +30,10 @@ class DialogTitleBox(QWidget):
         super().__init__(parent)
 
         logo = QSvgWidget()
-        logo.load(':/icons/apps/22/tabulator.svg')
+        logo.load(":/icons/apps/22/tabulator.svg")
 
-        name = QLabel(self.tr(f'<strong style="font-size:large;">{QApplication.applicationName()}</strong> v{QApplication.applicationVersion()}'))
-        description = QLabel(self.tr('An editor tool for documents with character-separated values'))
+        name = QLabel(self.tr("<strong style=\"font-size:large;\">{0}</strong> v{1}").format(QApplication.applicationName(), QApplication.applicationVersion()))
+        description = QLabel(self.tr("An editor tool for documents with character-separated values"))
 
         labels = QVBoxLayout()
         labels.addWidget(name)

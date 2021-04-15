@@ -31,8 +31,9 @@ class PreferencesDocumentsPage(QWidget):
         super().__init__(parent)
 
         # Title
-        title = QLabel(self.tr('<strong style="font-size:large;">Documents</strong>'))
+        title = QLabel(self.tr("<strong style=\"font-size:large;\">{0}</strong>").format(self.title()))
 
+        #
         # Content
 
 
@@ -49,7 +50,7 @@ class PreferencesDocumentsPage(QWidget):
 
     def title(self):
 
-        return self.tr('Documents')
+        return self.tr("Documents")
 
 
     def _onPreferencesChanged(self):
