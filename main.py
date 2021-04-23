@@ -20,10 +20,36 @@
 
 import sys
 
-from PySide2.QtCore import QCommandLineOption, QCommandLineParser, QCoreApplication
+from PySide2.QtCore import QCommandLineOption, QCommandLineParser, QCoreApplication, QDir, QFileInfo, QLocale, QTranslator
 from PySide2.QtWidgets import QApplication
 
 from main_window import MainWindow
+
+import translations_rc
+
+
+def findTranslations():
+
+    dir = QDir(":/translations")
+
+    fileNames = dir.entryList(QDir.Files, QDir.Name)
+    fileNames = [dir.filePath(fileName) for fileName in fileNames]
+
+    return fileNames
+
+
+def languageCode(translation):
+
+    return QFileInfo(translation).fileName()
+
+
+def languageDescription(translation):
+
+    translator = QTranslator()
+    translator.load(translation)
+
+    locale = QLocale(translator.language())
+    return QCoreApplication.translate("main", "{0} ({1})").format(locale.languageToString(locale.language()), locale.nativeLanguageName())
 
 
 def showLanguageList():
@@ -32,6 +58,10 @@ def showLanguageList():
     usage += " --language <" + QCoreApplication.translate("main", "language code") + ">"
 
     print(QCoreApplication.translate("main", "Usage: {0}").format(usage) + "\n")
+    print(QCoreApplication.translate("main", "Languages:"))
+
+    for translation in findTranslations():
+        print("  {0}  {1}".format(languageCode(translation), languageDescription(translation)))
 
     return 0
 
