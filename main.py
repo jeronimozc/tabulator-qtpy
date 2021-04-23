@@ -20,7 +20,7 @@
 
 import sys
 
-from PySide2.QtCore import QCommandLineOption, QCommandLineParser, QCoreApplication, QDir, QFileInfo, QLocale, QTranslator
+from PySide2.QtCore import QCommandLineOption, QCommandLineParser, QCoreApplication, QDir, QFileInfo, QLibraryInfo, QLocale, QTranslator
 from PySide2.QtWidgets import QApplication
 
 from main_window import MainWindow
@@ -101,6 +101,20 @@ if __name__ == "__main__":
 
     # Command line: Language
     language = parser.value(languageOption)
+
+
+    #
+    # Translations
+
+    locale = QLocale(language) if language else QLocale.system()
+
+    translator = QTranslator()
+    if translator.load(locale, None, None, ":/translations"):
+        app.installTranslator(translator)
+
+    translatorQtBase = QTranslator()
+    if translatorQtBase.load(locale, "qtbase", "_", QLibraryInfo.location(QLibraryInfo.TranslationsPath)):
+        app.installTranslator(translatorQtBase)
 
 
     window = MainWindow()
