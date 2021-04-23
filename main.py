@@ -20,10 +20,20 @@
 
 import sys
 
-from PySide2.QtCore import QCommandLineParser, QCoreApplication
+from PySide2.QtCore import QCommandLineOption, QCommandLineParser, QCoreApplication
 from PySide2.QtWidgets import QApplication
 
 from main_window import MainWindow
+
+
+def showLanguageList():
+
+    usage = QCoreApplication.instance().arguments()[0]
+    usage += " --language <" + QCoreApplication.translate("main", "language code") + ">"
+
+    print(QCoreApplication.translate("main", "Usage: {0}").format(usage) + "\n")
+
+    return 0
 
 
 if __name__ == "__main__":
@@ -35,12 +45,25 @@ if __name__ == "__main__":
     app.setApplicationDisplayName("Tabulator-QtPy")
     app.setApplicationVersion("0.1.0")
 
+
+    #
+    # Command line
+
+    languageListOption = QCommandLineOption(["language-list"],
+        QCoreApplication.translate("main", "Lists available application languages."))
+
     parser = QCommandLineParser()
     parser.setApplicationDescription(QCoreApplication.translate("main", "{0} - An editor tool for documents with character-separated values").format(app.applicationName()))
     parser.addHelpOption()
     parser.addVersionOption()
+    parser.addOption(languageListOption)
     parser.addPositionalArgument("files", "Documents to open.", "[files...]")
     parser.process(app)
+
+    # Command line: Language list
+    if parser.isSet(languageListOption):
+        sys.exit(showLanguageList())
+
 
     window = MainWindow()
     fileNames = parser.positionalArguments()
