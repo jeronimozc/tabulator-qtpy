@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="de">
+<!DOCTYPE TS><TS version="1.1" language="de">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -167,11 +166,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="main_window.py" line="154"/>
-        <source>Preferencesâ¦</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="main_window.py" line="157"/>
         <source>Customize the appearance and behavior of the application</source>
         <translation type="unfinished"></translation>
@@ -197,11 +191,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="main_window.py" line="177"/>
-        <source>Openâ¦</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="main_window.py" line="181"/>
         <source>Open an existing document</source>
         <translation type="unfinished"></translation>
@@ -224,11 +213,6 @@
     <message>
         <location filename="main_window.py" line="193"/>
         <source>Save document</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="main_window.py" line="196"/>
-        <source>Save Asâ¦</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -274,11 +258,6 @@
     <message>
         <location filename="main_window.py" line="227"/>
         <source>Save document with tab as delimiter under a new name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="main_window.py" line="238"/>
-        <source>Save Copy Asâ¦</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -432,11 +411,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="main_window.py" line="353"/>
-        <source>Save As with Delimiterâ¦</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="main_window.py" line="356"/>
         <source>Save document with specific delimiter under a new name</source>
         <translation type="unfinished"></translation>
@@ -529,6 +503,31 @@
     <message>
         <location filename="main_window.py" line="578"/>
         <source>CSV Files (*.csv);;All Files (*.*)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="main_window.py" line="154"/>
+        <source>Preferences&#xe2;&#x80;&#xa6;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="main_window.py" line="177"/>
+        <source>Open&#xe2;&#x80;&#xa6;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="main_window.py" line="196"/>
+        <source>Save As&#xe2;&#x80;&#xa6;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="main_window.py" line="238"/>
+        <source>Save Copy As&#xe2;&#x80;&#xa6;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="main_window.py" line="353"/>
+        <source>Save As with Delimiter&#xe2;&#x80;&#xa6;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -687,8 +686,38 @@
 <context>
     <name>main</name>
     <message>
-        <location filename="main.py" line="39"/>
+        <location filename="main.py" line="90"/>
         <source>{0} - An editor tool for documents with character-separated values</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="main.py" line="52"/>
+        <source>{0} ({1})</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="main.py" line="87"/>
+        <source>language code</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="main.py" line="60"/>
+        <source>Usage: {0}</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="main.py" line="61"/>
+        <source>Languages:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="main.py" line="83"/>
+        <source>Lists available application languages.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="main.py" line="86"/>
+        <source>Adjusts application language.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
